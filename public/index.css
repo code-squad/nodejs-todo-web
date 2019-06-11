@@ -111,6 +111,7 @@ p {
 }
 
 .todolist-header {
+  font-size: 24px;
   padding: 0 12px;
 }
 
@@ -131,6 +132,31 @@ p {
   background-color: transparent;
   width: 100%;
   padding: 4px;
+}
+
+.add-card-form{
+  padding: 0 15px;
+}
+
+.new-card-name:-ms-input-placeholder {
+  color: #616161;
+  font-size: 12px;
+}
+
+.new-card-name::-ms-input-placeholder {
+  color: #616161;
+  font-size: 12px;
+}
+
+.new-card-name::placeholder {
+  color: #616161;
+  font-size: 12px;
+}
+
+.hide-element {
+  transition: opacity 1s ease-out;
+  opacity: 0; 
+  display: none;
 }
 
 
