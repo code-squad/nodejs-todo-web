@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="public/index.css" media="screen" />
+  <link rel="stylesheet" type="text/css" href="public/materialize.min.css" media="screen" />
+  <title>TODO</title>
+</head>
+<body>
+  <div class="surface">
+    <div class="header white-text grey darken-3">
+      Todo
+    </div>
+    <div class="shadow-header deep-orange-text">
+        This element wiil not shown.
+    </div>
+    <div id="stage">
+      <div class="todo-container">
+
+        <div class="todo-column todolist-container grey lighten-2">
+          <div class="todolist-header">
+            Todo-list
+          </div>
+          <ul class="collection">
+            <li class="collection-item todo-item"><div>Alvin</div></li>
+            <li class="collection-item todo-item"><div>Alvin</div></li>
+            <li class="collection-item todo-item"><div>Alvin</div></li>
+            <li class="collection-item todo-item"><div>Alvin</div></li>
+          </ul>
+          <div class="todolist-footer">
+            <button class="add-card">Add card</button>
+          </div>
+        </div>
+
+        <div class="todo-column">
+          <button id="add-todo-btn" class="btn-large grey">Add list</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <div class="background"></div>
+</body>
+<script src="public/index.js"></script>
+</html>
