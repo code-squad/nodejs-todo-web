@@ -1,9 +1,10 @@
-@import url('https://fonts.googleapis.com/css?family=Lobster&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Gothic+A1|Lobster&display=swap');
 
 * { 
   margin: 0; 
   padding: 0; 
   border: 0;
+  font-family: 'Gothic A1', sans-serif;
 }
 
 .clear { 
@@ -68,7 +69,7 @@ p {
   border-radius: 1px;
   text-align: center;
   font-size: 48px;
-  font-family: 'Lobster', cursive;
+  font-family: 'Lobster', cursive !important;
 }
 
 .shadow-header {
@@ -161,7 +162,7 @@ p {
 .hide-element {
   transition: opacity 1s ease-out;
   opacity: 0; 
-  display: none;
+  display: none !important;
 }
 
 [draggable] {
@@ -179,6 +180,35 @@ p {
 }
 
 .over {
-  //border: 2px dashed #000;
+  border: 2px dashed #000;
   border-top: 2px solid blue;
+}
+
+.leftOver {
+  border: 2px dashed #000;
+  border-left: 2px solid blue;
+}
+
+.add-list-form {
+  padding: 0 20px;
+  background-color: #e0e0e0
+}
+
+.new-list-name {
+  padding: 0 28px;
+}
+
+.new-list-name:-ms-input-placeholder {
+  color: #616161;
+  font-size: 12px;
+}
+
+.new-list-name::-ms-input-placeholder {
+  color: #616161;
+  font-size: 12px;
+}
+
+.new-list-name::placeholder {
+  color: #616161;
+  font-size: 12px;
 }
