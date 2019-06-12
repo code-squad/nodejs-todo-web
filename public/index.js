@@ -22,7 +22,6 @@ function getTodoItem(value) {
 function appendChildInTargetNode(target, htmlText) {
   var parser = new DOMParser();
   var newDOM = parser.parseFromString(htmlText, 'text/html');
-  addDnDHandlersForTodoItem(newDOM.body.firstChild);
   target.appendChild(newDOM.body.firstChild);
 }
 
@@ -40,9 +39,28 @@ function hideInputTag(newCardInput) {
   newCardInput.value = "";
 }
 
+function appearTodoListInput(addTodoListBtn) {
+  addTodoListBtn.classList.add('hide-element');
+  var form = addTodoListBtn.parentNode.querySelector('.add-list-form');
+  form.classList.remove('hide-element');
+  form.querySelector('.new-list-name').focus();
+}
+
+function hideTodoListInput(todoListInput) {
+  var addTodoListBtn = todoListInput.parentNode.parentNode.querySelector('#add-todo-btn');
+  addTodoListBtn.classList.remove('hide-element');
+  todoListInput.parentNode.classList.add('hide-element');
+  todoListInput.value = "";
+}
+
 function onClickListenerOfAddCard(event) {
   event.preventDefault();
   appearInputTag(this);
+}
+
+function onClickListenerOfAddTodoList(event) {
+  event.preventDefault();
+  appearTodoListInput(this);
 }
 
 function newCardNameInputTagListener(event) {
@@ -51,7 +69,10 @@ function newCardNameInputTagListener(event) {
   if(key === 13){
     if(this.value === '') return;
     var target = this.parentNode.parentNode.parentNode.querySelector('.collection');
-    appendChildInTargetNode(target, getTodoItem(this.value));
+    var parser = new DOMParser();
+    var newDOM = parser.parseFromString(htmlText, 'text/html');
+    addDnDHandlersForTodoItem(newDOM.body.firstChild);
+    target.appendChild(newDOM.body.firstChild);
     hideInputTag(this);
   }
 
@@ -149,6 +170,9 @@ function addDnDHandlersForTodoListFooter(todolistFooter) {
 
 // Todo Item Drag event handler end.
 
+
+// Test Code
+
 var selectAddCardBtn = document.getElementsByClassName('add-card');
 var newCardNameInput = document.getElementsByClassName('new-card-name');
 var todoItem = document.getElementsByClassName('todo-item');
@@ -169,3 +193,9 @@ for(var i=0; i<todoItem.length; ++i){
 for(var i=0; i<test.length; ++i){
   addDnDHandlersForTodoListFooter(test[i]);
 }
+
+var addTodoListBtn = document.getElementById('add-todo-btn');
+var todoListInput = document.querySelector('.new-list-name');
+addTodoListBtn.addEventListener('click', onClickListenerOfAddTodoList);
+
+
