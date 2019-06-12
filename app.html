@@ -9,34 +9,31 @@
 	</head>
 	<body>
 		<header id="mainHeader">
-			<header id="headerTitle">todos</header>
-			<article id="headerContent">
+			<div id="headerTitle">todos</div>
+			<div id="headerContent">
 				<input type="text" id="addTodo"  placeholder="What needs to be done?" />
-				<input type="button" name="addButton" id="addButton" value="Add" onclick="addTodoList();"/>
-			</article>
+				<input type="button" name="addButton" id="addButton" value="Add"/>
+			</div>
 		</header>
 
 		<section id="todos-section">
-			<section class="todos">
-				<header class="todos-title">todo</header>
-				<section id="todo">
-					<article></article>
-				</section>
-			</section>
+			<div class="todos">
+				<div class="todos-title">todo</div>
+				<div id="todo" class="dropArea">
+				</div>
+			</div>
 
-			<section class="todos">
-				<header class="todos-title">doing</header>
-				<section id="doing">
-					<article></article>
-				</section>
-			</section>
+			<div class="todos">
+				<div class="todos-title">doing</div>
+				<div id="doing" class="dropArea">
+				</div>
+			</div>
 
-			<section class="todos">
-				<header class="todos-title">done</header>
-				<section id="done">
-					<article></article>
-				</section>
-			</section>
+			<div class="todos">
+				<div class="todos-title">done</div>
+				<div id="done" class="dropArea">
+				</div>
+			</div>
 		</section>
   </body>
   <script type="text/javascript" src=js/app.js></script>
