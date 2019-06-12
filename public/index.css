@@ -98,6 +98,7 @@ p {
 .todo-column {
   margin: 0 12px 0 12px;
   flex: 0 0 20em;
+  align-self: flex-start;
 }
 
 #add-todo-btn {
@@ -122,9 +123,13 @@ p {
 
 .collection {
   border: 0px !important;
+  min-height: 20px;
+  margin-bottom: 0 !important;
 }
 
 .todolist-footer {
+  padding: 20px 0 5px;
+  margin: 0 9.5px;
   text-align: center;
 }
 
@@ -159,5 +164,21 @@ p {
   display: none;
 }
 
+[draggable] {
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+  /* Required to make elements draggable in old WebKit */
+  -khtml-user-drag: element;
+  -webkit-user-drag: element;
+}
 
+.dragElem {
+  opacity: 0.4;
+}
 
+.over {
+  //border: 2px dashed #000;
+  border-top: 2px solid blue;
+}
