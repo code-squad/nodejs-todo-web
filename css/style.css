@@ -6,7 +6,7 @@ body {
 #mainHeader {
 	text-align: center;
 	margin-top: 40px;
-	margin-bottom: 30px;
+	margin-bottom: 40px;
 }
 #headerTitle {
 	font-size: 45px;
@@ -24,6 +24,7 @@ body {
 	padding-left: 15px;
 	width: 450px;
 	margin-right: 0px;
+	padding-right: 14px;
 	outline: none;
 	height: 51px;
 	font-weight: lighter;
@@ -41,19 +42,37 @@ body {
 	border: none;
 	cursor: pointer;
 }
-.todos {
-	display: inline-block;
-	background-color: white;
-	width: 25%;
-	margin-left: 15px;
-	margin-right: 15px;
-}
 #todos-section {
-	text-align: center;
+	margin: auto;
+	width: 90%;
+}
+.todos {
+	float: left;
+	background-color: white;
+	width: 30%;
+	margin-left: 21px;
+	margin-right: 15px;
+	padding-bottom: 30px;
+	border-radius: 10px;
+	box-shadow: 1px 1px 2px 2px #d6d6d6;
 }
 .todos-title {
 	font-family: 'Nanum Square';
+	font-size: 20px;
 	text-align: left;
 	padding: 10px 0 10px 10px;
 	font-weight: bold;
+}
+.todo-list {
+	text-align: left;
+	padding: 15px 10px 15px 10px;
+	border: 1px solid #bbb9b9;
+	margin: 0px 5px 10px 5px;
+	cursor: pointer;
+	word-break: break-all;
+}
+
+.dropArea {
+	width: 100%;
+	min-height: 30px;
 }
