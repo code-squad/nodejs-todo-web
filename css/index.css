@@ -82,3 +82,67 @@ footer {
   margin: 3px;
   vertical-align: text-bottom;
 }
+
+
+#todo-image-plus {
+  width: auto;
+  height: auto;
+  max-width: 20px;
+  max-height: 20px;
+  margin: 3px;
+  vertical-align: text-bottom;
+  z-index: 10;
+}
+
+#board-add-todo {
+  width: 15%;
+  background-color: lightblue;
+  opacity: 0.5;
+  margin: 5px;
+  padding: 20px;
+  font-weight: 600;
+  color: black;
+}
+
+#board-wrapper {
+  min-height: 700px;
+  margin: auto;
+  width: 81%;
+}
+
+textarea {
+  resize: none;
+  width: 97%;
+  height: 60px;
+  border: solid 4px hotpink;
+}
+
+.submit-card-btn {
+  background-color: orangered;
+  cursor: pointer;
+  text-decoration: none;
+  text-align: center;
+  display: inline-block;
+  padding: 10px 30px;
+  margin-top: 10px;
+  border: none;
+  font-size: 15px;
+  font-weight: 600;
+  color: white;
+}
+
+.add-card-input-wrapper {
+  text-align: right;
+}
+
+.cancel-card-btn {
+  font-size: 10px;
+  font-weight: 500;
+  margin-right: 10px;
+  color: blue;
+  cursor: pointer;
+}
+
+.card-wrapper {
+  min-height: 2px;
+}
