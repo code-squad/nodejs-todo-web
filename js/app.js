@@ -2,19 +2,19 @@ let data;
 
 window.addEventListener('load', function() {
 	const addButton = this.document.querySelector('#addButton');
-	const dropAreas = this.document.querySelectorAll('.dropArea');
+	const todos = this.document.querySelectorAll('.todos');
 
 	addButton.addEventListener('click', function(event) {
 		addTodoList();
 	});
 
-	dropAreas.forEach(element => {
+	todos.forEach(element => {
 		element.addEventListener('dragover', function(event) {
 			allowDrop(event);
 		});
 	});
 
-	dropAreas.forEach(element => {
+	todos.forEach(element => {
 		element.addEventListener('drop', function(event) {
 			drop(event);
 		});
@@ -46,11 +46,21 @@ const drag = event => {
 	data = event.target;
 };
 
-const drop = event => {
-	event.preventDefault();
-	event.target.appendChild(data);
-};
-
 const allowDrop = event => {
 	event.preventDefault();
+};
+
+const drop = event => {
+	dropAreaClassName = event.target.className;
+
+	if (dropAreaClassName === 'todos') {
+		event.preventDefault();
+		event.target.children[1].appendChild(data);
+	} else if (dropAreaClassName === 'todo-list') {
+		event.preventDefault();
+		event.target.parentNode.parentNode.children[1].appendChild(data);
+	} else {
+		event.preventDefault();
+		event.target.parentNode.children[1].appendChild(data);
+	}
 };
