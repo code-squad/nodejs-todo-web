@@ -98,4 +98,20 @@ const Index = class {
     })
   }
 
+  addCardEvent() {
+    const addCardButtons = document.getElementsByClassName('add-card-btn');
+    Array.from(addCardButtons).forEach((btn) => {
+      this.addMakeInputEvent(btn);
+    })
+  }
+
+  dragStart(event) {
+    event.dataTransfer.setDragImage(event.target, 0, 0);
+    this.dragData = event.target;
+  }
+
+  dragOver(event) {
+    event.preventDefault();
+  }
+
 }
