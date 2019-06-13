@@ -15,3 +15,10 @@ footer {
   text-align: center;
   background-color: #333333;
 }
+
+#main-title {
+  text-align: center;
+  padding: 10px 0px 10px 0px;
+  color: whitesmoke;
+  font-size: 60px;
+}
