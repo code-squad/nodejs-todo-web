@@ -180,13 +180,7 @@ p {
 }
 
 .over {
-  border: 2px dashed #000;
   border-top: 2px solid blue;
-}
-
-.leftOver {
-  border: 2px dashed #000;
-  border-left: 2px solid blue;
 }
 
 .add-list-form {
