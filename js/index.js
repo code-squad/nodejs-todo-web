@@ -55,5 +55,10 @@ const Index = class {
     })
   }
   
+  addSubmitCardEvent(addInputBoxBtn, btn) {
+    btn.addEventListener('click', (event) => {
+      this.submitCardEvent(event, addInputBoxBtn);
+    })
+  }
 
 }
