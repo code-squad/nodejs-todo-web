@@ -184,5 +184,13 @@ const Index = class {
     }
   }
 
-
+  run() {
+    this.addCardEvent();
+    this.addDragEvent();
+  }
 }
+
+window.addEventListener('load', () => {
+  const index = new Index();
+  index.run();
+})
