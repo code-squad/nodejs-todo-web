@@ -1,5 +1,7 @@
 body {
-  background: linear-gradient(to left, #f80759, #bc4e9c);
+  background: #74ebd5;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #ACB6E5, #74ebd5);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #ACB6E5, #74ebd5); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 
 a:link {
@@ -19,7 +21,7 @@ footer {
 #main-title {
   text-align: center;
   padding: 10px 0px 10px 0px;
-  color: whitesmoke;
+  color: #ef5285;
   font-size: 60px;
 }
 
@@ -42,7 +44,7 @@ footer {
   padding: 40px;
   margin-bottom: 15px;
   font-weight: 800;
-  font-size: 20px;
+  font-size: 30px;
 }
 
 .board-content-wrapper {
@@ -50,7 +52,7 @@ footer {
 }
 
 .card {
-  background-color: darkblue;
+  background-color: #ef5285;
   padding: 15px 10px;
   margin-bottom: 15px;
   overflow: hidden;
