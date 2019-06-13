@@ -67,7 +67,7 @@ body {
 	padding: 10px 0 10px 10px;
 	user-select: none;
 }
-hr {
+.todos-underline {
 	width: 95%;
 }
 .todo-list {
