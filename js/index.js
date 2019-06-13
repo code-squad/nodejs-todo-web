@@ -21,6 +21,26 @@ const Index = class {
     return element;
   }
 
-  
+  submitCardEvent(event, addInputBoxBtn) {
+    const submitBtn = event.target;
+    const board = submitBtn.parentElement.parentElement;
+
+    const cardTitle = submitBtn.parentElement.getElementsByClassName('card-title-input')[0].value;
+
+    if (cardTitle === '') {
+      alert('내용을 입력해주세요');
+      return;
+    }
+
+    const cardContent = `<p>${cardTitle}</p>`
+    const cardSectionElement = this.createElement('section', ['card', 'todo'], { 'draggable': 'true' }, cardContent);
+
+    const cardWrapper = board.getElementsByClassName('card-wrapper')[0];
+
+    cardWrapper.appendChild(cardSectionElement);
+
+    board.appendChild(addInputBoxBtn);
+    board.removeChild(event.target.parentElement);
+  }
 
 }
