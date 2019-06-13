@@ -6,17 +6,16 @@ body {
 }
 #mainHeader {
 	text-align: center;
-	margin-top: 40px;
-	margin-bottom: 40px;
+	margin: 40px 0 40px 0;
 }
 #headerTitle {
 	text-decoration: underline;
 	text-underline-position: under;
+	font-family: 'Nanum Square';
 	font-size: 50px;
 	font-weight: bold;
 	color: #ffa9a9;
 	margin-bottom: 25px;
-	font-family: 'Nanum Square';
 }
 #headerContent {
 	display: flex;
@@ -24,15 +23,14 @@ body {
 }
 #addTodo {
 	font-size: 17px;
-	padding-left: 15px;
-	width: 450px;
-	margin-right: 0px;
-	padding-right: 14px;
-	outline: none;
-	height: 51px;
 	font-weight: lighter;
 	border: #d6d6d6 1px solid;
 	box-shadow: 1px 1px 2px 2px #d6d6d6;
+	padding: 0 14px 0 15px;
+	margin-right: 0px;
+	width: 450px;
+	height: 52px;
+	outline: none;
 }
 ::placeholder {
 	color: rgb(190, 190, 190);
@@ -40,47 +38,57 @@ body {
 #addButton {
 	background-color: #eaeaea;
 	font-size: 17px;
+	border: none;
+	box-shadow: 1px 1px 2px 2px #d6d6d6;
 	width: 57px;
 	height: 55px;
 	outline: none;
-	border: none;
 	cursor: pointer;
-	box-shadow: 1px 1px 2px 2px #d6d6d6;
 }
 #todos-section {
-	margin: auto;
 	width: 90%;
+	margin: auto;
 }
 .todos {
-	float: left;
 	background-color: white;
 	background-image: url('https://www.transparenttextures.com/patterns/45-degree-fabric-light.png');
 	width: 30%;
-	margin-left: 21px;
-	margin-right: 15px;
-	padding-bottom: 30px;
+	float: left;
 	border-radius: 10px;
 	box-shadow: 1px 1px 2px 2px #d6d6d6;
+	margin: 0 15px 50px 21px;
+	padding-bottom: 30px;
 }
 .todos-title {
 	font-family: 'Nanum Square';
+	font-weight: bold;
 	font-size: 20px;
 	text-align: left;
 	padding: 10px 0 10px 10px;
-	font-weight: bold;
 }
 hr {
 	width: 95%;
 }
 .todo-list {
+	position: relative;
+	background-color: white;
+	border-bottom: 1px solid #c9c7c7;
+	box-shadow: 2px 2px #d6d6d6;
 	text-align: left;
+	text-indent: 40px;
 	padding: 15px 10px 15px 10px;
-	border: 1px solid #bbb9b9;
-	margin: 0px 5px 10px 5px;
-	cursor: pointer;
+	margin: 0px 15px 0 15px;
 	word-break: break-all;
+	cursor: pointer;
 }
-
+.todo-list:before {
+	position: absolute;
+	border-left: 4px double #ffa8a8;
+	content: '';
+	height: 100%;
+	top: 0;
+	left: 30px;
+}
 .dropArea {
 	width: 100%;
 	min-height: 30px;
