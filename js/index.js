@@ -1,6 +1,6 @@
 const Index = class {
   constructor() {
-
+    this.dragData = null;
   }
 
   createElement(elName, classNameArr, attObj, innerHtml) {
@@ -38,6 +38,7 @@ const Index = class {
     const cardWrapper = board.getElementsByClassName('card-wrapper')[0];
 
     cardWrapper.appendChild(cardSectionElement);
+    this.addDragStartEvent(cardSectionElement);
 
     board.appendChild(addInputBoxBtn);
     board.removeChild(event.target.parentElement);
@@ -112,6 +113,20 @@ const Index = class {
 
   dragOver(event) {
     event.preventDefault();
+  }
+
+  drop(event) {
+    event.preventDefault();
+    const todoType = event.target.className.split(" ")[1];
+    const wrapper = document.getElementById(`card-wrapper-${todoType}`);
+
+    this.dragData.classList.remove(this.dragData.className.split(" ")[1]);
+    this.dragData.classList.add(`${todoType}`);
+
+    if (wrapper.children.length === 0) {
+      wrapper.appendChild(this.dragData);
+      return;
+    }
   }
 
 }
