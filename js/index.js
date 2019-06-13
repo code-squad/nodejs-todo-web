@@ -43,4 +43,17 @@ const Index = class {
     board.removeChild(event.target.parentElement);
   }
 
+  cancelCardEvent(event, addInputBoxBtn) {
+    const board = event.target.parentElement.parentElement;
+    board.appendChild(addInputBoxBtn);
+    board.removeChild(event.target.parentElement);
+  }
+
+  addCancelCardEvent(addInputBoxBtn, btn) {
+    btn.addEventListener('click', (event) => {
+      this.cancelCardEvent(event, addInputBoxBtn);
+    })
+  }
+  
+
 }
