@@ -58,16 +58,6 @@ const allowDrop = event => {
 };
 
 const drop = event => {
-	dropAreaClassName = event.target.className;
-
-	if (dropAreaClassName === 'todos') {
-		event.preventDefault();
-		event.target.children[1].appendChild(data);
-	} else if (dropAreaClassName === 'todo-list') {
-		event.preventDefault();
-		event.target.parentNode.parentNode.children[1].appendChild(data);
-	} else {
-		event.preventDefault();
-		event.target.parentNode.children[1].appendChild(data);
-	}
+	const dropAreaClassName = event.target.className.split(' ')[0];
+	document.querySelector(`#${dropAreaClassName}`).appendChild(data);
 };
