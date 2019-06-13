@@ -1,5 +1,5 @@
 function getTodoListContainer(title) {
-  return `<div class="todo-column todolist-container grey lighten-2" draggable="true">
+  return `<div class="todo-column todolist-container grey lighten-2">
 <div class="todolist-header">
   ${title}
 </div>
@@ -92,12 +92,13 @@ function newTodoListInputTagListener(event) {
 
     var newAddCardBtn = newDOM.querySelector('.add-card');
     var newCardNameInput = newDOM.querySelector('.new-card-name');
+    var todoListFooter = newDOM.querySelector('.todolist-footer');
 
     newAddCardBtn.addEventListener('click', onClickListenerOfAddCard);
     newCardNameInput.addEventListener('keydown', newCardNameInputTagListener);
+    addDnDHandlersForTodoListFooter(todoListFooter);
 
     target.insertAdjacentElement('beforebegin', newDOM.body.firstChild);
-    // hideInputTag(this);
 
     var addTodoBtn = this.parentNode.parentNode.querySelector('#add-todo-btn');
     addTodoBtn.classList.remove('hide-element');
@@ -110,11 +111,8 @@ function newTodoListInputTagListener(event) {
     addTodoBtn.classList.remove('hide-element');
     this.parentNode.classList.add('hide-element');
     this.value = "";
-    // hideInputTag(this);
   }
 }
-
-// Todo Item Drag event handler 
 
 function handleDragStart(event) {
   dragSrcEl = this;
@@ -201,34 +199,7 @@ function addDnDHandlersForTodoListFooter(todolistFooter) {
   todolistFooter.addEventListener('drop', handleDropForTodolistFooter, false);
 }
 
-// Todo Item Drag event handler end.
-
-// Test Code
-
-var selectAddCardBtn = document.getElementsByClassName('add-card');
-var newCardNameInput = document.getElementsByClassName('new-card-name');
-var todoItem = document.getElementsByClassName('todo-item');
-var test = document.getElementsByClassName('todolist-footer');
-
-for(var i=0; i<selectAddCardBtn.length; ++i){
-  selectAddCardBtn[i].addEventListener('click', onClickListenerOfAddCard);
-}
-
-for(var i=0; i<newCardNameInput.length; ++i){
-  newCardNameInput[i].addEventListener('keydown', newCardNameInputTagListener);
-}
-
-for(var i=0; i<todoItem.length; ++i){
-  addDnDHandlersForTodoItem(todoItem[i]);
-}
-
-for(var i=0; i<test.length; ++i){
-  addDnDHandlersForTodoListFooter(test[i]);
-}
-
 var addTodoListBtn = document.getElementById('add-todo-btn');
 var todoListInput = document.querySelector('.new-list-name');
 addTodoListBtn.addEventListener('click', onClickListenerOfAddTodoList);
 todoListInput.addEventListener('keydown', newTodoListInputTagListener);
-
-
