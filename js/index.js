@@ -127,6 +127,8 @@ const Index = class {
       wrapper.appendChild(this.dragData);
       return;
     }
+
+    this.insertCardEvent(event, wrapper);
   }
 
   addDragStartEvent(element) {
@@ -149,6 +151,37 @@ const Index = class {
         this.drop(event);
       })
     })
+  }
+
+  getMiddleY(element) {
+    const locationObj = element.getBoundingClientRect();
+    const middleValue = (locationObj.top + locationObj.bottom) / 2;
+    return middleValue;
+  }
+
+  insertCardEvent(event, wrapper) {
+    const firstCardMiddle = this.getMiddleY(wrapper.children[0]);
+    const lastCardMiddle = this.getMiddleY(wrapper.children[wrapper.children.length - 1]);
+
+    if (event.clientY <= firstCardMiddle) {
+      wrapper.insertBefore(this.dragData, wrapper.firstChild);
+      return;
+    }
+
+    if (event.clientY >= lastCardMiddle) {
+      wrapper.appendChild(this.dragData);
+      return;
+    }
+
+    for (let i = 0; i < wrapper.children.length - 1; i++) {
+      const beforeMiddle = this.getMiddleY(wrapper.children[i]);
+      const nextMiddle = this.getMiddleY(wrapper.children[i + 1]);
+
+      if (event.clientY >= beforeMiddle && event.clientY <= nextMiddle) {
+        wrapper.insertBefore(this.dragData, wrapper.children[i + 1]);
+        return;
+      }
+    }
   }
 
 
