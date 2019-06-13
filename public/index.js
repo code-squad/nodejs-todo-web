@@ -25,45 +25,26 @@ function appendChildInTargetNode(target, htmlText) {
   target.appendChild(newDOM.body.firstChild);
 }
 
-function appearInputTag(addCardBtn) {
-  addCardBtn.classList.add('hide-element');
-  var form = addCardBtn.parentNode.querySelector('.add-card-form');
+function appearInputTag(hideElement, formQuery, inputQuery) {
+  hideElement.classList.add('hide-element');
+  var form = hideElement.parentNode.querySelector(formQuery);
   form.classList.remove('hide-element');
-  form.querySelector('.new-card-name').focus();
+  form.querySelector(inputQuery).focus();
 }
 
-function hideInputTag(newCardInput) {
-  var addCardBtn = newCardInput.parentNode.parentNode.querySelector('.add-card');
-  addCardBtn.classList.remove('hide-element');
-  newCardInput.parentNode.classList.add('hide-element');
-  newCardInput.value = "";
+function hideInputTag(inputElement, btnQuery) {
+  var btn = inputElement.parentNode.parentNode.querySelector(btnQuery);
+  btn.classList.remove('hide-element');
+  inputElement.parentNode.classList.add('hide-element');
+  inputElement.value = "";
 }
 
-function appearTodoListInput(addTodoListBtn) {
-  addTodoListBtn.classList.add('hide-element');
-  var form = addTodoListBtn.parentNode.querySelector('.add-list-form');
-  form.classList.remove('hide-element');
-  form.querySelector('.new-list-name').focus();
-}
-
-function hideTodoListInput(todoListInput) {
-  var addTodoListBtn = todoListInput.parentNode.parentNode.querySelector('#add-todo-btn');
-  addTodoListBtn.classList.remove('hide-element');
-  todoListInput.parentNode.classList.add('hide-element');
-  todoListInput.value = "";
-}
-
-function onClickListenerOfAddCard(event) {
+function onClickListenerOfAddTodoBtn(event) {
   event.preventDefault();
-  appearInputTag(this);
+  appearInputTag(this, '.add-card-form', '.new-card-name');
 }
 
-function onClickListenerOfAddTodoList(event) {
-  event.preventDefault();
-  appearTodoListInput(this);
-}
-
-function newCardNameInputTagListener(event) {
+function keyDownHandlerOfCardNameInput(event) {
   var key = event.which || event.keyCode;
 
   if(key === 13){
@@ -73,15 +54,15 @@ function newCardNameInputTagListener(event) {
     var newDOM = parser.parseFromString(getTodoItem(this.value), 'text/html');
     addDnDHandlersForTodoItem(newDOM.body.firstChild);
     target.appendChild(newDOM.body.firstChild);
-    hideInputTag(this);
+    hideInputTag(this, '.add-card');
   }
 
   if(key === 27){
-    hideInputTag(this);
+    hideInputTag(this, '.add-card');
   }
 }
 
-function newTodoListInputTagListener(event) {
+function keyDownHandlerOfTodoNameInput(event) {
   var key = event.which || event.keyCode;
 
   if(key === 13){
@@ -94,23 +75,17 @@ function newTodoListInputTagListener(event) {
     var newCardNameInput = newDOM.querySelector('.new-card-name');
     var todoListFooter = newDOM.querySelector('.todolist-footer');
 
-    newAddCardBtn.addEventListener('click', onClickListenerOfAddCard);
-    newCardNameInput.addEventListener('keydown', newCardNameInputTagListener);
+    newAddCardBtn.addEventListener('click', onClickListenerOfAddTodoBtn);
+    newCardNameInput.addEventListener('keydown', keyDownHandlerOfCardNameInput);
     addDnDHandlersForTodoListFooter(todoListFooter);
 
     target.insertAdjacentElement('beforebegin', newDOM.body.firstChild);
 
-    var addTodoBtn = this.parentNode.parentNode.querySelector('#add-todo-btn');
-    addTodoBtn.classList.remove('hide-element');
-    this.parentNode.classList.add('hide-element');
-    this.value = "";
+    hideInputTag(this, '#add-todo-btn');
   }
 
   if(key === 27){
-    var addTodoBtn = newCardInput.parentNode.parentNode.querySelector('#add-todo-btn');
-    addTodoBtn.classList.remove('hide-element');
-    this.parentNode.classList.add('hide-element');
-    this.value = "";
+    hideInputTag(this, '#add-todo-btn');
   }
 }
 
@@ -120,7 +95,7 @@ function handleDragStart(event) {
   event.dataTransfer.effectAllowed = 'move';
   event.dataTransfer.setData('text/html', this.outerHTML);
 
-  this.classList.add('dragElem');
+  this.classList.add('drag-element');
 }
 
 function handleDragOver(event) {
@@ -180,7 +155,7 @@ function handleDropForTodolistFooter(event) {
 
 function handleDragEnd(e) {
   this.classList.remove('over');
-  this.classList.remove('dragElem');
+  this.classList.remove('drag-element');
 }
 
 function addDnDHandlersForTodoItem(todoItem){ 
@@ -201,5 +176,8 @@ function addDnDHandlersForTodoListFooter(todolistFooter) {
 
 var addTodoListBtn = document.getElementById('add-todo-btn');
 var todoListInput = document.querySelector('.new-list-name');
-addTodoListBtn.addEventListener('click', onClickListenerOfAddTodoList);
-todoListInput.addEventListener('keydown', newTodoListInputTagListener);
+addTodoListBtn.addEventListener('click', function(event) {
+  event.preventDefault();
+  appearInputTag(this, '.add-list-form', '.new-list-name');
+});
+todoListInput.addEventListener('keydown', keyDownHandlerOfTodoNameInput);
