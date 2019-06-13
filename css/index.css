@@ -22,3 +22,29 @@ footer {
   color: whitesmoke;
   font-size: 60px;
 }
+
+.board {
+  width: 30%;
+  background-color: floralwhite;
+  float: left;
+  margin: 5px;
+  padding: 20px 20px;
+  margin-top: 15px;
+  border-radius: 20px;
+  margin-bottom: 150px;
+
+}
+
+.board-title {
+  background-color: salmon;
+  border-radius: 20px;
+  text-align: center;
+  padding: 40px;
+  margin-bottom: 15px;
+  font-weight: 800;
+  font-size: 20px;
+}
+
+.board-content-wrapper {
+  padding: 5% 10%;
+}
