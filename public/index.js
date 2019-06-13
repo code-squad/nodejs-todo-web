@@ -70,7 +70,7 @@ function newCardNameInputTagListener(event) {
     if(this.value === '') return;
     var target = this.parentNode.parentNode.parentNode.querySelector('.collection');
     var parser = new DOMParser();
-    var newDOM = parser.parseFromString(htmlText, 'text/html');
+    var newDOM = parser.parseFromString(getTodoItem(this.value), 'text/html');
     addDnDHandlersForTodoItem(newDOM.body.firstChild);
     target.appendChild(newDOM.body.firstChild);
     hideInputTag(this);
@@ -78,6 +78,39 @@ function newCardNameInputTagListener(event) {
 
   if(key === 27){
     hideInputTag(this);
+  }
+}
+
+function newTodoListInputTagListener(event) {
+  var key = event.which || event.keyCode;
+
+  if(key === 13){
+    if(this.value === '') return;
+    var target = this.parentNode.parentNode;
+    var parser = new DOMParser();
+    var newDOM = parser.parseFromString(getTodoListContainer(this.value), 'text/html');
+
+    var newAddCardBtn = newDOM.querySelector('.add-card');
+    var newCardNameInput = newDOM.querySelector('.new-card-name');
+
+    newAddCardBtn.addEventListener('click', onClickListenerOfAddCard);
+    newCardNameInput.addEventListener('keydown', newCardNameInputTagListener);
+
+    target.insertAdjacentElement('beforebegin', newDOM.body.firstChild);
+    // hideInputTag(this);
+
+    var addTodoBtn = this.parentNode.parentNode.querySelector('#add-todo-btn');
+    addTodoBtn.classList.remove('hide-element');
+    this.parentNode.classList.add('hide-element');
+    this.value = "";
+  }
+
+  if(key === 27){
+    var addTodoBtn = newCardInput.parentNode.parentNode.querySelector('#add-todo-btn');
+    addTodoBtn.classList.remove('hide-element');
+    this.parentNode.classList.add('hide-element');
+    this.value = "";
+    // hideInputTag(this);
   }
 }
 
@@ -170,7 +203,6 @@ function addDnDHandlersForTodoListFooter(todolistFooter) {
 
 // Todo Item Drag event handler end.
 
-
 // Test Code
 
 var selectAddCardBtn = document.getElementsByClassName('add-card');
@@ -197,5 +229,6 @@ for(var i=0; i<test.length; ++i){
 var addTodoListBtn = document.getElementById('add-todo-btn');
 var todoListInput = document.querySelector('.new-list-name');
 addTodoListBtn.addEventListener('click', onClickListenerOfAddTodoList);
+todoListInput.addEventListener('keydown', newTodoListInputTagListener);
 
 
