@@ -48,3 +48,37 @@ footer {
 .board-content-wrapper {
   padding: 5% 10%;
 }
+
+.card {
+  background-color: darkblue;
+  padding: 15px 10px;
+  margin-bottom: 15px;
+  overflow: hidden;
+  word-wrap: break-word;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 20px;
+  color: white;
+  cursor: pointer;
+
+}
+
+.add-card-btn {
+  margin-top: 20px;
+  padding: 10px;
+  background-color: aquamarine;
+  cursor: pointer;
+  vertical-align: top;
+  font-weight: 600;
+  border-radius: 20px;
+
+}
+
+#card-image-plus {
+  width: auto;
+  height: auto;
+  max-width: 20px;
+  max-height: 20px;
+  margin: 3px;
+  vertical-align: text-bottom;
+}
