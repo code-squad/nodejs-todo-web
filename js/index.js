@@ -129,4 +129,27 @@ const Index = class {
     }
   }
 
+  addDragStartEvent(element) {
+    element.addEventListener('dragstart', (event) => {
+      this.dragStart(event);
+    })
+  }
+
+  addDragEvent() {
+    const boardElements = document.getElementsByClassName('board');
+
+    Array.from(boardElements).forEach((board) => {
+      board.addEventListener('dragover', (event) => {
+        this.dragOver(event);
+      })
+    })
+
+    Array.from(boardElements).forEach((board) => {
+      board.addEventListener('drop', (event) => {
+        this.drop(event);
+      })
+    })
+  }
+
+
 }
