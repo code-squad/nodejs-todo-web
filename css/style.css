@@ -24,12 +24,12 @@ body {
 #addTodo {
 	font-size: 17px;
 	font-weight: lighter;
-	border: #d6d6d6 1px solid;
+	border: none;
 	box-shadow: 1px 1px 2px 2px #d6d6d6;
-	padding: 0 14px 0 15px;
 	margin-right: 0px;
+	padding-left: 10px;
 	width: 450px;
-	height: 52px;
+	height: 55px;
 	outline: none;
 }
 ::placeholder {
@@ -41,7 +41,7 @@ body {
 	border: none;
 	box-shadow: 1px 1px 2px 2px #d6d6d6;
 	width: 57px;
-	height: 55px;
+	height: 57px;
 	outline: none;
 	cursor: pointer;
 }
@@ -73,10 +73,11 @@ hr {
 	position: relative;
 	background-color: white;
 	border-bottom: 1px solid #c9c7c7;
+	font-size: 12px;
 	box-shadow: 2px 2px #d6d6d6;
 	text-align: left;
 	text-indent: 40px;
-	padding: 15px 10px 15px 10px;
+	padding: 10px 10px 10px 10px;
 	margin: 0px 15px 0 15px;
 	word-break: break-all;
 	cursor: pointer;
