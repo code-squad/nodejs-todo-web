@@ -1,8 +1,15 @@
 let data;
 
 window.addEventListener('load', function() {
+	const addTodo = this.document.querySelector('#addTodo');
 	const addButton = this.document.querySelector('#addButton');
 	const todos = this.document.querySelectorAll('.todos');
+
+	addTodo.addEventListener('keyup', function(event) {
+		if (event.keyCode === 13) {
+			addTodoList();
+		}
+	});
 
 	addButton.addEventListener('click', function(event) {
 		addTodoList();
