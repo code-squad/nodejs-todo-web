@@ -1,7 +1,8 @@
 @import url(//cdn.rawgit.com/hiun/NanumSquare/master/nanumsquare.css);
 
 body {
-	background-color: #f6f6f6;
+	background-image: url('./img/overall-background.png');
+	background-color: #ffffff;
 }
 #mainHeader {
 	text-align: center;
@@ -9,8 +10,10 @@ body {
 	margin-bottom: 40px;
 }
 #headerTitle {
-	font-size: 45px;
-	font-weight: lighter;
+	text-decoration: underline;
+	text-underline-position: under;
+	font-size: 50px;
+	font-weight: bold;
 	color: #ffa9a9;
 	margin-bottom: 25px;
 	font-family: 'Nanum Square';
@@ -29,6 +32,7 @@ body {
 	height: 51px;
 	font-weight: lighter;
 	border: #d6d6d6 1px solid;
+	box-shadow: 1px 1px 2px 2px #d6d6d6;
 }
 ::placeholder {
 	color: rgb(190, 190, 190);
@@ -41,6 +45,7 @@ body {
 	outline: none;
 	border: none;
 	cursor: pointer;
+	box-shadow: 1px 1px 2px 2px #d6d6d6;
 }
 #todos-section {
 	margin: auto;
@@ -49,6 +54,7 @@ body {
 .todos {
 	float: left;
 	background-color: white;
+	background-image: url('https://www.transparenttextures.com/patterns/45-degree-fabric-light.png');
 	width: 30%;
 	margin-left: 21px;
 	margin-right: 15px;
@@ -62,6 +68,9 @@ body {
 	text-align: left;
 	padding: 10px 0 10px 10px;
 	font-weight: bold;
+}
+hr {
+	width: 95%;
 }
 .todo-list {
 	text-align: left;
