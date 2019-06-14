@@ -42,6 +42,7 @@ body {
     justify-content: center;
     flex-direction: column;
     margin-left: 5px; margin-right: 5px;
+    align-self: start;
 }
 
 .list-box-header {
@@ -54,8 +55,45 @@ body {
     padding: 5px;
 }
 
-.open-add-form {
+.open-add-form-link {
     color: grey;
     margin: 5px;
     padding-left: 10px;
+}
+
+.writing-item-box {
+    width: 232px;
+    height: 58px;
+    margin: 0 8px 8px 8px;
+    padding: 6px 8px 2px 8px;
+    border-radius: 3px;
+    background-color: #fff;
+}
+
+textarea {
+    border: none;
+    background-color: transparent;
+    resize: none;
+    outline: none;
+    width: 232px;
+    height: 54px;
+    font-size: 14px;
+}
+
+.add-button {
+    margin: 0 0 16px 8px;
+    font-size: 14px;
+    border-radius: 3px;
+    width: 88px;
+    height: 32px;
+    background-color: #5aac44;
+    box-shadow: 0 1px 0 0 #3f6f21;
+    color: #fff;
+    font-weight: 700;
+    border: none;
+    cursor: pointer;
+}
+
+.add-button-form {
+    display: flex;
 }
