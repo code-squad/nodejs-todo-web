@@ -107,3 +107,7 @@ textarea {
     font-size: 14px;
     cursor: pointer;
 }
+
+.list-area {
+    overflow: scroll;
+}
