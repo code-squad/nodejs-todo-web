@@ -29,6 +29,7 @@ body {
     width: 280px;
     max-height: calc(100vh - 35px - 3rem);
     background-color: #DFE1E6;
+    border-radius: 3px;
     font-size: 20px;
     display: flex;
     justify-content: center;
