@@ -3,7 +3,7 @@ const addForm = `
         <textarea placeholder="Enter a title for your new item"></textarea>
     </div>
     <div class="add-button-form">
-        <button type="button" class="add-button">ADD</button>
+        <button type="button" class="add-button" onclick="addItemByAddButton(event)">ADD</button>
         <a class="icon-hamburger-menu-close close" href="#" style="font-size: 30px; margin-left: 8px;" onclick="closeAddForm(event)"></a>
     </div>`;
 const openAddFormLinks = document.getElementsByClassName('open-add-form-link');
@@ -18,6 +18,7 @@ for (openAddFormLink of openAddFormLinks) {
         event.target.style.display = 'none';
     });
 }
+
 function generateRandomId() {
     return Date.now();
 }
@@ -31,12 +32,23 @@ function closeAddForm(event) {
     openAddFormLink.style.display = 'inherit';
 }
 
-function addList(parentNode, name) {
+function addItem(parentNode, name) {
     const item = document.createElement('div');
     item.setAttribute('class', 'item');
     item.setAttribute('id', generateRandomId());
     item.innerHTML = `${name}`;
     parentNode.appendChild(item);
 }
-const listArea = document.querySelector('.list-area');
-addList(listArea, 'test');
+
+function addItemByAddButton(event) {
+    const addButtonFormNode = event.target.parentNode;
+    const addFormNode = addButtonFormNode.parentNode;
+    const listBoxNode = addFormNode.parentNode;
+    const listArea = listBoxNode.getElementsByClassName('list-area')[0];
+    const textarea = addFormNode.getElementsByTagName('textarea')[0];
+    const name = textarea.value;
+    if (!(name === '')) {
+        addItem(listArea, name);
+        textarea.value = null;
+    }
+}
