@@ -27,7 +27,7 @@ body {
 	border: none;
 	box-shadow: 1px 1px 2px 2px #d6d6d6;
 	margin-right: 0px;
-	padding-left: 10px;
+	padding: 0 10px 0 15px;
 	width: 450px;
 	height: 55px;
 	outline: none;
@@ -40,8 +40,8 @@ body {
 	font-size: 17px;
 	border: none;
 	box-shadow: 1px 1px 2px 2px #d6d6d6;
-	width: 57px;
-	height: 57px;
+	width: 55px;
+	height: 55px;
 	outline: none;
 	cursor: pointer;
 }
