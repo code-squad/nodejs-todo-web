@@ -11,37 +11,34 @@
     <header>
         <div class="headerDiv"><span class ="headerSubject">Ruby's TODO LIST</span></div>
     </header>
-    <div class = "containerWrap">
-        <div>
-            <ul id = "dataTarget">
-                <li class = "containSubject">todo</li>
-                <li class = "contents">
-                    안녕
-                    <span class = "deleteData icon-hamburger-menu-close"></span>
-                </li>
-                <li class = "contents">안녕</li>
-            </ul>
-            <div class = "addDiv">
-                <div id = "openAdd">
-                    <span class = "add icon-plus" onclick='display("addData", "openAdd")' >Add another card</span>
+    <div class = "containerWrap" id="containerWrap">
+        <ul>
+            <li class = "container">
+                <ul id = "dataTarget">
+                    <li class = "containSubject">todo</li>
+                </ul>
+                <div class = "addDiv">
+                    <div id = "openAdd">
+                        <span class = "add icon-plus" onclick='display("addData", "openAdd")' >Add another card</span>
+                    </div>
+                    <div id = "addData">
+                        <textarea class="addContents" id ="addContents" placeholder="Enter a title for this card..."></textarea>
+                        <span class="inputAdd" id="inputAdd" onclick='display("openAdd", "addData"); callAppendChild("dataTarget")'>Add Card</span>
+                        <span class="backButton icon-hamburger-menu-close" onclick='display("openAdd", "addData")'></span>
+                    </div>
                 </div>
-                <div id = "addData">
-                    <textarea class="addContents" id ="addContents" placeholder="Enter a title for this card..."></textarea>
-                    <span class="inputAdd" id="inputAdd" onclick='display("openAdd", "addData"); callAppendChild("dataTarget")'>Add Card</span>
-                    <span class="backButton icon-hamburger-menu-close" onclick='display("openAdd", "addData")'></span>
-                </div>
+            </li>
+        </ul>
+        
+        <div id = "addListContainer" onclick="display('addListInputContainer','addListContainer'); createContainer()">
+            <span class = "addList icon-plus" id = "addList">Add another list</span>
+        </div>
+        <div id = "addListInputContainer" >
+            <div>
+                <input class="addContents" placeholder="Enter list title..."/>
+                <span class="inputAdd"  onclick='display("addListContainer", "addListInputContainer");'>Add List</span>
+                <span class="backButton icon-hamburger-menu-close" onclick='display("addListContainer", "addListInputContainer")'></span>
             </div>
-        </div>
-
-        <div>
-            <p class="containSubject">doing</p>
-            <div class = "contents"></div>
-            <div class = "addDiv"><span class = "add icon-plus">Add another card</span></div>
-        </div>
-        <div>
-            <p class="containSubject">done</p>
-            <div class = "contents"></div>
-            <div class = "addDiv"><span class = "add icon-plus">Add another card</span></div>
         </div>
     </div>
 

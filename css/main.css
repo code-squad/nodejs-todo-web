@@ -24,7 +24,7 @@ header{
     padding: 0 10px 10px 10px;
 }
 
-.containerWrap > div {
+.containerWrap .container {
     float: left;
     width: 300px;
     background: #DFE1E5;
@@ -63,6 +63,14 @@ header{
     cursor: pointer;
 }
 
+.addList{
+    font-size: 15px;
+    font-weight: bold;
+    padding: 6px 0px;
+    color: hsla(0,0%,100%,.8);      
+    opacity: 0.8;
+}
+
 #addData{
     display: none
 }
@@ -73,6 +81,7 @@ header{
 
 .icon-plus::before{
     content: "\e937";
+    margin-right: 7px;
 }
 
 .addContents{
@@ -126,5 +135,32 @@ header{
     font-weight: bold;
     font-size: 19px;
     cursor: pointer;
+    display:none;
+}
+
+#addListContainer{
+    float: left;
+    width: 300px;
+    border-radius: 3px;
+    margin-right: 5px;
+    padding: 10px;    
+    margin-top: 10px;
+    transition: color 85ms ease-in;   
+    background-color: rgba(0,0,0,.12);  
+}
+
+#addListContainer:hover{
+    background-color: rgba(0,0,0,.22); 
+    cursor: pointer;
+}
+
+#addListInputContainer{
+    float: left;
+    width: 300px;
+    background: #DFE1E5;
+    border-radius: 3px;
+    margin-right: 5px;
+    padding: 6px;
+    margin-top: 10px;
     display:none
 }
