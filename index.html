@@ -14,7 +14,7 @@
     <div class = "containerWrap" id="containerWrap">
         <ul>
             <li class = "container">
-                <ul id = "dataTarget_todo">
+                <ul id = "dataTarget_todo"  ondrop="drop(event)" ondragover="allowDrop(event)">
                     <li class = "containSubject">todo</li>
                 </ul>
                 <div class = "addDiv">
@@ -29,7 +29,7 @@
                 </div>
             </li>
             <li class = "container">
-                    <ul id = "dataTarget_doing">
+                    <ul id = "dataTarget_doing" ondrop="drop(event)" ondragover="allowDrop(event)">
                         <li class = "containSubject">doing</li>
                     </ul>
                     <div class = "addDiv">
@@ -44,7 +44,7 @@
                     </div>
                 </li>
                 <li class = "container">
-                        <ul id = "dataTarget_done">
+                        <ul id = "dataTarget_done" ondrop="drop(event)" ondragover="allowDrop(event)">
                             <li class = "containSubject">done</li>
                         </ul>
                         <div class = "addDiv">
@@ -65,7 +65,7 @@
         </div>
         <div id = "addListInputContainer" >
             <div>
-                <input class="addContents" id = "addListName" placeholder="아직 준비중입니다."/>
+                <input class="addContents" id = "addListName" placeholder="아직햐 준비중입니다."/>
                 <span class="inputAdd"  onclick='display("addListContainer", "addListInputContainer"); createContainer()'>Add List</span>
                 <span class="backButton icon-hamburger-menu-close" onclick='display("addListContainer", "addListInputContainer")'></span>
             </div>
