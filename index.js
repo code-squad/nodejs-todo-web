@@ -17,6 +17,8 @@ for (openAddFormLink of openAddFormLinks) {
         addFormElement.innerHTML = addForm;
         listBoxNode.appendChild(addFormElement);
         event.target.style.display = 'none';
+        const textArea = listBoxNode.getElementsByTagName('textarea')[0];
+        textArea.focus();
     });
 }
 
@@ -48,12 +50,13 @@ function addItemByAddButton(event) {
     const addFormNode = addButtonFormNode.parentNode;
     const listBoxNode = addFormNode.parentNode;
     const listArea = listBoxNode.getElementsByClassName('list-area')[0];
-    const textarea = addFormNode.getElementsByTagName('textarea')[0];
-    const name = textarea.value;
+    const textArea = addFormNode.getElementsByTagName('textarea')[0];
+    const name = textArea.value;
     if (!(name === '')) {
         addItem(listArea, name);
-        textarea.value = null;
+        textArea.value = null;
     }
+    textArea.focus();
 }
 
 function addDragEvent(item) {
