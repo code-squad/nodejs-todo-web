@@ -18,6 +18,9 @@ for (openAddFormLink of openAddFormLinks) {
         event.target.style.display = 'none';
     });
 }
+function generateRandomId() {
+    return Date.now();
+}
 
 function closeAddForm(event) {
     const addButtonFormNode = event.target.parentNode;
@@ -27,3 +30,13 @@ function closeAddForm(event) {
     listBoxNode.removeChild(addFormNode);
     openAddFormLink.style.display = 'inherit';
 }
+
+function addList(parentNode, name) {
+    const item = document.createElement('div');
+    item.setAttribute('class', 'item');
+    item.setAttribute('id', generateRandomId());
+    item.innerHTML = `${name}`;
+    parentNode.appendChild(item);
+}
+const listArea = document.querySelector('.list-area');
+addList(listArea, 'test');
