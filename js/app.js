@@ -40,7 +40,7 @@ const addTodoList = () => {
 	const todoContent = document.createTextNode(addTodo);
 
 	todoArticle.appendChild(todoContent);
-	todoArticle.className = 'todo-list';
+	todoArticle.className = 'todo todo-list';
 	todoArticle.setAttribute('draggable', 'true');
 	todoArticle.addEventListener('dragstart', function(event) {
 		drag(event);
