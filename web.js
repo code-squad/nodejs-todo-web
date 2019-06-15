@@ -1,8 +1,8 @@
 const taskInput = document.getElementById("new-task");//Add a new task.
 const addButton = document.getElementsByTagName("button")[0];//first button
 const incompleteTaskHolder = document.getElementById("incomplete-tasks");//ul of #incomplete-tasks
-const completedTasksHolder = document.getElementById("completed-tasks");//ul of #completed-tasks
-const inProgressTaskHolder = document.getElementById('inprogress-tasks');
+const completedTasksHolder = document.getElementById("completed-tasks"); //ul of #completed-tasks
+const inProgressTaskHolder = document.getElementById('inprogress-tasks'); //ul of #inprogress-tasks
 
 
 //New task list item
@@ -26,7 +26,6 @@ const createNewTaskElement = function (taskString) {
     editButton.className = "edit";
     deleteButton.innerText = "Delete";
     deleteButton.className = "delete";
-
 
     //and appending.
     listItem.appendChild(checkBox);
@@ -122,11 +121,9 @@ const bindTaskEvents = function (taskListItem, checkBoxEventHandler) {
     const editButton = taskListItem.querySelector("button.edit");
     const deleteButton = taskListItem.querySelector("button.delete");
 
-    //Bind editTask to edit button.
+    //Bind Task to button.
     editButton.onclick = editTask;
-    //Bind deleteTask to delete button.
     deleteButton.onclick = deleteTask;
-    //Bind taskCompleted to checkBoxEventHandler.
     checkBox.onchange = checkBoxEventHandler;
 };
 
@@ -149,10 +146,10 @@ const addDragEvent = function (listItem) {
         const offset = bounding.y + (bounding.height / 2);
 
         if (event.clientY - offset > 0) {
-            target.style['border-bottom'] = 'solid 4px blue';
+            target.style['border-bottom'] = 'solid 4px black';
             target.style['border-top'] = '';
         } else {
-            target.style['border-top'] = 'solid 4px blue';
+            target.style['border-top'] = 'solid 4px black';
             target.style['border-bottom'] = '';
         }
     });
@@ -166,7 +163,13 @@ const addDragEvent = function (listItem) {
     listItem.addEventListener('drop', function (event) {
         event.preventDefault();
         const target = getLI(event.target);
-        if (target.style['border-bottom'] !== '') {
+
+        if(target.children.length === 2){
+            target.style['border-bottom'] = '';
+            target.style['border-top'] = '';
+            target.children[1].appendChild(dragging)
+        }
+        else if (target.style['border-bottom'] !== '') {
             target.style['border-bottom'] = '';
             target.parentNode.insertBefore(dragging, event.target.nextSibling);
         } else {
@@ -176,11 +179,14 @@ const addDragEvent = function (listItem) {
     });
 
     function getLI(target) {
-        while (target.nodeName.toLowerCase() !== 'li' && target.nodeName.toLowerCase() !== 'body') {
+        while (target.nodeName.toLowerCase() !== 'div' && target.nodeName.toLowerCase() !== 'li' && target.nodeName.toLowerCase() !== 'body') {
             target = target.parentNode;
         }
+        console.log(target.nodeName.toLowerCase());
         if (target.nodeName.toLowerCase() === 'body') {
             return false
+        } else if(target.nodeName.toLowerCase() === 'div'){
+            return target;
         } else {
             return target;
         }
@@ -190,24 +196,27 @@ const addDragEvent = function (listItem) {
 
 //cycle over incompleteTaskHolder for each list item ul list
 for (let i = 0; i < incompleteTaskHolder.children.length; i++) {
-    console.log('test');
     bindTaskEvents(incompleteTaskHolder.children[i], taskInProgress);
     addDragEvent(incompleteTaskHolder.children[i]);
 }
 
 //cycle over completedTasksHolder for each item in ul list
 for (let i = 0; i < inProgressTaskHolder.children.length; i++) {
-    console.log('test2');
     bindTaskEvents(inProgressTaskHolder.children[i], taskCompleted);
     addDragEvent(inProgressTaskHolder.children[i]);
 }
 
 //cycle over completedTasksHolder for each item in ul list
 for (let i = 0; i < completedTasksHolder.children.length; i++) {
-    console.log('test3');
     bindTaskEvents(completedTasksHolder.children[i], taskIncomplete);
     addDragEvent(completedTasksHolder.children[i]);
 }
 
 
+const todoList_section = document.getElementById('todo-list');
+const doingList_section = document.getElementById('doing-list');
+const doneList_section = document.getElementById('completed-list');
 
+addDragEvent(todoList_section);
+addDragEvent(doingList_section);
+addDragEvent(doneList_section);
