@@ -1,32 +1,35 @@
 class AddEvent {
-    constructor(todoListMainDiv, text, btn) {
-        this.todoListMainDiv = todoListMainDiv;
-        this.text = text;
-        this.btn = btn;
+    constructor(todoListDiv, addText, addBtn) {
+        this.todoListDiv = todoListDiv;
+        this.addText = addText;
+        this.addBtn = addBtn;
     }
 
-    makeStoryDiv(index) {
+    AddStoryDiv(index) {
         const divStory = document.createElement('div');
         divStory.className = 'story';
+        divStory.draggable = true;
 
         const inputButton = document.createElement('input');
+        inputButton.addEventListener('click', () => inputButton.parentNode.remove() );
         inputButton.setAttribute('type', 'button');
         inputButton.className = 'story_delete';
         inputButton.value = 'x';
 
         const br = document.createElement('br');
         const b = document.createElement('b');
+        b.innerText = this.addText[index].value;
         b.className = 'story_inner_text';
-        b.innerText = this.text[index].value;
+        this.addText[index].value = '';
 
         divStory.append(inputButton);
         divStory.append(br);
         divStory.append(b);
 
-        this.todoListMainDiv[index].appendChild(divStory);
+        this.todoListDiv[index].appendChild(divStory);
     }
 
     click(index) {
-        this.btn[index].addEventListener('click', () => { this.makeStoryDiv(index); });
+        this.addBtn[index].addEventListener('click', () => this.AddStoryDiv(index) );
     }
 }
