@@ -65,12 +65,7 @@ const drop = event => {
 		document.querySelector(`#${dropAreaClassName}`).appendChild(data);
 	} else {
 		const cursorYLocation = event.clientY;
-		const appendTargetIndex = Array.from(dropAreaList).findIndex(element => {
-			const elementLocation = element.getBoundingClientRect();
-			const elementMiddleY = getElementMiddleY(elementLocation.top, elementLocation.bottom);
-
-			return elementMiddleY >= cursorYLocation;
-		});
+		const appendTargetIndex = getAppendTargetIndex(dropAreaList, cursorYLocation);
 
 		if (appendTargetIndex === -1) {
 			document.querySelector(`#${dropAreaClassName}`).appendChild(data);
@@ -80,6 +75,17 @@ const drop = event => {
 	}
 };
 
-const getElementMiddleY = (top, bottom) => {
-	return (top + bottom) / 2;
+const getElementMiddleY = element => {
+	const elementLocation = element.getBoundingClientRect();
+	return (elementLocation.top + elementLocation.bottom) / 2;
+};
+
+const getAppendTargetIndex = (dropAreaList, cursorYLocation) => {
+	const appendTargetIndex = Array.from(dropAreaList).findIndex(element => {
+		const elementMiddleY = getElementMiddleY(element);
+
+		return elementMiddleY >= cursorYLocation;
+	});
+
+	return appendTargetIndex;
 };
