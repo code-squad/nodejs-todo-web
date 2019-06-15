@@ -64,3 +64,29 @@ const deleteTask = function () {
     ul.removeChild(listItem);
 
 };
+
+//Mark task completed
+const taskCompleted = function () {
+    console.log("Complete Task...");
+
+    const listItem = this.parentNode;
+    console.log(listItem);
+    completedTasksHolder.appendChild(listItem);
+
+};
+
+//Mark task incomplete
+const taskIncomplete = function () {
+    console.log("Incomplete Task...");
+    const listItem = this.parentNode;
+    console.log(listItem);
+    incompleteTaskHolder.appendChild(listItem);
+};
+
+//Mark task in progress
+const taskInProgress = function () {
+    console.log("in Progress Task...");
+    const listItem = this.parentNode;
+    console.log(listItem);
+    inProgressTaskHolder.appendChild(listItem);
+};
