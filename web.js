@@ -34,6 +34,8 @@ const createNewTaskElement = function (taskString) {
     listItem.appendChild(editInput);
     listItem.appendChild(editButton);
     listItem.appendChild(deleteButton);
+    listItem.draggable = true;
+    addDragEvent(listItem);
     return listItem;
 };
 
@@ -110,6 +112,9 @@ const taskInProgress = function () {
     bindTaskEvents(listItem, taskCompleted);
 };
 
+// Bind event on addButton
+addButton.onclick = addTask;
+
 const bindTaskEvents = function (taskListItem, checkBoxEventHandler) {
     console.log("bind list item events");
     //select ListItems children
@@ -125,21 +130,84 @@ const bindTaskEvents = function (taskListItem, checkBoxEventHandler) {
     checkBox.onchange = checkBoxEventHandler;
 };
 
+
+// drag and drop test code
+let dragging = null;
+
+const addDragEvent = function (listItem) {
+
+    listItem.addEventListener('dragstart', function (event) {
+        dragging = getLI(event.target);
+        event.dataTransfer.setData('text/plain', null);
+        event.dataTransfer.setDragImage(dragging, 0, 0);
+    });
+
+    listItem.addEventListener('dragover', function (event) {
+        event.preventDefault();
+        const target = getLI(event.target);
+        const bounding = target.getBoundingClientRect();
+        const offset = bounding.y + (bounding.height / 2);
+
+        if (event.clientY - offset > 0) {
+            target.style['border-bottom'] = 'solid 4px blue';
+            target.style['border-top'] = '';
+        } else {
+            target.style['border-top'] = 'solid 4px blue';
+            target.style['border-bottom'] = '';
+        }
+    });
+
+    listItem.addEventListener('dragleave', function (event) {
+        const target = getLI(event.target);
+        target.style['border-bottom'] = '';
+        target.style['border-top'] = '';
+    });
+
+    listItem.addEventListener('drop', function (event) {
+        event.preventDefault();
+        const target = getLI(event.target);
+        if (target.style['border-bottom'] !== '') {
+            target.style['border-bottom'] = '';
+            target.parentNode.insertBefore(dragging, event.target.nextSibling);
+        } else {
+            target.style['border-top'] = '';
+            target.parentNode.insertBefore(dragging, event.target);
+        }
+    });
+
+    function getLI(target) {
+        while (target.nodeName.toLowerCase() !== 'li' && target.nodeName.toLowerCase() !== 'body') {
+            target = target.parentNode;
+        }
+        if (target.nodeName.toLowerCase() === 'body') {
+            return false
+        } else {
+            return target;
+        }
+    }
+};
+
+
 //cycle over incompleteTaskHolder for each list item ul list
 for (let i = 0; i < incompleteTaskHolder.children.length; i++) {
     console.log('test');
     bindTaskEvents(incompleteTaskHolder.children[i], taskInProgress);
+    addDragEvent(incompleteTaskHolder.children[i]);
 }
 
 //cycle over completedTasksHolder for each item in ul list
 for (let i = 0; i < inProgressTaskHolder.children.length; i++) {
     console.log('test2');
     bindTaskEvents(inProgressTaskHolder.children[i], taskCompleted);
+    addDragEvent(inProgressTaskHolder.children[i]);
 }
 
 //cycle over completedTasksHolder for each item in ul list
 for (let i = 0; i < completedTasksHolder.children.length; i++) {
     console.log('test3');
     bindTaskEvents(completedTasksHolder.children[i], taskIncomplete);
+    addDragEvent(completedTasksHolder.children[i]);
 }
+
+
 
