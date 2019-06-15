@@ -59,7 +59,25 @@ const allowDrop = event => {
 
 const drop = event => {
 	const dropAreaClassName = event.target.className.split(' ')[0];
-	document.querySelector(`#${dropAreaClassName}`).appendChild(data);
+	const dropAreaList = document.querySelector(`#${dropAreaClassName}`).children;
+
+	if (!dropAreaList.length) {
+		document.querySelector(`#${dropAreaClassName}`).appendChild(data);
+	} else {
+		const cursorYLocation = event.clientY;
+		const appendTargetIndex = Array.from(dropAreaList).findIndex(element => {
+			const elementLocation = element.getBoundingClientRect();
+			const elementMiddleY = getElementMiddleY(elementLocation.top, elementLocation.bottom);
+
+			return elementMiddleY >= cursorYLocation;
+		});
+
+		if (appendTargetIndex === -1) {
+			document.querySelector(`#${dropAreaClassName}`).appendChild(data);
+		} else {
+			document.querySelector(`#${dropAreaClassName}`).insertBefore(data, dropAreaList[appendTargetIndex]);
+		}
+	}
 };
 
 const getElementMiddleY = (top, bottom) => {
