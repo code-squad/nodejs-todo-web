@@ -61,3 +61,7 @@ const drop = event => {
 	const dropAreaClassName = event.target.className.split(' ')[0];
 	document.querySelector(`#${dropAreaClassName}`).appendChild(data);
 };
+
+const getElementMiddleY = (top, bottom) => {
+	return (top + bottom) / 2;
+};
