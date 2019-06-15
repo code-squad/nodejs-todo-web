@@ -62,12 +62,12 @@ TodoFront.prototype.allowDrop = function(event) {
 };
 
 TodoFront.prototype.drop = function(event) {
-	const dropAreaClassName = event.target.className;
+	const dropAreaClassName = event.target.className.split(' ')[0];
 	if (dropAreaClassName === 'todo-list') {
 		let dropAreaId = event.target.parentNode.id;
 		this.dropBetweenElements(event, dropAreaId);
 	} else {
-		dropAreaId = dropAreaClassName.split(' ')[0];
+		dropAreaId = dropAreaClassName;
 		const dropAreaList = document.querySelector(`#${dropAreaId}`).children;
 		if (!dropAreaList.length) {
 			document.querySelector(`#${dropAreaId}`).appendChild(this.dragData);
