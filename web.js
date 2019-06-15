@@ -90,3 +90,18 @@ const taskInProgress = function () {
     console.log(listItem);
     inProgressTaskHolder.appendChild(listItem);
 };
+
+const bindTaskEvents = function (taskListItem, checkBoxEventHandler) {
+    console.log("bind list item events");
+    //select ListItems children
+    const checkBox = taskListItem.querySelector("input[type=checkbox]");
+    const editButton = taskListItem.querySelector("button.edit");
+    const deleteButton = taskListItem.querySelector("button.delete");
+
+    //Bind editTask to edit button.
+    editButton.onclick = editTask;
+    //Bind deleteTask to delete button.
+    deleteButton.onclick = deleteTask;
+    //Bind taskCompleted to checkBoxEventHandler.
+    checkBox.onchange = checkBoxEventHandler;
+};
