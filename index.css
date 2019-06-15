@@ -23,3 +23,36 @@ h1 {
     height: 95%;
     margin: 0 auto;
 }
+
+.contents_section {
+    background-image: url('./my_background_image.png');
+    background-position: center;
+    background-size: cover;
+    opacity: 0.8;
+    width: 100%;
+    height: 95%;
+}
+
+#sub_contents_section {
+    padding-top: 2rem;
+    margin: 0 auto;
+    width: 100%;
+    height: 93%;
+}
+
+#todo_list_section {
+    justify-content: space-around;
+    align-items: flex-start;
+    display: flex;
+    width: 100%;
+    height: auto;
+}
+
+.todo_list {
+    background-color: darkgray;
+    border-radius: 1rem;
+    margin-left: 1rem;
+    margin-right: 1rem;
+    width: 30rem;
+    height: auto;
+}
