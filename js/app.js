@@ -64,21 +64,20 @@ TodoFront.prototype.allowDrop = function(event) {
 TodoFront.prototype.drop = function(event) {
 	const dropAreaClassName = event.target.className.split(' ')[0];
 	if (dropAreaClassName === 'todo-list') {
-		let dropAreaId = event.target.parentNode.id;
-		this.dropBetweenElements(event, dropAreaId);
+		this.dropBetweenElements(event);
 	} else {
-		dropAreaId = dropAreaClassName;
-		const dropAreaList = document.querySelector(`#${dropAreaId}`).children;
+		const dropAreaList = document.querySelector(`#${dropAreaClassName}`).children;
 		if (!dropAreaList.length) {
-			document.querySelector(`#${dropAreaId}`).appendChild(this.dragData);
+			document.querySelector(`#${dropAreaClassName}`).appendChild(this.dragData);
 		} else {
-			this.dropBetweenElements(event, dropAreaId);
+			this.dropBetweenElements(event);
 		}
 	}
 };
 
-TodoFront.prototype.dropBetweenElements = function(event, dropAreaId) {
+TodoFront.prototype.dropBetweenElements = function(event) {
 	const cursorYLocation = event.clientY;
+	const dropAreaId = event.target.parentNode.id;
 	const dropAreaList = document.querySelector(`#${dropAreaId}`).children;
 
 	const appendTargetIndex = this.getAppendTargetIndex(dropAreaList, cursorYLocation);
