@@ -42,6 +42,12 @@ const addTask = function () {
     //Create a new list item with the text from the #new-task:
     const listItem = createNewTaskElement(taskInput.value);
 
+    //Append listItem to incompleteTaskHolder
+    incompleteTaskHolder.appendChild(listItem);
+    bindTaskEvents(listItem, taskInProgress);
+
+    taskInput.value = "";
+
 };
 
 //Edit an existing task.
@@ -51,6 +57,17 @@ const editTask = function () {
 
     const listItem = this.parentNode;
 
+    const editInput = listItem.querySelector('input[type=text]');
+    const label = listItem.querySelector("label");
+    const containsClass = listItem.classList.contains("editMode");
+    //If class of the parent is .editmode
+    if (containsClass) {
+        label.innerText = editInput.value;
+    } else {
+        editInput.value = label.innerText;
+    }
+    //toggle .editmode on the parent.
+    listItem.classList.toggle("editMode");
 };
 
 
@@ -72,7 +89,7 @@ const taskCompleted = function () {
     const listItem = this.parentNode;
     console.log(listItem);
     completedTasksHolder.appendChild(listItem);
-
+    bindTaskEvents(listItem, taskIncomplete);
 };
 
 //Mark task incomplete
@@ -81,6 +98,7 @@ const taskIncomplete = function () {
     const listItem = this.parentNode;
     console.log(listItem);
     incompleteTaskHolder.appendChild(listItem);
+    bindTaskEvents(listItem, taskInProgress);
 };
 
 //Mark task in progress
@@ -89,6 +107,7 @@ const taskInProgress = function () {
     const listItem = this.parentNode;
     console.log(listItem);
     inProgressTaskHolder.appendChild(listItem);
+    bindTaskEvents(listItem, taskCompleted);
 };
 
 const bindTaskEvents = function (taskListItem, checkBoxEventHandler) {
@@ -105,3 +124,4 @@ const bindTaskEvents = function (taskListItem, checkBoxEventHandler) {
     //Bind taskCompleted to checkBoxEventHandler.
     checkBox.onchange = checkBoxEventHandler;
 };
+
