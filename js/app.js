@@ -68,11 +68,15 @@ TodoFront.prototype.drop = function(event) {
 	} else {
 		const dropAreaList = document.querySelector(`#${dropAreaClassName}`).children;
 		if (!dropAreaList.length) {
-			document.querySelector(`#${dropAreaClassName}`).appendChild(this.dragData);
+			this.dropAppendElement(dropAreaClassName);
 		} else {
 			this.dropBetweenElements(event);
 		}
 	}
+};
+
+TodoFront.prototype.dropAppendElement = function(appendElement) {
+	document.querySelector(`#${appendElement}`).appendChild(this.dragData);
 };
 
 TodoFront.prototype.dropBetweenElements = function(event) {
@@ -82,7 +86,7 @@ TodoFront.prototype.dropBetweenElements = function(event) {
 
 	const appendTargetIndex = this.getAppendTargetIndex(dropAreaList, cursorYLocation);
 	if (appendTargetIndex === -1) {
-		document.querySelector(`#${dropAreaId}`).appendChild(this.dragData);
+		this.dropAppendElement(dropAreaId);
 	} else {
 		document.querySelector(`#${dropAreaId}`).insertBefore(this.dragData, dropAreaList[appendTargetIndex]);
 	}
