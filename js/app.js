@@ -44,7 +44,7 @@ TodoFront.prototype.addTodoList = function() {
 	const todoContent = document.createTextNode(addTodo);
 
 	todoArticle.appendChild(todoContent);
-	todoArticle.className = 'todo todo-list';
+	todoArticle.className = 'todo-list';
 	todoArticle.setAttribute('draggable', 'true');
 	todoArticle.addEventListener('dragstart', event => {
 		this.drag(event);
@@ -62,20 +62,30 @@ TodoFront.prototype.allowDrop = function(event) {
 };
 
 TodoFront.prototype.drop = function(event) {
-	const dropAreaClassName = event.target.className.split(' ')[0];
-	const dropAreaList = document.querySelector(`#${dropAreaClassName}`).children;
-
-	if (!dropAreaList.length) {
-		document.querySelector(`#${dropAreaClassName}`).appendChild(this.dragData);
+	const dropAreaClassName = event.target.className;
+	if (dropAreaClassName === 'todo-list') {
+		let dropAreaId = event.target.parentNode.id;
+		this.dropBetweenElements(event, dropAreaId);
 	} else {
-		const cursorYLocation = event.clientY;
-		const appendTargetIndex = this.getAppendTargetIndex(dropAreaList, cursorYLocation);
-
-		if (appendTargetIndex === -1) {
-			document.querySelector(`#${dropAreaClassName}`).appendChild(this.dragData);
+		dropAreaId = dropAreaClassName.split(' ')[0];
+		const dropAreaList = document.querySelector(`#${dropAreaId}`).children;
+		if (!dropAreaList.length) {
+			document.querySelector(`#${dropAreaId}`).appendChild(this.dragData);
 		} else {
-			document.querySelector(`#${dropAreaClassName}`).insertBefore(this.dragData, dropAreaList[appendTargetIndex]);
+			this.dropBetweenElements(event, dropAreaId);
 		}
+	}
+};
+
+TodoFront.prototype.dropBetweenElements = function(event, dropAreaId) {
+	const cursorYLocation = event.clientY;
+	const dropAreaList = document.querySelector(`#${dropAreaId}`).children;
+
+	const appendTargetIndex = this.getAppendTargetIndex(dropAreaList, cursorYLocation);
+	if (appendTargetIndex === -1) {
+		document.querySelector(`#${dropAreaId}`).appendChild(this.dragData);
+	} else {
+		document.querySelector(`#${dropAreaId}`).insertBefore(this.dragData, dropAreaList[appendTargetIndex]);
 	}
 };
 
@@ -87,10 +97,8 @@ TodoFront.prototype.getElementMiddleY = function(element) {
 TodoFront.prototype.getAppendTargetIndex = function(dropAreaList, cursorYLocation) {
 	const appendTargetIndex = Array.from(dropAreaList).findIndex(element => {
 		const elementMiddleY = this.getElementMiddleY(element);
-
 		return elementMiddleY >= cursorYLocation;
 	});
-
 	return appendTargetIndex;
 };
 
