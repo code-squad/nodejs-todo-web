@@ -37,3 +37,30 @@ const createNewTaskElement = function (taskString) {
     return listItem;
 };
 
+const addTask = function () {
+    console.log("Add Task...");
+    //Create a new list item with the text from the #new-task:
+    const listItem = createNewTaskElement(taskInput.value);
+
+};
+
+//Edit an existing task.
+const editTask = function () {
+    console.log("Edit Task...");
+    console.log("Change 'edit' to 'save'");
+
+    const listItem = this.parentNode;
+
+};
+
+
+//Delete task.
+const deleteTask = function () {
+    console.log("Delete Task...");
+
+    const listItem = this.parentNode;
+    const ul = listItem.parentNode;
+    //Remove the parent list item from the ul.
+    ul.removeChild(listItem);
+
+};
