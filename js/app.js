@@ -118,5 +118,9 @@ TodoFront.prototype.getAppendTargetIndex = function(dropAreaList, cursorYLocatio
 	return appendTargetIndex;
 };
 
+TodoFront.prototype.deleteElement = function() {
+	this.dragData.remove();
+};
+
 const todoFront = new TodoFront();
 todoFront.load();
