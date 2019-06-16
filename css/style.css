@@ -19,6 +19,7 @@ body {
 	font-weight: bold;
 	color: #ffa9a9;
 	margin-bottom: 25px;
+	user-select: none;
 }
 #headerContent {
 	display: flex;
@@ -38,6 +39,7 @@ body {
 }
 ::placeholder {
 	color: rgb(190, 190, 190);
+	user-select: none;
 }
 #addButton {
 	background-color: #eaeaea;
