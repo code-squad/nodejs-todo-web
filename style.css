@@ -1,0 +1,17 @@
+.column-box {
+    float: left;
+    margin: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: rgb(214, 216, 230);
+}
+.task-list {
+    list-style: none;
+    padding-left: 0px;
+}
+.task-list > li {
+    margin-bottom: 10px;
+    padding-left: 10px;
+    border-radius: 5px;
+    background-color: white;
+}
