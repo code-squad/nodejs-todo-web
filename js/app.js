@@ -7,7 +7,7 @@ TodoFront.prototype.load = function() {
 		const addTodo = document.querySelector('#addTodo');
 		const addButton = document.querySelector('#addButton');
 		const todos = document.querySelectorAll('.todos');
-		const toss = document.querySelectorAll('.toss');
+		const toss = document.querySelector('.toss');
 
 		addTodo.addEventListener('keyup', event => {
 			if (event.keyCode === 13) {
@@ -31,16 +31,12 @@ TodoFront.prototype.load = function() {
 			});
 		});
 
-		toss.forEach(element => {
-			element.addEventListener('dragover', event => {
-				this.allowDrop(event);
-			});
+		toss.addEventListener('dragover', event => {
+			this.allowDrop(event);
 		});
 
-		toss.forEach(element => {
-			element.addEventListener('drop', event => {
-				this.drop(event);
-			});
+		toss.addEventListener('drop', event => {
+			this.drop(event);
 		});
 	});
 };
