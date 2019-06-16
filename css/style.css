@@ -110,4 +110,5 @@ body {
 	left: 0;
 	width: 100vw;
 	height: 100vh;
+	user-select: none;
 }
