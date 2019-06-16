@@ -1,12 +1,16 @@
 class AddEvent {
-    constructor(todoListDiv, addText, addBtn) {
-        this.todoListDiv = todoListDiv;
+    constructor(dragDropEvent, todoMainDiv, addText, addBtn) {
+        this.dragDropEvent = dragDropEvent;
+        this.todoMainDiv = todoMainDiv;
         this.addText = addText;
         this.addBtn = addBtn;
+        this.count = 0;
     }
 
     AddStoryDiv(index) {
         const divStory = document.createElement('div');
+        divStory.addEventListener('dragstart', () => dragDropEvent.drag(event) );
+        divStory.id = 'drag' + this.count++;
         divStory.className = 'story';
         divStory.draggable = true;
 
@@ -26,7 +30,7 @@ class AddEvent {
         divStory.append(br);
         divStory.append(b);
 
-        this.todoListDiv[index].appendChild(divStory);
+        this.todoMainDiv[index].appendChild(divStory);
     }
 
     click(index) {
