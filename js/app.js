@@ -57,7 +57,7 @@ TodoFront.prototype.addTodoList = function() {
 	const todoContent = document.createTextNode(addTodo);
 
 	todoArticle.appendChild(todoContent);
-	todoArticle.className = 'todo-list';
+	todoArticle.className = 'list';
 	todoArticle.setAttribute('draggable', 'true');
 	todoArticle.addEventListener('dragstart', event => {
 		this.drag(event);
@@ -80,13 +80,13 @@ TodoFront.prototype.drop = function(event) {
 	if (dropAreaClassName === 'toss') {
 		return this.deleteElement();
 	}
-	if (dropAreaClassName === 'todo-list') {
-		return this.dropTodoListArea(event);
+	if (dropAreaClassName === 'list') {
+		return this.dropListArea(event);
 	}
 	this.dropTodosArea(event, dropAreaClassName);
 };
 
-TodoFront.prototype.dropTodoListArea = function(event) {
+TodoFront.prototype.dropListArea = function(event) {
 	const dropAreaId = this.getDropAreaId(event);
 	this.dropBetweenElements(event, dropAreaId);
 };
@@ -94,7 +94,7 @@ TodoFront.prototype.dropTodoListArea = function(event) {
 TodoFront.prototype.dropTodosArea = function(event, dropAreaClassName) {
 	const dropAreaList = this.getDropAreaList(dropAreaClassName);
 	if (!dropAreaList.length) {
-		return this.dropAppendElement(dropAreaClassName);
+		return this.dropEndElement(dropAreaClassName);
 	}
 	this.dropBetweenElements(event, dropAreaClassName);
 };
@@ -107,7 +107,7 @@ TodoFront.prototype.getDropAreaId = function(event) {
 	return event.target.parentNode.id;
 };
 
-TodoFront.prototype.dropAppendElement = function(appendElement) {
+TodoFront.prototype.dropEndElement = function(appendElement) {
 	document.querySelector(`#${appendElement}`).appendChild(this.dragData);
 };
 
@@ -117,7 +117,7 @@ TodoFront.prototype.dropBetweenElements = function(event, dropAreaId) {
 
 	const appendTargetIndex = this.getAppendTargetIndex(dropAreaList, cursorYLocation);
 	if (appendTargetIndex === -1) {
-		return this.dropAppendElement(dropAreaId);
+		return this.dropEndElement(dropAreaId);
 	}
 	document.querySelector(`#${dropAreaId}`).insertBefore(this.dragData, dropAreaList[appendTargetIndex]);
 };
