@@ -24,6 +24,7 @@ body {
 #headerContent {
 	display: flex;
 	justify-content: center;
+	user-select: none;
 }
 #addTodo {
 	font-size: 17px;
@@ -39,7 +40,6 @@ body {
 }
 ::placeholder {
 	color: rgb(190, 190, 190);
-	user-select: none;
 }
 #addButton {
 	background-color: #eaeaea;
@@ -68,6 +68,7 @@ body {
 	margin: 0 15px 50px 21px;
 	padding-bottom: 30px;
 	z-index: 1;
+	user-select: none;
 }
 .todos-title {
 	font-family: 'Nanum Square';
@@ -75,7 +76,6 @@ body {
 	font-size: 20px;
 	text-align: left;
 	padding: 10px 0 10px 10px;
-	user-select: none;
 }
 .todos-underline {
 	width: 95%;
