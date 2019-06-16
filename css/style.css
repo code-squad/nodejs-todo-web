@@ -80,7 +80,7 @@ body {
 .todos-underline {
 	width: 95%;
 }
-.todo-list {
+.list {
 	position: relative;
 	background-color: white;
 	border-bottom: 1px solid #c9c7c7;
@@ -92,7 +92,7 @@ body {
 	word-break: break-all;
 	cursor: pointer;
 }
-.todo-list:before {
+.list:before {
 	position: absolute;
 	border-left: 4px double #ffa8a8;
 	content: '';
