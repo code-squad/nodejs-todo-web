@@ -81,9 +81,17 @@ TodoFront.prototype.drop = function(event) {
 		return this.deleteElement();
 	}
 	if (dropAreaClassName === 'todo-list') {
-		const dropAreaId = this.getDropAreaId(event);
-		return this.dropBetweenElements(event, dropAreaId);
+		return this.dropTodoListArea(event);
 	}
+	this.dropTodosArea(event, dropAreaClassName);
+};
+
+TodoFront.prototype.dropTodoListArea = function(event) {
+	const dropAreaId = this.getDropAreaId(event);
+	this.dropBetweenElements(event, dropAreaId);
+};
+
+TodoFront.prototype.dropTodosArea = function(event, dropAreaClassName) {
 	const dropAreaList = this.getDropAreaList(dropAreaClassName);
 	if (!dropAreaList.length) {
 		return this.dropAppendElement(dropAreaClassName);
@@ -109,10 +117,9 @@ TodoFront.prototype.dropBetweenElements = function(event, dropAreaId) {
 
 	const appendTargetIndex = this.getAppendTargetIndex(dropAreaList, cursorYLocation);
 	if (appendTargetIndex === -1) {
-		this.dropAppendElement(dropAreaId);
-	} else {
-		document.querySelector(`#${dropAreaId}`).insertBefore(this.dragData, dropAreaList[appendTargetIndex]);
+		return this.dropAppendElement(dropAreaId);
 	}
+	document.querySelector(`#${dropAreaId}`).insertBefore(this.dragData, dropAreaList[appendTargetIndex]);
 };
 
 TodoFront.prototype.getElementMiddleY = function(element) {
