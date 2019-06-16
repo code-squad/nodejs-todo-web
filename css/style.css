@@ -3,7 +3,7 @@
 body {
 	background-image: url('./img/overall-background.png');
 	background-color: #ffffff;
-	height: 100vh;
+	height: 100%;
 }
 #mainHeader {
 	position: relative;
@@ -106,9 +106,11 @@ body {
 }
 .toss {
 	position: fixed;
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	overflow: hidden;
 	top: 0;
 	left: 0;
-	width: 100vw;
-	height: 100vh;
 	user-select: none;
 }
