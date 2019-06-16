@@ -45,6 +45,26 @@ TodoFront.prototype.load = function() {
 	});
 };
 
+TodoFront.prototype.drag = function(event) {
+	this.dragData = event.target;
+};
+
+TodoFront.prototype.drop = function(event) {
+	const dropAreaClassName = event.target.className.split(' ')[0];
+
+	if (dropAreaClassName === 'toss') {
+		return this.deleteElement();
+	}
+	if (dropAreaClassName === 'list') {
+		return this.dropListArea(event);
+	}
+	this.dropTodosArea(event, dropAreaClassName);
+};
+
+TodoFront.prototype.allowDrop = function(event) {
+	event.preventDefault();
+};
+
 TodoFront.prototype.addTodoList = function() {
 	const addTodo = document.querySelector('#addTodo').value;
 
@@ -66,24 +86,8 @@ TodoFront.prototype.addTodoList = function() {
 	document.querySelector('#addTodo').value = '';
 };
 
-TodoFront.prototype.drag = function(event) {
-	this.dragData = event.target;
-};
-
-TodoFront.prototype.allowDrop = function(event) {
-	event.preventDefault();
-};
-
-TodoFront.prototype.drop = function(event) {
-	const dropAreaClassName = event.target.className.split(' ')[0];
-
-	if (dropAreaClassName === 'toss') {
-		return this.deleteElement();
-	}
-	if (dropAreaClassName === 'list') {
-		return this.dropListArea(event);
-	}
-	this.dropTodosArea(event, dropAreaClassName);
+TodoFront.prototype.deleteElement = function() {
+	this.dragData.remove();
 };
 
 TodoFront.prototype.dropListArea = function(event) {
@@ -97,14 +101,6 @@ TodoFront.prototype.dropTodosArea = function(event, dropAreaClassName) {
 		return this.dropEndElement(dropAreaClassName);
 	}
 	this.dropBetweenElements(event, dropAreaClassName);
-};
-
-TodoFront.prototype.getDropAreaList = function(dropAreaId) {
-	return document.querySelector(`#${dropAreaId}`).children;
-};
-
-TodoFront.prototype.getDropAreaId = function(event) {
-	return event.target.parentNode.id;
 };
 
 TodoFront.prototype.dropEndElement = function(appendElement) {
@@ -122,6 +118,14 @@ TodoFront.prototype.dropBetweenElements = function(event, dropAreaId) {
 	document.querySelector(`#${dropAreaId}`).insertBefore(this.dragData, dropAreaList[appendTargetIndex]);
 };
 
+TodoFront.prototype.getDropAreaList = function(dropAreaId) {
+	return document.querySelector(`#${dropAreaId}`).children;
+};
+
+TodoFront.prototype.getDropAreaId = function(event) {
+	return event.target.parentNode.id;
+};
+
 TodoFront.prototype.getElementMiddleY = function(element) {
 	const elementLocation = element.getBoundingClientRect();
 	return (elementLocation.top + elementLocation.bottom) / 2;
@@ -133,10 +137,6 @@ TodoFront.prototype.getAppendTargetIndex = function(dropAreaList, cursorYLocatio
 		return elementMiddleY >= cursorYLocation;
 	});
 	return appendTargetIndex;
-};
-
-TodoFront.prototype.deleteElement = function() {
-	this.dragData.remove();
 };
 
 const todoFront = new TodoFront();
