@@ -1,27 +1,69 @@
 class DragDropEvent {
-    dragOver(ev) { 
-        ev.preventDefault();
-        ev.dataTransfer.dragEffect = 'move';
+    dragOver(event) { 
+        event.preventDefault();
+        event.dataTransfer.dragEffect = 'move';
     }
 
-    drag(ev) { 
-        ev.dataTransfer.setData("text", ev.target.id); 
+    drag(event) { 
+        event.dataTransfer.setData("text", event.target.id); 
     }
 
-    drop(ev) {
-        const target = {
-            'todo_list_main'    : ev.target,
-            'story'             : ev.target.parentNode,
-            'todo_list'         : ev.target.childNodes[3],
-            'todo_list_title'   : ev.target.nextElementSibling,
-            'todo_list_input'   : ev.target.previousElementSibling,
-            'story_input'       : ev.target.parentNode.previousElementSibling,
-            'story_add'         : ev.target.parentNode.previousElementSibling,
-        }
-
-        ev.preventDefault(); 
-        const data = ev.dataTransfer.getData("text");
+    drop(event) {
+        event.preventDefault(); 
+        const data = event.dataTransfer.getData("text");
         const storyDiv = document.getElementById(data);
-        target[ev.target.className].appendChild(storyDiv);
+        this.handleDrop(event, storyDiv);
+    }
+
+    getElement(event, className) {
+        const element = {
+            // Key : className of div tag
+            // Value : element (node)
+            'story'             : event.target,
+            'todo_list_main'    : event.target.childNodes,
+            'todo_list'         : event.target.childNodes.item(3),
+            'todo_list_title'   : event.target.nextElementSibling,
+            'todo_list_input'   : event.target.previousElementSibling,
+            'story_input'       : event.target.parentNode.previousElementSibling,
+            'story_add'         : event.target.parentNode.previousElementSibling,
+        };
+        return element[className];
+    }
+
+    getRectTop(element) { 
+        return element.getBoundingClientRect().top; 
+    }
+
+    getRectBottom(element) {
+        return element.getBoundingClientRect().bottom;
+    }
+
+    getMidY(element) {
+        return (this.getRectTop(element)+ this.getRectBottom(element)) / 2;
+    }
+
+    getIndex(element, pageY) {
+        const length = element.length;
+        let start = 0, end = length - 1;
+        while(start < end) {
+            const mid = parseInt((start + end) / 2);
+            const posY = this.getRectTop(element.item(mid));
+            if (pageY >= posY) start = mid + 1;
+            else end = mid;
+        }
+        return end;
+    }
+
+    handleDrop(event, object) {
+        const className = event.target.className;
+        const element = this.getElement(event, className);
+        if (className === 'todo_list_main') {
+            const index = this.getIndex(element, event.pageY);
+            element.item(index).before(object);
+        } else if (className === 'story') {
+            const midY = this.getMidY(element);
+            if (midY < event.pageY) element.after(object);
+            else element.before(object);
+        } else element.appendChild(object);
     }
 }

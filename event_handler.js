@@ -3,9 +3,9 @@ const storyInputText = document.querySelectorAll('.story_input');
 const storyAddBtn = document.querySelectorAll('.story_add');
 
 const dragDropEvent = new DragDropEvent();
-for (let i = 0; i < todoListMainDiv.length; i++) {
-    todoListMainDiv[i].parentNode.addEventListener('drop', () => dragDropEvent.drop(event) );
-    todoListMainDiv[i].parentNode.addEventListener('dragover', () => dragDropEvent.dragOver(event) );
+for (const element of todoListMainDiv) {
+    element.parentNode.addEventListener('drop', () => dragDropEvent.drop(event) );
+    element.parentNode.addEventListener('dragover', () => dragDropEvent.dragOver(event) );
 }
 
 const addEvent = new AddEvent(dragDropEvent, todoListMainDiv, storyInputText, storyAddBtn);

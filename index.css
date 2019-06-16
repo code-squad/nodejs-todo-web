@@ -80,7 +80,6 @@ input {
 
 .todo_list_main {
     margin: 0 auto;
-    margin-top: 10px;
     max-height: 750px;
     width: 90%;
     overflow: auto;
