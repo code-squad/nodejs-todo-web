@@ -76,7 +76,10 @@ TodoFront.prototype.allowDrop = function(event) {
 
 TodoFront.prototype.drop = function(event) {
 	const dropAreaClassName = event.target.className.split(' ')[0];
-	if (dropAreaClassName === 'todo-list') {
+
+	if (dropAreaClassName === 'toss') {
+		this.deleteElement();
+	} else if (dropAreaClassName === 'todo-list') {
 		this.dropBetweenElements(event);
 	} else {
 		const dropAreaList = document.querySelector(`#${dropAreaClassName}`).children;
