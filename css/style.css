@@ -3,10 +3,13 @@
 body {
 	background-image: url('./img/overall-background.png');
 	background-color: #ffffff;
+	height: 100vh;
 }
 #mainHeader {
+	position: relative;
+	top: 40px;
 	text-align: center;
-	margin: 40px 0 40px 0;
+	margin: 0 0 40px 0;
 }
 #headerTitle {
 	text-decoration: underline;
@@ -31,6 +34,7 @@ body {
 	width: 450px;
 	height: 55px;
 	outline: none;
+	z-index: 1;
 }
 ::placeholder {
 	color: rgb(190, 190, 190);
@@ -44,8 +48,11 @@ body {
 	height: 55px;
 	outline: none;
 	cursor: pointer;
+	z-index: 1;
 }
 #todos-section {
+	position: relative;
+	top: 40px;
 	width: 90%;
 	margin: auto;
 }
@@ -58,6 +65,7 @@ body {
 	box-shadow: 1px 1px 2px 2px #d6d6d6;
 	margin: 0 15px 50px 21px;
 	padding-bottom: 30px;
+	z-index: 100;
 }
 .todos-title {
 	font-family: 'Nanum Square';
@@ -93,4 +101,11 @@ body {
 .dropArea {
 	width: 100%;
 	min-height: 30px;
+}
+.toss {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
 }
