@@ -71,35 +71,35 @@ const Index = class {
   }
 
   makeInputEvent(event) {
-    const addInputBoxBtn = event.target;
-    const board = addInputBoxBtn.parentElement;
+    const inputCreateBtn = event.target;
+    const board = inputCreateBtn.parentElement;
 
     const inputTextArea = this.createElement('textarea', ['card-title-input'], {
       "placeholder": "Enter a title for this card ..."
     }, null);
 
-    const inputCancelCardBtn = this.createElement('span', ['cancel-card-btn'], {}, "취소");
+    const inputCancelBtn = this.createElement('span', ['cancel-card-btn'], {}, "취소");
     const inputSubmitBtn = this.createElement('button', ['submit-card-btn'], {
       "type": "submit"
     }, "ADD CARD");
-    const inputSectionElement = this.createElement('section', ['add-card-input-wrapper'], {}, null);
+    const inputSection = this.createElement('section', ['add-card-input-wrapper'], {}, null);
 
-    inputSectionElement.appendChild(inputTextArea);
-    inputSectionElement.appendChild(inputCancelCardBtn);
-    inputSectionElement.appendChild(inputSubmitBtn);
+    inputSection.appendChild(inputTextArea);
+    inputSection.appendChild(inputCancelBtn);
+    inputSection.appendChild(inputSubmitBtn);
 
-    addInputBoxBtn.parentElement.appendChild(inputSectionElement);
-    addInputBoxBtn.parentElement.removeChild(addInputBoxBtn);
+    board.appendChild(inputSection);
+    board.removeChild(inputCreateBtn);
 
     const submitCardBtns = board.getElementsByClassName('submit-card-btn');
     const cancelCardBtns = board.getElementsByClassName('cancel-card-btn');
 
     Array.from(submitCardBtns).forEach((submitCardBtn) => {
-      this.addSubmitCardEvent(addInputBoxBtn, submitCardBtn);
+      this.addSubmitCardEvent(inputCreateBtn, submitCardBtn);
     })
 
     Array.from(cancelCardBtns).forEach((cancelCardBtn) => {
-      this.addCancelCardEvent(addInputBoxBtn, cancelCardBtn);
+      this.addCancelCardEvent(inputCreateBtn, cancelCardBtn);
     })
   }
 
