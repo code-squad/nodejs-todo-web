@@ -1,0 +1,71 @@
+#main-title {
+  text-align: center;
+  color: rgb(13, 4, 63);
+  font-size: 90px;
+}
+
+#main-board {
+  background-color: rgb(1, 1, 19);
+  border-radius: 10px;
+  text-align: center;
+  padding: 150px;
+  font-weight: 400;
+  font-size: 15px;
+}
+
+.list-title {
+  text-align: center;
+  color: rgb(9, 0, 41);
+  font-size: 30px;
+  font-weight: 600;
+}
+
+.todo-list {
+  width: 25%;
+  background-color: rgb(161, 193, 253);
+  float: left;
+  margin: 10px;
+  padding: 30px;
+  border-radius: 10px;
+}
+
+.doing-list {
+  width: 25%;
+  background-color: rgb(161, 193, 253);
+  float: left;
+  margin: 10px;
+  padding: 30px;
+  border-radius: 10px;
+}
+
+.done-list {
+  width: 25%;
+  background-color: rgb(161, 193, 253);
+  float: left;
+  margin: 10px;
+  padding: 30px;
+  border-radius: 10px;
+}
+
+.card {
+  background-color: rgb(255, 255, 255);
+  padding: 25px;
+  margin-bottom: 15px;
+  word-wrap: break-word;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 10px;
+  color: white;
+  cursor: pointer;
+}
+
+.add-card-btn {
+  margin-top: 10px;
+  padding: 10px;
+  background-color: rgb(16, 4, 71);
+  font-weight: 600;
+  border-radius: 10px;
+  color: white;
+  cursor: pointer;
+  
+}
