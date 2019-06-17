@@ -1,3 +1,21 @@
+::-webkit-scrollbar {
+  width: 15px;
+}
+
+::-webkit-scrollbar-track {
+  background: cyan;
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: pink
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: hotpink;
+}
+
 body {
   background: #74ebd5;  /* fallback for old browsers */
   background: -webkit-linear-gradient(to right, #ACB6E5, #74ebd5);  /* Chrome 10-25, Safari 5.1-6 */
