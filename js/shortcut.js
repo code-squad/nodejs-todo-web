@@ -19,11 +19,9 @@ const $ = (() => (names, parentElement = document) => {
 })();
 
 const getClassList = (className, parentElement = document) => {
-  element = parentElement.getElementsByClassName(className);
-  return element;
+  return parentElement.getElementsByClassName(className);
 }
 
 const getIdElement = (id, parentElement = document) => {
-  element = parentElement.getElementById(id);
-  return element;
+  return parentElement.getElementById(id);
 }
