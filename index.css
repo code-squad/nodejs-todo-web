@@ -87,6 +87,7 @@ input {
 
 .story {
     background-color: aliceblue;
+    word-break: break-all;
     border-radius: 10px;
     margin-right: 5px;
     margin-top: 20px;
@@ -123,5 +124,9 @@ input {
 .story_inner_text {
     font-family: monospace;
     font-size: 15px;
-    margin: 15px;
+    margin-top: 5px;
+    margin-left: 5%;
+    width: 90%;
+    height: 50px;
+    overflow: auto;
 }

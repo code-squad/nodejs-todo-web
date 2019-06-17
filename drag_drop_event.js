@@ -26,6 +26,8 @@ class DragDropEvent {
             'todo_list_input'   : event.target.previousElementSibling,
             'story_input'       : event.target.parentNode.previousElementSibling,
             'story_add'         : event.target.parentNode.previousElementSibling,
+            'story_inner_text'  : event.target.parentNode,
+            'story_delete'      : event.target.parentNode,
         };
         return element[className];
     }
@@ -39,7 +41,7 @@ class DragDropEvent {
     }
 
     getMidY(element) {
-        return (this.getRectTop(element)+ this.getRectBottom(element)) / 2;
+        return (this.getRectTop(element) + this.getRectBottom(element)) / 2;
     }
 
     getIndex(element, pageY) {
@@ -57,13 +59,14 @@ class DragDropEvent {
     handleDrop(event, object) {
         const className = event.target.className;
         const element = this.getElement(event, className);
-        if (className === 'todo_list_main') {
-            const index = this.getIndex(element, event.pageY);
-            element.item(index).before(object);
-        } else if (className === 'story') {
+        if (className === 'story' || className === 'story_inner_text') {
             const midY = this.getMidY(element);
             if (midY < event.pageY) element.after(object);
             else element.before(object);
-        } else element.appendChild(object);
+        } else if (className === 'todo_list_main') {
+            const index = this.getIndex(element, event.pageY);
+            element.item(index).before(object);
+        } else if (className === 'story_delete') element.before(object);
+        else element.appendChild(object);
     }
 }
