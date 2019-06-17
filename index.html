@@ -14,8 +14,9 @@
     <div class = "containerWrap" id="containerWrap">
         <ul>
             <li class = "container">
-                <ul id = "dataTarget_todo"  ondrop="drop(event)" ondragover="allowDrop(event)">
-                    <li class = "containSubject">todo</li>
+                <p class = "containSubject">todo</p>
+                <ul id = "dataTarget_todo" class = "dataTarget"  ondrop="drop(event)" ondragover="allowDrop(event)">
+                    <li class = "empty"></li>
                 </ul>
                 <div class = "addDiv">
                     <div id = "openAdd_todo">
@@ -29,8 +30,9 @@
                 </div>
             </li>
             <li class = "container">
-                    <ul id = "dataTarget_doing" ondrop="drop(event)" ondragover="allowDrop(event)">
-                        <li class = "containSubject">doing</li>
+                    <p class = "containSubject">doing</p>
+                    <ul id = "dataTarget_doing" class = "dataTarget" ondrop="drop(event)" ondragover="allowDrop(event)">
+                        <li class = "empty"></li>
                     </ul>
                     <div class = "addDiv">
                         <div id = "openAdd_doing">
@@ -44,8 +46,9 @@
                     </div>
                 </li>
                 <li class = "container">
-                        <ul id = "dataTarget_done" ondrop="drop(event)" ondragover="allowDrop(event)">
-                            <li class = "containSubject">done</li>
+                        <p class = "containSubject">done</p>
+                        <ul id = "dataTarget_done" class = "dataTarget" ondrop="drop(event)" ondragover="allowDrop(event)">
+                            <li class = "empty"></li>
                         </ul>
                         <div class = "addDiv">
                             <div id = "openAdd_done">
