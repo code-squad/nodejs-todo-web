@@ -10,8 +10,11 @@ const callAppendChild = (targetId, valueId) => {
     const target = document.getElementById(targetId); 
     const li = document.createElement('li'); 
     const span = document.createElement('span'); 
+    let dragging = null;
+
     if(data !== ""){
         li.classList.add("contents")
+        // li.id = "contents"
         li.appendChild(text); 
         li.appendChild(span); 
         span.classList.add("deleteData")
@@ -19,39 +22,52 @@ const callAppendChild = (targetId, valueId) => {
         target.appendChild(li); 
         document.getElementById(valueId).value = "";   
         
-        // li.setAttribute('draggable', true); 
-        // li.setAttribute('ondragstart', "drag(event)"); 
+        li.setAttribute('draggable', true); 
+        li.setAttribute('ondragstart', "drag(event)"); 
+
+
+        document.addEventListener('dragstart', (event) => { 
+            dragging = event.target;
+            event.dataTransfer.setData('text/html', dragging);
+        });
+
+        document.addEventListener('dragover', (event) => {
+            event.preventDefault();
+        });
+
+        target.addEventListener('dragenter', (event) => {
+            event.target.style['border-bottom'] = 'solid 2px blue';
+        });
+
+        target.addEventListener('dragleave', (event) => {
+            event.target.style['border-bottom'] = '';
+        });
+
+        target.addEventListener('drop', (event) => {
+            event.preventDefault();
+            event.target.style['border-bottom'] = '';
+            event.target.parentNode.insertBefore(dragging, event.target.nextSibling);
+        });
 
         li.addEventListener("mouseover", ()=>{span.style.display = "block";}, false)
         li.addEventListener("mouseout", ()=>{span.style.display = "none";}, false)
         span.addEventListener("click", ()=>{target.removeChild(li);}, false)
     }
 }
-
-// function allowDrop(ev) {
-//     var cols = document.querySelectorAll('#drag-list_.drag-row');
-//    var colsLength = cols.length;
-
-//    for (var i = 0; i < colsLength; i++) 
-//    {
-//       li.addEventListener('dragstart', dragStart, false);
-//       li.addEventListener('drag', dragIng, false);
-//       li.addEventListener('dragenter', dragEnter, false);
-//       li.addEventListener('dragover', dragOver, false);
-//       li.addEventListener('dragleave', dragLeave, false);
-//       li.addEventListener('drop', dragDrop, false);
-//       li.addEventListener('dragend', dragEnd, false)
-// //    }
-// function allowDrop(ev) {
+// const allowDrop = (ev) => {
 //     ev.preventDefault();
 // }
- 
-// function drag(ev) {
-//     ev.dataTransfer.setData("text", ev.target.id);
+
+// const drag = (ev) => {
+//     ev.dataTransfer.setData("text/html", ev.target);
 // }
- 
-// function drop(ev) {
+
+// const drop = (ev) => {
 //     ev.preventDefault();
-//     var data = ev.dataTransfer.getData("text");
-//     ev.target.appendChild(document.getElementById(data));
+//     const data = ev.dataTransfer.getData("text/html");
+//     // alert()
+//     // document.getElementById(data).nextSibling.innerHTML
+//     ev.target.parentNode.insertBefore(data,ev.target.nextSibling);
+//     // ev.target.style.border = "1px solid red"
+//     // ev.target.style.border = "none"
 // }
