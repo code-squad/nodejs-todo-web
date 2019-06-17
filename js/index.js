@@ -91,16 +91,11 @@ const Index = class {
     board.appendChild(inputSection);
     board.removeChild(inputCreateBtn);
 
-    const submitCardBtns = board.getElementsByClassName('submit-card-btn');
-    const cancelCardBtns = board.getElementsByClassName('cancel-card-btn');
+    const submitCardBtn = board.getElementsByClassName('submit-card-btn')[0];
+    const cancelCardBtn = board.getElementsByClassName('cancel-card-btn')[0];
 
-    Array.from(submitCardBtns).forEach((submitCardBtn) => {
       this.addSubmitCardEvent(inputCreateBtn, submitCardBtn);
-    })
-
-    Array.from(cancelCardBtns).forEach((cancelCardBtn) => {
       this.addCancelCardEvent(inputCreateBtn, cancelCardBtn);
-    })
   }
 
   addMakeInputEvent(btn) {
