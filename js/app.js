@@ -87,11 +87,13 @@ TodoFront.prototype.deleteElement = function() {
 };
 
 TodoFront.prototype.dropListArea = function(event) {
+	event.stopPropagation();
 	const dropAreaId = this.getDropAreaId(event);
 	this.dropBetweenElements(event, dropAreaId);
 };
 
 TodoFront.prototype.dropTodosArea = function(event, dropAreaClassName) {
+	event.stopPropagation();
 	const dropAreaList = this.getDropAreaList(dropAreaClassName);
 	if (!dropAreaList.length) {
 		return this.dropEndElement(dropAreaClassName);
