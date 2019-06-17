@@ -108,8 +108,7 @@ const Index = class {
   }
 
   addCardEvent() {
-    const addCardButtons = $('.add-card-btn');
-    Array.from(addCardButtons).forEach((btn) => {
+    Array.from($('.add-card-btn')).forEach((btn) => {
       this.addMakeInputEvent(btn);
     })
   }
@@ -189,7 +188,6 @@ const Index = class {
       }
     }
   }
-
 
   run() {
     this.addCardEvent();
