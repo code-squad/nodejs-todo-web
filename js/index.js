@@ -90,8 +90,8 @@ const Index = class {
     board.appendChild(inputSection);
     board.removeChild(inputCreateBtn);
 
-    const submitCardBtn = $('.board .submit-card-btn')[0];
-    const cancelCardBtn = $('.board .cancel-card-btn')[0];
+    const submitCardBtn = $('.submit-card-btn', board)[0];
+    const cancelCardBtn = $('.cancel-card-btn', board)[0];
 
     this.addSubmitCardEvent(inputCreateBtn, submitCardBtn);
     this.addCancelCardEvent(inputCreateBtn, cancelCardBtn);
@@ -151,13 +151,11 @@ const Index = class {
     Array.from(boardElements).forEach((board) => {
       board.addEventListener('dragover', (event) => {
         this.dragOver(event);
-      })
-    })
+      });
 
-    Array.from(boardElements).forEach((board) => {
       board.addEventListener('drop', (event) => {
         this.drop(event);
-      })
+      });
     })
   }
 
