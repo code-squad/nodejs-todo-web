@@ -7,7 +7,7 @@ const display = (displayID, displayNoneID) => {
 const callAppendChild = (targetId, valueId) => { 
     const data = document.getElementById(valueId).value;
     const text = document.createTextNode(data); 
-    const target = document.getElementById(targetId); 
+    const targetUl = document.getElementById(targetId); 
     const li = document.createElement('li'); 
     const span = document.createElement('span'); 
     let dragging = null;
@@ -19,11 +19,14 @@ const callAppendChild = (targetId, valueId) => {
         li.appendChild(span); 
         span.classList.add("deleteData")
         span.classList.add("icon-hamburger-menu-close")
-        target.appendChild(li); 
+        targetUl.appendChild(li); 
         document.getElementById(valueId).value = "";   
         
         li.setAttribute('draggable', true); 
         li.setAttribute('ondragstart', "drag(event)"); 
+        li.addEventListener("mouseover", ()=>{span.style.display = "block";}, false)
+        li.addEventListener("mouseout", ()=>{span.style.display = "none";}, false)
+        span.addEventListener("click", ()=>{targetUl.removeChild(li);}, false)
 
 
         document.addEventListener('dragstart', (event) => { 
@@ -35,23 +38,20 @@ const callAppendChild = (targetId, valueId) => {
             event.preventDefault();
         });
 
-        target.addEventListener('dragenter', (event) => {
+        targetUl.addEventListener('dragenter', (event) => {
             event.target.style['border-bottom'] = 'solid 2px blue';
         });
 
-        target.addEventListener('dragleave', (event) => {
+        targetUl.addEventListener('dragleave', (event) => {
             event.target.style['border-bottom'] = '';
         });
 
-        target.addEventListener('drop', (event) => {
+        targetUl.addEventListener('drop', (event) => {
             event.preventDefault();
             event.target.style['border-bottom'] = '';
             event.target.parentNode.insertBefore(dragging, event.target.nextSibling);
         });
 
-        li.addEventListener("mouseover", ()=>{span.style.display = "block";}, false)
-        li.addEventListener("mouseout", ()=>{span.style.display = "none";}, false)
-        span.addEventListener("click", ()=>{target.removeChild(li);}, false)
     }
 }
 // const allowDrop = (ev) => {
