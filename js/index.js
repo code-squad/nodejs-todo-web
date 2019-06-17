@@ -25,7 +25,7 @@ const Index = class {
     const submitBtn = event.target;
     const board = submitBtn.parentElement.parentElement;
 
-    const cardTitle = submitBtn.parentElement.getElementsByClassName('card-title-input')[0].value;
+    const cardTitle = $('.card-title-input', submitBtn.parentElement)[0].value;
 
     if (cardTitle === '') {
       alert('내용을 입력해주세요');
@@ -37,10 +37,9 @@ const Index = class {
       'draggable': 'true'
     }, exitImgContent + cardTitle);
 
-    const cardWrapper = board.getElementsByClassName('card-wrapper')[0];
-
-
-    const exitBtns = cardSectionElement.getElementsByClassName('card-image-exit')[0];
+    const cardWrapper = $('.card-wrapper', board)[0];
+    const exitBtns = $('.card-image-exit', cardSectionElement)[0];
+    
     exitBtns.addEventListener('click', (event) => {
       this.deleteCardEvent(event);
     })
@@ -94,8 +93,8 @@ const Index = class {
     const submitCardBtn = $('.board .submit-card-btn')[0];
     const cancelCardBtn = $('.board .cancel-card-btn')[0];
 
-      this.addSubmitCardEvent(inputCreateBtn, submitCardBtn);
-      this.addCancelCardEvent(inputCreateBtn, cancelCardBtn);
+    this.addSubmitCardEvent(inputCreateBtn, submitCardBtn);
+    this.addCancelCardEvent(inputCreateBtn, cancelCardBtn);
   }
 
   addMakeInputEvent(btn) {
@@ -109,7 +108,7 @@ const Index = class {
   }
 
   addCardEvent() {
-    const addCardButtons = document.getElementsByClassName('add-card-btn');
+    const addCardButtons = $('.add-card-btn');
     Array.from(addCardButtons).forEach((btn) => {
       this.addMakeInputEvent(btn);
     })
@@ -127,7 +126,7 @@ const Index = class {
   drop(event) {
     event.preventDefault();
     const todoType = event.target.className.split(" ")[1];
-    const wrapper = document.getElementById(`card-wrapper-${todoType}`);
+    const wrapper = $(`#card-wrapper-${todoType}`);
 
     this.dragData.classList.remove(this.dragData.className.split(" ")[1]);
     this.dragData.classList.add(`${todoType}`);
@@ -147,7 +146,7 @@ const Index = class {
   }
 
   addDragEvent() {
-    const boardElements = document.getElementsByClassName('board');
+    const boardElements = $('.board');
 
     Array.from(boardElements).forEach((board) => {
       board.addEventListener('dragover', (event) => {
@@ -193,7 +192,7 @@ const Index = class {
     }
   }
 
-  
+
   run() {
     this.addCardEvent();
     this.addDragEvent();
