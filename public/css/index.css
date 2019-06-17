@@ -1,7 +1,29 @@
+::-webkit-scrollbar {
+  width: 15px;
+}
+
+::-webkit-scrollbar-track {
+  background: cyan;
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: pink
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: hotpink;
+}
+
 body {
   background: #74ebd5;  /* fallback for old browsers */
   background: -webkit-linear-gradient(to right, #ACB6E5, #74ebd5);  /* Chrome 10-25, Safari 5.1-6 */
   background: linear-gradient(to right, #ACB6E5, #74ebd5); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+p {
+  margin: 0px;
 }
 
 a:link {
@@ -53,7 +75,7 @@ footer {
 
 .card {
   background-color: #ef5285;
-  padding: 15px 10px;
+  padding: 20px 20px;
   margin-bottom: 15px;
   overflow: hidden;
   word-wrap: break-word;
@@ -62,7 +84,7 @@ footer {
   font-size: 20px;
   color: white;
   cursor: pointer;
-
+  min-height: 50px;;
 }
 
 .add-card-btn {
@@ -85,6 +107,12 @@ footer {
   vertical-align: text-bottom;
 }
 
+.card-image-exit {
+  width: auto;
+  max-width: 13px;
+  float : right;
+  padding: 10px;
+}
 
 #todo-image-plus {
   width: auto;

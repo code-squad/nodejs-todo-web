@@ -1,11 +1,11 @@
-const Index = class {
+const TodoBoardEvent = class {
   constructor() {
     this.dragData = null;
   }
 
   createElement(elName, classNameArr, attObj, innerHtml) {
     const element = document.createElement(elName);
-    if (classNameArr !== null) {
+    if (Array.isArray(classNameArr)) {
       classNameArr.forEach(name => {
         element.classList.add(name);
       })
@@ -25,17 +25,24 @@ const Index = class {
     const submitBtn = event.target;
     const board = submitBtn.parentElement.parentElement;
 
-    const cardTitle = submitBtn.parentElement.getElementsByClassName('card-title-input')[0].value;
+    const cardTitle = $('.card-title-input', submitBtn.parentElement)[0].value;
 
     if (cardTitle === '') {
       alert('내용을 입력해주세요');
       return;
     }
 
-    const cardContent = `<p>${cardTitle}</p>`
-    const cardSectionElement = this.createElement('section', ['card', 'todo'], { 'draggable': 'true' }, cardContent);
+    const exitImgContent = `<img src="img/exit.png" alt="exit-image" class="card-image-exit">`;
+    const cardSectionElement = this.createElement('section', ['card', 'todo'], {
+      'draggable': 'true'
+    }, exitImgContent + cardTitle);
 
-    const cardWrapper = board.getElementsByClassName('card-wrapper')[0];
+    const cardWrapper = $('.card-wrapper', board)[0];
+    const exitBtns = $('.card-image-exit', cardSectionElement)[0];
+    
+    exitBtns.addEventListener('click', (event) => {
+      this.deleteCardEvent(event);
+    })
 
     cardWrapper.appendChild(cardSectionElement);
     this.addDragStartEvent(cardSectionElement);
@@ -55,7 +62,7 @@ const Index = class {
       this.cancelCardEvent(event, addInputBoxBtn);
     })
   }
-  
+
   addSubmitCardEvent(addInputBoxBtn, btn) {
     btn.addEventListener('click', (event) => {
       this.submitCardEvent(event, addInputBoxBtn);
@@ -63,34 +70,31 @@ const Index = class {
   }
 
   makeInputEvent(event) {
-    const addInputBoxBtn = event.target;
-    const board = addInputBoxBtn.parentElement;
+    const inputCreateBtn = event.target;
+    const board = inputCreateBtn.parentElement;
 
     const inputTextArea = this.createElement('textarea', ['card-title-input'], {
       "placeholder": "Enter a title for this card ..."
     }, null);
 
-    const inputCancelCardBtn = this.createElement('span', ['cancel-card-btn'], {}, "취소");
-    const inputSubmitBtn = this.createElement('button', ['submit-card-btn'], { "type": "submit" }, "ADD CARD");
-    const inputSectionElement = this.createElement('section', ['add-card-input-wrapper'], {}, null);
+    const inputCancelBtn = this.createElement('span', ['cancel-card-btn'], {}, "취소");
+    const inputSubmitBtn = this.createElement('button', ['submit-card-btn'], {
+      "type": "submit"
+    }, "ADD CARD");
+    const inputSection = this.createElement('section', ['add-card-input-wrapper'], {}, null);
 
-    inputSectionElement.appendChild(inputTextArea);
-    inputSectionElement.appendChild(inputCancelCardBtn);
-    inputSectionElement.appendChild(inputSubmitBtn);
+    inputSection.appendChild(inputTextArea);
+    inputSection.appendChild(inputCancelBtn);
+    inputSection.appendChild(inputSubmitBtn);
 
-    addInputBoxBtn.parentElement.appendChild(inputSectionElement);
-    addInputBoxBtn.parentElement.removeChild(addInputBoxBtn);
+    board.appendChild(inputSection);
+    board.removeChild(inputCreateBtn);
 
-    const submitCardBtns = board.getElementsByClassName('submit-card-btn');
-    const cancelCardBtns = board.getElementsByClassName('cancel-card-btn');
+    const submitCardBtn = $('.submit-card-btn', board)[0];
+    const cancelCardBtn = $('.cancel-card-btn', board)[0];
 
-    Array.from(submitCardBtns).forEach((submitCardBtn) => {
-      this.addSubmitCardEvent(addInputBoxBtn, submitCardBtn);
-    })
-
-    Array.from(cancelCardBtns).forEach((cancelCardBtn) => {
-      this.addCancelCardEvent(addInputBoxBtn, cancelCardBtn);
-    })
+    this.addSubmitCardEvent(inputCreateBtn, submitCardBtn);
+    this.addCancelCardEvent(inputCreateBtn, cancelCardBtn);
   }
 
   addMakeInputEvent(btn) {
@@ -99,9 +103,12 @@ const Index = class {
     })
   }
 
+  deleteCardEvent(event) {
+    event.target.parentElement.parentElement.removeChild(event.target.parentElement);
+  }
+
   addCardEvent() {
-    const addCardButtons = document.getElementsByClassName('add-card-btn');
-    Array.from(addCardButtons).forEach((btn) => {
+    Array.from($('.add-card-btn')).forEach((btn) => {
       this.addMakeInputEvent(btn);
     })
   }
@@ -118,7 +125,7 @@ const Index = class {
   drop(event) {
     event.preventDefault();
     const todoType = event.target.className.split(" ")[1];
-    const wrapper = document.getElementById(`card-wrapper-${todoType}`);
+    const wrapper = $(`#card-wrapper-${todoType}`);
 
     this.dragData.classList.remove(this.dragData.className.split(" ")[1]);
     this.dragData.classList.add(`${todoType}`);
@@ -138,18 +145,16 @@ const Index = class {
   }
 
   addDragEvent() {
-    const boardElements = document.getElementsByClassName('board');
+    const boardElements = $('.board');
 
     Array.from(boardElements).forEach((board) => {
       board.addEventListener('dragover', (event) => {
         this.dragOver(event);
-      })
-    })
+      });
 
-    Array.from(boardElements).forEach((board) => {
       board.addEventListener('drop', (event) => {
         this.drop(event);
-      })
+      });
     })
   }
 
@@ -191,6 +196,6 @@ const Index = class {
 }
 
 window.addEventListener('load', () => {
-  const index = new Index();
-  index.run();
+  const todoBoardEvent = new TodoBoardEvent();
+  todoBoardEvent.run();
 })
