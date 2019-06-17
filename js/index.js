@@ -32,10 +32,18 @@ const Index = class {
       return;
     }
 
-    const cardContent = `<p>${cardTitle}</p>`
-    const cardSectionElement = this.createElement('section', ['card', 'todo'], { 'draggable': 'true' }, cardContent);
+    const exitImgContent = `<img src="img/exit.png" alt="exit-image" class="card-image-exit">`;
+    const cardSectionElement = this.createElement('section', ['card', 'todo'], {
+      'draggable': 'true'
+    }, exitImgContent + cardTitle);
 
     const cardWrapper = board.getElementsByClassName('card-wrapper')[0];
+
+
+    const exitBtns = cardSectionElement.getElementsByClassName('card-image-exit')[0];
+    exitBtns.addEventListener('click', (event) => {
+      this.deleteCardEvent(event);
+    })
 
     cardWrapper.appendChild(cardSectionElement);
     this.addDragStartEvent(cardSectionElement);
@@ -55,7 +63,7 @@ const Index = class {
       this.cancelCardEvent(event, addInputBoxBtn);
     })
   }
-  
+
   addSubmitCardEvent(addInputBoxBtn, btn) {
     btn.addEventListener('click', (event) => {
       this.submitCardEvent(event, addInputBoxBtn);
@@ -71,7 +79,9 @@ const Index = class {
     }, null);
 
     const inputCancelCardBtn = this.createElement('span', ['cancel-card-btn'], {}, "취소");
-    const inputSubmitBtn = this.createElement('button', ['submit-card-btn'], { "type": "submit" }, "ADD CARD");
+    const inputSubmitBtn = this.createElement('button', ['submit-card-btn'], {
+      "type": "submit"
+    }, "ADD CARD");
     const inputSectionElement = this.createElement('section', ['add-card-input-wrapper'], {}, null);
 
     inputSectionElement.appendChild(inputTextArea);
@@ -97,6 +107,10 @@ const Index = class {
     btn.addEventListener('click', (event) => {
       this.makeInputEvent(event);
     })
+  }
+
+  deleteCardEvent(event) {
+    event.target.parentElement.parentElement.removeChild(event.target.parentElement);
   }
 
   addCardEvent() {
