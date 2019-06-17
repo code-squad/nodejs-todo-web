@@ -5,7 +5,7 @@ const Index = class {
 
   createElement(elName, classNameArr, attObj, innerHtml) {
     const element = document.createElement(elName);
-    if (classNameArr !== null) {
+    if (Array.isArray(classNameArr)) {
       classNameArr.forEach(name => {
         element.classList.add(name);
       })
@@ -198,6 +198,7 @@ const Index = class {
     }
   }
 
+  
   run() {
     this.addCardEvent();
     this.addDragEvent();
