@@ -8,40 +8,41 @@
 		<link rel="stylesheet" href="css/style.css" />
 	</head>
 	<body>
-		<div class="toss" title="이 곳에 놓으면 삭제됩니다."></div>
-		<header id="mainHeader">
-			<div id="headerTitle">todos</div>
-			<div id="headerContent">
-				<input type="text" id="addTodo" placeholder="What needs to be done?" />
-				<input type="button" id="addButton" value="Add"/>
-			</div>
-		</header>
+		<div class="toss" title="이 곳에 놓으면 삭제됩니다.">
+			<header id="mainHeader">
+				<div id="headerTitle">todos</div>
+				<div id="headerContent">
+					<input type="text" id="addTodo" placeholder="What needs to be done?" />
+					<input type="button" id="addButton" value="Add"/>
+				</div>
+			</header>
 
-		<section id="todos-section">
-			<div class="todo todos">
-				<div class="todo todos-title">
-					todo<hr class="todo todos-underline">
+			<section id="todos-section">
+				<div class="todo todos">
+					<div class="todo todos-title">
+						todo<hr class="todo todos-underline">
+					</div>
+					<div id="todo" class="todo dropArea">
+					</div>
 				</div>
-				<div id="todo" class="todo dropArea">
-				</div>
-			</div>
 
-			<div class="doing todos">
-				<div class="doing todos-title">
-					doing<hr class="doing todos-underline">
+				<div class="doing todos">
+					<div class="doing todos-title">
+						doing<hr class="doing todos-underline">
+					</div>
+					<div id="doing" class="doing dropArea">
+					</div>
 				</div>
-				<div id="doing" class="doing dropArea">
-				</div>
-			</div>
 
-			<div class="done todos">
-				<div class="done todos-title">
-					done<hr class="done todos-underline">
+				<div class="done todos">
+					<div class="done todos-title">
+						done<hr class="done todos-underline">
+					</div>
+					<div id="done" class="done dropArea">
+					</div>
 				</div>
-				<div id="done" class="done dropArea">
-				</div>
-			</div>
-		</section>
+			</section>
+		</div>
   </body>
   <script type="text/javascript" src=js/app.js></script>
 </html>
