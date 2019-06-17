@@ -1,4 +1,4 @@
-const $ = (() => (names) => {
+const $ = (() => (names, parentElement = document) => {
   let element = null;
   const nameArr = names.split(' ');
 
@@ -7,23 +7,23 @@ const $ = (() => (names) => {
     const elName = elementName.substring(1, elementName.length);
 
     if (nameIdentifier === '.') {
-      element = getClassList(elName);
+      element = getClassList(elName, parentElement);
     }
     
     if (nameIdentifier === '#') {
-      element = getIdElement(elName);
+      element = getIdElement(elName, parentElement);
     }
   });
   
   return element;
 })();
 
-const getClassList = (className, parent = document) => {
-  element = parent.getElementsByClassName(className);
+const getClassList = (className, parentElement = document) => {
+  element = parentElement.getElementsByClassName(className);
   return element;
 }
 
-const getIdElement = (id, parent = document) => {
-  element = parent.getElementById(id);
+const getIdElement = (id, parentElement = document) => {
+  element = parentElement.getElementById(id);
   return element;
 }
