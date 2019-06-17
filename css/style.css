@@ -1,15 +1,22 @@
 @import url(//cdn.rawgit.com/hiun/NanumSquare/master/nanumsquare.css);
 
+html,
+body {
+	width: 100vw;
+	height: 100vh;
+	margin: 0;
+	padding: 0;
+}
 body {
 	background-image: url('./img/overall-background.png');
 	background-color: #ffffff;
-	height: 100%;
+	overflow: hidden;
 }
 #mainHeader {
 	position: relative;
-	top: 40px;
 	text-align: center;
-	margin: 0 0 40px 0;
+	width: 505px;
+	margin: 40px auto auto auto;
 }
 #headerTitle {
 	text-decoration: underline;
@@ -18,7 +25,7 @@ body {
 	font-size: 50px;
 	font-weight: bold;
 	color: #ffa9a9;
-	margin-bottom: 25px;
+	padding-bottom: 25px;
 	user-select: none;
 }
 #headerContent {
@@ -58,6 +65,13 @@ body {
 	width: 90%;
 	margin: auto;
 }
+
+#todos-section::after {
+	content: '';
+	display: block;
+	clear: both;
+}
+
 .todos {
 	background-color: white;
 	background-image: url('https://www.transparenttextures.com/patterns/45-degree-fabric-light.png');
@@ -107,11 +121,7 @@ body {
 	overflow: auto;
 }
 .toss {
-	position: fixed;
 	width: 100%;
 	height: 100%;
 	margin: 0;
-	top: 0;
-	left: 0;
-	user-select: none;
 }
