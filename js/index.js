@@ -91,8 +91,8 @@ const Index = class {
     board.appendChild(inputSection);
     board.removeChild(inputCreateBtn);
 
-    const submitCardBtn = board.getElementsByClassName('submit-card-btn')[0];
-    const cancelCardBtn = board.getElementsByClassName('cancel-card-btn')[0];
+    const submitCardBtn = $('.board .submit-card-btn')[0];
+    const cancelCardBtn = $('.board .cancel-card-btn')[0];
 
       this.addSubmitCardEvent(inputCreateBtn, submitCardBtn);
       this.addCancelCardEvent(inputCreateBtn, cancelCardBtn);
