@@ -5,20 +5,33 @@
     border-radius: 5px;
     background-color: rgb(214, 216, 230);
 }
-.task-list {
+.card-ul {
     list-style: none;
     padding-left: 0px;
 }
-.task-list > li {
+.card-element {
     margin-bottom: 10px;
     padding-left: 10px;
     border-radius: 5px;
     background-color: white;
 }
+
 .add-card-anchor {
     color: black;
     text-decoration: none;
 }
 .add-card-btn:hover {
     text-decoration: underline;
+}
+.card-input {
+    border: none;
+}
+.card-input:read-only {
+    
+}
+.update-btn {
+    /*visibility: hidden*/
+}
+.delete-btn {
+    /*visibility: hidden*/
 }
