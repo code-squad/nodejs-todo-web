@@ -1,0 +1,150 @@
+body {
+  background: #74ebd5;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #ACB6E5, #74ebd5);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #ACB6E5, #74ebd5); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+a:link {
+  text-decoration: none;
+}
+
+footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  color: white;
+  text-align: center;
+  background-color: #333333;
+}
+
+#main-title {
+  text-align: center;
+  padding: 10px 0px 10px 0px;
+  color: #ef5285;
+  font-size: 60px;
+}
+
+.board {
+  width: 30%;
+  background-color: floralwhite;
+  float: left;
+  margin: 5px;
+  padding: 20px 20px;
+  margin-top: 15px;
+  border-radius: 20px;
+  margin-bottom: 150px;
+
+}
+
+.board-title {
+  background-color: salmon;
+  border-radius: 20px;
+  text-align: center;
+  padding: 40px;
+  margin-bottom: 15px;
+  font-weight: 800;
+  font-size: 30px;
+}
+
+.board-content-wrapper {
+  padding: 5% 10%;
+}
+
+.card {
+  background-color: #ef5285;
+  padding: 15px 10px;
+  margin-bottom: 15px;
+  overflow: hidden;
+  word-wrap: break-word;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 20px;
+  color: white;
+  cursor: pointer;
+
+}
+
+.add-card-btn {
+  margin-top: 20px;
+  padding: 10px;
+  background-color: aquamarine;
+  cursor: pointer;
+  vertical-align: top;
+  font-weight: 600;
+  border-radius: 20px;
+
+}
+
+#card-image-plus {
+  width: auto;
+  height: auto;
+  max-width: 20px;
+  max-height: 20px;
+  margin: 3px;
+  vertical-align: text-bottom;
+}
+
+
+#todo-image-plus {
+  width: auto;
+  height: auto;
+  max-width: 20px;
+  max-height: 20px;
+  margin: 3px;
+  vertical-align: text-bottom;
+  z-index: 10;
+}
+
+#board-add-todo {
+  width: 15%;
+  background-color: lightblue;
+  opacity: 0.5;
+  margin: 5px;
+  padding: 20px;
+  font-weight: 600;
+  color: black;
+}
+
+#board-wrapper {
+  min-height: 700px;
+  margin: auto;
+  width: 81%;
+}
+
+textarea {
+  resize: none;
+  width: 97%;
+  height: 60px;
+  border: solid 4px hotpink;
+}
+
+.submit-card-btn {
+  background-color: orangered;
+  cursor: pointer;
+  text-decoration: none;
+  text-align: center;
+  display: inline-block;
+  padding: 10px 30px;
+  margin-top: 10px;
+  border: none;
+  font-size: 15px;
+  font-weight: 600;
+  color: white;
+}
+
+.add-card-input-wrapper {
+  text-align: right;
+}
+
+.cancel-card-btn {
+  font-size: 10px;
+  font-weight: 500;
+  margin-right: 10px;
+  color: blue;
+  cursor: pointer;
+}
+
+.card-wrapper {
+  min-height: 2px;
+}
