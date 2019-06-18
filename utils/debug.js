@@ -5,6 +5,7 @@ const debug = (tag) => {
 
   return (msg) => {
     const log = `[${tag}] ${msg}`
+    console.log(log);
     return log;
   }
 }
