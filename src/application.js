@@ -1,12 +1,20 @@
 const http = require('http');
 const debug = require('../utils/debug')('Application');
+const path = require('path');
+const fs = require('fs');
 
 const Application = class {
   constructor() {
     this.server =  http.createServer((req, res) => {
+      
+      const filePath = path.join(__dirname, '../public/index.html');
       res.statusCode = 200;
-      res.setHeader('Content-Type', 'text/plain');
-      res.end('hello, node');
+      res.setHeader('Content-Type', 'text/html');
+      
+      fs.readFile(filePath, (err, data) => {
+        if (err) throw err;
+        res.end(data);
+      });
     });
   }
 
