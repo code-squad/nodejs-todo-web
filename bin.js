@@ -1,5 +1,5 @@
 const server = require('./server');
-const App = require('./application');
+const App = require('./src/application');
 const app = new App(server);
 
 const hostname = '127.0.0.1';
