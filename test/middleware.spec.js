@@ -39,7 +39,7 @@ describe('Middleware Module', () => {
       stub3.callsFake((req, res, next) => next());
 
       const funcs = [stub1, stub2, stub3];
-      
+
       // 미들웨어 배열에 스텁 함수를 등록
       funcs.forEach((func) => {
         middleware.middlewareArr.push(func);
@@ -52,7 +52,26 @@ describe('Middleware Module', () => {
         // 메서드가 모두 호춣되었는 지 test
         should(func.called).equal(true);
       })
+    })
 
+    it('next()가 없을 경우 미들웨어를 중단하고 빠져나온다', () => {
+      const func1 = sinon.stub();
+      const stop = sinon.stub();
+      const func2 = sinon.stub();
+
+      func1.callsFake((req, res, next) => next());
+      stop.callsFake(() => null);
+      func2.callsFake((req, res, next) => next());
+
+      const funcs = [func1, stop, func2];
+
+      funcs.forEach((func) => {
+        middleware.middlewareArr.push(func);
+      })
+
+      middleware.run();
+      
+      should(func2.called).equal(false);
     })
   })
 
