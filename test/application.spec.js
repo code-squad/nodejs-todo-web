@@ -7,7 +7,7 @@ describe('application', () => {
   describe('listen()', () => {
     it('server 객체의 listen 함수 실행', () => {
       // 환경 세팅하고
-      const app = App();
+      const app = new App(server);
       const spy = sinon.spy();
       app.server.listen = spy;
       
