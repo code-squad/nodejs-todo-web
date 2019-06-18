@@ -12,6 +12,12 @@ describe('debug module', () => {
       const debug = require('../utils/debug')('tag');
       should(typeof debug).be.equal('function');
     })
+  })
 
+  describe('메시지 반환', () => {
+    it('`[tag] message` 의 로그 스트링을 반환', () => {
+      const logString = debug('tag')('message');
+      should(logString).be.equal('[tag] message');
+    })
   })
 })
