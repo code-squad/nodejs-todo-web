@@ -1,0 +1,27 @@
+{
+  "name": "nodejs-todo-web",
+  "version": "0.0.1",
+  "description": "나만의 TODO 앱 만들기",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cocahack/nodejs-todo-web.git"
+  },
+  "keywords": [
+    "TODO",
+    "http",
+    "Jest"
+  ],
+  "author": "Jake",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/cocahack/nodejs-todo-web/issues"
+  },
+  "homepage": "https://github.com/cocahack/nodejs-todo-web#readme",
+  "devDependencies": {
+    "jest": "^24.8.0"
+  }
+}
