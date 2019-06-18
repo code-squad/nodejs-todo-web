@@ -13,4 +13,24 @@ describe('Middleware Module', () => {
   })
 
 
+  describe('add()', () => {
+    it('미들웨어 배열에 함수를 추가', () => {
+      const functionArr = [
+        () => {}, () => {}, () => {}
+      ]
+
+      functionArr.forEach((func) => {
+        middleware.add(func);
+      })
+
+      should(middleware.middlewareArr.length).be.equal(3);
+
+    })
+
+
+
+
+  })
+
+
 })
