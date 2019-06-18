@@ -1,8 +1,13 @@
-const debug = require('../utils/debug')('App');
+const http = require('http');
+const debug = require('../utils/debug')('Application');
 
 const Application = class {
-  constructor(server) {
-    this.server = server;
+  constructor() {
+    this.server =  http.createServer((req, res) => {
+      res.statusCode = 200;
+      res.setHeader('Content-Type', 'text/plain');
+      res.end('hello, node');
+    });
   }
 
   listen(port=3000, host='localhost', fn) {
