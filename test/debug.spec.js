@@ -1,0 +1,31 @@
+const should = require('should');
+const sinon = require('sinon');
+const debug = require('../utils/debug');
+
+describe('debug module', () => {
+  describe('생성', () => {
+    it('태그명을 인자로 받는다 (없으면 예외를 던진다)', () => {
+      should(() => debug()).throw();
+    })
+
+    it('함수를 반환한다', () => {
+      const debug = require('../utils/debug')('tag');
+      should(typeof debug).be.equal('function');
+    })
+  })
+
+  describe('메시지 반환', () => {
+    it('`[tag] message` 의 로그 스트링을 반환', () => {
+      const logString = debug('tag')('message');
+      should(logString).be.equal('\x1b[36m[tag]\x1b[0m message');
+    })
+  })
+
+  describe('메시지 출력', () => {
+    it('[tag] msg로 메시지 출력', () => {
+      sinon.spy(console, 'log');
+      debug('tag')('msg');
+      sinon.assert.calledWith(console.log, `\x1b[36m[tag]\x1b[0m msg`)
+    })
+  })
+})
