@@ -9,7 +9,7 @@ describe('debug module', () => {
     })
 
     it('함수를 반환한다', () => {
-      const debug = debug('tag');
+      const debug = require('../utils/debug')('tag');
       should(typeof debug).be.equal('function');
     })
 
