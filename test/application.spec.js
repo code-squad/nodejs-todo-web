@@ -1,10 +1,10 @@
 const should = require('should');
 const server = require('../server');
 const sinon = require('sinon');
-const App = require('../application');
+const App = require('../src/application');
 
-describe('application', () => {
-  describe('listen()', () => {
+describe('application module', () => {
+  describe('listen() method', () => {
     it('server 객체의 listen 함수 실행', () => {
       // 환경 세팅하고
       const app = new App(server);
