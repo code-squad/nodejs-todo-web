@@ -1,5 +1,3 @@
-const server = require('./server');
-
 const Application = class {
   constructor(server) {
     this.server = server;
