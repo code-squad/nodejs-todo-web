@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+		<title>Document</title>
+		<link rel="stylesheet" href="css/style.css" />
+	</head>
+	<body>
+		<div class="toss">
+			<header id="mainHeader">
+				<div id="headerTitle" class="toss">todos</div>
+				<div id="headerContent">
+					<input type="text" id="addTodo" class="toss" placeholder="What needs to be done?" />
+					<input type="button" id="addButton" class="toss" value="Add"/>
+				</div>
+			</header>
+
+			<section id="todos-section" class="toss">
+				<div class="todo todos">
+					<div class="todo todos-title">
+						todo<hr class="todo todos-underline">
+					</div>
+					<div id="todo" class="todo dropArea">
+					</div>
+				</div>
+
+				<div class="doing todos">
+					<div class="doing todos-title">
+						doing<hr class="doing todos-underline">
+					</div>
+					<div id="doing" class="doing dropArea">
+					</div>
+				</div>
+
+				<div class="done todos">
+					<div class="done todos-title">
+						done<hr class="done todos-underline">
+					</div>
+					<div id="done" class="done dropArea">
+					</div>
+				</div>
+			</section>
+		</div>
+  </body>
+  <script type="text/javascript" src=js/app.js></script>
+</html>
