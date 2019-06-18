@@ -1,5 +1,4 @@
 const should = require('should');
-const server = require('../server');
 const sinon = require('sinon');
 const App = require('../src/application');
 
@@ -7,7 +6,7 @@ describe('application module', () => {
   describe('listen() method', () => {
     it('server 객체의 listen 함수 실행', () => {
       // 환경 세팅하고
-      const app = new App(server);
+      const app = new App();
       const spy = sinon.spy();
       app.server.listen = spy;
       

@@ -17,7 +17,7 @@ describe('debug module', () => {
   describe('메시지 반환', () => {
     it('`[tag] message` 의 로그 스트링을 반환', () => {
       const logString = debug('tag')('message');
-      should(logString).be.equal('[tag] message');
+      should(logString).be.equal('\x1b[36m[tag]\x1b[0m message');
     })
   })
 
@@ -25,7 +25,7 @@ describe('debug module', () => {
     it('[tag] msg로 메시지 출력', () => {
       sinon.spy(console, 'log');
       debug('tag')('msg');
-      sinon.assert.calledWith(console.log, `[tag] msg`)
+      sinon.assert.calledWith(console.log, `\x1b[36m[tag]\x1b[0m msg`)
     })
   })
 })
