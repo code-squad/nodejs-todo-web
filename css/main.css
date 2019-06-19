@@ -22,6 +22,8 @@ header{
 
 .containerWrap{
     padding: 0 10px 10px 10px;
+    display: flex;
+    justify-content: center;
 }
 
 .containerWrap .container {
@@ -113,7 +115,7 @@ header{
     color: #888;
 }
 
-.inputAdd {
+#inputAdd {
     background-color: #5aac44;
     box-shadow: 0 1px 0 0 #3f6f21;
     border: none;
