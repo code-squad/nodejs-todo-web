@@ -1,30 +1,26 @@
 const http = require('http');
 const debug = require('../utils/debug')('Application');
-const path = require('path');
-const ServeStatic = require('../src/serve-static');
-const fs = require('fs');
+const Middleware = require('../src/middleware');
 
 const Application = class {
   constructor() {
-    this.serveStatic = new ServeStatic();
+    this.middleware = new Middleware(this.req, this.res);
+    this.req;
+    this.res;
+  
     this.server =  http.createServer((req, res) => {
-      const filePath = path.join(__dirname, '../public/index.html');
-      res.statusCode = 200;
-      res.setHeader('Content-Type', 'text/html');
-      const str = this.serveStatic.getExt(req);
-      console.log(str);
-      this.serveStatic.serveStaticFile(req, res);
-      
-      fs.readFile(filePath, (err, data) => {
-        if (err) throw err;
-        res.end(data);
-      });
+      this.req = req;
+      this.res = res;
     });
   }
 
   listen(port=3000, host='localhost', fn) {
     this.server.listen(port, host, fn);
     debug('server is listening');
+  }
+
+  use(func) {
+    this.middleware.add(func);
   }
 }
 
