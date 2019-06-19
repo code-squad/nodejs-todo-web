@@ -9,38 +9,35 @@ const Middleware = class {
     this.middlewareArr.push(func);
   }
 
-  run(req, res) {
-    this.req = req;
-    this.res = res;
-
-    this.middlewareRun(0);
+  run() {
+    this.executeMiddleware(0, null);
   }
 
   isOverLength(index) {
     return index >= this.middlewareArr.length || index < 0;
   }
 
-  isErrorMiddleware(func, index, err) {
+  handleErrorMiddleware(func, index, next, err) {
     if (func.length === 4) {
-      func(this.req, this.res, next, err);
-    } else {
-      this.middlewareRun(index + 1, err);
+      func(err, this.req, this.res, next);
     }
+      this.executeMiddleware(index + 1, err);
   }
 
-  middlewareRun(index, err) {
+  executeMiddleware(index, err) {
     if (this.isOverLength(index)) {
       return;
     }
 
-    const targetFunc = this.middlewareArr[index];
-    const next = (err) => this.middlewareRun(index + 1, err);
+    const targetMiddleware = this.middlewareArr[index];
+    const next = (err) => this.executeMiddleware(index + 1, err);
 
     if (err) {
-      this.isErrorMiddleware(targetFunc, index, err);
+      this.handleErrorMiddleware(targetMiddleware, index, next, err);
+      return;
     }
-
-    targetFunc(this.req, this.res, next);
+    
+    targetMiddleware(this.req, this.res, next);
   }
 }
 
