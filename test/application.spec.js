@@ -17,4 +17,18 @@ describe('application module', () => {
       should(spy.called).equal(true);
     })
   })
+
+  describe('use() method', () => {
+    it('middleware 모듈의 add() 메서드 실행', () => {
+      const spy = sinon.spy();
+      const app = new App();
+
+      app.middleware.add = spy;
+      const func = () => {};
+      
+      app.use(func);
+
+      should(spy.called).be.equal(true);
+    })
+  })
 })
