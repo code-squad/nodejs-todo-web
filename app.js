@@ -18,7 +18,19 @@ const index = (req, res, next) => {
   })
 }
 
+const error404 = (req, res, next) => {
+  res.statusCode = 404;
+  res.end('Not Found')
+}
+
+const error = (err, req, res, next) => {
+  res.statusCode = 500;
+  res.end()
+}
+
 app.use(index);
 app.use(serveStatic.serveStaticFile);
+app.use(error404);
+app.use(error);
 
 module.exports = app;
