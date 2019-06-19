@@ -1,0 +1,27 @@
+{
+  "name": "nodejs-todo-web",
+  "version": "1.0.0",
+  "description": "nodejs-todo-web project",
+  "main": "add_event.js",
+  "dependencies": {},
+  "devDependencies": {
+    "jest": "^24.8.0",
+    "supertest": "^4.0.2"
+  },
+  "scripts": {
+    "test": "./node_modules/jest/bin/jest.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bestdevhyo1225/nodejs-todo-web.git"
+  },
+  "keywords": [
+    "nodejs-todo-web"
+  ],
+  "author": "hyodol",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bestdevhyo1225/nodejs-todo-web/issues"
+  },
+  "homepage": "https://github.com/bestdevhyo1225/nodejs-todo-web#readme"
+}
