@@ -1,37 +1,75 @@
+header {
+    width: 960px;
+    margin: 0 auto;
+    height: auto;
+    position: relative;
+}
+header > h1 {
+    text-align: center;
+}
+
+#board-box {
+    width: 960px;
+    margin: 0 auto;
+    overflow: hidden;
+}
 .column-box {
     float: left;
+    width: 280px;
     margin: 10px;
     padding: 10px;
     border-radius: 5px;
-    background-color: rgb(214, 216, 230);
+    background-color: rgb(218, 230, 208);
+}
+.task-header {
 }
 .card-ul {
     list-style: none;
     padding-left: 0px;
 }
-.card-element {
+.card-li {
+    overflow: hidden;
     margin-bottom: 10px;
     padding-left: 10px;
     border-radius: 5px;
     background-color: white;
 }
-
-.add-card-anchor {
-    color: black;
-    text-decoration: none;
-}
-.add-card-btn:hover {
-    text-decoration: underline;
-}
 .card-input {
+    width: 215px;
+    float: left;
     border: none;
 }
 .card-input:read-only {
     
 }
+.card-input:focus {
+    outline: none;
+}
 .update-btn {
-    /*visibility: hidden*/
+    float: left;
+    visibility: hidden;
 }
 .delete-btn {
-    /*visibility: hidden*/
+    float: left;
+    visibility: hidden;
+}
+
+.add-link {
+    width: 270px;
+    color: black;
+    display: block;
+    text-align: center;
+    text-decoration: none;
+}
+.add-card-btn:hover {
+    text-decoration: underline;
+}
+
+.add-form-box {
+}
+.add-form-textarea {
+    width: 270px;
+}
+.add-form-btns {
+    float: right;
 }
