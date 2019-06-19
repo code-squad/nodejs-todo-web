@@ -12,6 +12,7 @@ const addNewCard = function() {
   newCard.setAttribute("class", "todo-card");
   todoList.appendChild(newCard);
   inputText.value = "";
+  hideDiv();
 };
 
 const createEvent = function() {
@@ -35,6 +36,11 @@ const showDiv = function() {
   const target = document.getElementById("todo-input-text");
   target.style.display = "block";
   target.focus();
+};
+
+const hideDiv = function() {
+  const target = document.getElementById("todo-input-text");
+  target.style.display = "none";
 };
 
 createEvent();
