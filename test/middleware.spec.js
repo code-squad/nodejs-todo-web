@@ -73,9 +73,33 @@ describe('Middleware Module', () => {
       
       should(func2.called).equal(false);
     })
+
+    it('에러가 발생할 경우 즉시 중지 후 핸들러 메서드로 넘어감', () => {
+      const stub = {
+        func1(req, res, next) {},
+        errorFunc(req, res, next) {},
+        func2(req, res, next) {},
+        errorHandler(err, req, res, next) {}
+      }
+
+      sinon.stub(stub, 'func1').callsFake((req, res, next) => next());
+      sinon.stub(stub, 'errorFunc').callsFake((req, res, next) => next(Error()));
+      sinon.stub(stub, 'func2').callsFake((req, res, next) => next());
+      sinon.stub(stub, 'errorHandler').callsFake((err, req, res, next) => null);
+
+      const funcs = [stub.func1, stub.errorFunc, stub.func2, stub.errorHandler];
+
+      funcs.forEach((func) => {
+        middleware.add(func);
+      })
+
+      middleware.run();
+
+      funcs.forEach((func, index) => {
+        console.log(index, func.called)
+        const shouldInvoked = index !== 2;
+        should(func.called).be.equal(shouldInvoked);
+      })
+    })
   })
-
-
-
-
 })
