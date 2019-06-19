@@ -2,7 +2,9 @@ const fs = require('fs');
 const path = require('path');
 
 const ServeStatic = class {
-  constructor() {
+  constructor(req, res) {
+    this.req = req;
+    this.res = res;
     this.mimeType = {
       '.ico': 'image/x-icon',
       '.html': 'text/html',
@@ -28,7 +30,7 @@ const ServeStatic = class {
     })
   }
 
-  async serveStaticFile(req, res) {
+  async serveStaticFile(req, res, next) {
     const ext = this.getExt(req);
     if (Object.keys(this.mimeType).includes(ext)) {
       const filePath = `${this.publicPath}${req.url}`;
@@ -45,7 +47,9 @@ const ServeStatic = class {
         res.write('Not Found File');
         res.end();
       }
-    }
+    } else {
+      next();
+    } 
   }
 }
 
