@@ -12,5 +12,17 @@ class Title {
     }
 }
 
+class section{
+    constructor(name){
+        this.name = name;
+    }
+}
+
+class card{
+    constructor(text){
+        this.text = text;
+    }
+}
+
 const title = new Title('Wangmin');
 title.setTitle();
