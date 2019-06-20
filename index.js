@@ -12,12 +12,13 @@ const createNewCard = function(input) {
 
 const addNewCard = function() {
   const inputText = document.querySelector("#todo-input-text");
+  if (!inputText.value) return hideInputTextBox();
   const todoList = document.querySelector(".todo-list");
   const todoBoard = todoList.querySelector(".board");
   const newCard = createNewCard(inputText.value);
   todoBoard.appendChild(newCard);
   inputText.value = "";
-  hideDiv();
+  hideInputTextBox();
 };
 
 const createEvent = function() {
@@ -31,7 +32,7 @@ const createEvent = function() {
 
   const addButton = document.querySelector("#add-input-btn");
   addButton.addEventListener("click", function(event) {
-    showDiv();
+    showInputTextBox();
   });
 
   const inputText = document.querySelector("#todo-input-text");
@@ -46,13 +47,13 @@ const createEnterKeyEvent = function(inputText, eventHandler) {
   });
 };
 
-const showDiv = function() {
+const showInputTextBox = function() {
   const target = document.querySelector("#todo-input-text");
   target.style.display = "block";
   target.focus();
 };
 
-const hideDiv = function() {
+const hideInputTextBox = function() {
   const target = document.querySelector("#todo-input-text");
   target.style.display = "none";
 };
