@@ -95,7 +95,7 @@ class Section{
            const newCard = card.setCard();
            this.section.appendChild(newCard);
            this.textarea.value = "";
-           addingCardBox.classList.toggle("adding-box");
+           this.addingCardBox.classList.toggle("adding-box");
 
         });
     }
@@ -107,11 +107,15 @@ class Section{
 
         return button;
     }
-    // cancle클릭이벤트 리스너 추가하기(){
-    //     textarea 가져오기
-    //     textarea 비우기
-    //     내용입력부분 숨기기 클래스 토글하기
-    // }
+
+    addCancleAddingCardListener(button){
+        button.addEventListener('click', (event) => {
+            this.textarea.value = "";
+            this.addingCardBox.classList.toggle("adding-box");
+         });
+    }
+
+
 }
 
 class Card{
