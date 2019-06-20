@@ -25,10 +25,16 @@ class Section{
     setSection(){
         this.main = document.querySelector('main');
         this.section = document.createElement('section');
-        section.appendChild(this.setHeader());
-        section.appendChild(this.setOpenButton());
-        section.appendChild(this.setAddingCardBox());
+        this.section.appendChild(this.setHeader());
+        this.section.appendChild(this.setOpenButton());
+        this.section.appendChild(this.setAddingCardBox())
+        this.section.appendChild(this.setCardBox());
         this.main.appendChild(this.section);
+    }
+
+    setCardBox(){
+        this.cardBox = document.createElement('div');
+        return this.cardBox;
     }
 
     setHeader(){
@@ -93,7 +99,7 @@ class Section{
            }
            const card = new Card(this.textarea.value);
            const newCard = card.setCard();
-           this.section.appendChild(newCard);
+           this.cardBox.appendChild(newCard);
            this.textarea.value = "";
            this.addingCardBox.classList.toggle("adding-box");
 
@@ -130,9 +136,16 @@ class Card{
 
 }
 
-const title = new Title('Wangmin');
-title.setTitle();
+const setIndexPage = () =>{
+    const title = new Title('Wangmin');
+    title.setTitle();
+    
+    const todoSection = new Section('todo');
+    todoSection.setSection();
+    const doingSection = new Section('doing');
+    doingSection.setSection();
+    const doneSection = new Section('done');
+    doneSection.setSection();
+}
 
-const section = new Section('todo');
-
-section.setSS();
+setIndexPage();
