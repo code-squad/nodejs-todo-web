@@ -80,12 +80,12 @@ class Section{
     setAddButton(){
         const button = document.createElement('button');
         button.innerText = 'add';
-        this.addCreatCardListener(button);
+        this.addCreateCardListener(button);
 
         return button;
     }
 
-    addCreatCardListener(button){
+    addCreateCardListener(button){
         button.addEventListener('click', (event) => {
            if(this.textarea.value === ""){
                alert("내용을 입력해 주세요");
@@ -100,13 +100,13 @@ class Section{
         });
     }
 
-    // cancle버튼만들기(){
-    //     cancle 버튼 만들기
-    //     cancle 클릭이벤트 리스너 추가하기()
+    setCancleButton(){
+        const button = document.createElement('button');
+        button.innerText = 'cancle';
+        this.addCancleAddingCardListener(button);
 
-    //     return cancle버튼 
-    // }
-
+        return button;
+    }
     // cancle클릭이벤트 리스너 추가하기(){
     //     textarea 가져오기
     //     textarea 비우기
