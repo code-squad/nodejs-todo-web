@@ -45,5 +45,19 @@ describe('application module', () => {
       should(spy.called).be.equal(true);
     })
 
+    it('파라미터가 두 개이고, (string, function) 일 경우 미들웨어에 등록', () => {
+      const spy = sinon.spy();
+      const app = new App();
+
+      app.middleware.add = spy;
+      const func = sinon.stub(() => {});
+
+      app.use(func, func);
+      should(spy.called).be.equal(false);
+
+      app.use('this is url path', func);
+      should(spy.called).be.equal(true);
+    })
+
   })
 })
