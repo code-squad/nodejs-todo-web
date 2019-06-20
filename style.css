@@ -1,0 +1,8 @@
+.hide {
+    display: none;
+}
+
+body {
+    user-select: none;
+    background: #E0E0D8;
+}
