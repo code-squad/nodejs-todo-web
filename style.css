@@ -5,4 +5,21 @@
 body {
     user-select: none;
     background: #E0E0D8;
+    margin: 0;
+}
+
+.title{
+    font-family: 'Black Han Sans';
+    color : white;
+    background : #606F82;
+    padding: 10px 10px 10px 20px ;
+    font-weight: bold; 
+    font-size: 20px;
+
+}
+
+main{
+    padding-left: 10px;
+    padding-top: 10px;
+    display: flex;
 }
