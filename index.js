@@ -13,8 +13,9 @@ class Title {
 }
 
 class Section{
-    constructor(name){
+    constructor(name,dragging){
         this.headerName = name;
+        this.dragging = dragging;
         this.main;
         this.section;
         this.header;
@@ -55,7 +56,7 @@ class Section{
     addBoxOpenListener(button){
         button.addEventListener('click', (event) => {
             const addingCardBox = event.target.nextElementSibling;
-            addingCardBox.classList.toggle("adding-box");
+            addingCardBox.classList.toggle("hide");
             this.textarea.focus();
         });
     }
@@ -97,11 +98,11 @@ class Section{
                alert("내용을 입력해 주세요");
                return;
            }
-           const card = new Card(this.textarea.value);
+           const card = new Card(this.textarea.value, this.dragging);
            const newCard = card.setCard();
            this.cardBox.appendChild(newCard);
            this.textarea.value = "";
-           this.addingCardBox.classList.toggle("adding-box");
+           this.addingCardBox.classList.toggle("hide");
 
         });
     }
@@ -117,7 +118,7 @@ class Section{
     addCancleAddingCardListener(button){
         button.addEventListener('click', (event) => {
             this.textarea.value = "";
-            this.addingCardBox.classList.toggle("adding-box");
+            this.addingCardBox.classList.toggle("hide");
          });
     }
 
@@ -125,13 +126,34 @@ class Section{
 }
 
 class Card{
-    constructor(text){
+    constructor(text, dragging){
         this.text = text;
+        this.dragging = dragging;
     }
     setCard(){
         const article = document.createElement('article');
         article.innerText = this.text;
+        article.setAttribute('draggable','true');
+        this.addDragStartListener(article);
+        this.addDropListener(article);
+
         return article;
+    }
+
+    addDragStartListener(article){
+        article.addEventListener('dragstart', event => {
+            this.dragging.data = event.target;
+        });
+    }
+
+    addDropListener(article){
+        article.addEventListener('dragover', event =>{
+            event.preventDefault();
+        });
+        article.addEventListener('drop', event =>{
+            event.preventDefault();
+            event.target.parentNode.insertBefore(this.dragging.data, event.target.nextElementSibling);
+        });
     }
 
 }
@@ -140,11 +162,13 @@ const setIndexPage = () =>{
     const title = new Title('Wangmin');
     title.setTitle();
     
-    const todoSection = new Section('todo');
+    const dragging = {};
+    
+    const todoSection = new Section('todo',dragging);
     todoSection.setSection();
-    const doingSection = new Section('doing');
+    const doingSection = new Section('doing',dragging);
     doingSection.setSection();
-    const doneSection = new Section('done');
+    const doneSection = new Section('done',dragging);
     doneSection.setSection();
 }
 
