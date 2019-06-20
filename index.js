@@ -17,14 +17,19 @@ class section{
         this.headerName = name;
     }
 
-    // 섹션만들기(){
-    //     main 가져오기
-    //     섹션 생성하기
-    //     헤더 삽입하기(헤더만들기())
-    //     버튼 삽입하기(입력부분 열고닫는 버튼만들기()
-    //     내용 입력부분 삽입하기(내용입력부분만들기())
+    setSection(){
+        const main = document.querySelector('main');
+        const section = document.createElement('section');
+        section.appendChild(this.setHeader());
+        section.appendChild(this.setOpenButton());
+        section.appendChild(this.setAddingCardBox());
+    }
 
-    // }
+    setSection(){
+        const main = document.querySelector('main');
+        const section = document.createElement('section');
+
+    }
 
     // 헤더만들기(){
     //     헤더 생성하기
