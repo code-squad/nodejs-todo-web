@@ -8,8 +8,9 @@ const loginController = require('./controller/login');
 
 app.use(logger());
 app.use(serveStatic());
-app.use('/', loginController.getPage());
-app.use('/todo', todoController.getPage());
+app.get('/', loginController.getPage());
+app.post('/login', loginController.loginRequest());
+app.get('/todo', todoController.getPage());
 app.use(errorHandler.error404());
 app.use(errorHandler.error500());
 
