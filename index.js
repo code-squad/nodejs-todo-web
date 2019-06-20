@@ -33,14 +33,14 @@ class section{
         return header;
     }
 
-    // 입력부분열고닫는버튼만들기(){
-    //     버튼 생성하기
-    //     버튼에 "+" 넣기
-    //     열고닫기 클릭이벤트리스너 추가하기()
+    setOpenButton(){
+        const button = document.createElement('button');
+        button.innerText('+');
+        this.addOpenListener(button);
         
-    //     return 버튼
-    // }
-
+        return button;
+    }
+    
     // 열고닫기 클릭이벤트리스너 추가하기(){
     //     내용입력부분 가져오기
     //     숨기기 클래스 토글하기
