@@ -29,6 +29,18 @@ const Application = class {
 
     this.middleware.add(func);
   }
+
+  get(path, func) {
+    if (!path || !func) throw Error('path and fn is required');
+    func.method = 'get';
+    use(path, fn);
+  }
+
+  post(path, func) {
+    if (!path || !func) throw Error('path and fn is required');
+    func.method = 'post';
+    use(path, fn);
+  }
 }
 
 module.exports = Application;
