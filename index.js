@@ -21,6 +21,14 @@ const addNewCard = function() {
 };
 
 const createEvent = function() {
+  const todoDefaultCard = document.querySelector("#todo-default-card");
+  const doingDefaultCard = document.querySelector("#doing-default-card");
+  const doneDefaultCard = document.querySelector("#done-default-card");
+
+  addDragEvent(todoDefaultCard);
+  addDragEvent(doingDefaultCard);
+  addDragEvent(doneDefaultCard);
+
   const addButton = document.querySelector("#add-input-btn");
   addButton.addEventListener("click", function(event) {
     showDiv();
