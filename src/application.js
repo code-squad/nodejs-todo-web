@@ -33,13 +33,13 @@ const Application = class {
   get(path, func) {
     if (!path || !func) throw Error('path and fn is required');
     func.method = 'get';
-    use(path, fn);
+    this.use(path, func);
   }
 
   post(path, func) {
     if (!path || !func) throw Error('path and fn is required');
     func.method = 'post';
-    use(path, fn);
+    this.use(path, func);
   }
 }
 
