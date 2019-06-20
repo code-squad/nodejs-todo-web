@@ -57,12 +57,12 @@ class section{
         return div
     }
 
-    // 텍스트area만들기(){
-    //     textarea 만들기
-    //     placeHolder 정하기
+    setTextArea(){
+        const textarea = document.createElement('textarea');
+        textarea.placeholder = "Please enter here.";
 
-    //     return textarea
-    // }
+        return textarea
+    }
 
     // 입력,취소버튼만들기(){
     //     div 만들기
