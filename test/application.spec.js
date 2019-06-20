@@ -30,5 +30,20 @@ describe('application module', () => {
 
       should(spy.called).be.equal(true);
     })
+
+    it('파라미터가 하나이고, 함수일 경우에만 미들웨어에 등록', () => {
+      const spy = sinon.spy();
+      const app = new App();
+
+      app.middleware.add = spy;
+
+      app.use('this is not func');
+      should(spy.called).be.equal(false);
+      
+      const func = sinon.stub(() => {});
+      app.use(func);
+      should(spy.called).be.equal(true);
+    })
+
   })
 })
