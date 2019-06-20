@@ -36,16 +36,18 @@ class section{
     setOpenButton(){
         const button = document.createElement('button');
         button.innerText('+');
-        this.addOpenListener(button);
+        this.addingCardBoxOpenListener(button);
         
         return button;
     }
-    
-    // 열고닫기 클릭이벤트리스너 추가하기(){
-    //     내용입력부분 가져오기
-    //     숨기기 클래스 토글하기
-    //     내용입력부분 focus 하기
-    // }
+
+    addingCardBoxOpenListener(button){
+        button.addEventListener('click', (event) => {
+            const addingCardBox = event.target.nextElementSibling;
+            addingCardBox.classList.toggle("adding-box");
+            addingCardBox.firstElementChild.focus();
+        });
+    }
 
     // 내용입력부분만들기(){
     //     div만들기
