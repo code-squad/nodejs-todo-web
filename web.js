@@ -55,19 +55,24 @@ const editTask = function (event) {
     const todoTask = listItem.querySelector("label");
     const editInput = listItem.querySelector('input[type=text]');
     const containsClass = listItem.classList.contains("editMode");
+    const edit_button = listItem.querySelector('button.edit');
     const delete_button = listItem.querySelector('button.delete');
+
+    console.log(edit_button);
 
     //If class of the parent is .editmode
     if (containsClass) {
         todoTask.innerText = editInput.value;
         todoTask.hidden = false;
-        event.target.innerText = 'Edit';
+        // event.target.innerText = 'Edit';
+        edit_button.innerText = 'Edit';
         delete_button.hidden = false;
 
     } else {
         editInput.value = todoTask.innerText;
         todoTask.hidden = true;
-        event.target.innerText = 'save';
+        // event.target.innerText = 'save';
+        edit_button.innerText = 'save';
         delete_button.hidden = true;
     }
     //toggle .editmode on the parent.
