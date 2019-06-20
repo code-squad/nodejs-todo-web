@@ -7,7 +7,6 @@
 #main-board {
   width: 90%;
   background-color: rgb(1, 1, 19);
-  border-radius: 10px;
   text-align: center;
   padding: 80px;
   font-weight: 400;
@@ -22,24 +21,8 @@
   font-weight: 600;
 }
 
-.todo-list {
-  width: 25%;
-  background-color: rgb(161, 193, 253);
-  float: left;
-  margin: 10px;
-  padding: 30px;
-  border-radius: 10px;
-}
-
-.doing-list {
-  width: 25%;
-  background-color: rgb(161, 193, 253);
-  float: left;
-  margin: 10px;
-  padding: 30px;
-  border-radius: 10px;
-}
-
+.todo-list,
+.doing-list,
 .done-list {
   width: 25%;
   background-color: rgb(161, 193, 253);
@@ -73,7 +56,6 @@
   cursor: pointer;
 }
 input[type="text"] {
-  /* display: none; */
   width: 90%;
   margin: 0;
   font-size: 20px;
