@@ -11,6 +11,120 @@ class Title {
 
     }
 }
+class ManagerSection{
+    constructor(dragging){
+        this.dragging = dragging;
+        this.main;
+        this.bin;
+        this.addingSectionBox;
+        this.textarea;
+    }
+    setManagerSection(){
+        this.main = document.querySelector('main');
+        this.section = document.createElement('section');
+        const div = document.createElement('div');
+        div.innerHTML = '<div>+ Add another list</div>';
+        this.section.appendChild(div);
+        this.addBoxOpenListener(div);
+        this.section.appendChild(this.setAddingSectionBox());
+        this.section.appendChild(this.setBin());
+
+        this.main.appendChild(this.section);
+    }
+
+    addBoxOpenListener(button){
+        button.addEventListener('click', (event) => {
+            this.addingSectionBox.classList.toggle("hide");
+            this.textarea.focus();
+        });
+    }
+
+    setAddingSectionBox(){
+        this.addingSectionBox = document.createElement('div');
+        this.addingSectionBox.appendChild(this.setTextArea());
+        this.addingSectionBox.appendChild(this.setButtonBox());
+        this.addingSectionBox.classList.add("hide");
+
+        return this.addingSectionBox;
+    }
+
+    setTextArea(){
+        this.textarea = document.createElement('textarea');
+        this.textarea.placeholder = "Please enter here.";
+
+        return this.textarea
+    }
+
+    setButtonBox(){
+        this.buttonBox = document.createElement('div');
+        this.buttonBox.appendChild(this.setAddButton());
+        this.buttonBox.appendChild(this.setCancleButton());
+    
+        return this.buttonBox
+    }
+
+    setAddButton(){
+        const button = document.createElement('button');
+        button.innerText = 'add';
+        this.addCreateSectionListener(button);
+
+        return button;
+    }
+
+    addCreateSectionListener(button){
+        button.addEventListener('click', (event) => {
+           if(this.textarea.value === ""){
+               alert("내용을 입력해 주세요");
+               return;
+           }
+           const section = new Section(this.textarea.value,this.dragging);
+           const newSection = section.setSection();
+
+           this.textarea.value = "";
+        //    this.addingSectionBox.classList.toggle("hide");
+            this.addingSectionBox.classList.toggle("hide");
+
+
+
+        });
+    }
+
+    setCancleButton(){
+        const button = document.createElement('button');
+        button.innerText = 'cancle';
+        this.addCancleAddingCardListener(button);
+
+        return button;
+    }
+
+    addCancleAddingCardListener(button){
+        button.addEventListener('click', (event) => {
+            this.textarea.value = "";
+            this.addingSectionBox.classList.toggle("hide");
+         });
+    }
+
+
+    setBin(){
+        this.bin = document.createElement('div');
+        this.bin.innerText = 'BIN';
+        this.addDropListener(this.bin);
+    
+        return this.bin;
+    }
+
+    addDropListener(div){
+        div.addEventListener('dragover', event =>{
+            event.preventDefault();
+        });
+        div.addEventListener('drop', event =>{
+            event.preventDefault();
+            this.dragging.data.remove();
+        });
+    }
+
+
+}
 
 class Section{
     constructor(name,dragging){
@@ -31,7 +145,8 @@ class Section{
         this.section.appendChild(this.setOpenButton());
         this.section.appendChild(this.setAddingCardBox())
         this.section.appendChild(this.setCardBox());
-        this.main.appendChild(this.section);
+        this.main.insertBefore(this.section, this.main.lastElementChild);
+        // this.main.appendChild(this.section);
     }
 
     setCardBox(){
@@ -177,6 +292,8 @@ const setIndexPage = () =>{
     title.setTitle();
     
     const dragging = {};
+    const managerSection = new ManagerSection(dragging);
+    managerSection.setManagerSection();
     
     const todoSection = new Section('todo',dragging);
     todoSection.setSection();
