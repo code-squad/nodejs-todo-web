@@ -52,7 +52,7 @@ class section{
     setAddingCardBox(){
         const div = document.createElement('div');
         div.appendChild(this.setTextArea());
-        div.appendChild(this.setButtonDiv());
+        div.appendChild(this.setButtonBox());
     
         return div
     }
@@ -64,13 +64,13 @@ class section{
         return textarea
     }
 
-    // 입력,취소버튼만들기(){
-    //     div 만들기
-    //     add 버튼 삽입하기(add버튼만들기())
-    //     cancle 버튼 삽입하기(cancle버튼만들기())
+    setButtonBox(){
+        const div = Document.createElement('div');
+        div.appendChild(this.setAddButton());
+        div.appendChild(this.setCancleButton());
     
-    //     return div
-    // }
+        return div
+    }
 
     // add버튼만들기(){
     //     add버튼 만들기
