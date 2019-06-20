@@ -4,7 +4,7 @@
   "description": "나만의 TODO 앱 만들기",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "./node_modules/jest/bin/jest.js"
   },
   "repository": {
     "type": "git",
@@ -22,6 +22,11 @@
   },
   "homepage": "https://github.com/cocahack/nodejs-todo-web#readme",
   "devDependencies": {
-    "jest": "^24.8.0"
-  }
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "jest": "^24.8.0",
+    "superagent": "^5.1.0",
+    "supertest": "^4.0.2"
+  },
+  "dependencies": {}
 }
