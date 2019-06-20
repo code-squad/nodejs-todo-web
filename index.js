@@ -6,7 +6,7 @@ class Title {
     setTitle(){
         const body = document.querySelector('body');
         const header = document.createElement('header');
-        header.innerHTML = `<h1>${this.name}'s Todo</h1>`;
+        header.innerText = `${this.name}'s Todo`;
         body.insertBefore(header,body.firstChild);
 
     }
@@ -51,8 +51,16 @@ class ManagerSection{
     setTextArea(){
         this.textarea = document.createElement('textarea');
         this.textarea.placeholder = "Please enter here.";
-
+        this.addKeyListener(this.textarea);
         return this.textarea
+    }
+
+    addKeyListener(textarea){
+        textarea.addEventListener('keyup', event => {
+            if(event.keyCode === 13){
+                this.addSection();
+            }
+        });
     }
 
     setButtonBox(){
@@ -71,21 +79,22 @@ class ManagerSection{
         return button;
     }
 
+    addSection(){
+        if(this.textarea.value === ""){
+            alert("내용을 입력해 주세요");
+            return;
+        }
+        const section = new Section(this.textarea.value,this.dragging);
+        const newSection = section.setSection();
+
+        this.textarea.value = "";
+        this.addingSectionBox.classList.toggle("hide");
+
+    }
+
     addCreateSectionListener(button){
         button.addEventListener('click', (event) => {
-           if(this.textarea.value === ""){
-               alert("내용을 입력해 주세요");
-               return;
-           }
-           const section = new Section(this.textarea.value,this.dragging);
-           const newSection = section.setSection();
-
-           this.textarea.value = "";
-        //    this.addingSectionBox.classList.toggle("hide");
-            this.addingSectionBox.classList.toggle("hide");
-
-
-
+            this.addSection();
         });
     }
 
@@ -146,7 +155,6 @@ class Section{
         this.section.appendChild(this.setAddingCardBox())
         this.section.appendChild(this.setCardBox());
         this.main.insertBefore(this.section, this.main.lastElementChild);
-        // this.main.appendChild(this.section);
     }
 
     setCardBox(){
@@ -156,7 +164,7 @@ class Section{
 
     setHeader(){
         this.header = document.createElement('header');
-        this.header.innerHTML = `<h1>${this.headerName}</h1>`;
+        this.header.innerText = `${this.headerName}`;
         this.addDropListener(this.header);
         return this.header;
     }
@@ -201,8 +209,16 @@ class Section{
     setTextArea(){
         this.textarea = document.createElement('textarea');
         this.textarea.placeholder = "Please enter here.";
-
+        this.addKeyListener(this.textarea);
         return this.textarea
+    }
+
+    addKeyListener(textarea){
+        textarea.addEventListener('keyup', event => {
+            if(event.keyCode === 13){
+                this.addCard();
+            }
+        });
     }
 
     setButtonBox(){
@@ -220,18 +236,21 @@ class Section{
 
         return button;
     }
+    addCard(){
+        if(this.textarea.value === ""){
+            alert("내용을 입력해 주세요");
+            return;
+        }
+        const card = new Card(this.textarea.value, this.dragging);
+        const newCard = card.setCard();
+        this.cardBox.appendChild(newCard);
+        this.textarea.value = "";
+        this.addingCardBox.classList.toggle("hide");
+    }
 
     addCreateCardListener(button){
         button.addEventListener('click', (event) => {
-           if(this.textarea.value === ""){
-               alert("내용을 입력해 주세요");
-               return;
-           }
-           const card = new Card(this.textarea.value, this.dragging);
-           const newCard = card.setCard();
-           this.cardBox.appendChild(newCard);
-           this.textarea.value = "";
-           this.addingCardBox.classList.toggle("hide");
+           this.addCard();
 
         });
     }
