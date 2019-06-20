@@ -68,3 +68,9 @@ input[type="text"] {
   margin-top: 5px;
   display: none;
 }
+
+#todo-default-card,
+#doing-default-card,
+#done-default-card {
+  padding: 1px;
+}
