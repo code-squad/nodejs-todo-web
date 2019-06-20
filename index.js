@@ -21,6 +21,7 @@ class Section{
         this.header;
         this.addingCardBox;
         this.textarea;
+        this.cardBox;
     }
 
     setSection(){
@@ -41,7 +42,7 @@ class Section{
     setHeader(){
         this.header = document.createElement('header');
         this.header.innerHTML = `<h1>${this.headerName}</h1>`;
-
+        this.addDropListener(this.header);
         return this.header;
     }
 
@@ -49,6 +50,7 @@ class Section{
         const button = document.createElement('button');
         button.innerText = '+';
         this.addBoxOpenListener(button);
+        this.addDropListener(button);
         
         return button;
     }
@@ -61,11 +63,23 @@ class Section{
         });
     }
 
+    addDropListener(div){
+        div.addEventListener('dragover', event =>{
+            event.preventDefault();
+        });
+        div.addEventListener('drop', event =>{
+            event.preventDefault();
+            this.cardBox.insertBefore(this.dragging.data, this.cardBox.firstChild);
+        });
+    }
+
     setAddingCardBox(){
         this.addingCardBox = document.createElement('div');
         this.addingCardBox.appendChild(this.setTextArea());
         this.addingCardBox.appendChild(this.setButtonBox());
-    
+        this.addDropListener(this.addingCardBox);
+        this.addingCardBox.classList.add('hide');
+
         return this.addingCardBox
     }
 
