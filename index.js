@@ -49,13 +49,13 @@ class section{
         });
     }
 
-    // 내용입력부분만들기(){
-    //     div만들기
-    //     텍스트area삽입하기 (텍스트area만들기())
-    //     입력,취소 버튼삽입하기 (입력,취소버튼만들기())
-
-    //     return div
-    // }
+    setAddingCardBox(){
+        const div = document.createElement('div');
+        div.appendChild(this.setTextArea());
+        div.appendChild(this.setButtonDiv());
+    
+        return div
+    }
 
     // 텍스트area만들기(){
     //     textarea 만들기
