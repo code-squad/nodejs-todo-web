@@ -18,8 +18,17 @@ body {
 
 }
 
+.section{
+    width: 270px;
+    background: #C8C2B6;
+    margin : 10px;
+    text-align: center;
+}
+
 main{
     padding-left: 10px;
     padding-top: 10px;
     display: flex;
+    align-items: flex-start;
+
 }
