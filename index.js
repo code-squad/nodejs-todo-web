@@ -23,20 +23,15 @@ class section{
         section.appendChild(this.setHeader());
         section.appendChild(this.setOpenButton());
         section.appendChild(this.setAddingCardBox());
+        main.appendChild(section);
     }
 
-    setSection(){
-        const main = document.querySelector('main');
-        const section = document.createElement('section');
+    setHeader(){
+        const header = document.createElement('header');
+        header.innerHTML(`<h1>${this.headerName}</h1>`);
 
+        return header;
     }
-
-    // 헤더만들기(){
-    //     헤더 생성하기
-    //     헤더에 이름넣기
-    
-    //     return 헤더
-    // }
 
     // 입력부분열고닫는버튼만들기(){
     //     버튼 생성하기
