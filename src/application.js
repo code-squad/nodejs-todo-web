@@ -4,13 +4,9 @@ const Middleware = require('../src/middleware');
 
 const Application = class {
   constructor() {
-    this.middleware = new Middleware(this.req, this.res);
-    this.req;
-    this.res;
-  
+    this.middleware = new Middleware();
     this.server =  http.createServer((req, res) => {
-      this.req = req;
-      this.res = res;
+      this.middleware.run(req, res);
     });
   }
 
@@ -19,7 +15,18 @@ const Application = class {
     debug('server is listening');
   }
 
-  use(func) {
+  use(...param) {
+    let [path, func] = param;
+
+    if(param.length === 1 && typeof path === 'function') {
+      func = path;
+    } else if (param.length === 2 && typeof path === 'string' && typeof func === 'function') {
+      func.path = path;
+    } else {
+      console.error('올바르지 않은 use 함수입니다')
+      return;
+    }
+
     this.middleware.add(func);
   }
 }
