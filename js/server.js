@@ -1,26 +1,51 @@
 const http = require('http');
 const path = require('path');
-const url = require('url');
 const fs = require('fs');
 
 const port = 8000;
 
-const server = http.createServer((req, res) => {
-	const pathname = url.parse(req.url).pathname;
-	const method = req.method;
-	const ext = path.parse(req.url).ext;
+const mimeType = {
+	'.ico': 'image/x-icon',
+	'.html': 'text/html',
+	'.js': 'text/javascript',
+	'.css': 'text/css',
+	'.png': 'image/png',
+	'.jpg': 'image/jpeg',
+	'.eot': 'appliaction/vnd.ms-fontobject',
+	'.ttf': 'aplication/font-sfnt'
+};
 
-	if (!ext) {
-		ext = '.html';
+const server = http.createServer((req, res) => {
+	const method = req.method;
+	const url = req.url;
+	const publicPath = path.join(__dirname, '..');
+	let ext = path.parse(req.url).ext;
+
+	if (Object.keys(mimeType).includes(ext)) {
+		fs.readFile(`${publicPath}${req.url}`, (error, file) => {
+			if (error) {
+				console.log(error);
+				res.writeHead(404, { 'Content-Type': 'text/plain' });
+				res.write('404 file not found!');
+			} else {
+				res.writeHead(200, { 'Content-Type': mimeType[ext] });
+				res.write(file);
+			}
+			res.end();
+		});
 	}
 
-	if (pathname === '/' && method === 'GET') {
+	if (url === '/' && method === 'GET') {
 		fs.readFile('../index.html', (error, file) => {
 			if (error) {
-				throw new Error('파일로드오류');
+				console.log(error);
+				res.writeHead(404, { 'Content-Type': 'text/plain' });
+				res.write('404 file not found!');
+			} else {
+				res.writeHead(200, { 'Content-Type': 'text/html' });
+				res.write(file);
 			}
-			res.writeHead(200, { 'Content-Type': 'text/html' });
-			res.end(file);
+			res.end();
 		});
 	}
 });
