@@ -1,5 +1,7 @@
 const ControlData = require('./control_data');
+const Session = require('./session');
 const data = new ControlData();
+const session = new Session();
 
 class Login {
 
@@ -31,14 +33,14 @@ class Login {
     }
   }
 
-  
-
   async checkLogin(inputDataObj){
     let clientArray = await data.readClientData();
     let alreadyExist = clientArray.some((infoObj)=>{return infoObj.email === inputDataObj.email && infoObj.pwd === inputDataObj.pwd})
+    // let sessionInfo = session.makeSession(inputDataObj)
+
     if(alreadyExist){
       console.log("로그인 되었습니다.") 
-      return true
+      return true;
     }else{
       console.log("잘못입력하셨습니다.")
       return false

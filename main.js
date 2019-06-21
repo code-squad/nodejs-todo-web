@@ -2,8 +2,10 @@ const http = require('http');
 const url = require('url');
 const qs = require('querystring');
 const Login = require('./login');
+const Session = require('./session');
 
 const login = new Login;
+const session = new Session;
 
 const app = http.createServer( function(request,response){
     let _url = request.url;
@@ -40,16 +42,18 @@ const app = http.createServer( function(request,response){
         request.on('end', async function(){
             var post = qs.parse(body);
             let loginCheck = await login.checkLogin(post);
-            let nickName = await login.findNickname(post.email);
+            // let nickName = await login.findNickname(post.email);
+            
+            console.log(post)
             if(loginCheck) {
-              response.writeHead(302, {
-                'Set-Cookie':[
-                  `email=${post.email}`,
-                  `password=${post.pwd}`,
-                  `nickname=${nickName}`
-                ],
-                Location: `/`
-              });
+                let sessionData = await session.makeSession(post.email)
+                response.writeHead(302, {
+                    'Set-Cookie':[
+                    `sessionID=${sessionData.ID}`,
+                    `HttpOnly=${sessionData.HttpOnly}`,
+                    ],
+                    Location: `/`
+                });
             }
             response.end();
         });
