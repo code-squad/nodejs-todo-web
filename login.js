@@ -3,18 +3,33 @@ const data = new ControlData();
 
 class Login {
 
+  HTML(list){
+    return `
+    <!doctype html>
+    <html>
+    <head>
+      <title>Login</title>
+      <meta charset="utf-8">
+    </head>
+    <body>
+        ${list}
+    </body>
+    </html>
+    `;
+  }
+
   async signUp(inputDataObj){
-      let clientArray = await data.readClientData();
-      let alreadyExist = clientArray.some((infoObj)=>{return infoObj.email === inputDataObj.email})
-      if(!data.existDataFile() || !alreadyExist){
-        data.makeClientData(inputDataObj)
-        console.log("회원가입이 완료되었습니다.")
-        return true
-      }else{
-        console.log("이미 이메일주소가 있는 가입정보입니다")
-        return false
-      }
+    let clientArray = await data.readClientData();
+    let alreadyExist = clientArray.some((infoObj)=>{return infoObj.email === inputDataObj.email})
+    if(!data.existDataFile() || !alreadyExist){
+      data.makeClientData(inputDataObj)
+      console.log("회원가입이 완료되었습니다.")
+      return true
+    }else{
+      console.log("이미 이메일주소가 있는 가입정보입니다")
+      return false
     }
+  }
 
   
 

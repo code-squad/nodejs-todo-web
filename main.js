@@ -1,13 +1,14 @@
 const http = require('http');
 const url = require('url');
-const loginTemplate = require('./login_template');
 const qs = require('querystring');
 const Login = require('./login');
+
 const login = new Login;
 
 const app = http.createServer( function(request,response){
     let _url = request.url;
-    if(url.parse(_url, true).pathname === "/"){
+    let path = url.parse(_url, true).pathname
+    if(path === "/"){
         let template = 
         `<form action="/login_process" method="post">
         <p><span>이메일 </span><input type="text" name="email" placeholder="email"></p>
@@ -17,9 +18,9 @@ const app = http.createServer( function(request,response){
         </p>
         </form>
         <a href="/signUp">signUp</a>`
-        response.end(loginTemplate.HTML(template));
+        response.end(login.HTML(template));
         response.writeHead(200);
-    }else if(url.parse(_url, true).pathname === "/signUp"){
+    }else if(path === "/signUp"){
         let template = 
         `<form action="/signup_process" method="post">
         <p><span>닉네임 </span><input type="text" name="nickName" placeholder="nickName"></p>
@@ -30,8 +31,8 @@ const app = http.createServer( function(request,response){
           <input type="submit" value="signUp">
         </p>
         </form>`
-        response.end(loginTemplate.HTML(template));
-    }else if(url.parse(_url, true).pathname === "/login_process"){
+        response.end(login.HTML(template));
+    }else if(path === "/login_process"){
         var body = '';
         request.on('data', function(data){
             body = body + data;
@@ -52,7 +53,7 @@ const app = http.createServer( function(request,response){
             }
             response.end();
         });
-    }else if(url.parse(_url, true).pathname === "/signup_process"){
+    }else if(path === "/signup_process"){
         let body = '';
         request.on('data', function (data) {
             body += data;
