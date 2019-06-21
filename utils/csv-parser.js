@@ -27,4 +27,6 @@ const getKeyValueObj = async (path) => {
   return objData;
 }
 
-module.exports = getKeyValueObj;
+module.exports = {
+  getKeyValueObj,
+}
