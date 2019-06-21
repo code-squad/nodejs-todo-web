@@ -69,6 +69,45 @@
         h1 {
             border: 2px solid blue;
         }
+
+        article {
+            border: 2px solid orange;
+            display: flex;
+            height: 80vh;
+            /* width: 80vw; */
+            justify-content: center;
+            align-items: center;
+        }
+
+        #container {
+            border: 2px dotted red;
+            width: 80vw;
+            height: 70vh;
+            display: flex;
+            justify-content: space-around;
+            /* align-items: center; */
+        }
+
+        li {
+            list-style: none;
+            border: 2px dashed black;
+            height: 40vh;
+            width: 20vw;
+        }
+
+        .title {
+            border: 2px solid black;
+            text-align: center;
+        }
+
+        #trashCan {
+            border: 2px solid gray;
+            position: absolute;
+            bottom: 60px;
+            right: 30px;
+            width: 100px;
+            height: 150px;
+        }
     </style>
     <script>
     </script>
@@ -78,15 +117,31 @@
     <header>
         <h1>TODO List</h1>
     </header>
-    <div id="note">circus님 안녕하세요!</div>
-    <div id="item">
-        <fieldset>
-            <legend>로그인</legend>
-            ID : <input type="text" name="id"> <br>
-            PWD : <input type="password" name="pwd"><br>
-            <input type="submit" value="로그인">
-        </fieldset>
-    </div>
+    <aside>
+        <div id="note">circus님 안녕하세요!</div>
+        <div id="item">
+            <fieldset>
+                <legend>로그인</legend>
+                ID : <input type="text" name="id"> <br>
+                PWD : <input type="password" name="pwd"><br>
+                <input type="submit" value="로그인">
+            </fieldset>
+        </div>
+    </aside>
+    <article>
+        <div id="container">
+            <li>
+                <div class="title">todo</div>
+            </li>
+            <li>
+                <div class="title">doing</div>
+            </li>
+            <li>
+                <div class="title">done</div>
+            </li>
+        </div>
+        <div id="trashCan">trash can</div>
+    </article>
 </body>
 
 </html>
