@@ -4,10 +4,8 @@ const data = new ControlData();
 class Login {
 
   async signUp(inputDataObj){
-      // let [name, ID, PW] = inputDataObj;
-      let clientData = await data.readClientData();
-      let alreadyExist = clientData.some((infoObj)=>{return infoObj.email === inputDataObj.email})
-      console.log(alreadyExist)
+      let clientArray = await data.readClientData();
+      let alreadyExist = clientArray.some((infoObj)=>{return infoObj.email === inputDataObj.email})
       if(!data.existDataFile() || !alreadyExist){
         data.makeClientData(inputDataObj)
         console.log("회원가입이 완료되었습니다.")
@@ -20,23 +18,24 @@ class Login {
 
   
 
-  async checkLogin(inputDataArray){
-    let [ID, PW] = inputDataArray;
-    let clientData = await data.readClientData();
-    let alreadyExist = clientData.some((infoObj)=>{return infoObj.ID === ID && infoObj.PW === PW})
-
+  async checkLogin(inputDataObj){
+    let clientArray = await data.readClientData();
+    let alreadyExist = clientArray.some((infoObj)=>{return infoObj.email === inputDataObj.email && infoObj.pwd === inputDataObj.pwd})
     if(alreadyExist){
-      alert("로그인 되었습니다.") 
+      console.log("로그인 되었습니다.") 
       return true
     }else{
-      alert("잘못입력하셨습니다.")
+      console.log("잘못입력하셨습니다.")
       return false
     } 
   }
 
-}
-  
-// const login = new Login
-// login.alreadyExistDataLogin(["ruby413","ruby413"])
+  async findNickname(email){
+    let clientArray = await data.readClientData();
+    let nickName = ""
+    clientArray.forEach((clientData)=>{clientData.email === email ? nickName = clientData.nickName : false})
+    return nickName;
+  }
 
+}
 module.exports = Login;
