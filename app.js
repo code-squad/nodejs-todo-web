@@ -3,11 +3,13 @@ const app = new App();
 const serveStatic = require('./middlewares/serve-static');
 const errorHandler = require('./middlewares/errorHandler');
 const logger = require('./middlewares/logger');
+const bodyParser = require('./middlewares/body-parser');
 const todoController = require('./controller/todo');
 const loginController = require('./controller/login');
 
 app.use(logger());
 app.use(serveStatic());
+app.use(bodyParser());
 app.get('/', loginController.getPage());
 app.post('/login', loginController.loginRequest());
 app.get('/todo', todoController.getPage());
