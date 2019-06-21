@@ -26,6 +26,9 @@ const server = http.createServer(async (req, res) => {
 		}
 	} catch (error) {
 		console.log('error.....', error);
+		const { file, mimeType } = await fs.readFile(`${publicPath}/error-404.html`, ext);
+		res.writeHead(404, { 'Content-Type': mimeType });
+		res.end(file);
 	}
 });
 
