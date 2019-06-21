@@ -71,7 +71,7 @@ class TodoApp {
         const textareaElement = parentElement.querySelector('textarea');
         textareaElement.value = '';
         textareaElement.focus();
-
+        
         liElement.addEventListener('dragstart', event => this.dragStartEvent(event));
         liElement.addEventListener('mouseenter', event => this.handleBtnVitibility(event));
         liElement.addEventListener('mouseleave', event => this.handleBtnVitibility(event));
