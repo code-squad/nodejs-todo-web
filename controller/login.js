@@ -1,5 +1,7 @@
 const path = require('path');
 const fs = require('fs');
+const csvParser = require('../utils/csv-parser');
+const cryptoUtil = require('../utils/crypto-util');
 
 const getPage = () => (req, res, next) => {
   const publicPath = path.join(__dirname, '../public')
@@ -13,6 +15,14 @@ const getPage = () => (req, res, next) => {
   })
 }
 
+const isValidUser = (userObjData, targetId, password) => {
+  if (userObjData[targetId]) {
+    return userObjData[targetId]['password'] === password;
+  }
+  return false;
+}
+
 module.exports = {
   getPage,
+  loginRequest
 }
