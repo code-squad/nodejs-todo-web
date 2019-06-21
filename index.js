@@ -1,21 +1,46 @@
 class Title {
-    constructor(name){
+    constructor(name,dragging){
         this.name = name;
+        this.title;
+        this.bin;
+        this.dragging = dragging;
     }
 
     setTitle(){
         const body = document.querySelector('body');
         const header = document.createElement('header');
-        header.innerText = `${this.name}'s Todo`;
+        this.title = document.createElement('div');
+        this.title.innerText = `${this.name}'s Todo`;
+        header.appendChild(this.title);
+        header.appendChild(this.setBin());
+        header.classList.add('header');
+        this.title.classList.add('title');
         body.insertBefore(header,body.firstChild);
+    }
 
+    setBin(){
+        this.bin = document.createElement('IMG');
+        this.bin.setAttribute('src', 'https://user-images.githubusercontent.com/26920620/59901372-fc627800-9435-11e9-8cb7-e7c3a9a39824.png');
+        this.addDropListener(this.bin);
+        this.bin.classList.add('bin');
+        return this.bin;
+    }
+
+    addDropListener(div){
+        div.addEventListener('dragover', event =>{
+            event.preventDefault();
+        });
+        div.addEventListener('drop', event =>{
+            event.preventDefault();
+            this.dragging.data.remove();
+        });
     }
 }
+
 class ManagerSection{
     constructor(dragging){
         this.dragging = dragging;
         this.main;
-        this.bin;
         this.addingSectionBox;
         this.textarea;
     }
@@ -27,8 +52,8 @@ class ManagerSection{
         this.section.appendChild(div);
         this.addBoxOpenListener(div);
         this.section.appendChild(this.setAddingSectionBox());
-        this.section.appendChild(this.setBin());
-
+        this.section.classList.add('managerSection');
+        div.classList.add('addListButton');
         this.main.appendChild(this.section);
     }
 
@@ -43,6 +68,7 @@ class ManagerSection{
         this.addingSectionBox = document.createElement('div');
         this.addingSectionBox.appendChild(this.setTextArea());
         this.addingSectionBox.appendChild(this.setButtonBox());
+        this.addingSectionBox.classList.add('addingCardBox');
         this.addingSectionBox.classList.add("hide");
 
         return this.addingSectionBox;
@@ -52,6 +78,7 @@ class ManagerSection{
         this.textarea = document.createElement('textarea');
         this.textarea.placeholder = "Please enter here.";
         this.addKeyListener(this.textarea);
+        this.textarea.classList.add('cardTextArea');
         return this.textarea
     }
 
@@ -67,14 +94,15 @@ class ManagerSection{
         this.buttonBox = document.createElement('div');
         this.buttonBox.appendChild(this.setAddButton());
         this.buttonBox.appendChild(this.setCancleButton());
-    
+        this.buttonBox.classList.add('buttonBox');
         return this.buttonBox
     }
 
     setAddButton(){
         const button = document.createElement('button');
-        button.innerText = 'add';
+        button.innerText = '+';
         this.addCreateSectionListener(button);
+        button.classList.add('addButton');
 
         return button;
     }
@@ -100,9 +128,9 @@ class ManagerSection{
 
     setCancleButton(){
         const button = document.createElement('button');
-        button.innerText = 'cancle';
+        button.innerText = 'X';
         this.addCancleAddingCardListener(button);
-
+        button.classList.add('cancleButton');
         return button;
     }
 
@@ -112,26 +140,6 @@ class ManagerSection{
             this.addingSectionBox.classList.toggle("hide");
          });
     }
-
-
-    setBin(){
-        this.bin = document.createElement('div');
-        this.bin.innerText = 'BIN';
-        this.addDropListener(this.bin);
-    
-        return this.bin;
-    }
-
-    addDropListener(div){
-        div.addEventListener('dragover', event =>{
-            event.preventDefault();
-        });
-        div.addEventListener('drop', event =>{
-            event.preventDefault();
-            this.dragging.data.remove();
-        });
-    }
-
 
 }
 
@@ -154,7 +162,16 @@ class Section{
         this.section.appendChild(this.setOpenButton());
         this.section.appendChild(this.setAddingCardBox())
         this.section.appendChild(this.setCardBox());
+        this.section.classList.add('section');
+        this.section.setAttribute('draggable','true');
+        this.addDragStartListener(this.section);
         this.main.insertBefore(this.section, this.main.lastElementChild);
+    }
+
+    addDragStartListener(section){
+        section.addEventListener('dragstart', event => {
+            this.dragging.data = event.target;
+        });
     }
 
     setCardBox(){
@@ -166,6 +183,7 @@ class Section{
         this.header = document.createElement('header');
         this.header.innerText = `${this.headerName}`;
         this.addDropListener(this.header);
+        this.header.classList.add('sectionHeader');
         return this.header;
     }
 
@@ -174,7 +192,7 @@ class Section{
         button.innerText = '+';
         this.addBoxOpenListener(button);
         this.addDropListener(button);
-        
+        button.classList.add('openButton');
         return button;
     }
 
@@ -191,6 +209,7 @@ class Section{
             event.preventDefault();
         });
         div.addEventListener('drop', event =>{
+            if(this.dragging.data.tagName !== "ARTICLE") return;
             event.preventDefault();
             this.cardBox.insertBefore(this.dragging.data, this.cardBox.firstChild);
         });
@@ -202,6 +221,7 @@ class Section{
         this.addingCardBox.appendChild(this.setButtonBox());
         this.addDropListener(this.addingCardBox);
         this.addingCardBox.classList.add('hide');
+        this.addingCardBox.classList.add('addingCardBox');
 
         return this.addingCardBox
     }
@@ -210,6 +230,7 @@ class Section{
         this.textarea = document.createElement('textarea');
         this.textarea.placeholder = "Please enter here.";
         this.addKeyListener(this.textarea);
+        this.textarea.classList.add('cardTextArea');
         return this.textarea
     }
 
@@ -225,13 +246,14 @@ class Section{
         this.buttonBox = document.createElement('div');
         this.buttonBox.appendChild(this.setAddButton());
         this.buttonBox.appendChild(this.setCancleButton());
-    
+        this.buttonBox.classList.add('buttonBox');
         return this.buttonBox
     }
 
     setAddButton(){
         const button = document.createElement('button');
-        button.innerText = 'add';
+        button.innerText = '+';
+        button.classList.add('addButton');
         this.addCreateCardListener(button);
 
         return button;
@@ -257,8 +279,9 @@ class Section{
 
     setCancleButton(){
         const button = document.createElement('button');
-        button.innerText = 'cancle';
+        button.innerText = 'X';
         this.addCancleAddingCardListener(button);
+        button.classList.add('cancleButton');
 
         return button;
     }
@@ -284,6 +307,7 @@ class Card{
         article.setAttribute('draggable','true');
         this.addDragStartListener(article);
         this.addDropListener(article);
+        article.classList.add('card');
 
         return article;
     }
@@ -299,6 +323,7 @@ class Card{
             event.preventDefault();
         });
         article.addEventListener('drop', event =>{
+            if(this.dragging.data.tagName !== "ARTICLE") return;
             event.preventDefault();
             event.target.parentNode.insertBefore(this.dragging.data, event.target.nextElementSibling);
         });
@@ -307,10 +332,10 @@ class Card{
 }
 
 const setIndexPage = () =>{
-    const title = new Title('Wangmin');
+    const dragging = {};
+    const title = new Title('Wangmin',dragging);
     title.setTitle();
     
-    const dragging = {};
     const managerSection = new ManagerSection(dragging);
     managerSection.setManagerSection();
     
