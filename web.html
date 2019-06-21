@@ -11,31 +11,32 @@
 
         html,
         body {
+            padding: 0;
             margin: 0;
-            height: 100%;
-            overflow: hidden;
         }
 
-        .container {
-            border: 1px solid red;
-            display: flex;
-            height: 100%;
+        body {
+            border: 2px solid red;
+            margin: 0;
+            position: relative;
+            height: 100vh;
+            overflow: hidden;
+            /*박스를 넘어가면 숨긴다.*/
         }
 
         #item {
             border: 2px solid green;
             position: absolute;
             width: 300px;
-            height: 100%;
-            left: -250px;
-            transition-property: left;
-            transition-duration: 1s;
-            transition-timing-function: ease;
-            transition-delay: 0.5s;
+            height: 100vh;
+            top: 0;
+            transition: transform 1s ease 0.3s;
+            transform: translateX(-250px);
         }
 
         #item:hover {
-            left: 0;
+            transition: transform 1s ease 0.3s;
+            transform: translateX(0px);
         }
 
         fieldset {
@@ -45,16 +46,28 @@
         #note {
             border: 2px solid black;
             position: absolute;
-            width: 100%;
+            width: 100vw;
             height: 100px;
             font-size: 3rem;
             text-align: center;
-            top: -80px;
-            transition: top 1s ease 0.3s;
+            top: 0;
+            transition: transform 1s ease 0.3s;
+            transform: translateY(-80px);
         }
 
         #note:hover {
-            top: 0px;
+            transition: transform 1s ease 0.3s;
+            transform: translateY(0px);
+        }
+
+        header {
+            border: 2px solid skyblue;
+            display: flex;
+            justify-content: center;
+        }
+
+        h1 {
+            border: 2px solid blue;
         }
     </style>
     <script>
@@ -62,16 +75,17 @@
 </head>
 
 <body>
-    <div class="container">
-        <div id="note">circus님 안녕하세요!</div>
-        <div id="item">
-            <fieldset>
-                <legend>로그인</legend>
-                ID : <input type="text" name="id"> <br>
-                PWD : <input type="password" name="pwd"><br>
-                <input type="submit" value="로그인">
-            </fieldset>
-        </div>
+    <header>
+        <h1>TODO List</h1>
+    </header>
+    <div id="note">circus님 안녕하세요!</div>
+    <div id="item">
+        <fieldset>
+            <legend>로그인</legend>
+            ID : <input type="text" name="id"> <br>
+            PWD : <input type="password" name="pwd"><br>
+            <input type="submit" value="로그인">
+        </fieldset>
     </div>
 </body>
 
