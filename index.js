@@ -3,10 +3,19 @@ let draggingTarget = null;
 const createNewCard = function(input) {
   const newCard = document.createElement("div");
   const cardText = document.createTextNode(input);
+  const deleteButton = document.createElement("button");
   newCard.setAttribute("class", "todo-card");
   newCard.setAttribute("draggable", true);
+  deleteButton.innerText = "Delete";
+  deleteButton.setAttribute("class", "delete-card-btn");
+
   newCard.appendChild(cardText);
+  newCard.appendChild(deleteButton);
+
   addDragEvent(newCard);
+  deleteButton.addEventListener("click", function(event) {
+    deleteCard(event);
+  });
   return newCard;
 };
 
@@ -19,6 +28,12 @@ const addNewCard = function() {
   todoBoard.appendChild(newCard);
   inputText.value = "";
   hideInputTextBox();
+};
+
+const deleteCard = function(event) {
+  const targetCard = event.target.parentNode;
+  const targetList = targetCard.parentNode;
+  targetList.removeChild(targetCard);
 };
 
 const createEvent = function() {

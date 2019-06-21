@@ -55,6 +55,16 @@
   color: white;
   cursor: pointer;
 }
+.delete-card-btn {
+  margin-top: 2px;
+  padding: 3px;
+  background-color: rgb(53, 65, 236);
+  border-radius: 5px;
+  float: right;
+  color: white;
+  cursor: pointer;
+}
+
 #todo-input-text {
   width: 90%;
   margin: 0;
