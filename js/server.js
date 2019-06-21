@@ -14,17 +14,21 @@ const server = http.createServer(async (req, res) => {
 		ext = '.html';
 	}
 
-	if (url === '/' && method === 'GET') {
-		const { file, mimeType } = await fs.readFile(`${publicPath}/index.html`, ext);
-		res.writeHead(200, { 'Content-Type': mimeType });
-		res.end(file);
+	try {
+		if (url === '/' && method === 'GET') {
+			const { file, mimeType } = await fs.readFile(`${publicPath}/index.html`, ext);
+			res.writeHead(200, { 'Content-Type': mimeType });
+			res.end(file);
+		} else {
+			const { file, mimeType } = await fs.readFile(`${publicPath}${url}`, ext);
+			res.writeHead(200, { 'Content-Type': mimeType });
+			res.end(file);
+		}
+	} catch (error) {
+		console.log('error.....', error);
 	}
 });
 
-try {
-	server.listen(port, () => {
-		console.log(`start server ${port} port....!!`);
-	});
-} catch (error) {
-	console.log('error....', error);
-}
+server.listen(port, () => {
+	console.log(`start server ${port} port....!!`);
+});
