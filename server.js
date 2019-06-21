@@ -1,20 +1,19 @@
-const stateCode = require('./state_code');
-const http = require('http');
+const httpState = require('./http_state');
+const utility   = require('./utility');
+const mime      = require('./mime');
+const http      = require('http');
+const path      = require('path');
+const fs        = require('fs');
+
+const loadStaticFile = (request, response) => {
+    const extension = utility.parse(request.url);
+    response.writeHeader(httpState.OK, {'Content-Type': mime[extension]});
+    fs.createReadStream(path.join(__dirname, request.url)).pipe(response);
+}
 
 const serverEventEmitter = http.createServer((request, response) => {
-    request.on('error', (error) => {
-        console.error(error);
-        response.statusCode = stateCode['BAD_REQUEST'];
-        response.end();
-    });
-
-    response.on('error', (error) => console.error(error));
-
-    if (request.method === 'GET' && request.url === '/') {
-        request.pipe(response);
-    } else {
-        response.statusCode = stateCode['NOT_FOUND'];
-        response.end();
+    switch (request.method) {
+        case 'GET': loadStaticFile(request, response); break;
     }
 });
 

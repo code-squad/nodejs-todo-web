@@ -1,4 +1,5 @@
 const server = require('./server');
+const hostName = 'localhost';
 const portNumber = 8080;
 
-server.listen(portNumber, () => console.log(`${portNumber}번 포트의 서버가 대기중입니다..`) );
+server.listen(portNumber, hostName ,() => console.log(`Server running at http://${hostName}:${portNumber}/`));

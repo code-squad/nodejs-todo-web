@@ -1,4 +1,4 @@
-module.exports.stateCode = {
+module.exports = {
     // Success
     'OK'                    : 200,
     'CREATED'               : 201,
