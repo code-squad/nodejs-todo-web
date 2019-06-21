@@ -100,11 +100,36 @@
             border: 2px dashed black;
             height: 40vh;
             width: 20vw;
+            display: flex;
+            /* justify-content: center; */
+            flex-direction: column;
+            align-items: center;
         }
 
         .title {
-            border: 2px solid black;
             text-align: center;
+            font-family: 'Pacifico', cursive;
+            font-size: 2em;
+            border-top-right-radius: 27px;
+            border-bottom-right-radius: 27px;
+            border-top-left-radius: 27px;
+            border-bottom-left-radius: 27px;
+            background-image: linear-gradient(to right, #cff5a4, #8aee7c);
+            height: 55px;
+            width: 100%;
+        }
+
+        textarea {
+            /* border: 0; */
+            /* padding: 5px; */
+            margin: 5px;
+            border: 1.5px solid floralwhite;
+            border-top-right-radius: 27px;
+            border-bottom-right-radius: 27px;
+            border-top-left-radius: 27px;
+            border-bottom-left-radius: 27px;
+            text-align: center;
+            overflow: visible;
         }
 
         #trashCan {
@@ -114,6 +139,24 @@
             right: 30px;
             width: 100px;
             height: 150px;
+        }
+
+        .add {
+            margin: 10px;
+            background: #8aee7c;
+            height: 30px;
+            position: relative;
+            width: 6px;
+        }
+
+        .add:after {
+            background: #8aee7c;
+            content: "";
+            height: 6px;
+            left: -12px;
+            position: absolute;
+            top: 12px;
+            width: 30px;
         }
     </style>
     <script>
@@ -140,12 +183,16 @@
         <div id="container">
             <li>
                 <div class="title">todo</div>
+                <textarea cols="30"></textarea>
+                <div class="add"></div>
             </li>
             <li>
                 <div class="title">doing</div>
+                <div class="add"></div>
             </li>
             <li>
                 <div class="title">done</div>
+                <div class="add"></div>
             </li>
         </div>
         <div id="trashCan">trash can</div>
