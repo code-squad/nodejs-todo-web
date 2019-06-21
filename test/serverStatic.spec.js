@@ -1,6 +1,5 @@
 const should = require('should');
-const ServeStatic = require('../src/serve-static');
-const serveStatic = new ServeStatic();
+const serveStatic = require('../middlewares/serve-static');
 
 describe('serveStatic Module', () => {
   it('요청 url 파일 확장자 가져오기', () => {

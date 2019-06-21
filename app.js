@@ -1,21 +1,19 @@
 const App = require('./src/application');
 const app = new App();
 const serveStatic = require('./middlewares/serve-static');
-const index = require('./routers/index')
+const errorHandler = require('./middlewares/errorHandler');
+const logger = require('./middlewares/logger');
+const bodyParser = require('./middlewares/body-parser');
+const todoController = require('./controller/todo');
+const loginController = require('./controller/login');
 
-const error404 = (req, res, next) => {
-  res.statusCode = 404;
-  res.end('Not Found')
-}
-
-const error = (err, req, res, next) => {
-  res.statusCode = 500;
-  res.end()
-}
-
-app.use('/', index.index());
+app.use(logger());
 app.use(serveStatic());
-app.use(error404);
-app.use(error);
+app.use(bodyParser());
+app.get('/', loginController.getPage());
+app.post('/login', loginController.loginRequest());
+app.get('/todo', todoController.getPage());
+app.use(errorHandler.error404());
+app.use(errorHandler.error500());
 
 module.exports = app;
