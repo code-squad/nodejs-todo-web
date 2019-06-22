@@ -2,6 +2,7 @@
   text-align: center;
   color: rgb(13, 4, 63);
   font-size: 90px;
+  user-select: none;
 }
 
 #main-board {
@@ -22,6 +23,7 @@
 .todo-list,
 .doing-list,
 .done-list {
+  user-select: none;
   width: 25%;
   background-color: rgb(161, 193, 253);
   border: 5px solid #000000;
@@ -90,6 +92,7 @@
   border-radius: 10px;
   color: white;
   cursor: pointer;
+  user-select: none;
 }
 
 #todo-input-text {
