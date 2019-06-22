@@ -13,6 +13,7 @@ const createNewCard = function(input) {
   cardText.innerText = input;
   deleteButton.innerText = "Delete";
   deleteButton.setAttribute("class", "delete-card-btn");
+  editText.setAttribute("value", input);
   editText.setAttribute("id", "edit-text");
   editText.setAttribute("type", "text");
   editButton.innerText = "Edit";
@@ -56,9 +57,11 @@ const editCard = function(event) {
   const targetCard = event.target.parentNode;
   const cardText = targetCard.querySelector(".card-text");
   const editTextBox = event.target;
-  if (!editTextBox.value) return hideEditInputBox(event);
+  if (!editTextBox.value) {
+    editTextBox.value = cardText.innerText;
+    return hideEditInputBox(event);
+  }
   cardText.innerText = editTextBox.value;
-  editTextBox.value = "";
   hideEditInputBox(event);
 };
 
