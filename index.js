@@ -2,20 +2,36 @@ let draggingTarget = null;
 
 const createNewCard = function(input) {
   const newCard = document.createElement("div");
-  const cardText = document.createTextNode(input);
+  const cardText = document.createElement("div");
   const deleteButton = document.createElement("button");
+  const editText = document.createElement("input");
+  const editButton = document.createElement("button");
+
   newCard.setAttribute("class", "todo-card");
   newCard.setAttribute("draggable", true);
+  cardText.setAttribute("class", "card-text");
+  cardText.innerText = input;
   deleteButton.innerText = "Delete";
   deleteButton.setAttribute("class", "delete-card-btn");
+  editText.setAttribute("id", "edit-text");
+  editText.setAttribute("type", "text");
+  editButton.innerText = "Edit";
+  editButton.setAttribute("class", "edit-card-btn");
 
   newCard.appendChild(cardText);
   newCard.appendChild(deleteButton);
+  newCard.appendChild(editText);
+  newCard.appendChild(editButton);
 
   addDragEvent(newCard);
+
   deleteButton.addEventListener("click", function(event) {
     deleteCard(event);
   });
+  editButton.addEventListener("click", function(event) {
+    showEditInputBox(event);
+  });
+  createEnterKeyEvent(editText, editCard);
   return newCard;
 };
 
@@ -36,6 +52,26 @@ const deleteCard = function(event) {
   targetList.removeChild(targetCard);
 };
 
+const editCard = function(event) {
+  const targetCard = event.target.parentNode;
+  const cardText = targetCard.querySelector(".card-text");
+  const editTextBox = event.target;
+  if (!editTextBox.value) return hideEditInputBox(event);
+  cardText.innerText = editTextBox.value;
+  editTextBox.value = "";
+  hideEditInputBox(event);
+};
+
+const showEditInputBox = function(event) {
+  const editInputBox = event.target.previousSibling;
+  editInputBox.style.display = "block";
+  editInputBox.focus();
+};
+
+const hideEditInputBox = function(event) {
+  event.target.style.display = "none";
+};
+
 const createEvent = function() {
   const todoDefaultCard = document.querySelector("#todo-default-card");
   const doingDefaultCard = document.querySelector("#doing-default-card");
@@ -45,7 +81,7 @@ const createEvent = function() {
   addDragEvent(doingDefaultCard);
   addDragEvent(doneDefaultCard);
 
-  const addButton = document.querySelector("#add-input-btn");
+  const addButton = document.querySelector(".add-card-btn");
   addButton.addEventListener("click", function(event) {
     showInputTextBox();
   });
@@ -84,6 +120,7 @@ const addDragEvent = function(card) {
   });
 
   card.addEventListener("dragenter", function(event) {
+    if (event.target.className === "card-text") return;
     if (!event.target.nextElementSibling) {
       event.target.style["border-bottom"] = "solid 7px darkblue";
     } else {
@@ -97,6 +134,7 @@ const addDragEvent = function(card) {
   });
 
   card.addEventListener("drop", function(event) {
+    if (event.target.className === "card-text") return;
     event.target.style["border-top"] = "";
     event.target.style["border-bottom"] = "";
     if (!event.target.nextElementSibling) {
