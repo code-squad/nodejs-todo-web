@@ -20,6 +20,54 @@ body {
   background: #74ebd5;  /* fallback for old browsers */
   background: -webkit-linear-gradient(to right, #ACB6E5, #74ebd5);  /* Chrome 10-25, Safari 5.1-6 */
   background: linear-gradient(to right, #ACB6E5, #74ebd5); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  margin: 0 0;
+}
+
+#header-wrapper {
+  background: whitesmoke;
+  opacity: 0.5;
+  height: 60px;
+  display: flex;
+}
+
+#header-welcome-message {
+  justify-content: flex-start;
+  display: flex;
+  flex-grow: 1;
+  color: black;
+  margin: auto;
+  padding-left: 20px;
+}
+
+#header-user-id {
+  font-weight: bold;
+}
+
+#header-logout-img {
+  max-width: 23px;
+  max-height: 23px;
+  vertical-align: text-bottom;
+  padding-right: 5px;
+}
+
+#header-logout {
+  display: flex;
+  color: black;
+  justify-content: flex-end;
+  flex-grow: 1.2;
+  margin: auto;
+  padding-right: 20px;
+  font-weight: bold;
+}
+
+#header-title {
+  text-align: center;
+  padding: 10px 0px 10px 0px;
+  color: #ef5285;
+  font-size: 30px;
+  margin: 0 0;
+  flex-grow: 1;
+  font-weight: bold;
 }
 
 p {
@@ -38,13 +86,6 @@ footer {
   color: white;
   text-align: center;
   background-color: #333333;
-}
-
-#main-title {
-  text-align: center;
-  padding: 10px 0px 10px 0px;
-  color: #ef5285;
-  font-size: 60px;
 }
 
 .board {
@@ -138,6 +179,7 @@ footer {
   min-height: 700px;
   margin: auto;
   width: 81%;
+  padding-top: 40px;
 }
 
 textarea {

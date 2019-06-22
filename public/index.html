@@ -8,8 +8,17 @@
 <link rel="stylesheet" href="./css/index.css">
 
 <body>
-  <header>
-    <h1 id='main-title'>TODO APP</h1>
+  <header id="header-wrapper">
+    <div id="header-welcome-message">
+      <span>welocome <span id="header-user-id">${userID}</span></span>
+    </div>
+    <div id='header-title'>
+      <span>TODO</span>
+    </div>
+    <div id="header-logout">
+      <span><img src="img/logout.png" id="header-logout-img" alt='logout-image'></span>
+      <span>Logout</span>
+    </div>
   </header>
 
   <section id="board-wrapper">
