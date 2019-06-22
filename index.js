@@ -73,13 +73,12 @@ const hideEditInputBox = function(event) {
 };
 
 const createEvent = function() {
-  const todoDefaultCard = document.querySelector("#todo-default-card");
-  const doingDefaultCard = document.querySelector("#doing-default-card");
-  const doneDefaultCard = document.querySelector("#done-default-card");
-
-  addDragEvent(todoDefaultCard);
-  addDragEvent(doingDefaultCard);
-  addDragEvent(doneDefaultCard);
+  const todoList = document.querySelector(".todo-list");
+  const doingList = document.querySelector(".doing-list");
+  const doneList = document.querySelector(".done-list");
+  addDragEvent(todoList);
+  addDragEvent(doingList);
+  addDragEvent(doneList);
 
   const addButton = document.querySelector(".add-card-btn");
   addButton.addEventListener("click", function(event) {
@@ -120,11 +119,11 @@ const addDragEvent = function(card) {
   });
 
   card.addEventListener("dragenter", function(event) {
-    if (event.target.className === "card-text") return;
-    if (!event.target.nextElementSibling) {
-      event.target.style["border-bottom"] = "solid 7px darkblue";
-    } else {
-      event.target.style["border-top"] = "solid 7px darkblue";
+    if (event.target.className === "board") {
+      event.target.style["border-bottom"] = "solid 60px rgb(161, 193, 253)";
+    }
+    if (event.target.className === "todo-card") {
+      event.target.style["border-top"] = "solid 15px darkblue";
     }
   });
 
@@ -134,12 +133,12 @@ const addDragEvent = function(card) {
   });
 
   card.addEventListener("drop", function(event) {
-    if (event.target.className === "card-text") return;
     event.target.style["border-top"] = "";
     event.target.style["border-bottom"] = "";
-    if (!event.target.nextElementSibling) {
-      event.target.parentNode.appendChild(draggingTarget);
-    } else {
+    if (event.target.className === "board") {
+      event.target.appendChild(draggingTarget);
+    }
+    if (event.target.className === "todo-card") {
       event.target.parentNode.insertBefore(draggingTarget, event.target);
     }
   });

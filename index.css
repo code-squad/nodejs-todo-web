@@ -12,6 +12,10 @@
   height: 10px;
 }
 
+.board{
+    padding:10px;
+}
+
 .list-title {
   text-align: center;
   color: rgb(9, 0, 41);
@@ -119,10 +123,4 @@
   color: #888888;
   margin-top: 5px;
   display: none;
-}
-
-#todo-default-card,
-#doing-default-card,
-#done-default-card {
-  padding: 1px;
 }
