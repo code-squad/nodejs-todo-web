@@ -5,10 +5,9 @@ const getRegExp = (value) => {
   return `/\$[\{]${value}[\}]/g`;
 }
 
-const view = async (dataObj) => {
-  
+const view = async (dataObj,fileName) => {
   const publicPath = path.join(__dirname, '../public')
-  let data = await fileUtil.readFile(`${publicPath}/index.html`);
+  let data = await fileUtil.readFile(`${publicPath}/${fileName}`);
   
   // Object.keys(dataObj).forEach(async (targetData) => {
   //   const regExp = getRegExp(targetData);

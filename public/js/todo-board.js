@@ -21,14 +21,50 @@ const TodoBoardEvent = class {
     return element;
   }
 
-  submitCardEvent(event, addInputBoxBtn) {
+  ajax() {
+    
+    const submitCardAjax = async (content, type) => {
+      const url = '/add';
+      const response = await fetch(url, {
+        method : 'POST',
+        body : `data=${content}&type=${type}`
+      });
+      const ajaxText = await response.text();
+
+      if (ajaxText === 'success') {
+        console.log('this is success');
+        return ajaxText;
+      }
+    }
+
+    const removeCardAjax = () => {
+    }
+
+    const dragCardAjax = () => {
+
+    }
+
+    return {
+      submitCardAjax,
+      removeCardAjax,
+      dragCardAjax,
+    }
+  }
+
+  async submitCardEvent(event, addInputBoxBtn) {
     const submitBtn = event.target;
     const board = submitBtn.parentElement.parentElement;
-
+    const cardType = board.className.split(' ')[1];
     const cardTitle = $('.card-title-input', submitBtn.parentElement)[0].value;
 
     if (cardTitle === '') {
       alert('내용을 입력해주세요');
+      return;
+    }
+
+    const answer = await this.ajax().submitCardAjax(cardTitle, cardType);
+    
+    if (answer !== 'success') {
       return;
     }
 
@@ -39,7 +75,7 @@ const TodoBoardEvent = class {
 
     const cardWrapper = $('.card-wrapper', board)[0];
     const exitBtns = $('.card-image-exit', cardSectionElement)[0];
-    
+
     exitBtns.addEventListener('click', (event) => {
       this.deleteCardEvent(event);
     })
@@ -144,7 +180,7 @@ const TodoBoardEvent = class {
     })
   }
 
-  addDragEvent() {
+  addEventForExistCard() {
     const boardElements = $('.board');
 
     Array.from(boardElements).forEach((board) => {
@@ -155,6 +191,18 @@ const TodoBoardEvent = class {
       board.addEventListener('drop', (event) => {
         this.drop(event);
       });
+    })
+
+    const cards = $('.card');
+    Array.from(cards).forEach((card) => {
+      this.addDragStartEvent(card);
+    })
+
+    const existExitBtns = $('.card .card-image-exit');
+    Array.from(existExitBtns).forEach((btn) => {
+      btn.addEventListener('click', (event) => {
+        this.deleteCardEvent(event);
+      })
     })
   }
 
@@ -191,7 +239,7 @@ const TodoBoardEvent = class {
 
   run() {
     this.addCardEvent();
-    this.addDragEvent();
+    this.addEventForExistCard();
   }
 }
 
