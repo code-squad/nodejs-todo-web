@@ -18,34 +18,39 @@ const convert = (url) => {
 }
 
 const loadStaticFile = async (requestURL, response) => {
-    console.log(`>> load static file`);
+    console.time(`>> load static`);
     const url = convert(requestURL);
     const extension = utility.parse(url);
     response.writeHeader(httpStatus.OK, { 'Content-Type': mime[extension] });
     fs.createReadStream(path.join(__dirname, url)).pipe(response);
+    console.timeEnd(`>> load static`);
 }
 
 const readMemberInfo = () => {
     return new Promise((resolve) => {
-        console.log(`>> read file`);
+        console.time(`>> read file`);
         fs.readFile('./member_Information.csv', 'utf-8', (error, data) => resolve(`{${data.substr(0, data.length - 1)}}`));
+        console.timeEnd(`>> read file`);
     });
 }
 
 const checkMember = async (input) => {
+    console.time(`>> check member`);
     const member = JSON.parse(await readMemberInfo());
+    console.timeEnd(`>> check member`);
     return (member[input.id] === input.pw) ? true : false;
 }
 
 const writeMemberInfo = async (input) => {
-    console.log(`>> write file`);
+    console.time(`>> write file`);
     const writeData = `"${input.id}":"${input.pw}",`;
     const option = { encoding: 'utf-8', flag: 'a' };
     fs.appendFile('./member_Information.csv', writeData, option);
+    console.timeEnd(`>> write file`);
 }
 
 const signIn = async (input) => {
-    console.log(`sign in check`);
+    console.log(`${input.id}`);
     if (await checkMember(input)) {
         // 세션 ID 발급
         // 쿠키에 SID 정보 저장..
@@ -56,7 +61,6 @@ const signIn = async (input) => {
 }
 
 const signUp = async (input) => {
-    console.log(`sign up check`);
     if (!await checkMember(input)) {
         writeMemberInfo(input);
         return true;
@@ -67,17 +71,21 @@ const signUp = async (input) => {
 const receiveData = (request) => {
     return new Promise((resolve) => {
         let body = '';
+        console.time(`>> receive data`);
         request.on('data', (chunk) => body += chunk).on('end', () => resolve(queryString.parse(body)));
+        console.timeEnd(`>> receive data`);
     });
 }
 
 const sign = async (request, response) => {
+    console.time(`>> sign`);
     const input = await receiveData(request);
     if (request.url === '/signInCheck') {
         if (await signIn(input)) loadStaticFile('/todoListPage', response);
         else loadStaticFile('/signInPage', response);
     } else if (request.url === '/signUpCheck') {
     }
+    console.timeEnd(`>> sign`);
 }
 
 const serverEventEmitter = http.createServer((request, response) => {
