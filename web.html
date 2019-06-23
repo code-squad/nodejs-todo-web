@@ -24,23 +24,31 @@
             overflow: hidden;
         }
 
-        #item {
-            border: 2px solid green;
+        #loginImg {
             position: absolute;
-            width: 300px;
+            height: 100%;
+            width: 100%;
+            opacity: 0.5;
+            z-index: -1;
+        }
+
+        .loginWindow {
+            position: absolute;
+            width: 250px;
             height: 100vh;
             top: 0;
             transition: transform 1s ease 0.3s;
-            transform: translateX(-250px);
+            transform: translateX(-200px);
         }
 
-        #item:hover {
+        .loginWindow:hover,
+        :focus {
             transition: transform 1s ease 0.3s;
             transform: translateX(0px);
         }
 
         fieldset {
-            width: 250px;
+            width: 200px;
         }
 
         #note {
@@ -101,7 +109,6 @@
             height: 40vh;
             width: 20vw;
             display: flex;
-            /* justify-content: center; */
             flex-direction: column;
             align-items: center;
         }
@@ -120,10 +127,11 @@
         }
 
         textarea {
-            /* border: 0; */
-            /* padding: 5px; */
-            margin: 5px;
-            border: 1.5px solid floralwhite;
+            resize: none;
+            margin: 10px;
+            height: 55px;
+            width: 100%;
+            /* border: 1.5px solid floralwhite; */
             border-top-right-radius: 27px;
             border-bottom-right-radius: 27px;
             border-top-left-radius: 27px;
@@ -158,6 +166,36 @@
             top: 12px;
             width: 30px;
         }
+
+        #username,
+        #password,
+        #loginBtn {
+            width: 100%;
+            height: 20%;
+            margin-top: 5%;
+            margin-bottom: 5%;
+            border-top-right-radius: 27px;
+            border-bottom-right-radius: 27px;
+            border-top-left-radius: 27px;
+            border-bottom-left-radius: 27px;
+            text-align: center;
+        }
+
+        #loginBtn {
+            background-image: linear-gradient(to right, #cff5a4, #8aee7c);
+            transition: background-image 0.25s linear 0.25s;
+        }
+
+        #loginBtn:hover {
+            background-image: linear-gradient(to right, #ccf5f5, #8feeee);
+        }
+
+        .loginContainer {
+            width: 70%;
+            height: 30%;
+            margin-top: 30%;
+            margin-left: 10%
+        }
     </style>
     <script>
     </script>
@@ -170,13 +208,13 @@
     </header>
     <aside>
         <div id="note">circus님 안녕하세요!</div>
-        <div id="item">
-            <fieldset>
-                <legend>로그인</legend>
-                ID : <input type="text" name="id"> <br>
-                PWD : <input type="password" name="pwd"><br>
-                <input type="submit" value="로그인">
-            </fieldset>
+        <div class="loginWindow">
+            <img src="login.png" id="loginImg">
+            <div class="loginContainer">
+                <input type="text" id="username" name="id" placeholder="username"> <br>
+                <input type="password" id="password" name="pwd" placeholder="password"><br>
+                <input type="submit" id="loginBtn" value="LOGIN">
+            </div>
         </div>
     </aside>
     <article>
