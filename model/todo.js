@@ -1,8 +1,8 @@
 class Todo {
   constructor(id, name, position, todoListName) {
-    this.id = id;
+    this.id = parseInt(id);
     this.name = name;
-    this.position = position;
+    this.position = parseInt(position);
     this.todoListName = todoListName;
   }
 }
