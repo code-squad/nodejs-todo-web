@@ -66,3 +66,4 @@ typings/
 
 # User-defined ignore list
 data
+.eslint*
