@@ -181,3 +181,20 @@ addTodoListBtn.addEventListener('click', function(event) {
   appearInputTag(this, '.add-list-form', '.new-list-name');
 });
 todoListInput.addEventListener('keydown', keyDownHandlerOfTodoNameInput);
+
+var addTodoBtn = document.getElementsByClassName('add-card');
+var cardNameInput = document.getElementsByClassName('new-card-name');
+var todoListFooters = document.getElementsByClassName('todolist-footer');
+var todoItems = document.getElementsByClassName('todo-item');
+for(var i=0; i<addTodoBtn.length; ++i){
+  addTodoBtn[i].addEventListener('click', onClickListenerOfAddTodoBtn);
+}
+for(var i=0; i<cardNameInput.length; ++i){
+  cardNameInput[i].addEventListener('keydown', keyDownHandlerOfCardNameInput);
+}
+for(var i=0; i<todoListFooters.length; ++i){
+  addDnDHandlersForTodoListFooter(todoListFooters[i]);
+}
+for(var i=0; i<todoItems.length; ++i){
+  addDnDHandlersForTodoItem(todoItems[i]);
+}
