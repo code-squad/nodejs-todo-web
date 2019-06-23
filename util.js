@@ -1,3 +1,5 @@
+const path = require('path');
+
 exports.getFileExtentsion = function(rawResourcePath) {
   let idx = rawResourcePath.length - 1;
   for(let i = idx - 1; i >= 0 ; --i ){
