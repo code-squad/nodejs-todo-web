@@ -3,17 +3,14 @@ const fs = require('fs');
 const csvParser = require('../utils/csv-parser');
 const cryptoUtil = require('../utils/crypto-util');
 const sessionMemory = require('../db/sessionMemory');
+const fileUtil = require('../utils/file-system');
 
-const getPage = () => (req, res, next) => {
+const getPage = () => async (req, res, next) => {
   const publicPath = path.join(__dirname, '../public')
+  const data = await fileUtil.readFile(`${publicPath}/login.html`);
 
-  fs.readFile(`${publicPath}/login.html`, (err, data) => {
-    if (err) throw err
-
-    res.statusCode = 200
-    res.setHeader('Content-Type', 'text/html')
-    res.end(data)
-  })
+  res.writeHead(200, {'Content-Type' : 'text/html'});
+  res.end(data)
 }
 
 const isValidUser = (userObjData, targetId, password) => {
