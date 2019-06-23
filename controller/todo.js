@@ -46,7 +46,7 @@ const getPage = () => async (req, res, next) => {
   }
 
   const viewer = await view(viewResolverObj);
-  res.writeHead = (200, {'Content-Type' : 'text/html'}),
+  res.writeHead(200, { 'Content-Type': 'text/html' });
   res.write(viewer);
   res.end();
 }
