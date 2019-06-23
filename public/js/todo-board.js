@@ -39,7 +39,7 @@ const TodoBoardEvent = class {
 
     const cardWrapper = $('.card-wrapper', board)[0];
     const exitBtns = $('.card-image-exit', cardSectionElement)[0];
-    
+
     exitBtns.addEventListener('click', (event) => {
       this.deleteCardEvent(event);
     })
@@ -144,7 +144,7 @@ const TodoBoardEvent = class {
     })
   }
 
-  addDragEvent() {
+  addEventForExistCard() {
     const boardElements = $('.board');
 
     Array.from(boardElements).forEach((board) => {
@@ -155,6 +155,18 @@ const TodoBoardEvent = class {
       board.addEventListener('drop', (event) => {
         this.drop(event);
       });
+    })
+
+    const cards = $('.card');
+    Array.from(cards).forEach((card) => {
+      this.addDragStartEvent(card);
+    })
+
+    const existExitBtns = $('.card .card-image-exit');
+    Array.from(existExitBtns).forEach((btn) => {
+      btn.addEventListener('click', (event) => {
+        this.deleteCardEvent(event);
+      })
     })
   }
 
@@ -191,7 +203,7 @@ const TodoBoardEvent = class {
 
   run() {
     this.addCardEvent();
-    this.addDragEvent();
+    this.addEventForExistCard();
   }
 }
 
