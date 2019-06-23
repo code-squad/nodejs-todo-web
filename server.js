@@ -79,12 +79,17 @@ const receiveData = (request) => {
 
 const sign = async (request, response) => {
     console.time(`>> sign`);
+    let nextPage = '';
     const input = await receiveData(request);
-    if (request.url === '/signInCheck') {
-        if (await signIn(input)) loadStaticFile('/todoListPage', response);
-        else loadStaticFile('/signInPage', response);
-    } else if (request.url === '/signUpCheck') {
+    switch (request.url) {
+        case '/signInCheck': 
+            nextPage = (await signIn(input)) ? '/todoListPage' : '/signInPage';
+            break;
+        case '/signUpCheck':  
+            nextPage = (await signUp(input)) ? '/signInPage' : '/signUpPage';
+            break;
     }
+    loadStaticFile(nextPage, response);
     console.timeEnd(`>> sign`);
 }
 
