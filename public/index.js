@@ -19,6 +19,18 @@ function getTodoItem(value) {
   return `<li class="collection-item todo-item" draggable="true"><div>${value}</div></li>`
 }
 
+function fetchData(url = '/todo', data = {}, method = 'POST') {
+  return fetch(url, {
+    method,
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    referrer: 'no-referrer',
+    body: JSON.stringify(data)
+  })
+  .then(response => response);
+}
+
 function appendChildInTargetNode(target, htmlText) {
   var parser = new DOMParser();
   var newDOM = parser.parseFromString(htmlText, 'text/html');
@@ -49,12 +61,20 @@ function keyDownHandlerOfCardNameInput(event) {
 
   if(key === 13){
     if(this.value === '') return;
-    var target = this.parentNode.parentNode.parentNode.querySelector('.collection');
+    var todoColumn = this.parentNode.parentNode.parentNode;
+    var header = todoColumn.querySelector('.todolist-header');
+    var target = todoColumn.querySelector('.collection');
     var parser = new DOMParser();
     var newDOM = parser.parseFromString(getTodoItem(this.value), 'text/html');
     addDnDHandlersForTodoItem(newDOM.body.firstChild);
     target.appendChild(newDOM.body.firstChild);
     hideInputTag(this, '.add-card');
+
+    var position = target.children.length - 1;
+
+    fetchData(`http://${window.location.host}/todo`, {name: target.children[position].innerText , position, todolist: header.innerText})
+    .then(response => console.log('Success:', response === undefined && response === '' ? response : JSON.stringify(response)))
+    .catch(error => console.error('Error:', error));
   }
 
   if(key === 27){
@@ -69,7 +89,8 @@ function keyDownHandlerOfTodoNameInput(event) {
     if(this.value === '') return;
     var target = this.parentNode.parentNode;
     var parser = new DOMParser();
-    var newDOM = parser.parseFromString(getTodoListContainer(this.value), 'text/html');
+    var todoListName = this.value;
+    var newDOM = parser.parseFromString(getTodoListContainer(todoListName), 'text/html');
 
     var newAddCardBtn = newDOM.querySelector('.add-card');
     var newCardNameInput = newDOM.querySelector('.new-card-name');
@@ -82,6 +103,13 @@ function keyDownHandlerOfTodoNameInput(event) {
     target.insertAdjacentElement('beforebegin', newDOM.body.firstChild);
 
     hideInputTag(this, '#add-todo-btn');
+
+    var todoContainer = document.querySelector('.todo-container');
+    var position = todoContainer.children.length - 2;
+
+    fetchData(`http://${window.location.host}/todolist`, {name: todoListName , position })
+    .then(response => console.log('Success:', response === undefined && response === '' ? response : JSON.stringify(response)))
+    .catch(error => console.error('Error:', error));
   }
 
   if(key === 27){
@@ -198,3 +226,11 @@ for(var i=0; i<todoListFooters.length; ++i){
 for(var i=0; i<todoItems.length; ++i){
   addDnDHandlersForTodoItem(todoItems[i]);
 }
+
+var addCardXhr = new XMLHttpRequest();
+
+addCardXhr.onload = function() {
+  if(!(addCardXhr.status >= 200 && addCardXhr.status < 300)){
+    console.error('Server cannot handle user request.');
+  }
+};
