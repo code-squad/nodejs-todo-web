@@ -45,7 +45,7 @@ const getPage = () => async (req, res, next) => {
     'done' : getCard(cardObj, 'done'),
   }
 
-  const viewer = await view(viewResolverObj);
+  const viewer = await view(viewResolverObj, 'index.html');
   res.writeHead(200, { 'Content-Type': 'text/html' });
   res.write(viewer);
   res.end();
