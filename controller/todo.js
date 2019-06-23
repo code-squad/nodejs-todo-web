@@ -2,6 +2,11 @@ const csvParser = require('../utils/csv-parser');
 const view = require('../utils/viewResolver');
 
 const createCard = (dataOBj) => {
+
+  if (dataOBj === undefined) {
+    return '';
+  }
+
   return Object.keys(dataOBj).reduce((acc, contentType) => {
     if (dataOBj[contentType] === '') {
       return acc;
@@ -37,6 +42,22 @@ const getPage = () => async (req, res, next) => {
     'todoData' : todoData[userID]
   }
 
+  if (dataOBj['todoData'] === undefined) {
+    const cardObj = createCard(dataOBj.todoData);
+    const viewResolverObj = {
+      'userID' : userID,
+      'todo' : getCard(cardObj, 'todo'),
+      'doing' : getCard(cardObj, 'doing'),
+      'done' : getCard(cardObj, 'done'),
+    }
+
+    const viewer = await view(viewResolverObj, 'index.html');
+    res.writeHead(200, { 'Content-Type': 'text/html' });
+    res.write(viewer);
+    res.end();
+    return;
+  }
+  
   const cardObj = createCard(dataOBj.todoData);
   const viewResolverObj = {
     'userID' : userID,
