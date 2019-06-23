@@ -6,7 +6,7 @@
   "scripts": {
     "test": "./node_modules/jest/bin/jest.js",
     "coverage": "./node_modules/jest/bin/jest.js --coverage",
-    "start": "node server",
+    "start": "nodemon server",
     "eslint": "./node_modules/eslint/bin/eslint.js"
   },
   "repository": {
@@ -29,6 +29,7 @@
     "babel-preset-env": "^1.7.0",
     "eslint": "^5.16.0",
     "jest": "^24.8.0",
+    "nodemon": "^1.19.1",
     "superagent": "^5.1.0",
     "supertest": "^4.0.2"
   },
