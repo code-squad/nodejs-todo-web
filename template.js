@@ -42,9 +42,8 @@ function makeIndexHtmlText(todoLists, todoSets) {
           This element wiil not shown.
       </div>
       <div id="stage">
-        ${todoListsHtmlText}
         <div class="todo-container">
-
+          ${todoListsHtmlText}
           <div class="todo-column">
             <button id="add-todo-btn" class="btn-large grey">Add list</button>
             <div class="add-list-form hide-element">

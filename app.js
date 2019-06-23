@@ -1,6 +1,5 @@
 const http = require('http');
 const fs = require('fs');
-const path = require('path');
 const makeIndexHtmlText = require('./template');
 const { getFileExtentsion, makeFilePath, getMimeType } = require('./util');
 
@@ -14,7 +13,7 @@ const server = http.createServer(async (request, response) => {
     todoLists = result.todoLists;
   } catch (error) {
     console.error(error);
-    process.exit(254);
+    response.emit('error');
   }
 
   request.on('error', (err) => {
@@ -24,6 +23,8 @@ const server = http.createServer(async (request, response) => {
   });
   response.on('error', (err) => {
     console.error(err);
+    response.statusCode = 503;
+    response.end();
   });
 
   if (request.method === 'GET' && request.url === '/') {
