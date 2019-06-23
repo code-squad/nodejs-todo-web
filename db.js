@@ -12,28 +12,22 @@ function serialize(object) {
 }
 
 exports.read = async () => {
-  const todoSets = {};
   const todoLists = (await fs.promises.readFile(todoListPath, 'utf-8'))
                       .split('\n')
                       .filter(line => line !== undefined && line !== '')
                       .map(line =>  new TodoList(...line.split(',')));
 
-  todoLists.forEach(todoList => todoSets[todoList.name] = []);
-
-  (await fs.promises.readFile(todoPath, 'utf-8'))
+  const todos = (await fs.promises.readFile(todoPath, 'utf-8'))
     .split('\n')
     .filter(line => line !== undefined && line !== '')
-    .forEach(line => {
-      const todo = new Todo(...line.split(','));
-      todoSets[todo.todoListName].push(todo);
-    });
+    .map(line => new Todo(...line.split(',')));
 
-    return { todoSets, todoLists };
+    return { todos, todoLists };
 };
 
 exports.create = async (type, data) => {
   try {
-    await fs.promises.appendFile((type === 'todolist' ? todoListPath : todoPath), serialize(data));
+    await fs.promises.appendFile((type === 'todolist' ? todoListPath : todoPath), serialize(data) + '\n');
   } catch (error) {
     console.error(error);
     return error;

@@ -20,7 +20,12 @@ function makeTodoListHtmlText(todoList, todos) {
 </div>`;
 }
 
-function makeIndexHtmlText(todoLists, todoSets) {
+function makeIndexHtmlText(todoLists, todos) {
+  const todoSets = todoLists.reduce((acc, todoList) => {
+    acc[todoList.name] = [];
+    return acc;
+  },{});
+  todos.forEach(todo => todoSets[todo.todoListName].push(todo));
   const todoListsHtmlText = todoLists.map(todoList => makeTodoListHtmlText(todoList.name, todoSets[todoList.name])).join('\n');
   return `<!DOCTYPE html>
   <html lang="ko">
