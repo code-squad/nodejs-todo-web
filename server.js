@@ -1,52 +1,22 @@
-const fs = require('fs');
-const path = require('path');
-const http = require('http');
-// const cookie      = require('cookie');
-const queryString = require('querystring');
-const httpStatus = require('./http_status');
-const utility = require('./utility');
-const mime = require('./mime');
-
-const convert = (url) => {
-    const convertURL = {
-        '/'             : '/index.html',
-        '/signInPage'   : '/signIn.html',
-        '/signUpPage'   : '/signUp.html',
-        '/todoListPage' : '/todoList.html',
-    }
-    return (convertURL[url] === undefined) ? url : convertURL[url];
-}
-
-const loadStaticFile = async (requestURL, response) => {
-    console.time(`>> load static`);
-    const url = convert(requestURL);
-    const extension = utility.parse(url);
-    response.writeHeader(httpStatus.OK, { 'Content-Type': mime[extension] });
-    fs.createReadStream(path.join(__dirname, url)).pipe(response);
-    console.timeEnd(`>> load static`);
-}
-
-const readMemberInfo = () => {
-    return new Promise((resolve) => {
-        console.time(`>> read file`);
-        fs.readFile('./member_Information.csv', 'utf-8', (error, data) => resolve(`{${data.substr(0, data.length - 1)}}`));
-        console.timeEnd(`>> read file`);
-    });
-}
+const fileManager   = require('./file_manager');
+const queryString   = require('querystring');
+//const cookie        = require('cookie');
+const http          = require('http');
 
 const checkMember = async (input) => {
     console.time(`>> check member`);
-    const member = JSON.parse(await readMemberInfo());
+    const member = JSON.parse(await fileManager.readMemberInfo());
     console.timeEnd(`>> check member`);
     return (member[input.id] === input.pw) ? true : false;
 }
 
-const writeMemberInfo = async (input) => {
-    console.time(`>> write file`);
-    const writeData = `"${input.id}":"${input.pw}",`;
-    const option = { encoding: 'utf-8', flag: 'a' };
-    fs.appendFile('./member_Information.csv', writeData, option, (error) => console.log("Member is appended to file successfully.") );
-    console.timeEnd(`>> write file`);
+const receiveData = (request) => {
+    return new Promise((resolve) => {
+        let body = '';
+        console.time(`>> receive data`);
+        request.on('data', (chunk) => body += chunk).on('end', () => resolve(queryString.parse(body)));
+        console.timeEnd(`>> receive data`);
+    });
 }
 
 const signIn = async (input) => {
@@ -62,19 +32,10 @@ const signIn = async (input) => {
 
 const signUp = async (input) => {
     if (!await checkMember(input)) {
-        writeMemberInfo(input);
+        fileManager.writeMemberInfo(input);
         return true;
     }
     return false;
-}
-
-const receiveData = (request) => {
-    return new Promise((resolve) => {
-        let body = '';
-        console.time(`>> receive data`);
-        request.on('data', (chunk) => body += chunk).on('end', () => resolve(queryString.parse(body)));
-        console.timeEnd(`>> receive data`);
-    });
 }
 
 const sign = async (request, response) => {
@@ -89,17 +50,21 @@ const sign = async (request, response) => {
             nextPage = (await signUp(input)) ? '/signInPage' : '/signUpPage';
             break;
     }
-    loadStaticFile(nextPage, response);
+    fileManager.loadStaticFile(nextPage, response);
     console.timeEnd(`>> sign`);
 }
 
 const serverEventEmitter = http.createServer((request, response) => {
     if (request.headers.cookie === undefined) {
-        if (request.method === 'GET') loadStaticFile(request.url, response);
+        if (request.method === 'GET') fileManager.loadStaticFile(request.url, response);
         else if (request.method === 'POST') {
             switch(request.url) {
-                case '/signInPage': case '/signUpPage': loadStaticFile(request.url, response); break;
-                case '/signInCheck': case '/signUpCheck': sign(request, response); break;
+                case '/signInPage': case '/signUpPage': 
+                    fileManager.loadStaticFile(request.url, response); 
+                    break;
+                case '/signInCheck': case '/signUpCheck': 
+                    sign(request, response); 
+                    break;
                 case 'signOut': break;
             }
         } else {
