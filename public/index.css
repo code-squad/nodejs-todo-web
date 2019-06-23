@@ -49,6 +49,7 @@ p {
   height: 100%;
   top: 0;
   background-image: url(/public/programming.jpeg);
+  background-size: cover;
   z-index: -1;
 }
 
