@@ -45,7 +45,7 @@ const writeMemberInfo = async (input) => {
     console.time(`>> write file`);
     const writeData = `"${input.id}":"${input.pw}",`;
     const option = { encoding: 'utf-8', flag: 'a' };
-    fs.appendFile('./member_Information.csv', writeData, option);
+    fs.appendFile('./member_Information.csv', writeData, option, (error) => console.log("Member is appended to file successfully.") );
     console.timeEnd(`>> write file`);
 }
 
