@@ -1,4 +1,26 @@
 const path = require('path');
+var crypto = require('crypto');
+
+exports.parseCookie = function(rawCookie){
+  try {
+    const cookies = rawCookie.split(';')
+                    .reduce((acc, cookieStr) => {
+                      const splitKeyValue = cookieStr.trim().split('=');
+                      acc[splitKeyValue[0]] = splitKeyValue[1];
+                      return acc;
+                    }, {});
+    return cookies;
+  } catch (error) {
+    // console.error(error);
+    return undefined;
+  }
+};
+
+exports.generateSessionId = function() {
+    var sha = crypto.createHash('sha256');
+    sha.update(Math.random().toString());
+    return sha.digest('hex');
+};
 
 exports.getFileExtentsion = function(rawResourcePath) {
   let idx = rawResourcePath.length - 1;
