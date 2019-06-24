@@ -28,7 +28,11 @@ const Middleware = class {
   }
 
   isUrlEqualsPath(targetMiddleware) {
-    return this.req.url === targetMiddleware.path;
+    return this.req.url === targetMiddleware.path.split(':/')[0];
+  }
+
+  isMethodEqualsPath(targetMiddleware) {
+    return this.req.method.toLowerCase() === targetMiddleware.method;
   }
 
   executeMiddleware(index, err) {
@@ -45,7 +49,7 @@ const Middleware = class {
     }
 
     if (targetMiddleware.path) {
-      if (this.isUrlEqualsPath(targetMiddleware)) {
+      if (this.isUrlEqualsPath(targetMiddleware) && this.isMethodEqualsPath(targetMiddleware)) {
         targetMiddleware(this.req, this.res, next);
         return;
       }
