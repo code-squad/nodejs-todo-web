@@ -28,7 +28,7 @@ const Middleware = class {
   }
 
   isUrlEqualsPath(targetMiddleware) {
-    return this.req.url === targetMiddleware.path;
+    return this.req.url === targetMiddleware.path.split(':/')[0];
   }
 
   isMethodEqualsPath(targetMiddleware) {
