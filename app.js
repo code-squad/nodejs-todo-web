@@ -16,7 +16,7 @@ app.use(bodyParser());
 app.get('/', loginController.getPage());
 app.post('/login', loginController.loginRequest());
 app.get('/todo', todoController.getPage());
-app.post('/add', cardController.addCard());
+app.post('/todo/:id', cardController.addCard());
 app.use(errorHandler.error404());
 app.use(errorHandler.error500());
 
