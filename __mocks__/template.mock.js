@@ -8,12 +8,12 @@ const mockTodoLists = [
   new TodoList(3, 'done', 2),
 ];
 
-const mockTodos = {
-  todo: [new Todo(2, '자소서 쓰기', 0, mockTodoLists[0].name),
-  new Todo(3, '스프링 배우기', 1, mockTodoLists[0].name),],
-  doing: [new Todo(1, 'Jest 배우기', 0, mockTodoLists[1].name),],
-  done: [new Todo(4, 'Todo frontend 만들기', 0, mockTodoLists[2].name), ],
-};
+const mockTodos = [
+  new Todo(2, '자소서 쓰기', 0, mockTodoLists[0].name),
+  new Todo(3, '스프링 배우기', 1, mockTodoLists[0].name),
+  new Todo(1, 'Jest 배우기', 0, mockTodoLists[1].name),
+  new Todo(4, 'Todo frontend 만들기', 0, mockTodoLists[2].name),
+];
 
 const mockHtml = `<!DOCTYPE html>
   <html lang="ko">
@@ -35,13 +35,14 @@ const mockHtml = `<!DOCTYPE html>
           This element wiil not shown.
       </div>
       <div id="stage">
-        <div class="todo-column todolist-container grey lighten-2">
+        <div class="todo-container">
+          <div class="todo-column todolist-container grey lighten-2">
 <div class="todolist-header">
   todo
 </div>
 <ul class="collection">
-  <li class="collection-item todo-item" draggable="true"><div>자소서 쓰기</div></li>
-<li class="collection-item todo-item" draggable="true"><div>스프링 배우기</div></li>
+  <li class="collection-item todo-item" draggable="true" data-id="2"><div>자소서 쓰기</div></li>
+<li class="collection-item todo-item" draggable="true" data-id="3"><div>스프링 배우기</div></li>
 </ul>
 <div class="todolist-footer">
   <button class="add-card">Add card</button>
@@ -55,7 +56,7 @@ const mockHtml = `<!DOCTYPE html>
   doing
 </div>
 <ul class="collection">
-  <li class="collection-item todo-item" draggable="true"><div>Jest 배우기</div></li>
+  <li class="collection-item todo-item" draggable="true" data-id="1"><div>Jest 배우기</div></li>
 </ul>
 <div class="todolist-footer">
   <button class="add-card">Add card</button>
@@ -69,7 +70,7 @@ const mockHtml = `<!DOCTYPE html>
   done
 </div>
 <ul class="collection">
-  <li class="collection-item todo-item" draggable="true"><div>Todo frontend 만들기</div></li>
+  <li class="collection-item todo-item" draggable="true" data-id="4"><div>Todo frontend 만들기</div></li>
 </ul>
 <div class="todolist-footer">
   <button class="add-card">Add card</button>
@@ -78,8 +79,6 @@ const mockHtml = `<!DOCTYPE html>
   </div>
 </div>
 </div>
-        <div class="todo-container">
-
           <div class="todo-column">
             <button id="add-todo-btn" class="btn-large grey">Add list</button>
             <div class="add-list-form hide-element">
