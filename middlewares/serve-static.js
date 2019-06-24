@@ -23,15 +23,13 @@ const serveStatic = (req, res, next) => {
                 res.statusCode = 200;
                 res.setHeader('Content-Type', mimeType[ext]);
                 res.end(data);
-            };
+            }
+            ;
 
         })
-    else
-        {
-            next()
-        }
+    } else {
+        next()
     }
-
 };
 
 module.exports = serveStatic;

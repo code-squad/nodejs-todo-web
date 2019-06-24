@@ -4,6 +4,22 @@ const url = require('url');
 const qs = require('querystring');
 const path = require('path');
 const app = App();
+const serveStatic = require('./middlewares/serve-static');
+
+app.use(serveStatic);
+app.use(index);
+
+const index = (req, res, next) =>{
+    const publicPath = path.join(__dirname, './public');
+
+    fs.readFile(`${publicPath}/index.html`, (err, data) =>{
+        if(err) throw err;
+
+        res.statusCode = 200;
+        res.setHeader('Content-Type', 'text/html');
+        res.end(data);
+    })
+};
 
 const parseCookies = (cookie = '') =>
     cookie
@@ -45,18 +61,7 @@ http.createServer((req, res) => {
     //     res.end(indexFilePath)
 
 
-    } else if (Object.keys(mimeType).includes(ext)) {
-        fs.readFile(`${publicPath}${req.url}`, (err, data) => {
-            if (err) {
-                res.statusCode = 404;
-                res.end('Not Found');
-                throw err;
-            }
-            res.statusCode = 200;
-            res.setHeader('Content-Type', mimeType[ext]);
-            res.end(data);
-        });
-    } else {
+    }  else {
         fs.readFile(loginFilePath, (err, data) => {
             if (err) {
                 res.statusCode = 404;
@@ -68,9 +73,6 @@ http.createServer((req, res) => {
             res.end(data);
         });
     }
-})
-    .listen(8085, () => {
-        console.log('8085번 포트에서 서버 대기중입니다!');
-    });
+});
 
 module.exports = app;
