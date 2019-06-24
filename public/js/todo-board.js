@@ -24,17 +24,13 @@ const TodoBoardEvent = class {
   ajax() {
     
     const submitCardAjax = async (content, type) => {
-      const url = '/add';
+      const url = '/todo';
       const response = await fetch(url, {
         method : 'POST',
         body : `data=${content}&type=${type}`
       });
-      const ajaxText = await response.text();
-
-      if (ajaxText === 'success') {
-        console.log('this is success');
-        return ajaxText;
-      }
+      const ajaxText = await response.text(); 
+      return ajaxText;
     }
 
     const removeCardAjax = () => {
@@ -62,15 +58,11 @@ const TodoBoardEvent = class {
       return;
     }
 
-    const answer = await this.ajax().submitCardAjax(cardTitle, cardType);
-    
-    if (answer !== 'success') {
-      return;
-    }
+    const cardNo = await this.ajax().submitCardAjax(cardTitle, cardType);
 
     const exitImgContent = `<img src="img/exit.png" alt="exit-image" class="card-image-exit">`;
     const cardSectionElement = this.createElement('section', ['card', 'todo'], {
-      'draggable': 'true'
+      'draggable': 'true', 'data-no' : `${cardNo}`
     }, exitImgContent + cardTitle);
 
     const cardWrapper = $('.card-wrapper', board)[0];
