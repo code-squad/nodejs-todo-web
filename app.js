@@ -1,27 +1,17 @@
 const App = require('src/Application');
-const fs = require('fs');
+
 const url = require('url');
 const qs = require('querystring');
 const path = require('path');
 const app = App();
 const serveStatic = require('./middlewares/serve-static');
 const logger = require('./middlewares/logger');
+const index = require('./routers/index');
 
-const index = (req, res, next) =>{
-    const publicPath = path.join(__dirname, './public');
-
-    fs.readFile(`${publicPath}/index.html`, (err, data) =>{
-        if(err) throw err;
-
-        res.statusCode = 200;
-        res.setHeader('Content-Type', 'text/html');
-        res.end(data);
-    })
-};
 
 app.use(logger);
 app.use(serveStatic);
-app.use(index);
+app.use(index.todoList);
 
 const parseCookies = (cookie = '') =>
     cookie

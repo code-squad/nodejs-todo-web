@@ -9,7 +9,15 @@ const Application = () => {
     });
 
 
-    const use = (fn) => {
+    const use = (path, fn) => {
+        if(typeof path === 'string' && typeof fn === 'function'){
+            fn._path = path;
+        } else if(typeof path === 'function'){
+            fn = path;
+        } else {
+            throw Error('Usage: use(path, fn) or use(fn)');
+        }
+
         middleware.add(fn)
     };
 
