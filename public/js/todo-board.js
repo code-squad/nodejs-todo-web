@@ -24,7 +24,7 @@ const TodoBoardEvent = class {
   ajax() {
     
     const submitCardAjax = async (content, type) => {
-      const url = '/todo';
+      const url = '/todos';
       const response = await fetch(url, {
         method : 'POST',
         body : `data=${content}&type=${type}`

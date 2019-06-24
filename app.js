@@ -14,8 +14,8 @@ app.use(serveStatic());
 app.use(bodyParser());
 app.get('/', loginController.getPage());
 app.post('/login', loginController.loginRequest());
-app.get('/todo', todoController.getPage());
-app.post('/todo', todoController.addTodo());
+app.get('/todos', todoController.getPage());
+app.post('/todos', todoController.addTodo());
 app.use(errorHandler.error404());
 app.use(errorHandler.error500());
 

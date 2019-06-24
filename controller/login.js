@@ -42,7 +42,7 @@ const loginRequest = () => async (req, res, next) => {
     }
 
     const cookieStr = setCookieStr(req);
-    res.writeHead(302, {'Set-Cookie' : [cookieStr], 'Location': '/todo' });
+    res.writeHead(302, {'Set-Cookie' : [cookieStr], 'Location': '/todos' });
     res.end();
     
   } else {
