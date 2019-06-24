@@ -41,6 +41,24 @@ const Application = class {
     func.method = 'post';
     this.use(path, func);
   }
+
+  put(path, func) {
+    if (!path || !func) throw Error('path and fn is required');
+    func.method = 'put';
+    this.use(path, func);
+  }
+
+  patch(path, func) {
+    if (!path || !func) throw Error('path and fn is required');
+    func.method = 'patch';
+    this.use(path, func);
+  }
+
+  delete(path, func) {
+    if (!path || !func) throw Error('path and fn is required');
+    func.method = 'delete';
+    this.use(path, func);
+  }
 }
 
 module.exports = Application;
