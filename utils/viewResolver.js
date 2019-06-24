@@ -1,27 +1,47 @@
 const path = require('path');
 const fileUtil = require('./file-system');
+const csvParser = require('../utils/csv-parser');
 
 const getRegExp = (value) => {
   return `/\$[\{]${value}[\}]/g`;
 }
 
-const view = async (dataObj,fileName) => {
+const getUserTodo = async (userID) => {
+  const allTodoData = await csvParser.getKeyValueObj('./db/todoList.csv');
+  const userData = Object.keys(allTodoData).reduce((acc, key) => {
+    if (allTodoData[key]['userID'] === userID) {
+      const obj = {};
+      obj[key] = allTodoData[key];
+      acc.push(obj);
+    }
+    return acc;
+  },[])
+  return userData;
+}
+
+const createHtmlObj = (userDataArr) => {
+  const htmlObj = {'todo' : '', 'doing' : '', 'done' : ''};
+  userDataArr.forEach((contentObj) => {
+    const cardNo = Object.keys(contentObj)[0];
+    const cardType = contentObj[cardNo]['type'];
+    const cardContent = contentObj[cardNo]['content'];
+    htmlObj[cardType] += `<section class="card ${cardType}" data-no="${cardNo}" draggable="true"><img src="img/exit.png" alt="exit-image" class="card-image-exit">${cardContent}</section>`
+  })
+  return htmlObj;
+}
+
+const view = async (userID, fileName) => {
   const publicPath = path.join(__dirname, '../public')
-  let data = await fileUtil.readFile(`${publicPath}/${fileName}`);
-  
-  // Object.keys(dataObj).forEach(async (targetData) => {
-  //   const regExp = getRegExp(targetData);
-  //   htmlPage = htmlPage.replace(regExp, dataObj[targetData]);
-  //   console.log(htmlPage)
-  // });
+  let staticHtml = await fileUtil.readFile(`${publicPath}/${fileName}`);
+  const userDataArr = await getUserTodo(userID);
+  const htmlObj = createHtmlObj(userDataArr);
 
-  // 리팩토링 필요, reduce 함수 동작 하지 않는데 왜지? 스코프가 다른가?
-  data = data.replace(/\$[\{]userID[\}]/g, dataObj['userID'] || '');
-  data = data.replace(/\$[\{]todo[\}]/g, dataObj['todo'] || '');
-  data = data.replace(/\$[\{]doing[\}]/g, dataObj['doing'] || '');
-  data = data.replace(/\$[\{]done[\}]/g, dataObj['done'] || '');
+  staticHtml = staticHtml.replace(/\$[\{]userID[\}]/g, userID);
+  staticHtml = staticHtml.replace(/\$[\{]todo[\}]/g, htmlObj['todo']);
+  staticHtml = staticHtml.replace(/\$[\{]doing[\}]/g, htmlObj['doing']);
+  staticHtml = staticHtml.replace(/\$[\{]done[\}]/g, htmlObj['done']);
 
-  return data;
+  return staticHtml;
 }
 
 module.exports = view;
