@@ -59,11 +59,15 @@ const server = http.createServer(async (request, response) => {
     }).on('end', () => {
       response.end();
     });
-  } else if (request.method === 'PUT' && RegExp(/\/todo/).test(request.url)) {
-    // TODO: todo 업데이트 로직
-    response.setHeader('Content-Type', 'application/json');
-    response.write({});
-    response.end();
+  } else if (request.method === 'PUT' && RegExp(/\/todo$/).test(request.url)) {
+    let body;
+    request.on('data', chunk => {
+      body = JSON.parse(chunk.toString('utf-8'));
+      todos = body.map(todo => new Todo(todo.id, todo.name, todo.position, todo.todoListName)).sort((a, b) => a.id - b.id);
+      db.update('todo', todos);
+    }).on('end', () => {
+      response.end();
+    });
   } else if (request.url === '/data') {
     response.statusCode = 403;
     response.end();

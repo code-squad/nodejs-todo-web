@@ -37,11 +37,7 @@ exports.create = async (type, data) => {
 exports.update = async (type, data) => {
   try {
     if(type === 'todo'){
-      const arrayTodo = [];
-      for (const key in data) {
-        data[key].forEach(todo => arrayTodo.push(todo));
-      }
-      await fs.promises.writeFile(todoPath, arrayTodo.map(todo => serialize(todo)).join('\n') + '\n');
+      await fs.promises.writeFile(todoPath, data.map(todo => serialize(todo)).join('\n') + '\n');
     } else {
       await fs.promises.writeFile((type === 'todolist' ? todoListPath : todoPath), data.map(todoList => serialize(todoList)).join('\n') + '\n');
     }
