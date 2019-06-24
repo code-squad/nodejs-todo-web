@@ -7,11 +7,14 @@ const app = App();
 const serveStatic = require('./middlewares/serve-static');
 const logger = require('./middlewares/logger');
 const index = require('./routers/index');
+const errors = require('./middlewares/errors');
 
 
 app.use(logger);
 app.use(serveStatic);
 app.use(index.todoList);
+app.use(errors.error404);
+app.use(errors.error);
 
 const parseCookies = (cookie = '') =>
     cookie
