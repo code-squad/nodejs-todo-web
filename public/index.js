@@ -19,6 +19,20 @@ function getTodoItem(value) {
   return `<li class="collection-item todo-item" draggable="true"><div>${value}</div></li>`
 }
 
+function getAllTodo(){
+  var todos = [];
+  var todoColumns = document.querySelectorAll('.todo-column');
+  for(var i=0; i<todoColumns.length-1; ++i){
+    var todoItems = todoColumns[i].querySelectorAll('.todo-item');
+    var todoListHeader = todoColumns[i].querySelector('.todolist-header');
+    var todoListName = todoListHeader.innerText;
+    for(var j=0; j<todoItems.length; ++j){
+      todos.push({id: todoItems[j].getAttribute('data-id'), name: todoItems[j].innerText, position: j, todoListName,});
+    }
+  }
+  return todos;
+}
+
 function fetchData(url = '/todo', data = {}, method = 'POST') {
   return fetch(url, {
     method,
@@ -157,7 +171,10 @@ function handleDropForTodoItem(event) {
     this.insertAdjacentHTML('beforebegin',dropHTML);
     var dropElem = this.previousSibling;
     addDnDHandlersForTodoItem(dropElem);
-    
+
+    fetchData(`http://${window.location.host}/todo`, getAllTodo(), 'PUT')
+    .then(response => console.log('Success:', response === undefined && response === '' ? response : JSON.stringify(response)))
+    .catch(error => console.error('Error:', error));
   }
   this.classList.remove('over');
   return false;
@@ -176,6 +193,10 @@ function handleDropForTodolistFooter(event) {
     target.insertAdjacentHTML('beforeend', dropHTML);
     var dropElem = target.lastChild;
     addDnDHandlersForTodoItem(dropElem);
+
+    fetchData(`http://${window.location.host}/todo`, getAllTodo(), 'PUT')
+    .then(response => console.log('Success:', response === undefined && response === '' ? response : JSON.stringify(response)))
+    .catch(error => console.error('Error:', error));
   }
   this.classList.remove('over');
   return false;
