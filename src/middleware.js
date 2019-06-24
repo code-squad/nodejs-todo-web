@@ -31,6 +31,10 @@ const Middleware = class {
     return this.req.url === targetMiddleware.path;
   }
 
+  isMethodEqualsPath(targetMiddleware) {
+    return this.req.method.toLowerCase() === targetMiddleware.method;
+  }
+
   executeMiddleware(index, err) {
     if (this.isOverLength(index)) {
       return;
@@ -45,7 +49,7 @@ const Middleware = class {
     }
 
     if (targetMiddleware.path) {
-      if (this.isUrlEqualsPath(targetMiddleware)) {
+      if (this.isUrlEqualsPath(targetMiddleware) && this.isMethodEqualsPath(targetMiddleware)) {
         targetMiddleware(this.req, this.res, next);
         return;
       }
