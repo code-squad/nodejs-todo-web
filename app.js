@@ -5,9 +5,7 @@ const qs = require('querystring');
 const path = require('path');
 const app = App();
 const serveStatic = require('./middlewares/serve-static');
-
-app.use(serveStatic);
-app.use(index);
+const logger = require('./middlewares/logger');
 
 const index = (req, res, next) =>{
     const publicPath = path.join(__dirname, './public');
@@ -20,6 +18,10 @@ const index = (req, res, next) =>{
         res.end(data);
     })
 };
+
+app.use(logger);
+app.use(serveStatic);
+app.use(index);
 
 const parseCookies = (cookie = '') =>
     cookie
@@ -34,9 +36,6 @@ const session = {};
 
 http.createServer((req, res) => {
     const loginFilePath = path.join(__dirname, './public/login.html');
-    const indexFilePath = path.join(__dirname, './public/index.html');
-    const ext = path.parse(req.url).ext;
-    const publicPath = path.join(__dirname, './public');
     const cookies = parseCookies(req.headers.cookie);
 
     console.log(req.url);
