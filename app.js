@@ -7,7 +7,6 @@ const bodyParser = require('./middlewares/body-parser');
 const todoController = require('./controller/todo');
 const loginController = require('./controller/login');
 const session = require('./middlewares/session');
-const cardController = require('./controller/card');
 
 app.use(logger());
 app.use(session());
@@ -16,7 +15,7 @@ app.use(bodyParser());
 app.get('/', loginController.getPage());
 app.post('/login', loginController.loginRequest());
 app.get('/todo', todoController.getPage());
-app.post('/todo/:id', cardController.addCard());
+app.post('/todo', todoController.addTodo());
 app.use(errorHandler.error404());
 app.use(errorHandler.error500());
 
