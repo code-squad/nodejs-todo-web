@@ -46,10 +46,22 @@ const TodoBoardEvent = class {
 
     }
 
+    const updateKeyAjax = async (sequenceStr) => {
+      console.log(sequenceStr);
+      const url = '/key';
+      const response = await fetch(url, {
+        method : 'PATCH',
+        body : `${sequenceStr}`
+      });
+      const ajaxText = await response.text();
+      return ajaxText;
+    }
+
     return {
       submitCardAjax,
       removeCardAjax,
       dragCardAjax,
+      updateKeyAjax
     }
   }
 
@@ -67,7 +79,7 @@ const TodoBoardEvent = class {
     const cardNo = await this.ajax().submitCardAjax(cardTitle, cardType);
 
     const exitImgContent = `<img src="img/exit.png" alt="exit-image" class="card-image-exit">`;
-    const cardSectionElement = this.createElement('section', ['card', 'todo'], {
+    const cardSectionElement = this.createElement('section', ['card', `${cardType}`], {
       'draggable': 'true', 'data-no' : `${cardNo}`
     }, exitImgContent + cardTitle);
 
@@ -83,6 +95,9 @@ const TodoBoardEvent = class {
 
     board.appendChild(addInputBoxBtn);
     board.removeChild(event.target.parentElement);
+    
+    const sequenceStr = this.getCardSequence();
+    await this.ajax().updateKeyAjax(sequenceStr);
   }
 
   cancelCardEvent(event, addInputBoxBtn) {
@@ -144,6 +159,8 @@ const TodoBoardEvent = class {
 
     if (resAnswer === 'success') {
       card.parentElement.removeChild(card);
+      const sequenceStr = this.getCardSequence();
+      await this.ajax().updateKeyAjax(sequenceStr);
     }
     return;
   }
@@ -240,6 +257,23 @@ const TodoBoardEvent = class {
         return;
       }
     }
+  }
+
+  getCardSequence() {
+    const cardList = $('.card');
+    const sequenceObj = {
+      'todo' : ``,
+      'doing' : ``,
+      'done' : ``
+    }
+
+    Array.from(cardList).forEach((card) => {
+      const name = card.className.split(" ")[1];
+      sequenceObj[name] += `${card.dataset.no}#`;
+    })
+    
+    const sequenceStr = `todo=${sequenceObj['todo']}&doing=${sequenceObj['doing']}&done=${sequenceObj['done']}`;
+    return sequenceStr;
   }
 
   run() {

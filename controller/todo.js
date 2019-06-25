@@ -57,8 +57,36 @@ const deleteTodo = () => async (req, res, next) => {
   res.end();
 }
 
+const updateTodo = () => async (req, res, next) => {
+  const cardNo = req.url.split('/')[2];
+  console.log(cardNo);
+}
+
+const updateKey = () => async (req, res, next) => {
+  const sequenceObj = (req.body);
+  const userID = req.session.userID;
+  
+  const allSequence = await csvParser.getKeyValueObj('./db/todo-sequence.csv');
+  allSequence[userID] = sequenceObj;
+
+  const dataStr = Object.keys(allSequence).reduce((acc, key) => {
+    const data = allSequence[key];
+    const string = `${key},${data['todo']},${data['doing']},${data['done']}`;
+    acc += `\r\n${string}`;
+    return acc;
+  },`id,todo,doing,done`);
+
+  await fileHandler.writeFile('./db/todo-sequence.csv', dataStr);
+
+  res.writeHead(200, {'Content-Type' : 'text/plain'});
+  res.write('success');
+  res.end();
+}
+
 module.exports = {
   getPage,
   addTodo,
-  deleteTodo
+  deleteTodo,
+  updateTodo,
+  updateKey
 }
