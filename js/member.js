@@ -1,9 +1,23 @@
 const low = require('lowdb');
 const FileSync = require('lowdb/adapters/FileSync');
-const adapter = new FileSync('../data/member.json');
-const members = low(adapter);
+const adapter = new FileSync(`${__dirname}/../data/member.json`);
+const memberDB = low(adapter);
 
-members.defaults({ members: [] }).write();
+memberDB.defaults({ members: [] }).write();
+
+const isValidMember = loginData => {
+	const { user_id, user_password } = JSON.parse(loginData);
+
+	const member = memberDB
+		.get('members')
+		.find({ user_id, user_password })
+		.value();
+
+	if (!member) {
+		return false;
+	}
+	return true;
+};
 
 const makeSessionId = () => {
 	const min = 10000000000000000;
@@ -11,3 +25,5 @@ const makeSessionId = () => {
 
 	return Math.floor(Math.random() * (max - min + 1)) + min;
 };
+
+module.exports = { isValidMember };
