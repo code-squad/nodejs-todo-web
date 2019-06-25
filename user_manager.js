@@ -10,7 +10,7 @@ module.exports = class UserManager {
 
     signUp(id, pw) {
         this.loadData();
-        if(this.isMember()){
+        if(this.isMember(id,pw)){
             return false;
         }else{
             const tempInfo = new User(id,pw);
@@ -38,8 +38,9 @@ module.exports = class UserManager {
     isMember(id, pw) {
         this.loadData();
         if(id in this.data){
-            this.data[id].pw === pw;
-            return this.data[id];
+            if(this.data[id].pw === pw){
+                return this.data[id];
+            }
         }
         return false
     }
