@@ -2,15 +2,18 @@
   "members": [
     {
       "user_id": "abc",
-      "user_password": "abc"
+      "user_password": "abc",
+      "user_sid": ""
     },
     {
       "user_id": "qwe",
-      "user_password": "qwe"
+      "user_password": "qwe",
+      "user_sid": ""
     },
     {
       "user_id": "zxc",
-      "user_password": "zxc"
+      "user_password": "zxc",
+      "user_sid": ""
     }
   ]
 }
