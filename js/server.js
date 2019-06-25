@@ -16,7 +16,11 @@ const server = http.createServer(async (req, res) => {
 
 	try {
 		if (url === '/' && method === 'GET') {
-			const { file, mimeType } = await fs.readFile(`${publicPath}/index.html`, ext);
+			const { file, mimeType } = await fs.readFile(`${publicPath}/index${ext}`, ext);
+			res.writeHead(200, { 'Content-Type': mimeType });
+			res.end(file);
+		} else if (url === '/login' && method === 'GET') {
+			const { file, mimeType } = await fs.readFile(`${publicPath}${url}${ext}`, ext);
 			res.writeHead(200, { 'Content-Type': mimeType });
 			res.end(file);
 		} else {
@@ -26,7 +30,7 @@ const server = http.createServer(async (req, res) => {
 		}
 	} catch (error) {
 		console.log('error.....', error);
-		const { file, mimeType } = await fs.readFile(`${publicPath}/error-404.html`, ext);
+		const { file, mimeType } = await fs.readFile(`${publicPath}/error-404${ext}`, ext);
 		res.writeHead(404, { 'Content-Type': mimeType });
 		res.end(file);
 	}
