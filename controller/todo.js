@@ -3,7 +3,6 @@ const csvParser = require('../utils/csv-parser');
 const fileHandler = require('../utils/file-system');
 
 const getPage = () => async (req, res, next) => {
-
   if (req.session === 'false') {
     res.writeHead(302, { 'Location': '/' });
     res.end();
@@ -39,7 +38,27 @@ const addTodo = () => async (req, res, next) => {
   res.end();
 }
 
+const deleteTodo = () => async (req, res, next) => {
+  const cardNo = req.url.split('/')[2];
+  const allTodoData = await csvParser.getKeyValueObj('./db/todoList.csv');
+  delete allTodoData[cardNo];
+
+  const dataStr = Object.keys(allTodoData).reduce((acc, key) => {
+    const data = allTodoData[key];
+    const string = `${key},${data['type']},${data['content']},${data['userID']}`;
+    acc += `\r\n${string}`;
+    return acc;
+  },`cardNo,type,content,userID`);
+
+  await fileHandler.writeFile('./db/todoList.csv', dataStr);
+
+  res.writeHead(200, {'Content-Type' : 'text/plain'});
+  res.write('success');
+  res.end();
+}
+
 module.exports = {
   getPage,
-  addTodo
+  addTodo,
+  deleteTodo
 }
