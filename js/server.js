@@ -1,6 +1,7 @@
 const http = require('http');
 const path = require('path');
 const fs = require('./file.js');
+const member = require('./member.js');
 
 const port = 8000;
 
@@ -20,6 +21,10 @@ const server = http.createServer(async (req, res) => {
 			res.writeHead(200, { 'Content-Type': mimeType });
 			res.end(file);
 		} else if (url === '/login' && method === 'GET') {
+			const { file, mimeType } = await fs.readFile(`${publicPath}${url}${ext}`, ext);
+			res.writeHead(200, { 'Content-Type': mimeType });
+			res.end(file);
+		} else if (url === '/error-500' && method === 'GET') {
 			const { file, mimeType } = await fs.readFile(`${publicPath}${url}${ext}`, ext);
 			res.writeHead(200, { 'Content-Type': mimeType });
 			res.end(file);
