@@ -2,21 +2,21 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Todo Login</title>
+    <title>Todo Register</title>
     <link rel="stylesheet" href="css/login.css" type="text/css" media="screen" charset="utf-8">
 </head>
 <body>
 <div class="sidenav">
-    <div class="login-main-text">
+    <div class="register-main-text">
         <h1>Sony</h1>
-        <h2>TODO APP<br> Login Page</h2>
-        <p>Login or register from here to access.</p>
+        <h2>TODO APP<br> Register Page</h2>
+        <p>Please fill out the forms to register.</p>
     </div>
 </div>
 <div class="main">
     <div class="col-md-6 col-sm-12">
         <div class="login-form">
-            <form id="login-form" action="/todo" method="post">
+            <form id="register-form" action="/login" method="post">
                 <div class="form-group">
                     <ul>
                         <label id="user-name">User Name</label> <br>
@@ -30,11 +30,9 @@
                         <input id="user-password-input" type="password" class="form-control" placeholder="Password">
                     </ul>
                 </div>
-                <button id="login-button" type="submit" class="btn btn-black">Login</button>
-            </form>
-
-            <form id="loginPage-register-form" action="/register" method="post">
-                <button id="loginPage-register-button" type="submit" class="btn btn-secondary">Register</button>
+                <div id="register-box">
+                    <button id="register-form2-button" type="submit" class="btn btn-secondary">Register</button>
+                </div>
             </form>
         </div>
     </div>

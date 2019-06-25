@@ -14,6 +14,34 @@ body {
     margin-top: 10px;
 }
 
+#login-form {
+    width: 40px;
+    margin-right: 20px;
+}
+
+#loginPage-register-form {
+    margin-left: 40px;
+    margin-top: 10px;
+}
+
+#loginPage-register-button {
+    width: 100px;
+}
+
+#login-button {
+    width: 100px;
+    margin-left: 40px;
+}
+
+#register-form2-button{
+    width: 100px;
+}
+
+#register-box {
+    padding: 0 0 0 40px;
+}
+
+
 .main-head{
     height: 150px;
     background: #FFF;
@@ -69,13 +97,13 @@ body {
 }
 
 
-.login-main-text{
+.login-main-text, .register-main-text{
     margin-top: 20%;
     padding: 60px;
     color: #fff;
 }
 
-.login-main-text h2{
+.login-main-text, .register-main-text h2{
     font-weight: 300;
 }
 

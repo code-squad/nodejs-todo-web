@@ -1,7 +1,7 @@
 const path = require('path');
 const fs = require('fs');
 
-const serveStatic = (req, res, next) => {
+const serveStatic = () => (req, res, next) => {
 
     const mimeType = {
         '.html': 'test/html',
@@ -24,9 +24,8 @@ const serveStatic = (req, res, next) => {
                 res.setHeader('Content-Type', mimeType[ext]);
                 res.end(data);
             }
-            ;
 
-        })
+        });
     } else {
         next()
     }
