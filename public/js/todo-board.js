@@ -67,7 +67,7 @@ const TodoBoardEvent = class {
     const cardNo = await this.ajax().submitCardAjax(cardTitle, cardType);
 
     const exitImgContent = `<img src="img/exit.png" alt="exit-image" class="card-image-exit">`;
-    const cardSectionElement = this.createElement('section', ['card', 'todo'], {
+    const cardSectionElement = this.createElement('section', ['card', `${cardType}`], {
       'draggable': 'true', 'data-no' : `${cardNo}`
     }, exitImgContent + cardTitle);
 
@@ -83,6 +83,7 @@ const TodoBoardEvent = class {
 
     board.appendChild(addInputBoxBtn);
     board.removeChild(event.target.parentElement);
+    console.log(this.getCardSequence());
   }
 
   cancelCardEvent(event, addInputBoxBtn) {
