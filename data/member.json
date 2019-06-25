@@ -1,0 +1,16 @@
+{
+  "members": [
+    {
+      "user_id": "abc",
+      "user_password": "abc"
+    },
+    {
+      "user_id": "qwe",
+      "user_password": "qwe"
+    },
+    {
+      "user_id": "zxc",
+      "user_password": "zxc"
+    }
+  ]
+}
