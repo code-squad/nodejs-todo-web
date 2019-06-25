@@ -29,11 +29,17 @@ const TodoBoardEvent = class {
         method : 'POST',
         body : `data=${content}&type=${type}`
       });
-      const ajaxText = await response.text(); 
+      const ajaxText = await response.text();
       return ajaxText;
     }
 
-    const removeCardAjax = () => {
+    const removeCardAjax = async (cardNo) => {
+      const url = `/todos/${cardNo}`;
+      const response = await fetch(url, {
+        method : 'DELETE',
+      });
+      const ajaxText = await response.text(); 
+      return ajaxText;
     }
 
     const dragCardAjax = () => {
@@ -131,8 +137,15 @@ const TodoBoardEvent = class {
     })
   }
 
-  deleteCardEvent(event) {
-    event.target.parentElement.parentElement.removeChild(event.target.parentElement);
+  async deleteCardEvent(event) {
+    const card = event.target.parentElement;
+    const cardNo = card.dataset.no;
+    const resAnswer = await this.ajax().removeCardAjax(cardNo);
+
+    if (resAnswer === 'success') {
+      card.parentElement.removeChild(card);
+    }
+    return;
   }
 
   addCardEvent() {
