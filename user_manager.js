@@ -9,24 +9,15 @@ module.exports = class UserManager {
     }
 
     signUp(id, pw) {
-        // data 불러오기
-        // id 있는지 확인
-        // 있으면 false 반환
-
-        // 없으면 유저 객체 만들기
-        // this.data 에 유저 넣기
-        // data 업데이트하기
-        // 유저 반환하기
-
-        // loadData()
-        // if(isMember()){
-        //     return false
-        // }else{
-        //     const tempInfo = new User(id,pw)
-        //     this.data.id = tempInfo
-        //     updateUserData()
-        //     return this.data.id
-        // }
+        this.loadData();
+        if(this.isMember()){
+            return false;
+        }else{
+            const tempInfo = new User(id,pw);
+            this.data.id = tempInfo;
+            this.updateUserData(id);
+            return this.data.id
+        }
 
     }
 
@@ -58,22 +49,14 @@ module.exports = class UserManager {
     }
 
     writeData(){
-        // data저장하기
-
-        // write file (data.csv, this.userdata);
+        this.fileSystem.writeFileSync('./data/userData.csv', JSON.stringify(this.userdata));
     }
 
     updateUserData(id) {
-        // 현재 id정보 따로 저장하기
-        // data 불러오기
-        // data에 현재 정보 넣기
-        // 데이터 쓰기
-
-        // const tempInfo = this.data.id
-        // loadData()
-        // this.data.id = tempInfo
-        // writeData()
-
+        const tempInfo = this.data[id];
+        this.loadData();
+        this.data.id = tempInfo
+        this.writeData();
     }
 }
 
