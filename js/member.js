@@ -16,7 +16,10 @@ const isValidMember = loginData => {
 	if (!member) {
 		return false;
 	}
-	return true;
+	const user_sid = makeSessionId();
+	memberDB.set(`members.${user_id}.user_sid`, user_sid).write();
+
+	return { user_id, user_sid };
 };
 
 const makeSessionId = () => {
