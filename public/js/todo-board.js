@@ -42,8 +42,14 @@ const TodoBoardEvent = class {
       return ajaxText;
     }
 
-    const dragCardAjax = () => {
-
+    const dragCardAjax = async (cardNo, todoType) => {
+      const url = `/todos/${cardNo}`;
+      const response = await fetch(url, {
+        method : 'PATCH',
+        body : `type=${todoType}`
+      });
+      const ajaxText = await response.text(); 
+      return ajaxText;
     }
 
     const updateCardSequenceAjax = async (sequenceStr) => {
@@ -180,10 +186,17 @@ const TodoBoardEvent = class {
     event.preventDefault();
   }
 
-  drop(event) {
+  async drop(event) {
     event.preventDefault();
     const todoType = event.target.className.split(" ")[1];
     const wrapper = $(`#card-wrapper-${todoType}`);
+    const cardNo = this.dragData.dataset.no;
+    const answer = await this.ajax().dragCardAjax(cardNo, todoType);
+
+    if (answer !== 'success') {
+      alert('다시 시도해 주세요');
+      return;
+    }
 
     this.dragData.classList.remove(this.dragData.className.split(" ")[1]);
     this.dragData.classList.add(`${todoType}`);
@@ -194,6 +207,11 @@ const TodoBoardEvent = class {
     }
 
     this.insertCardEvent(event, wrapper);
+
+    const sequenceStr = this.getCardSequence();
+    console.log(sequenceStr);
+    await this.ajax().updateCardSequenceAjax(sequenceStr);
+
   }
 
   addDragStartEvent(element) {
