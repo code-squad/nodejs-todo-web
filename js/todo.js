@@ -9,6 +9,10 @@ TodoFront.prototype.load = function() {
 		const todos = document.querySelectorAll('.todos');
 		const toss = document.querySelectorAll('.toss');
 
+		addTodo.addEventListener('click', event => {
+			this.isValidLoggedIn();
+		});
+
 		addTodo.addEventListener('keyup', event => {
 			if (event.keyCode === 13) {
 				this.addTodoList();
@@ -43,6 +47,23 @@ TodoFront.prototype.load = function() {
 			});
 		});
 	});
+};
+
+TodoFront.prototype.isValidLoggedIn = async function(event) {
+	try {
+		const response = await fetch('/isLoggedIn');
+		if (response.ok) {
+			const validMember = await response.text();
+			if (validMember === 'false') {
+				alert('로그인이 필요합니다.');
+			}
+		} else {
+			location.href = '/error-404';
+		}
+	} catch (error) {
+		console.log('error.....', error);
+		location.href = '/error-500';
+	}
 };
 
 TodoFront.prototype.drag = function(event) {
