@@ -19,14 +19,44 @@ const getUserTodo = async (userID) => {
   return userData;
 }
 
-const createHtmlObj = (userDataArr) => {
+const getSequenceObj = async (userID) => {
+  const allSequence = await csvParser.getKeyValueObj('./db/todo-sequence.csv');
+  const userCardSequence = allSequence[userID];
+
+  const sequeceObj = {};
+  Object.keys(userCardSequence).forEach((key) => {
+    const sequenceArr = userCardSequence[key].split('#');
+    sequenceArr.splice(sequenceArr.length-1,1);
+
+    const cardNoObj = {};
+    sequenceArr.forEach((cardNo) => {
+      cardNoObj[cardNo] = cardNo;
+    })
+
+    sequeceObj[key] = cardNoObj;
+  });
+
+  return sequeceObj;
+}
+
+const createHtmlObj = (userDataArr, sequeceObj) => {
   const htmlObj = {'todo' : '', 'doing' : '', 'done' : ''};
+
   userDataArr.forEach((contentObj) => {
     const cardNo = Object.keys(contentObj)[0];
     const cardType = contentObj[cardNo]['type'];
-    const cardContent = contentObj[cardNo]['content'];
-    htmlObj[cardType] += `<section class="card ${cardType}" data-no="${cardNo}" draggable="true"><img src="img/exit.png" alt="exit-image" class="card-image-exit">${cardContent}</section>`
+    sequeceObj[cardType][cardNo] = contentObj[cardNo];
   })
+
+  Object.keys(sequeceObj).forEach((key) => {
+    const cardObj = sequeceObj[key];
+    Object.keys(cardObj).forEach((cardNo) => {
+      const cardType = cardObj[cardNo]['type'];
+      const cardContent = cardObj[cardNo]['content'];
+      htmlObj[cardType] += `<section class="card ${cardType}" data-no="${cardNo}" draggable="true"><img src="img/exit.png" alt="exit-image" class="card-image-exit">${cardContent}</section>`
+    })
+  })
+
   return htmlObj;
 }
 
@@ -34,7 +64,8 @@ const view = async (userID, fileName) => {
   const publicPath = path.join(__dirname, '../public')
   let staticHtml = await fileUtil.readFile(`${publicPath}/${fileName}`);
   const userDataArr = await getUserTodo(userID);
-  const htmlObj = createHtmlObj(userDataArr);
+  const sequeceObj = await getSequenceObj(userID);
+  const htmlObj = createHtmlObj(userDataArr, sequeceObj);
 
   staticHtml = staticHtml.replace(/\$[\{]userID[\}]/g, userID);
   staticHtml = staticHtml.replace(/\$[\{]todo[\}]/g, htmlObj['todo']);
