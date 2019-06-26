@@ -16,4 +16,21 @@ const isValidId = id => {
 	return true;
 };
 
+const isValidPassword = (password, rePassword) => {
+	if (!password) {
+		document.querySelector('#password').focus();
+		return;
+	}
+	if (!rePassword) {
+		document.querySelector('#rePassword').focus();
+		return;
+	}
+	if (password !== rePassword) {
+		document.querySelector('#rePassword').value = '';
+		document.querySelector('#password').focus();
+		return;
+	}
+	return true;
+};
+
 load();
