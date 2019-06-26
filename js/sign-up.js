@@ -8,4 +8,12 @@ const load = () => {
 	});
 };
 
+const isValidId = id => {
+	if (!id) {
+		document.querySelector('#id').focus();
+		return;
+	}
+	return true;
+};
+
 load();
