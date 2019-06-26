@@ -62,7 +62,7 @@ const updateTodo = () => async (req, res, next) => {
   console.log(cardNo);
 }
 
-const updateKey = () => async (req, res, next) => {
+const updateCardSequence = () => async (req, res, next) => {
   const sequenceObj = (req.body);
   const userID = req.session.userID;
   
@@ -88,5 +88,5 @@ module.exports = {
   addTodo,
   deleteTodo,
   updateTodo,
-  updateKey
+  updateCardSequence
 }

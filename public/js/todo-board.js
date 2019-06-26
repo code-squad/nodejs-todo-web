@@ -46,7 +46,7 @@ const TodoBoardEvent = class {
 
     }
 
-    const updateKeyAjax = async (sequenceStr) => {
+    const updateCardSequenceAjax = async (sequenceStr) => {
       console.log(sequenceStr);
       const url = '/key';
       const response = await fetch(url, {
@@ -61,7 +61,7 @@ const TodoBoardEvent = class {
       submitCardAjax,
       removeCardAjax,
       dragCardAjax,
-      updateKeyAjax
+      updateCardSequenceAjax
     }
   }
 
@@ -97,7 +97,7 @@ const TodoBoardEvent = class {
     board.removeChild(event.target.parentElement);
     
     const sequenceStr = this.getCardSequence();
-    await this.ajax().updateKeyAjax(sequenceStr);
+    await this.ajax().updateCardSequenceAjax(sequenceStr);
   }
 
   cancelCardEvent(event, addInputBoxBtn) {
@@ -160,7 +160,7 @@ const TodoBoardEvent = class {
     if (resAnswer === 'success') {
       card.parentElement.removeChild(card);
       const sequenceStr = this.getCardSequence();
-      await this.ajax().updateKeyAjax(sequenceStr);
+      await this.ajax().updateCardSequenceAjax(sequenceStr);
     }
     return;
   }
