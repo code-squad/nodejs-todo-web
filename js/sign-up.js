@@ -43,4 +43,22 @@ const isValidPassword = (password, rePassword) => {
 	return true;
 };
 
+const submitSignUpData = async signUpData => {
+	try {
+		const response = await fetch('/signUp', { method: 'POST', body: JSON.stringify(signUpData) });
+		if (response.ok) {
+			const successSignUp = await response.text();
+			if (successSignUp === 'false') {
+				document.querySelector('#id').focus();
+				alert('이미 사용중인 아이디입니다.');
+			}
+		} else {
+			location.href = '/error-404';
+		}
+	} catch (error) {
+		console.log('error.....', error);
+		location.href = '/error-500';
+	}
+};
+
 load();
