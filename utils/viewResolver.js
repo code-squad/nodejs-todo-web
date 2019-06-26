@@ -22,40 +22,51 @@ const getUserTodo = async (userID) => {
 const getSequenceObj = async (userID) => {
   const allSequence = await csvParser.getKeyValueObj('./db/todo-sequence.csv');
   const userCardSequence = allSequence[userID];
-
+  
   const sequeceObj = {};
   Object.keys(userCardSequence).forEach((key) => {
     const sequenceArr = userCardSequence[key].split('#');
     sequenceArr.splice(sequenceArr.length-1,1);
-
+    
     const cardNoObj = {};
+    let i = 0;
     sequenceArr.forEach((cardNo) => {
-      cardNoObj[cardNo] = cardNo;
+      cardNoObj[cardNo] = i;
+      i++;
     })
-
     sequeceObj[key] = cardNoObj;
   });
-
   return sequeceObj;
 }
 
 const createHtmlObj = (userDataArr, sequeceObj) => {
   const htmlObj = {'todo' : '', 'doing' : '', 'done' : ''};
-
+  
   userDataArr.forEach((contentObj) => {
     const cardNo = Object.keys(contentObj)[0];
+    contentObj[cardNo]['cardNo'] = cardNo;
     const cardType = contentObj[cardNo]['type'];
+    contentObj[cardNo]['sequence'] = sequeceObj[cardType][cardNo];
     sequeceObj[cardType][cardNo] = contentObj[cardNo];
   })
 
   Object.keys(sequeceObj).forEach((key) => {
     const cardObj = sequeceObj[key];
+    
     Object.keys(cardObj).forEach((cardNo) => {
-      const cardType = cardObj[cardNo]['type'];
-      const cardContent = cardObj[cardNo]['content'];
-      htmlObj[cardType] += `<section class="card ${cardType}" data-no="${cardNo}" draggable="true"><img src="img/exit.png" alt="exit-image" class="card-image-exit">${cardContent}</section>`
+      const newKey = cardObj[cardNo]['sequence'];
+      cardObj[newKey] = cardObj[cardNo];
+      delete cardObj[cardNo];
     })
+
+    Object.entries(cardObj).forEach(([no, valueObj]) => {
+      const cardType = valueObj['type'];
+      const cardContent = valueObj['content'];
+      const cardNo = valueObj['cardNo']
+      htmlObj[cardType] += `<section class="card ${cardType}" data-no="${cardNo}" draggable="true"><img src="img/exit.png" alt="exit-image" class="card-image-exit">${cardContent}</section>`
+    });
   })
+
 
   return htmlObj;
 }
