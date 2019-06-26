@@ -1,41 +1,36 @@
-var button = document.getElementById('loginBtn');
-button.addEventListener('click', (event) => {
-    alert('Hello world');
-});
 
-const arr = document.querySelectorAll(".loginContainer > input");
-arr.forEach(element => {
-    element.addEventListener("focus", (e) => e.target.closest(".loginWindow").classList.toggle("loginWindowActive"))
-    element.addEventListener("blur", (e) => e.target.closest(".loginWindow").classList.toggle("loginWindowActive"))
+function holdLoginWindow() {
+    const loginElements = document.querySelectorAll(".loginContainer > input");
+    loginElements.forEach(element => {
+        element.addEventListener("focus", (e) => e.target.closest(".loginWindow").classList.toggle("loginWindowActive"))
+        element.addEventListener("blur", (e) => e.target.closest(".loginWindow").classList.toggle("loginWindowActive"))
 
-});
+    });
+}
+holdLoginWindow();
 
-// var text = document.querySelector(".memoNote");
-// console.log(text)
-// text.addEventListener("keydown", (e) => console.log(e.keyCode));
-document.querySelector(".memoNote").addEventListener("keydown", (e) => {
-    if (e.keyCode === 13) {
-        var text = e.target.value;
-        if (text.length === 0) {
-            alert('스케줄을 입력해 주세요.')
-        } else {
-            e.target.insertAdjacentHTML('afterend', `<p class="schedule">${text}</p>`)
-            e.target.parentNode.removeChild(e.target);
+function setMemoEvent() {
+    document.querySelector(".memoNote").addEventListener("keydown", (e) => {
+        if (e.keyCode === 13) {
+            var text = e.target.value;
+            if (text.length === 0) {
+                alert('스케줄을 입력해 주세요.')
+            } else {
+                e.target.insertAdjacentHTML('afterend', `<p class="schedule">${text}</p>`)
+                e.target.parentNode.removeChild(e.target);
+            }
         }
-    }
-});
+    });
+}
 
-// function makeSchedule() {
-//     var key = window.event.keyCode;
-//     console.log(key)
+const addScheduleButtons = document.querySelectorAll(".addSchedule");
+addScheduleButtons.forEach(button => {
+    button.addEventListener('click', (e) => {
+        if (e.target.previousSibling.className !== 'memoNote' || e.target.previousSibling.className === 'title') {
+            e.target.insertAdjacentHTML('beforebegin', '<input type="text" class="memoNote">');
 
-//     if (key === 13) {
-//         // document.getElementById("aa").innerHTML = document.getElementById("drag1").value;
-//         var textarea = document.getElementById('drag1');
-//         var text = document.getElementById("drag1").value;
-//         textarea.insertAdjacentHTML('afterend', `<p id="schedule">${text}</p>`);
-//     }
-//     else {
-//         return true;
-//     }
-// }
+            setMemoEvent();
+        }
+    })
+})
+
