@@ -22,13 +22,13 @@ exports.readUserPassword = async ({userId, password}) => {
   }
 }
 
-exports.read = async () => {
-  const todoLists = (await fs.promises.readFile(todoListPath, 'utf-8'))
+exports.read = async (userId) => {
+  const todoLists = (await fs.promises.readFile(path.join(dataDir, userId, 'todolist'), 'utf-8'))
                       .split('\n')
                       .filter(line => line !== undefined && line !== '')
                       .map(line =>  new TodoList(...line.split(',')));
 
-  const todos = (await fs.promises.readFile(todoPath, 'utf-8'))
+  const todos = (await fs.promises.readFile(path.join(dataDir, userId, 'todo'), 'utf-8'))
     .split('\n')
     .filter(line => line !== undefined && line !== '')
     .map(line => new Todo(...line.split(',')));
@@ -36,22 +36,19 @@ exports.read = async () => {
   return { todos, todoLists };
 };
 
-exports.create = async (type, data) => {
+exports.create = async (userId, type, data) => {
   try {
-    await fs.promises.appendFile((type === 'todolist' ? todoListPath : todoPath), serialize(data) + '\n');
+    await fs.promises.appendFile(path.join(dataDir, userId, type), serialize(data) + '\n');
   } catch (error) {
     console.error(error);
     throw error;
   }
 }
 
-exports.update = async (type, data) => {
+exports.update = async (userId, type, arrayData) => {
   try {
-    if(type === 'todo'){
-      await fs.promises.writeFile(todoPath, data.map(todo => serialize(todo)).join('\n') + '\n');
-    } else {
-      await fs.promises.writeFile((type === 'todolist' ? todoListPath : todoPath), data.map(todoList => serialize(todoList)).join('\n') + '\n');
-    }
+    await fs.promises.writeFile(path.join(dataDir, userId, type),
+                                arrayData.map(obj => serialize(obj)).join('\n') + '\n');
   } catch (error) {
     console.error(error);
     throw error;

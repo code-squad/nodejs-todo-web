@@ -2,7 +2,7 @@ class SessionManager {
   constructor() {
     this.sessionStorage = new Map();
     // this.maxAge = 1 * 60 * 60 * 1000;
-    this.maxAge = 60 * 1000;
+    this.maxAge = 30 * 60 * 1000;
   }
 
   setSession(sessionId, userId, establishedTime) {
@@ -16,6 +16,10 @@ class SessionManager {
 
   getMaxAge() {
     return this.maxAge / 1000;
+  }
+
+  getUserId(sessionId) {
+    return this.sessionStorage.get(sessionId).userId;
   }
 }
 
