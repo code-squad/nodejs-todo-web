@@ -8,6 +8,16 @@ TodoFront.prototype.load = function() {
 		const addButton = document.querySelector('#addButton');
 		const todos = document.querySelectorAll('.todos');
 		const toss = document.querySelectorAll('.toss');
+		const loginButton = document.querySelector('#loginButton');
+		const signUpButton = document.querySelector('#signUpButton');
+
+		loginButton.addEventListener('click', event => {
+			location.href = '/login';
+		});
+
+		signUpButton.addEventListener('click', event => {
+			location.href = '/signUp';
+		});
 
 		addTodo.addEventListener('click', event => {
 			this.isValidLoggedIn();
