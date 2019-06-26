@@ -12,7 +12,7 @@ body {
 	background-color: #ffffff;
 	overflow: hidden;
 }
-#loginButton {
+#authButton {
 	position: absolute;
 	right: 30px;
 }
