@@ -17,6 +17,7 @@ app.post('/login', loginController.loginRequest());
 app.get('/todos', todoController.getPage());
 app.post('/todos', todoController.addTodo());
 app.delete('/todos/:id', todoController.deleteTodo());
+app.patch('/todos/:id', todoController.updateTodo())
 app.patch('/key', todoController.updateCardSequence());
 app.use(errorHandler.error404());
 app.use(errorHandler.error500());
