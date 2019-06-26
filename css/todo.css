@@ -12,6 +12,10 @@ body {
 	background-color: #ffffff;
 	overflow: hidden;
 }
+#loginButton {
+	position: absolute;
+	right: 30px;
+}
 #mainHeader {
 	position: relative;
 	text-align: center;
