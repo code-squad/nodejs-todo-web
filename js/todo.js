@@ -56,6 +56,7 @@ TodoFront.prototype.isValidLoggedIn = async function(event) {
 			const validMember = await response.text();
 			if (validMember === 'false') {
 				alert('로그인이 필요합니다.');
+				return false;
 			}
 		} else {
 			location.href = '/error-404';
@@ -86,9 +87,14 @@ TodoFront.prototype.allowDrop = function(event) {
 	event.preventDefault();
 };
 
-TodoFront.prototype.addTodoList = function() {
-	const addTodo = document.querySelector('#addTodo').value;
+TodoFront.prototype.addTodoList = async function() {
+	const isValidAccess = await this.isValidLoggedIn();
+	if (!isValidAccess) {
+		document.querySelector('#addTodo').value = '';
+		return;
+	}
 
+	const addTodo = document.querySelector('#addTodo').value;
 	if (!addTodo) {
 		return;
 	}
