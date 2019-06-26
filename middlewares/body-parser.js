@@ -1,5 +1,4 @@
-
-const bodyParser = () => (req,res,next) => {
+const bodyParser = () => (req, res, next) => {
     let body = [];
 
     req.on('data', chunk => {
@@ -9,6 +8,7 @@ const bodyParser = () => (req,res,next) => {
 
     req.on('end', () => {
         body = Buffer.concat(body).toString();
+        console.log(body);
 
         body = body.split('&').reduce((body, pair) => {
             if (!pair) return body;
@@ -16,10 +16,11 @@ const bodyParser = () => (req,res,next) => {
             body[frg[0]] = frg[1];
             return body;
         }, {});
+        req.body = body;
+        next();
     });
 
-    req.body = body;
-    next();
+
 };
 
 module.exports = bodyParser;

@@ -1,0 +1,24 @@
+{
+  "name": "nodejs-todo-web",
+  "version": "1.0.0",
+  "description": "Node.js TODO web front project",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sonypark/nodejs-todo-web.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sonypark/nodejs-todo-web/issues"
+  },
+  "homepage": "https://github.com/sonypark/nodejs-todo-web#readme",
+  "dependencies": {
+    "lowdb": "^1.0.0"
+  }
+}

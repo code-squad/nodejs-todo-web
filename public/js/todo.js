@@ -3,6 +3,29 @@ const incompleteTaskHolder = document.getElementById("incomplete-tasks");//ul of
 const completedTasksHolder = document.getElementById("completed-tasks"); //ul of #completed-tasks
 const inProgressTaskHolder = document.getElementById('inprogress-tasks'); //ul of #inprogress-tasks
 
+const logoutButton = document.getElementById('logout-button');
+
+logoutButton.addEventListener('click', function (event) {
+
+    const logout = () => {
+        const option = {
+            method  : 'POST',
+            redirect: 'follow',
+            headers : new Headers({
+                'Content-Type': 'text/plain'
+            })
+        };
+        return fetch('/logout', option)
+            .then(response => {
+                if(response.redirected){
+                    window.location.href = '/';
+                }
+            })
+            
+
+    };
+    logout();
+});
 
 //New task list item
 const createNewTaskElement = function (newTask) {
@@ -132,7 +155,7 @@ const bindEventOnExistingItem = function (taskHolder, checkBoxEvent) {
 
 const bindDragEventOnList = function () {
     // Bind event on addButton
-    const addButton = document.getElementsByTagName("button")[0];
+    const addButton = document.getElementById('add-button');
     addButton.onclick = addTask;
     addEnterKeyEvent(taskInput, addTask);
 

@@ -16,7 +16,7 @@
 <div class="main">
     <div class="col-md-6 col-sm-12">
         <div class="login-form">
-            <form id="login-form" action="/todo" method="post">
+            <form id="login-form" action="/api/login" method="post">
                 <div class="form-group">
                     <ul>
                         <label id="user-name">User Name</label> <br>
@@ -27,7 +27,7 @@
                 <div class="form-group">
                     <ul>
                         <label id="user-password">Password</label> <br>
-                        <input id="user-password-input" type="password" class="form-control" placeholder="Password">
+                        <input id="user-password-input" name="password" type="password" class="form-control" placeholder="Password">
                     </ul>
                 </div>
                 <button id="login-button" type="submit" class="btn btn-black">Login</button>
