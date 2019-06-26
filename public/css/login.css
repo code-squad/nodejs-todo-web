@@ -6,8 +6,8 @@
     text-shadow: 1px 1px 1px gainsboro;
 }
 
-#form-box {
-    margin-top: 13%;
+#login-box {
+    margin-top: 15%;
 }
 
 .form-label-group {
@@ -15,13 +15,8 @@
     margin-bottom: 30px;
 }
 
-#join-link {
-    margin-top: 5%;
-    text-align: right;
-    color: navy;
-    text-decoration: underline;
-}
-
-.ajax-message {
-    margin : 10px 0px 10px 0px;
+#btn-register {
+    margin-top: 5px;
+    background-color: aliceblue;
+    color: #ef5285;
 }
