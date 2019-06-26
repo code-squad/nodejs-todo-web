@@ -15,14 +15,12 @@ const isValidMember = async () => {
 
 	try {
 		const response = await fetch('/login', { method: 'POST', body: JSON.stringify(loginData) });
-		const validMember = response.text();
 		if (response.ok) {
-			if (validMember) {
-				location.href = '/';
-			}
-			location.href = '/login';
+			const validMember = await response.text();
+			validMember === 'true' ? (location.href = '/') : (location.href = '/login');
+		} else {
+			location.href = '/error-404';
 		}
-		location.href = '/error-404';
 	} catch (error) {
 		console.log('error.....', error);
 		location.href = '/error-500';
