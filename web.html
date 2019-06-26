@@ -129,7 +129,7 @@
             width: 100%;
         }
 
-        textarea {
+        .memoNote {
             resize: none;
             margin: 10px;
             height: 55px;
@@ -197,6 +197,18 @@
             margin-top: 30%;
             margin-left: 10%
         }
+
+        .schedule {
+            border: 2px solid #8aee7c;
+            margin: 10px;
+            padding: 10px;
+            width: 100%;
+            border-top-right-radius: 27px;
+            border-bottom-right-radius: 27px;
+            border-top-left-radius: 27px;
+            border-bottom-left-radius: 27px;
+            text-align: center;
+        }
     </style>
 </head>
 
@@ -220,7 +232,9 @@
         <div id="container">
             <li>
                 <div class="title">todo</div>
-                <textarea cols="30" id="drag1" draggable="true" ondragstart="drag(event)"></textarea>
+                <!-- <textarea cols="30" id="drag1" draggable="true" ondragstart="drag(event)"
+                    onkeypress="makeSchedule()"></textarea> -->
+                <input type="text" class="memoNote">
                 <div class="add"></div>
             </li>
             <li>
