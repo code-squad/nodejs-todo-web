@@ -43,6 +43,10 @@ const server = http.createServer(async (req, res) => {
 					res.end('true');
 				}
 			});
+		} else if (url === '/signUp' && method === 'GET') {
+			const { file, mimeType } = await fs.readFile(`${publicPath}/sign-up${ext}`, ext);
+			res.writeHead(200, { 'Content-Type': mimeType });
+			res.end(file);
 		} else if (url === '/error-500' && method === 'GET') {
 			const { file, mimeType } = await fs.readFile(`${publicPath}${url}${ext}`, ext);
 			res.writeHead(200, { 'Content-Type': mimeType });
