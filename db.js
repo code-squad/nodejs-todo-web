@@ -11,6 +11,17 @@ function serialize(object) {
   return Object.values(object).join(',');
 }
 
+exports.readUserPassword = async ({userId, password}) => {
+  try {
+    await fs.promises.access(path.join(dataDir, userId), fs.F_OK);
+    const result = (await fs.promises.readFile(path.join(dataDir, userId, 'account'))).toString('utf-8');
+    return result === password;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
+
 exports.read = async () => {
   const todoLists = (await fs.promises.readFile(todoListPath, 'utf-8'))
                       .split('\n')
@@ -22,7 +33,7 @@ exports.read = async () => {
     .filter(line => line !== undefined && line !== '')
     .map(line => new Todo(...line.split(',')));
 
-    return { todos, todoLists };
+  return { todos, todoLists };
 };
 
 exports.create = async (type, data) => {
@@ -30,7 +41,7 @@ exports.create = async (type, data) => {
     await fs.promises.appendFile((type === 'todolist' ? todoListPath : todoPath), serialize(data) + '\n');
   } catch (error) {
     console.error(error);
-    return error;
+    throw error;
   }
 }
 
@@ -43,6 +54,6 @@ exports.update = async (type, data) => {
     }
   } catch (error) {
     console.error(error);
-    return error;
+    throw error;
   }
 }
