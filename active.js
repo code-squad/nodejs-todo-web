@@ -16,8 +16,12 @@ arr.forEach(element => {
 document.querySelector(".memoNote").addEventListener("keydown", (e) => {
     if (e.keyCode === 13) {
         var text = e.target.value;
-        e.target.insertAdjacentHTML('afterend', `<p class="schedule">${text}</p>`)
-        e.target.parentNode.removeChild(e.target);
+        if (text.length === 0) {
+            alert('스케줄을 입력해 주세요.')
+        } else {
+            e.target.insertAdjacentHTML('afterend', `<p class="schedule">${text}</p>`)
+            e.target.parentNode.removeChild(e.target);
+        }
     }
 });
 
