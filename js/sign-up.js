@@ -8,6 +8,16 @@ const load = () => {
 	});
 };
 
+const inputValidCheck = () => {
+	const id = document.querySelector('#id').value;
+	const password = document.querySelector('#password').value;
+	const rePassword = document.querySelector('#rePassword').value;
+
+	if (isValidId(id) && isValidPassword(password, rePassword)) {
+		submitSignUpData({ id, password });
+	}
+};
+
 const isValidId = id => {
 	if (!id) {
 		document.querySelector('#id').focus();
