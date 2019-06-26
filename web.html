@@ -46,6 +46,10 @@
             transform: translateX(0px);
         }
 
+        .loginWindowActive {
+            transform: translateX(0px);
+        }
+
         fieldset {
             width: 200px;
         }
@@ -130,7 +134,6 @@
             margin: 10px;
             height: 55px;
             width: 100%;
-            /* border: 1.5px solid floralwhite; */
             border-top-right-radius: 27px;
             border-bottom-right-radius: 27px;
             border-top-left-radius: 27px;
@@ -210,8 +213,6 @@
                 <input type="text" id="username" name="id" placeholder="username"> <br>
                 <input type="password" id="password" name="pwd" placeholder="password"><br>
                 <input type="submit" id="loginBtn" value="LOGIN">
-                <!-- <input type="button" id="aaaa" value="aaaa" /> -->
-                <!-- <input type="button" id="target" value="button" /> -->
             </div>
         </div>
     </aside>
@@ -219,7 +220,7 @@
         <div id="container">
             <li>
                 <div class="title">todo</div>
-                <textarea cols="30"></textarea>
+                <textarea cols="30" id="drag1" draggable="true" ondragstart="drag(event)"></textarea>
                 <div class="add"></div>
             </li>
             <li>
