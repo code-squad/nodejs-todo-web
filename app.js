@@ -6,6 +6,7 @@ const logger = require('./middlewares/logger');
 const bodyParser = require('./middlewares/body-parser');
 const todoController = require('./controller/todo');
 const loginController = require('./controller/login');
+const registerController = require('./controller/register');
 const session = require('./middlewares/session');
 
 app.use(logger());
@@ -15,6 +16,7 @@ app.use(bodyParser());
 app.get('/', loginController.getPage());
 app.post('/login', loginController.loginRequest());
 app.get('/todos', todoController.getPage());
+app.get('/register', registerController.getPage())
 app.post('/todos', todoController.addTodo());
 app.delete('/todos/:id', todoController.deleteTodo());
 app.patch('/todos/:id', todoController.updateTodo())
