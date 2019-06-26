@@ -24,6 +24,16 @@ const server = http.createServer(async (req, res) => {
 			const { file, mimeType } = await fs.readFile(`${publicPath}${url}${ext}`, ext);
 			res.writeHead(200, { 'Content-Type': mimeType });
 			res.end(file);
+		} else if (url === '/login' && method === 'POST') {
+			req.on('data', loginData => {
+				const memberInfo = member.isValidMember(loginData);
+				if (!memberInfo) {
+					res.end('false');
+				} else {
+					res.writeHead(200, { 'Set-Cookie': [`sid=${memberInfo.user_sid}; Max-Age=${60 * 60 * 24};`] });
+					res.end('true');
+				}
+			});
 		} else if (url === '/error-500' && method === 'GET') {
 			const { file, mimeType } = await fs.readFile(`${publicPath}${url}${ext}`, ext);
 			res.writeHead(200, { 'Content-Type': mimeType });
