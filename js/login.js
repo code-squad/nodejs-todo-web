@@ -1,9 +1,13 @@
 const load = () => {
 	window.addEventListener('load', () => {
 		const loginButton = document.querySelector('#loginButton');
+		const signUpButton = document.querySelector('#signUpButton');
 
 		loginButton.addEventListener('click', () => {
 			isValidMember();
+		});
+		signUpButton.addEventListener('click', () => {
+			location.href = '/signUp';
 		});
 	});
 };
