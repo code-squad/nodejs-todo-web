@@ -42,12 +42,17 @@ const TodoBoardEvent = class {
       return ajaxText;
     }
 
-    const dragCardAjax = () => {
-
+    const dragCardAjax = async (cardNo, todoType) => {
+      const url = `/todos/${cardNo}`;
+      const response = await fetch(url, {
+        method : 'PATCH',
+        body : `type=${todoType}`
+      });
+      const ajaxText = await response.text(); 
+      return ajaxText;
     }
 
-    const updateKeyAjax = async (sequenceStr) => {
-      console.log(sequenceStr);
+    const updateCardSequenceAjax = async (sequenceStr) => {
       const url = '/key';
       const response = await fetch(url, {
         method : 'PATCH',
@@ -57,11 +62,20 @@ const TodoBoardEvent = class {
       return ajaxText;
     }
 
+    const logoutRequestAjax = async () => {
+      const url = '/logout';
+      const response = await fetch(url, {
+        method : 'POST',
+      });
+      return response;
+    }
+
     return {
       submitCardAjax,
       removeCardAjax,
       dragCardAjax,
-      updateKeyAjax
+      updateCardSequenceAjax,
+      logoutRequestAjax
     }
   }
 
@@ -97,7 +111,7 @@ const TodoBoardEvent = class {
     board.removeChild(event.target.parentElement);
     
     const sequenceStr = this.getCardSequence();
-    await this.ajax().updateKeyAjax(sequenceStr);
+    await this.ajax().updateCardSequenceAjax(sequenceStr);
   }
 
   cancelCardEvent(event, addInputBoxBtn) {
@@ -160,7 +174,7 @@ const TodoBoardEvent = class {
     if (resAnswer === 'success') {
       card.parentElement.removeChild(card);
       const sequenceStr = this.getCardSequence();
-      await this.ajax().updateKeyAjax(sequenceStr);
+      await this.ajax().updateCardSequenceAjax(sequenceStr);
     }
     return;
   }
@@ -180,10 +194,17 @@ const TodoBoardEvent = class {
     event.preventDefault();
   }
 
-  drop(event) {
+  async drop(event) {
     event.preventDefault();
     const todoType = event.target.className.split(" ")[1];
     const wrapper = $(`#card-wrapper-${todoType}`);
+    const cardNo = this.dragData.dataset.no;
+    const answer = await this.ajax().dragCardAjax(cardNo, todoType);
+
+    if (answer !== 'success') {
+      alert('다시 시도해 주세요');
+      return;
+    }
 
     this.dragData.classList.remove(this.dragData.className.split(" ")[1]);
     this.dragData.classList.add(`${todoType}`);
@@ -194,6 +215,10 @@ const TodoBoardEvent = class {
     }
 
     this.insertCardEvent(event, wrapper);
+
+    const sequenceStr = this.getCardSequence();
+    await this.ajax().updateCardSequenceAjax(sequenceStr);
+
   }
 
   addDragStartEvent(element) {
@@ -276,9 +301,30 @@ const TodoBoardEvent = class {
     return sequenceStr;
   }
 
+  async logoutEvent(event) {
+    const response = await this.ajax().logoutRequestAjax();
+    if (response.redirected) {
+      window.location.href = response.url;
+    } else {
+      alert('로그아웃을 다시 시도해주세요')
+      return;
+    }
+    console.log(response.redirected);
+  }
+  
+  addLogoutEvent() {
+    const logoutBtnsArr = $('.header-logout');
+    Array.from(logoutBtnsArr).forEach((logoutBtn) => {
+      logoutBtn.addEventListener('click', (event) => {
+        this.logoutEvent(event);
+      })
+    })
+  }
+
   run() {
     this.addCardEvent();
     this.addEventForExistCard();
+    this.addLogoutEvent();
   }
 }
 
