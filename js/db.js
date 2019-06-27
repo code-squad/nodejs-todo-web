@@ -7,7 +7,6 @@ memberDB.defaults({ members: [] }).write();
 
 const getUserInfo = loginData => {
 	const { user_id, user_password } = JSON.parse(loginData);
-
 	const memberInfo = memberDB
 		.get('members')
 		.find({ user_id, user_password })
@@ -22,6 +21,15 @@ const resetUserSid = cookies => {
 		.find({ user_sid: Number(cookies.sid) })
 		.set('user_sid', '')
 		.write();
+};
+
+const checkDuplicatedId = user_id => {
+	const duplicatedId = memberDB
+		.get('members')
+		.find({ user_id })
+		.value();
+
+	return duplicatedId;
 };
 
 const setUserSid = (user_id, user_sid) => {
@@ -44,4 +52,4 @@ const getUserId = cookies => {
 	return member.user_id;
 };
 
-module.exports = { getUserInfo, setUserSid, getUserId, resetUserSid };
+module.exports = { getUserInfo, setUserSid, getUserId, resetUserSid, checkDuplicatedId };
