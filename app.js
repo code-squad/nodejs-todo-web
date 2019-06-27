@@ -49,6 +49,7 @@ router.get('/', async (request, response) => {
   } else {
     try {
       const content = await fs.promises.readFile(makeFilePath('/public/login.html'));
+      sessionManager.removeSession(request.sessionId);
       response.setHeader('Content-Type', 'text/html');
       response.setHeader('Set-Cookie', [`token=${request.sessionId}; Max-Age=0; HttpOnly`]);
       response.end(content);
@@ -58,6 +59,40 @@ router.get('/', async (request, response) => {
       response.end();
     }
   }
+});
+
+router.get('/signup', async (request, response) => {
+  try {
+    const content = await fs.promises.readFile(makeFilePath('/public/signup.html'));
+    response.setHeader('Content-Type', 'text/html');
+    response.setHeader('Set-Cookie', [`token=${request.sessionId}; Max-Age=0; HttpOnly`]);
+    response.end(content);
+  } catch (error) {
+    console.error(error);
+    response.statusCode = 500;
+    response.end();
+  }
+});
+
+router.post('/signup', (request, response) => {
+  request.on('data', async chunk => {
+    const body = JSON.parse(chunk.toString('utf-8'));
+    const existUser = await db.isExistUser(body.userId);
+    if(existUser) {
+      response.statusCode = 409;
+      response.end();
+    } else {
+      try {
+        await db.makeUserFile(body.userId, body.password);
+        response.statusCode = 302;
+        response.setHeader('location', '/todo');
+        response.end();
+      } catch (error) {
+        console.error(error);
+        response.emit('error');
+      }
+    }
+  });
 });
 
 router.post('/login', (request, response) => {
@@ -83,6 +118,14 @@ router.post('/login', (request, response) => {
   });
 });
 
+router.post('/logout', (request, response) => {
+  sessionManager.removeSession(request.sessionId);
+  response.statusCode = 302;
+  response.setHeader('Set-Cookie', [`token=${request.sessionId}; Max-Age=0; HttpOnly`]);
+  response.setHeader('location', '/');
+  response.end();
+});
+
 router.get('/todo', async (request, response) => {
   try {
     if(sessionManager.isValidSession(request.sessionId)) {
@@ -91,6 +134,7 @@ router.get('/todo', async (request, response) => {
       response.write(makeIndexHtmlText(todoLists, todos));
       response.end();
     } else {
+      sessionManager.removeSession(request.sessionId);
       response.statusCode = 302;
       response.setHeader('Set-Cookie', [`token=${request.sessionId}; Max-Age=0; HttpOnly`]);
       response.setHeader('location', '/');
@@ -114,6 +158,7 @@ router.post('/todo', (request, response) => {
         await db.create(userId, 'todo', newTodo);
         response.end();
       } else {
+        sessionManager.removeSession(request.sessionId);
         response.statusCode = 302;
         response.setHeader('Set-Cookie', [`token=${request.sessionId}; Max-Age=0; HttpOnly`]);
         response.setHeader('location', '/');
@@ -137,6 +182,7 @@ router.post('/todolist', (request, response) => {
         await db.create(userId, 'todolist', todoList);
         response.end();
       } else {
+        sessionManager.removeSession(request.sessionId);
         response.statusCode = 302;
         response.setHeader('Set-Cookie', [`token=${request.sessionId}; Max-Age=0; HttpOnly`]);
         response.setHeader('location', '/');
@@ -160,6 +206,7 @@ router.put('/todo', (request, response) => {
         await db.update(sessionManager.getUserId(request.sessionId), 'todo', todos);
         response.end();
       } else {
+        sessionManager.removeSession(request.sessionId);
         response.statusCode = 302;
         response.setHeader('Set-Cookie', [`token=${request.sessionId}; Max-Age=0; HttpOnly`]);
         response.setHeader('location', '/');
