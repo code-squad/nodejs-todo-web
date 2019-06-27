@@ -1,24 +1,15 @@
 const cookie = require('cookie');
-const low = require('lowdb');
-const FileSync = require('lowdb/adapters/FileSync');
-const adapter = new FileSync(`${__dirname}/../data/member.json`);
-const memberDB = low(adapter);
-
-memberDB.defaults({ members: [] }).write();
+const db = require('./db.js');
 
 const login = loginData => {
-	const { user_id, user_password } = JSON.parse(loginData);
+	const memberInfo = db.isValidMember(loginData);
 
-	const member = memberDB
-		.get('members')
-		.find({ user_id, user_password })
-		.value();
-
-	if (!member) {
+	if (!memberInfo) {
 		return false;
 	}
+	const user_id = memberInfo.user_id;
 	const user_sid = makeSessionId();
-	memberDB.set(`members.${user_id}.user_sid`, user_sid).write();
+	db.setUserSid(user_id, user_sid);
 
 	return { user_id, user_sid };
 };
