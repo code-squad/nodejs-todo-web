@@ -53,7 +53,6 @@ const TodoBoardEvent = class {
     }
 
     const updateCardSequenceAjax = async (sequenceStr) => {
-      console.log(sequenceStr);
       const url = '/key';
       const response = await fetch(url, {
         method : 'PATCH',
