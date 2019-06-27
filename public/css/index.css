@@ -218,3 +218,8 @@ textarea {
 .card-wrapper {
   min-height: 2px;
 }
+
+.header-logout {
+  cursor: pointer;
+  color: #ef5285;
+}
