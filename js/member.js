@@ -14,6 +14,11 @@ const login = loginData => {
 	return { user_id, user_sid };
 };
 
+const logout = requestCookie => {
+	const cookies = cookie.parse(requestCookie);
+	db.resetUserSid(cookies);
+};
+
 const signUp = data => {
 	const { user_id, user_password } = JSON.parse(data);
 
@@ -47,4 +52,4 @@ const makeSessionId = () => {
 	return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
-module.exports = { login, signUp, getUserId };
+module.exports = { login, signUp, getUserId, logout };

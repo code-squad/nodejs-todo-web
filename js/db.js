@@ -16,6 +16,14 @@ const getUserInfo = loginData => {
 	return memberInfo;
 };
 
+const resetUserSid = cookies => {
+	memberDB
+		.get('members')
+		.find({ user_sid: Number(cookies.sid) })
+		.set('user_sid', '')
+		.write();
+};
+
 const setUserSid = (user_id, user_sid) => {
 	memberDB
 		.get('members')
@@ -36,4 +44,4 @@ const getUserId = cookies => {
 	return member.user_id;
 };
 
-module.exports = { getUserInfo, setUserSid, getUserId };
+module.exports = { getUserInfo, setUserSid, getUserId, resetUserSid };
