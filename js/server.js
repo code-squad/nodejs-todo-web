@@ -38,11 +38,11 @@ const server = http.createServer(async (req, res) => {
 			if (!req.headers.cookie) {
 				res.end('false');
 			} else {
-				const isValidMember = member.isValidLoggedIn(req.headers.cookie);
-				if (!isValidMember) {
+				const userId = member.getUserId(req.headers.cookie);
+				if (!userId) {
 					res.end('false');
 				}
-				res.end('true');
+				res.end(userId);
 			}
 		} else if (url === '/signUp' && method === 'GET') {
 			const { file, mimeType } = await fs.readFile(`${publicPath}/sign-up${ext}`, ext);

@@ -34,10 +34,10 @@ const signUp = data => {
 	return user_sid;
 };
 
-const isValidLoggedIn = requestCookie => {
+const getUserId = requestCookie => {
 	const cookies = cookie.parse(requestCookie);
 
-	return db.isValidAccess(cookies);
+	return db.getUserId(cookies);
 };
 
 const makeSessionId = () => {
@@ -47,4 +47,4 @@ const makeSessionId = () => {
 	return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
-module.exports = { login, signUp, isValidLoggedIn };
+module.exports = { login, signUp, getUserId };
