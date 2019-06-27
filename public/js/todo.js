@@ -26,7 +26,7 @@ logoutButton.addEventListener('click', function (event) {
 });
 
 // New task list item
-const createNewTaskElement = function (newTask,id,status) {
+const createNewTaskElement = function (newTask, id, status) {
 
     const listItem = document.createElement("li");
     const checkBox = document.createElement("input");
@@ -78,7 +78,7 @@ const addTask = async function () {
         const response = await fetchData('/api/addTask', `title=${taskInput.value}&status=todo`);
         const listItem_fromDB = await response.json();
         const {id, title, status} = listItem_fromDB;
-        const listItem = createNewTaskElement(title,id,status);
+        const listItem = createNewTaskElement(title, id, status);
         incompleteTaskHolder.appendChild(listItem);
         bindTaskEvents(listItem, taskInProgress);
         taskInput.value = "";
@@ -127,8 +127,9 @@ const deleteTask = async function () {
     console.log(item_id);
     const response = await fetchData('/api/deleteTask', `item_id=${item_id}`);
     const deletedItem = await response.json();
-    console.log(deletedItem);
-    ul.removeChild(listItem);
+    if (deletedItem) {
+        ul.removeChild(listItem);
+    }
 
 };
 
