@@ -51,6 +51,12 @@ TodoFront.prototype.load = function() {
 	});
 };
 
+TodoFront.prototype.appendLoggedInButton = function() {
+	const authButton = document.querySelector('#authButton');
+	authButton.appendChild(this.makeLoginButton());
+	authButton.appendChild(this.makeSignUpButton());
+};
+
 TodoFront.prototype.makeLoginButton = function() {
 	const loginButton = document.createElement('button');
 	loginButton.setAttribute('type', 'button');
