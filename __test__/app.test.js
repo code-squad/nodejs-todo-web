@@ -6,7 +6,6 @@ const { parseCookie } = require('../util');
 
 const wrongId = 'test2', userId = 'test', wrongPassword = '1234', password = 'aaaa';
 jest.setTimeout(7 * 1000);
-// jest.useFakeTimers();
 
 function sleep(ms){
    return new Promise(resolve=>{
@@ -23,6 +22,28 @@ describe('TODO 서버 테스트', () => {
       expect(res.statusCode).toEqual(200);
       done();
     });
+  });
+
+  it('회원가입 시도', done => {
+    agent.post('/signup')
+         .send({userId, password})
+         .set('Accept', 'application/json')
+         .expect(302)
+         .end((err, res) => {
+           if(err) return done(err);
+           done();
+         });
+  });
+
+  it('이미 정보가 있는 ID로 회원가입 시도', done => {
+    agent.post('/signup')
+         .send({userId, password})
+         .set('Accept', 'application/json')
+         .expect(409)
+         .end((err, res) => {
+           if(err) return done(err);
+           done();
+         });
   });
 
   it('잘못된 로그인 시도 - 비밀번호 불일치', done => {
@@ -216,13 +237,41 @@ describe('TODO 서버 테스트', () => {
       if(err) return done(err);
       done();
     });
-  })
+  });
+
+  it('로그아웃 테스트를 위한 로그인 시도', done => {
+    agent.post('/login')
+         .send({userId, password})
+         .set('Accept', 'application/json')
+         .expect(302)
+         .end((err, res) => {
+           if(err) return done(err);
+           const cookies = res.headers['set-cookie'].map(rawCookie => parseCookie(rawCookie));
+           cookies.forEach(cookie => {
+             if(cookie.hasOwnProperty('token')){
+               sessionId = cookie.token;
+             }
+           });
+           done();
+         });
+  });
+
+  it('로그아웃 시도', done => {
+    agent.post('/logout')
+         .set('cookie', `token=${sessionId};`)
+         .expect(302)
+         .end((err, res) => {
+           if(err) return done(err);
+           done();
+         });
+  });
 
   afterAll(async done => {
     try {
-      const dataDir = path.join(process.cwd(), 'data');
-      await fs.promises.writeFile(path.join(dataDir, userId, 'todo'), '');
-      await fs.promises.writeFile(path.join(dataDir, userId, 'todolist'), '');
+      await fs.promises.unlink(path.join(dataDir, userId, 'account'));
+      await fs.promises.unlink(path.join(dataDir, userId, 'todo'));
+      await fs.promises.unlink(path.join(dataDir, userId, 'todolist'));
+      await fs.promises.rmdir(path.join(dataDir, userId));
       done();
     } catch (error) {
       done(error);
