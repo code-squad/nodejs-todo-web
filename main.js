@@ -1,6 +1,8 @@
 const http = require('http');
 const url = require('url');
 const qs = require('querystring');
+const fs = require('fs');
+const path = require('path')
 const Login = require('./login');
 const Session = require('./session');
 
@@ -9,8 +11,19 @@ const session = new Session;
 
 const app = http.createServer( function(request,response){
     let _url = request.url;
-    let path = url.parse(_url, true).pathname
-    if(path === "/"){
+    let setPath = url.parse(_url, true).pathname
+    let filePath = `.${_url}`;
+    let ext = path.extname(filePath); 
+
+    if(ext === '') {
+        filePath = 'index.html';
+        ext = '.html';
+    }
+    if(filePath !== "./favicon.ico"){
+        fs.createReadStream(filePath).pipe(response); 
+    }
+    
+    if(setPath === "/login"){
         let template = 
         `<form action="/login_process" method="post">
         <p><span>이메일 </span><input type="text" name="email" placeholder="email"></p>
@@ -22,7 +35,8 @@ const app = http.createServer( function(request,response){
         <a href="/signUp">signUp</a>`
         response.end(login.HTML(template));
         response.writeHead(200);
-    }else if(path === "/signUp"){
+    }
+    if(setPath === "/signUp"){
         let template = 
         `<form action="/signup_process" method="post">
         <p><span>닉네임 </span><input type="text" name="nickName" placeholder="nickName"></p>
@@ -34,7 +48,8 @@ const app = http.createServer( function(request,response){
         </p>
         </form>`
         response.end(login.HTML(template));
-    }else if(path === "/login_process"){
+    }
+    if(setPath === "/login_process"){
         var body = '';
         request.on('data', function(data){
             body = body + data;
@@ -42,11 +57,9 @@ const app = http.createServer( function(request,response){
         request.on('end', async function(){
             var post = qs.parse(body);
             let loginCheck = await login.checkLogin(post);
-            // let nickName = await login.findNickname(post.email);
-            
-            console.log(post)
-            if(loginCheck) {
-                let sessionData = await session.makeSession(post.email)
+            let sessionData = await session.makeSession(post.email);
+            if(loginCheck ) {
+            // if(loginCheck && request.headers.cookie ) {
                 response.writeHead(302, {
                     'Set-Cookie':[
                     `sessionID=${sessionData.ID}`,
@@ -57,7 +70,8 @@ const app = http.createServer( function(request,response){
             }
             response.end();
         });
-    }else if(path === "/signup_process"){
+    }
+    if(setPath === "/signup_process"){
         let body = '';
         request.on('data', function (data) {
             body += data;
@@ -65,11 +79,8 @@ const app = http.createServer( function(request,response){
         request.on('end',async function () {
             let post = qs.parse(body);
             let signUp = await login.signUp(post)
-            let error = "<p>이미 이메일주소가 있는 가입정보입니다.</p>"
-            console.log(signUp)
-
             if(signUp){
-                response.writeHead(302, {Location: `/`}); 
+                response.writeHead(302, {Location: `/login`}); 
                 response.end();
             }else{
                 setTimeout(function() {
@@ -79,5 +90,7 @@ const app = http.createServer( function(request,response){
             }
         });
     }
+
+    
 })
 app.listen(3000);
