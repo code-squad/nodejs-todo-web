@@ -24,4 +24,16 @@ const setUserSid = (user_id, user_sid) => {
 		.write();
 };
 
-module.exports = { getUserInfo, setUserSid };
+const isValidAccess = cookies => {
+	const member = memberDB
+		.get('members')
+		.find({ user_sid: Number(cookies.sid) })
+		.value();
+
+	if (!member) {
+		return false;
+	}
+	return true;
+};
+
+module.exports = { getUserInfo, setUserSid, isValidAccess };

@@ -37,14 +37,7 @@ const signUp = data => {
 const isValidLoggedIn = requestCookie => {
 	const cookies = cookie.parse(requestCookie);
 
-	const member = memberDB
-		.get('members')
-		.find({ user_sid: Number(cookies.sid) })
-		.value();
-	if (!member) {
-		return false;
-	}
-	return true;
+	return db.isValidAccess(cookies);
 };
 
 const makeSessionId = () => {
