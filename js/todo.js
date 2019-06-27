@@ -51,6 +51,19 @@ TodoFront.prototype.load = function() {
 	});
 };
 
+TodoFront.prototype.makeSignUpButton = function() {
+	const signUpButton = document.createElement('button');
+	signUpButton.setAttribute('type', 'button');
+	signUpButton.setAttribute('id', 'signUpButton');
+	signUpButton.setAttribute('class', 'btn btn-outline-success');
+	signUpButton.innerHTML = '회원가입';
+	signUpButton.addEventListener('click', event => {
+		location.href = '/signUp';
+	});
+
+	return signUpButton;
+};
+
 TodoFront.prototype.setAuthButton = async function() {
 	const isLoggedIn = await this.isValidLoggedIn();
 	if (isLoggedIn) {
