@@ -24,15 +24,6 @@ const server = http.createServer(async (req, res) => {
 			const { file, mimeType } = await fs.readFile(`${publicPath}${url}${ext}`, ext);
 			res.writeHead(200, { 'Content-Type': mimeType });
 			res.end(file);
-		} else if (url === '/isLoggedIn' && method === 'GET') {
-			if (!req.headers.cookie) {
-				res.end('false');
-			} else {
-				const isValidMember = member.isValidLoggedIn(req.headers.cookie);
-				if (!isValidMember) {
-					res.end('false');
-				}
-			}
 		} else if (url === '/login' && method === 'POST') {
 			req.on('data', loginData => {
 				const memberInfo = member.login(loginData);
@@ -43,6 +34,16 @@ const server = http.createServer(async (req, res) => {
 					res.end('true');
 				}
 			});
+		} else if (url === '/isValidLoggedIn' && method === 'GET') {
+			if (!req.headers.cookie) {
+				res.end('false');
+			} else {
+				const isValidMember = member.isValidLoggedIn(req.headers.cookie);
+				if (!isValidMember) {
+					res.end('false');
+				}
+				res.end('true');
+			}
 		} else if (url === '/signUp' && method === 'GET') {
 			const { file, mimeType } = await fs.readFile(`${publicPath}/sign-up${ext}`, ext);
 			res.writeHead(200, { 'Content-Type': mimeType });
