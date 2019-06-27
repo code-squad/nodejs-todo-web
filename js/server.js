@@ -35,7 +35,7 @@ const server = http.createServer(async (req, res) => {
 			}
 		} else if (url === '/login' && method === 'POST') {
 			req.on('data', loginData => {
-				const memberInfo = member.isValidMember(loginData);
+				const memberInfo = member.login(loginData);
 				if (!memberInfo) {
 					res.end('false');
 				} else {

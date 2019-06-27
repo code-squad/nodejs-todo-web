@@ -6,7 +6,7 @@ const memberDB = low(adapter);
 
 memberDB.defaults({ members: [] }).write();
 
-const isValidMember = loginData => {
+const login = loginData => {
 	const { user_id, user_password } = JSON.parse(loginData);
 
 	const member = memberDB
@@ -50,4 +50,4 @@ const makeSessionId = () => {
 	return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
-module.exports = { isValidMember, signUp };
+module.exports = { login, signUp };
