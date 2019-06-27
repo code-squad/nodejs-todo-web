@@ -86,7 +86,11 @@ const addTask = async function () {
 
 };
 
-const editTask = function (event) {
+const getListItemID = function (listItem) {
+    return  listItem.querySelector('label').id;
+};
+
+const editTask = async function (event) {
     console.log("Edit Task...");
     const listItem = event.target.parentNode;
 
@@ -95,21 +99,21 @@ const editTask = function (event) {
     const containsClass = listItem.classList.contains("editMode");
     const edit_button = listItem.querySelector('button.edit');
     const delete_button = listItem.querySelector('button.delete');
-
-    console.log(edit_button);
+    const item_id = getListItemID(listItem);
 
     //If class of the parent is .editmode
     if (containsClass) {
-        todoTask.innerText = editInput.value;
+        const response = await fetchData('/api/updateTask', `item_id=${item_id}&updated_title=${editInput.value}`);
+        const {id, title, status}  = await response.json();
+
+        todoTask.innerText = title;
         todoTask.hidden = false;
-        // event.target.innerText = 'Edit';
         edit_button.innerText = 'Edit';
         delete_button.hidden = false;
 
     } else {
         editInput.value = todoTask.innerText;
         todoTask.hidden = true;
-        // event.target.innerText = 'save';
         edit_button.innerText = 'save';
         delete_button.hidden = true;
     }
@@ -123,8 +127,7 @@ const deleteTask = async function () {
     console.log("Delete Task...");
     const listItem = this.parentNode;
     const ul = listItem.parentNode;
-    const item_id = listItem.querySelector('label').id;
-    console.log(item_id);
+    const item_id = getListItemID(listItem);
     const response = await fetchData('/api/deleteTask', `item_id=${item_id}`);
     const deletedItem = await response.json();
     if (deletedItem) {

@@ -9,6 +9,7 @@ const login_info = require('./api/login');
 const logout = require('./api/logout');
 const addTask = require('./api/addTask');
 const deleteTask = require('./api/deleteTask');
+const updateTask = require('./api/updateTask');
 const errors = require('./middlewares/errors');
 const bodyParser = require('./middlewares/body-parser');
 const App = require('./src/Application');
@@ -25,6 +26,7 @@ app.get('/todo', index.todoList());
 app.post('/logout', logout.delete_session());
 app.post('/api/addTask', addTask.addTodoList());
 app.post('/api/deleteTask', deleteTask.deleteTodoList());
+app.post('/api/updateTask', updateTask.updateTodoList());
 app.use(errors.error404());
 app.use(errors.error());
 
