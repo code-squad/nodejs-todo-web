@@ -8,16 +8,8 @@ TodoFront.prototype.load = function() {
 		const addButton = document.querySelector('#addButton');
 		const todos = document.querySelectorAll('.todos');
 		const toss = document.querySelectorAll('.toss');
-		const loginButton = document.querySelector('#loginButton');
-		const signUpButton = document.querySelector('#signUpButton');
 
-		loginButton.addEventListener('click', event => {
-			location.href = '/login';
-		});
-
-		signUpButton.addEventListener('click', event => {
-			location.href = '/signUp';
-		});
+		this.setAuthButton();
 
 		addTodo.addEventListener('click', event => {
 			this.isValidLoggedIn();
@@ -59,15 +51,22 @@ TodoFront.prototype.load = function() {
 	});
 };
 
+TodoFront.prototype.setAuthButton = async function() {
+	const isLoggedIn = await this.isValidLoggedIn();
+	if (isLoggedIn) {
+		this.appendLoggedInButton();
+	}
+};
+
 TodoFront.prototype.isValidLoggedIn = async function(event) {
 	try {
 		const response = await fetch('/isValidLoggedIn');
 		if (response.ok) {
 			const validMember = await response.text();
 			if (validMember === 'false') {
-				alert('로그인이 필요합니다.');
 				return false;
 			}
+			return true;
 		} else {
 			location.href = '/error-404';
 		}
@@ -100,6 +99,7 @@ TodoFront.prototype.allowDrop = function(event) {
 TodoFront.prototype.addTodoList = async function() {
 	const isValidAccess = await this.isValidLoggedIn();
 	if (!isValidAccess) {
+		alert('로그인이 필요합니다.');
 		document.querySelector('#addTodo').value = '';
 		return;
 	}
