@@ -11,9 +11,9 @@ const valid_info = () => (req, res, next) => {
 
     if (login_success) {
         const {query} = url.parse(req.url);
-        const {name} = qs.parse(query);
+        // const {name} = qs.parse(query);
         const expires = new Date();
-        expires.setMinutes(expires.getMinutes() + 5);
+        expires.setMinutes(expires.getMinutes() + 30);
         const randomInt = +new Date();
         db.get('session').push({sessionId: randomInt, name: name, expires: expires}).write();
         res.writeHead(302, {

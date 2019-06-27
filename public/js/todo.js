@@ -8,27 +8,25 @@ const logoutButton = document.getElementById('logout-button');
 logoutButton.addEventListener('click', function (event) {
 
     const logout = () => {
-        const option = {
+        const options = {
             method  : 'POST',
             redirect: 'follow',
             headers : new Headers({
                 'Content-Type': 'text/plain'
             })
         };
-        return fetch('/logout', option)
+        return fetch('/logout', options)
             .then(response => {
-                if(response.redirected){
+                if (response.redirected) {
                     window.location.href = '/';
                 }
             })
-            
-
     };
     logout();
 });
 
-//New task list item
-const createNewTaskElement = function (newTask) {
+// New task list item
+const createNewTaskElement = function (newTask,id,status) {
 
     const listItem = document.createElement("li");
     const checkBox = document.createElement("input");
@@ -38,6 +36,8 @@ const createNewTaskElement = function (newTask) {
     const deleteButton = document.createElement("button");
 
     label.innerText = newTask;
+    label.id = id;
+    label.className = status;
 
     checkBox.type = "checkbox";
     editInput.type = "text";
@@ -57,13 +57,28 @@ const createNewTaskElement = function (newTask) {
     return listItem;
 };
 
-const addTask = function () {
-    console.log("Add Task...");
-    const listItem = createNewTaskElement(taskInput.value);
+const fetchData = function (url, data) {
+    const options = {
+        method : 'POST',
+        body   : data,
+        headers: new Headers({
+            'Content-Type': 'application/json'
+        })
+    };
+    return fetch(url, options)
+};
 
+const addTask = async function () {
+    console.log("Add Task...");
     if (taskInput.value === '') {
         window.alert('추가할 항목을 입력해주세요');
     } else {
+
+        // const response = await fetch('/api/addTask', options);
+        const response = await fetchData('/api/addTask', `title=${taskInput.value}&status=todo`);
+        const listItem_fromDB = await response.json();
+        const {id, title, status} = listItem_fromDB;
+        const listItem = createNewTaskElement(title,id,status);
         incompleteTaskHolder.appendChild(listItem);
         bindTaskEvents(listItem, taskInProgress);
         taskInput.value = "";
@@ -104,11 +119,17 @@ const editTask = function (event) {
 };
 
 
-const deleteTask = function () {
+const deleteTask = async function () {
     console.log("Delete Task...");
     const listItem = this.parentNode;
     const ul = listItem.parentNode;
+    const item_id = listItem.querySelector('label').id;
+    console.log(item_id);
+    const response = await fetchData('/api/deleteTask', `item_id=${item_id}`);
+    const deletedItem = await response.json();
+    console.log(deletedItem);
     ul.removeChild(listItem);
+
 };
 
 const taskCompleted = function (event) {
@@ -196,7 +217,7 @@ const addDragEvent = function (listItem) {
 
     listItem.addEventListener('dragstart', function (event) {
         draggingTarget = getDragTarget(event.target);
-        event.dataTransfer.setData('text/plain', null);
+        // event.dataTransfer.setData('text/plain', null);
         event.dataTransfer.setDragImage(draggingTarget, 0, 0);
     });
 
