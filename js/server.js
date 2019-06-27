@@ -39,7 +39,7 @@ const server = http.createServer(async (req, res) => {
 				if (!memberInfo) {
 					res.end('false');
 				} else {
-					res.writeHead(200, { 'Set-Cookie': [`sid=${memberInfo.user_sid}; Max-Age=${60 * 60 * 24};`] });
+					res.writeHead(200, { 'Set-Cookie': [`sid=${memberInfo.user_sid}; Max-Age=${60 * 60 * 24}; HttpOnly;`] });
 					res.end('true');
 				}
 			});
@@ -47,6 +47,15 @@ const server = http.createServer(async (req, res) => {
 			const { file, mimeType } = await fs.readFile(`${publicPath}/sign-up${ext}`, ext);
 			res.writeHead(200, { 'Content-Type': mimeType });
 			res.end(file);
+		} else if (url === '/signUp' && method === 'POST') {
+			req.on('data', signUpData => {
+				const user_sid = member.signUp(signUpData);
+				if (!user_sid) {
+					res.end('false');
+				}
+				res.writeHead(302, { 'Set-Cookie': [`sid=${user_sid}; Max-Age=${60 * 60 * 24}; HttpOnly;`], Location: '/' });
+				res.end();
+			});
 		} else if (url === '/error-500' && method === 'GET') {
 			const { file, mimeType } = await fs.readFile(`${publicPath}${url}${ext}`, ext);
 			res.writeHead(200, { 'Content-Type': mimeType });
