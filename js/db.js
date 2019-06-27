@@ -32,6 +32,14 @@ const checkDuplicatedId = user_id => {
 	return duplicatedId;
 };
 
+const createUserInfo = signUpData => {
+	const { user_id, user_password, user_sid } = signUpData;
+	memberDB
+		.get('members')
+		.push({ user_id, user_password, user_sid })
+		.write();
+};
+
 const setUserSid = (user_id, user_sid) => {
 	memberDB
 		.get('members')
@@ -52,4 +60,4 @@ const getUserId = cookies => {
 	return member.user_id;
 };
 
-module.exports = { getUserInfo, setUserSid, getUserId, resetUserSid, checkDuplicatedId };
+module.exports = { getUserInfo, setUserSid, getUserId, resetUserSid, checkDuplicatedId, createUserInfo };
