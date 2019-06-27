@@ -19,29 +19,21 @@ const logout = requestCookie => {
 	db.resetUserSid(cookies);
 };
 
-const signUp = data => {
-	const { user_id, user_password } = JSON.parse(data);
-
-	const duplicatedId = memberDB
-		.get('members')
-		.find({ user_id })
-		.value();
+const signUp = signUpData => {
+	const { user_id, user_password } = JSON.parse(signUpData);
+	const duplicatedId = db.checkDuplicatedId(user_id);
 
 	if (duplicatedId) {
 		return false;
 	}
 	const user_sid = makeSessionId();
-	memberDB
-		.get('members')
-		.push({ user_id, user_password, user_sid })
-		.write();
+	db.createUserInfo({ user_id, user_password, user_sid });
 
 	return user_sid;
 };
 
 const getUserId = requestCookie => {
 	const cookies = cookie.parse(requestCookie);
-
 	return db.getUserId(cookies);
 };
 
