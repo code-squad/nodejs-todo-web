@@ -2,7 +2,7 @@ const cookie = require('cookie');
 const db = require('./db.js');
 
 const login = loginData => {
-	const memberInfo = db.isValidMember(loginData);
+	const memberInfo = db.getUserInfo(loginData);
 
 	if (!memberInfo) {
 		return false;

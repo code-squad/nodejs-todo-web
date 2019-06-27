@@ -5,7 +5,7 @@ const memberDB = low(adapter);
 
 memberDB.defaults({ members: [] }).write();
 
-const isValidMember = loginData => {
+const getUserInfo = loginData => {
 	const { user_id, user_password } = JSON.parse(loginData);
 
 	const memberInfo = memberDB
@@ -24,4 +24,4 @@ const setUserSid = (user_id, user_sid) => {
 		.write();
 };
 
-module.exports = { isValidMember, setUserSid };
+module.exports = { getUserInfo, setUserSid };
