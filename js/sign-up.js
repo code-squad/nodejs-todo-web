@@ -28,6 +28,7 @@ const submitSignUpData = async signUpData => {
 				document.querySelector('#rePassword').value = '';
 				document.querySelector('#id').focus();
 				alert('이미 사용중인 아이디입니다.');
+				return;
 			}
 			location.href = '/';
 		} else {
