@@ -24,10 +24,15 @@ const server = http.createServer(async (request, response) => {
   const cookies = parseCookie(request.headers.cookie);
   request.sessionId = cookies ? cookies.token : undefined;
 
-  if (request.method === 'GET' && RegExp(/\/public/).test(request.url)) {
+  if (request.method === 'GET' && RegExp(/\/public.*/).test(request.url)) {
     response.setHeader('Content-Type', getMimeType(getFileExtentsion(request.url)));
-    const content = await fs.promises.readFile(makeFilePath(request.url));
-    response.end(content);
+    try {
+      const content = await fs.promises.readFile(makeFilePath(request.url));
+      response.end(content);
+    } catch (error) {
+      response.statusCode = 404;
+      response.end();
+    }
   } else if (RegExp(/\/data.*/).test(request.url)) {
     response.statusCode = 403;
     response.end();
@@ -72,8 +77,8 @@ router.post('/login', (request, response) => {
         response.end();
       }
     } catch (error) {
-      response.statusCode = (error.errno === -2 ? 403 : 500);
-      response.end();      
+      response.statusCode = (error.code === 'ERR_INVALID_ARG_TYPE' ? 403 : 500);
+      response.end();
     }
   });
 });
@@ -92,6 +97,7 @@ router.get('/todo', async (request, response) => {
       response.end();
     }
   } catch (error) {
+    console.error(error);
     response.statusCode = 500;
     response.end();
   }
@@ -100,11 +106,11 @@ router.get('/todo', async (request, response) => {
 router.post('/todo', (request, response) => {
   request.on('data', async chunk => {
     try {
-      if(request.sessionId){
+      if(sessionManager.isValidSession(request.sessionId)){
         const body = JSON.parse(chunk.toString('utf-8'));
         const userId = sessionManager.getUserId(request.sessionId);
         const { todos } = await db.read(userId);
-        const newTodo = new Todo(todos.slice(-1)[0].id + 1, body.name, body.position, body.todolist );
+        const newTodo = new Todo((todos.length ? todos.slice(-1)[0].id : 0) + 1, body.name, body.position, body.todolist );
         await db.create(userId, 'todo', newTodo);
         response.end();
       } else {
@@ -123,11 +129,11 @@ router.post('/todo', (request, response) => {
 router.post('/todolist', (request, response) => {
   request.on('data', async chunk => {
     try {
-      if(request.sessionId){
+      if(sessionManager.isValidSession(request.sessionId)){
         const body = JSON.parse(chunk.toString('utf-8'));
         const userId = sessionManager.getUserId(request.sessionId);
         const { todoLists } = await db.read(userId);
-        const todoList = new TodoList(todoLists.slice(-1)[0].id + 1, body.name, body.position );
+        const todoList = new TodoList((todoLists.length ? todoLists.slice(-1)[0].id : 0 ) + 1, body.name, body.position );
         await db.create(userId, 'todolist', todoList);
         response.end();
       } else {
@@ -137,6 +143,7 @@ router.post('/todolist', (request, response) => {
         response.end();
       }
     } catch (error) {
+      console.error(error);
       response.statusCode = 503;
       response.end();
     }
@@ -146,7 +153,7 @@ router.post('/todolist', (request, response) => {
 router.put('/todo', (request, response) => {
   request.on('data', async chunk => {
     try {
-      if(request.sessionId){
+      if(sessionManager.isValidSession(request.sessionId)){
         const body = JSON.parse(chunk.toString('utf-8'));
         const todos = body.map(todo => new Todo(todo.id, todo.name, todo.position, todo.todoListName))
                           .sort((a, b) => a.id - b.id);
@@ -156,7 +163,7 @@ router.put('/todo', (request, response) => {
         response.statusCode = 302;
         response.setHeader('Set-Cookie', [`token=${request.sessionId}; Max-Age=0; HttpOnly`]);
         response.setHeader('location', '/');
-        response.end(); 
+        response.end();
       }
     } catch (error) {
       console.log(error);

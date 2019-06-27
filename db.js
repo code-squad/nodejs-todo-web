@@ -17,7 +17,6 @@ exports.readUserPassword = async ({userId, password}) => {
     const result = (await fs.promises.readFile(path.join(dataDir, userId, 'account'))).toString('utf-8');
     return result === password;
   } catch (error) {
-    console.error(error);
     throw error;
   }
 }
