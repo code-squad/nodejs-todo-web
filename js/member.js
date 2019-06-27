@@ -43,6 +43,19 @@ const signUp = data => {
 	return user_sid;
 };
 
+const isValidLoggedIn = requestCookie => {
+	const cookies = cookie.parse(requestCookie);
+
+	const member = memberDB
+		.get('members')
+		.find({ user_sid: Number(cookies.sid) })
+		.value();
+	if (!member) {
+		return false;
+	}
+	return true;
+};
+
 const makeSessionId = () => {
 	const min = 10000000000000000;
 	const max = 99999999999999999;
@@ -50,4 +63,4 @@ const makeSessionId = () => {
 	return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
-module.exports = { login, signUp };
+module.exports = { login, signUp, isValidLoggedIn };
