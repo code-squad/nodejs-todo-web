@@ -211,6 +211,12 @@ li {
     border-top-left-radius: 27px;
     border-bottom-left-radius: 27px;
     color: #65e954;
-    background-color: #ccf5f5;
+    background-color: white;
     font-size: 2rem;
+}
+
+.aaaa{
+    border: 2px solid yellow;
+    width: 100%;
+    height: 80px;
 }
