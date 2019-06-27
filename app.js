@@ -17,6 +17,8 @@ app.get('/', loginController.getPage());
 app.post('/login', loginController.loginRequest());
 app.get('/todos', todoController.getPage());
 app.get('/register', registerController.getPage())
+app.get('/user/:id', registerController.checkDupleId())
+app.post('/user', registerController.submitRegisterInfo());
 app.post('/todos', todoController.addTodo());
 app.delete('/todos/:id', todoController.deleteTodo());
 app.patch('/todos/:id', todoController.updateTodo())
