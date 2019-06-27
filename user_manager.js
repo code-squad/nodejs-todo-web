@@ -4,39 +4,41 @@ module.exports = class UserManager {
         this.data;
     }
 
-    logIn(id, pw) {
-        return this.readUserData(id, pw);
+    async logIn(id, pw) {
+        return await this.readUserData(id, pw);
     }
 
-    signUp(id, pw) {
-        this.loadData();
-        if(this.isMember(id,pw)){
+    async signUp(id, pw) {
+        await this.loadData();
+        if(await this.isMember(id,pw)){
             return false;
         }else{
             const tempInfo = new User(id,pw);
             this.data[id] = tempInfo;
-            this.updateUserData(id);
+            await this.updateUserData(id);
             return this.data[id];
         }
 
     }
 
-    createDataFile(){
-        if(!this.fileSystem.existsSync('./data')){
+    async createDataFile(){
+        const fileExist = await this.myExistFile('./data');
+        if(!fileExist){
             this.fileSystem.mkdirSync('./data');
         }
-        this.fileSystem.writeFileSync('./data/userData.txt', '{}', 'utf8');
+        await this.myWriteFile('./data/userData.txt', '{}', 'utf8');
     }   
 
-    loadData(){
-        if(!this.fileSystem.existsSync('./data/userData.txt')){
-            this.createDataFile();
+    async loadData(){
+        const fileExist = await this.myExistFile('./data/userData.txt');
+        if(!fileExist){
+            await this.createDataFile();
         }
-        this.data = JSON.parse(this.fileSystem.readFileSync('./data/userData.txt').toString());
+        this.data = JSON.parse((await this.myReadFile('./data/userData.txt')).toString());
     }
 
-    isMember(id, pw) {
-        this.loadData();
+    async isMember(id, pw) {
+        await this.loadData();
         if(id in this.data){
             if(this.data[id].pw === pw){
                 return this.data[id];
@@ -45,19 +47,43 @@ module.exports = class UserManager {
         return false
     }
 
-    readUserData(id, pw) {
-        return this.isMember(id, pw);
+    async readUserData(id, pw) {
+        return await this.isMember(id, pw);
     }
 
-    writeData(){
-        this.fileSystem.writeFileSync('./data/userData.txt', JSON.stringify(this.data));
+    async writeData(){
+        await this.myWriteFile('./data/userData.txt', JSON.stringify(this.data));
     }
 
-    updateUserData(id) {
+    async updateUserData(id) {
         const tempInfo = this.data[id];
-        this.loadData();
+        await this.loadData();
         this.data[id] = tempInfo;
-        this.writeData();
+        await this.writeData();
+    }
+
+    myReadFile(path){
+        return new Promise(resolve => {
+            this.fileSystem.readFile(path, (err,data) =>{
+                resolve(data);
+            });
+        });
+    }
+
+    myWriteFile(path, userData, option){
+        return new Promise(resolve => {
+            this.fileSystem.writeFile(path, userData, option, (err,data)=>{
+                resolve();
+            });
+        })
+    }
+
+    myExistFile(path){
+        return new Promise((resolve, reject) => {
+            this.fileSystem.stat(path, (err, stats) => {
+                resolve(stats);
+            });
+        });
     }
 }
 
