@@ -6,7 +6,7 @@
   "scripts": {
     "test": "./node_modules/jest/bin/jest.js",
     "coverage": "./node_modules/jest/bin/jest.js --coverage",
-    "start": "nodemon server",
+    "start": "node server",
     "eslint": "./node_modules/eslint/bin/eslint.js"
   },
   "repository": {
