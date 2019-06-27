@@ -61,7 +61,7 @@ TodoFront.prototype.load = function() {
 
 TodoFront.prototype.isValidLoggedIn = async function(event) {
 	try {
-		const response = await fetch('/isLoggedIn');
+		const response = await fetch('/isValidLoggedIn');
 		if (response.ok) {
 			const validMember = await response.text();
 			if (validMember === 'false') {
