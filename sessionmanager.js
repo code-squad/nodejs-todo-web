@@ -20,6 +20,10 @@ class SessionManager {
   getUserId(sessionId) {
     return this.sessionStorage.get(sessionId).userId;
   }
+
+  removeSession(sessionId) {
+    this.sessionStorage.delete(sessionId);
+  }
 }
 
 const sessionManager = new SessionManager();
