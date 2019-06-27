@@ -2,10 +2,6 @@ const path = require('path');
 const fileUtil = require('./file-system');
 const csvParser = require('../utils/csv-parser');
 
-const getRegExp = (value) => {
-  return `/\$[\{]${value}[\}]/g`;
-}
-
 const getUserTodo = async (userID) => {
   const allTodoData = await csvParser.getKeyValueObj('./db/todoList.csv');
   const userData = Object.keys(allTodoData).reduce((acc, key) => {
@@ -22,6 +18,10 @@ const getUserTodo = async (userID) => {
 const getSequenceObj = async (userID) => {
   const allSequence = await csvParser.getKeyValueObj('./db/todo-sequence.csv');
   const userCardSequence = allSequence[userID];
+
+  if (!userCardSequence) {
+    return {};
+  }
   
   const sequeceObj = {};
   Object.keys(userCardSequence).forEach((key) => {
