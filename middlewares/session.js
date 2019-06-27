@@ -2,12 +2,20 @@ const sessionMemory = require('../db/sessionMemory');
 
 const session = () => (req, res, next) => {
   const cookie = (req.headers.cookie);
+
+  if (cookie === undefined) {
+    req.session = 'false';
+    next();
+    return;
+  }
+
   const sessionID = cookie.split('sessionID=')[1];
 
-  req.session = 'false';
-  
   if (sessionMemory[sessionID]) {
-    req.session = sessionMemory[sessionID];
+    req.session = {
+      'userID' : sessionMemory[sessionID]['userID'],
+      'sessionID' : sessionID,
+    } 
   }
 
   next();
