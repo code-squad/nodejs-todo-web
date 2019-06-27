@@ -29,6 +29,7 @@ const submitSignUpData = async signUpData => {
 				document.querySelector('#id').focus();
 				alert('이미 사용중인 아이디입니다.');
 			}
+			location.href = '/';
 		} else {
 			location.href = '/error-404';
 		}
