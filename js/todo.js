@@ -54,8 +54,8 @@ TodoFront.prototype.load = function() {
 
 TodoFront.prototype.appendLoggedInButton = function() {
 	const authButton = document.querySelector('#authButton');
-	authButton.appendChild(this.makeLoginButton());
-	authButton.appendChild(this.makeSignUpButton());
+	authButton.appendChild(this.getLoggedInUserId());
+	authButton.appendChild(this.makeLogoutButton());
 };
 
 TodoFront.prototype.makeLoginButton = function() {
@@ -84,11 +84,39 @@ TodoFront.prototype.makeSignUpButton = function() {
 	return signUpButton;
 };
 
+TodoFront.prototype.appendLoggedOutButton = function() {
+	const authButton = document.querySelector('#authButton');
+	authButton.appendChild(this.makeLoginButton());
+	authButton.appendChild(this.makeSignUpButton());
+};
+
+TodoFront.prototype.makeLogoutButton = function() {
+	const logoutButton = document.createElement('button');
+	logoutButton.setAttribute('type', 'button');
+	logoutButton.setAttribute('id', 'logoutButton');
+	logoutButton.setAttribute('class', 'btn btn-outline-secondary');
+	logoutButton.innerHTML = '로그아웃';
+	logoutButton.addEventListener('click', event => {
+		location.href = '/logout';
+	});
+
+	return logoutButton;
+};
+
+TodoFront.prototype.getLoggedInUserId = function() {
+	const userIdArea = document.createElement('span');
+	userIdArea.setAttribute('id', 'userId');
+	userIdArea.innerHTML = `${this.userId} 님`;
+
+	return userIdArea;
+};
+
 TodoFront.prototype.setAuthButton = async function() {
 	const isLoggedIn = await this.isValidLoggedIn();
 	if (isLoggedIn) {
-		this.appendLoggedInButton();
+		return this.appendLoggedInButton();
 	}
+	return this.appendLoggedOutButton();
 };
 
 TodoFront.prototype.warning = async function() {
@@ -104,10 +132,11 @@ TodoFront.prototype.isValidLoggedIn = async function(event) {
 	try {
 		const response = await fetch('/isValidLoggedIn');
 		if (response.ok) {
-			const validMember = await response.text();
-			if (validMember === 'false') {
+			const userId = await response.text();
+			if (userId === 'false') {
 				return false;
 			}
+			this.userId = userId;
 			return true;
 		} else {
 			location.href = '/error-404';
@@ -138,7 +167,7 @@ TodoFront.prototype.allowDrop = function(event) {
 	event.preventDefault();
 };
 
-TodoFront.prototype.addTodoList = async function() {
+TodoFront.prototype.addTodoList = function() {
 	this.warning();
 
 	const addTodo = document.querySelector('#addTodo').value;
