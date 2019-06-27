@@ -31,7 +31,7 @@ const Register = class {
       });
 
       if (response.redirected) {
-        window.location.replace("/");
+        window.location.replace(response.url);
       }
     }
 
