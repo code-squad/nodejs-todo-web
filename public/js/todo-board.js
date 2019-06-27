@@ -62,11 +62,20 @@ const TodoBoardEvent = class {
       return ajaxText;
     }
 
+    const logoutRequestAjax = async () => {
+      const url = '/logout';
+      const response = await fetch(url, {
+        method : 'POST',
+      });
+      return response;
+    }
+
     return {
       submitCardAjax,
       removeCardAjax,
       dragCardAjax,
-      updateCardSequenceAjax
+      updateCardSequenceAjax,
+      logoutRequestAjax
     }
   }
 
@@ -208,7 +217,6 @@ const TodoBoardEvent = class {
     this.insertCardEvent(event, wrapper);
 
     const sequenceStr = this.getCardSequence();
-    console.log(sequenceStr);
     await this.ajax().updateCardSequenceAjax(sequenceStr);
 
   }
@@ -293,9 +301,30 @@ const TodoBoardEvent = class {
     return sequenceStr;
   }
 
+  async logoutEvent(event) {
+    const response = await this.ajax().logoutRequestAjax();
+    if (response.redirected) {
+      window.location.href = response.url;
+    } else {
+      alert('로그아웃을 다시 시도해주세요')
+      return;
+    }
+    console.log(response.redirected);
+  }
+  
+  addLogoutEvent() {
+    const logoutBtnsArr = $('.header-logout');
+    Array.from(logoutBtnsArr).forEach((logoutBtn) => {
+      logoutBtn.addEventListener('click', (event) => {
+        this.logoutEvent(event);
+      })
+    })
+  }
+
   run() {
     this.addCardEvent();
     this.addEventForExistCard();
+    this.addLogoutEvent();
   }
 }
 
