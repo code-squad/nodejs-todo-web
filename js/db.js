@@ -16,4 +16,12 @@ const isValidMember = loginData => {
 	return memberInfo;
 };
 
-module.exports = { isValidMember };
+const setUserSid = (user_id, user_sid) => {
+	memberDB
+		.get('members')
+		.find({ user_id })
+		.set('user_sid', user_sid)
+		.write();
+};
+
+module.exports = { isValidMember, setUserSid };
