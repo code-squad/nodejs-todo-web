@@ -22,4 +22,14 @@ describe('파일 확장자 테스트', () => {
     expect(util.makeFilePath('public/index.html')).toEqual(path.join(process.cwd(), 'public/index.html'));
     done();
   });
+  it('쿠키 파서 테스트', (done) => {
+    const rawCookieString = 'token=aa ;location=ko'
+    expect(util.parseCookie(rawCookieString)).toEqual({'token': 'aa', 'location': 'ko'});
+    done();
+  });
+  it('세션 랜덤값 생성', (done) => {
+    expect(util.generateSessionId()).toBeDefined();
+    done();
+  });
+
 });
