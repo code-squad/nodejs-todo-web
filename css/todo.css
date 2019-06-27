@@ -19,6 +19,9 @@ body {
 #loginButton {
 	margin-right: 5px;
 }
+#logoutButton {
+	margin-left: 5px;
+}
 #mainHeader {
 	position: relative;
 	text-align: center;
