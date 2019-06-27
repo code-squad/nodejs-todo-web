@@ -1,8 +1,6 @@
 const fs = require('fs');
 const path = require('path');
 const dataDir = path.join(process.cwd(), 'data');
-const todoPath = path.join(dataDir, 'todo');
-const todoListPath = path.join(dataDir, 'todolist');
 
 const TodoList = require('./model/todolist');
 const Todo = require('./model/todo');
@@ -50,6 +48,26 @@ exports.update = async (userId, type, arrayData) => {
                                 arrayData.map(obj => serialize(obj)).join('\n') + '\n');
   } catch (error) {
     console.error(error);
+    throw error;
+  }
+}
+
+exports.isExistUser = async userId => {
+  try {
+    await fs.promises.access(path.join(dataDir, userId), fs.F_OK);
+    return true;
+  } catch (error) {
+    return false;
+  }
+};
+
+exports.makeUserFile = async (userId, password) => {
+  try {
+    await fs.promises.mkdir(path.join(dataDir, userId));
+    await fs.promises.writeFile(path.join(dataDir, userId, 'account'), password, );
+    await fs.promises.writeFile(path.join(dataDir, userId, 'todo'), '');
+    await fs.promises.writeFile(path.join(dataDir, userId, 'todolist'), '');
+  } catch (error) {
     throw error;
   }
 }
