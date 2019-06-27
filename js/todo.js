@@ -12,7 +12,7 @@ TodoFront.prototype.load = function() {
 		this.setAuthButton();
 
 		addTodo.addEventListener('click', event => {
-			this.isValidLoggedIn();
+			this.warning();
 		});
 
 		addTodo.addEventListener('keyup', event => {
@@ -90,6 +90,15 @@ TodoFront.prototype.setAuthButton = async function() {
 	}
 };
 
+TodoFront.prototype.warning = async function() {
+	const isLoggedIn = await this.isValidLoggedIn();
+	if (!isLoggedIn) {
+		alert('로그인이 필요합니다.');
+		document.querySelector('#addTodo').value = '';
+		return;
+	}
+};
+
 TodoFront.prototype.isValidLoggedIn = async function(event) {
 	try {
 		const response = await fetch('/isValidLoggedIn');
@@ -129,12 +138,7 @@ TodoFront.prototype.allowDrop = function(event) {
 };
 
 TodoFront.prototype.addTodoList = async function() {
-	const isValidAccess = await this.isValidLoggedIn();
-	if (!isValidAccess) {
-		alert('로그인이 필요합니다.');
-		document.querySelector('#addTodo').value = '';
-		return;
-	}
+	this.warning();
 
 	const addTodo = document.querySelector('#addTodo').value;
 	if (!addTodo) {
