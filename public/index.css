@@ -206,3 +206,9 @@ p {
   color: #616161;
   font-size: 12px;
 }
+
+#logout-form {
+  position: absolute;
+  right: 0;
+  margin: 15px;
+}
