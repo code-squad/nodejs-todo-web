@@ -42,6 +42,9 @@ function makeIndexHtmlText(todoLists, todos) {
     <title>TODO</title>
   </head>
   <body>
+    <form id="logout-form" action="/logout" method="post">
+      <button type="submit" id="logout-btn" class='col s6 btn waves-effect grey'>로그아웃</button>
+    </form
     <div class="surface">
       <div class="header white-text grey darken-3">
         Todo
