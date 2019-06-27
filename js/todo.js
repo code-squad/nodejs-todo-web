@@ -1,5 +1,6 @@
 function TodoFront() {
-	this.dragData = undefined;
+	this.dragData = null;
+	this.userId = null;
 }
 
 TodoFront.prototype.load = function() {
