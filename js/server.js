@@ -44,6 +44,10 @@ const server = http.createServer(async (req, res) => {
 				}
 				res.end(userId);
 			}
+		} else if (url === '/logout' && method === 'GET') {
+			member.logout(req.headers.cookie);
+			res.writeHead(302, { 'Set-Cookie': [`sid=; Max-Age=0; HttpOnly;`], Location: '/' });
+			res.end();
 		} else if (url === '/signUp' && method === 'GET') {
 			const { file, mimeType } = await fs.readFile(`${publicPath}/sign-up${ext}`, ext);
 			res.writeHead(200, { 'Content-Type': mimeType });
