@@ -51,6 +51,19 @@ TodoFront.prototype.load = function() {
 	});
 };
 
+TodoFront.prototype.makeLoginButton = function() {
+	const loginButton = document.createElement('button');
+	loginButton.setAttribute('type', 'button');
+	loginButton.setAttribute('id', 'loginButton');
+	loginButton.setAttribute('class', 'btn btn-outline-danger');
+	loginButton.innerHTML = '로그인';
+	loginButton.addEventListener('click', event => {
+		location.href = '/login';
+	});
+
+	return loginButton;
+};
+
 TodoFront.prototype.makeSignUpButton = function() {
 	const signUpButton = document.createElement('button');
 	signUpButton.setAttribute('type', 'button');
