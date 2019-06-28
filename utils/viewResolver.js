@@ -74,6 +74,8 @@ const createHtmlObj = (userDataArr, sequeceObj) => {
 const view = async (userID, fileName) => {
   const publicPath = path.join(__dirname, '../public')
   let staticHtml = await fileUtil.readFile(`${publicPath}/${fileName}`);
+  staticHtml = staticHtml.toString('utf8');
+  
   const userDataArr = await getUserTodo(userID);
   const sequeceObj = await getSequenceObj(userID);
   const htmlObj = createHtmlObj(userDataArr, sequeceObj);

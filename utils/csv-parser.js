@@ -2,7 +2,7 @@ const fileHandler = require('./file-system');
 
 const getRawData = async (csvPath) => {
   const rawData = await fileHandler.readFile(csvPath);
-  const data = rawData.split("\r\n");
+  const data = rawData.toString('utf8').split("\r\n");
   return data;
 }
 
