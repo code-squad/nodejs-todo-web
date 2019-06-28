@@ -47,6 +47,8 @@ fieldset {
 
 #note {
     border: 2px solid black;
+    background-color: #aaffff;
+    opacity: 0.7;
     position: absolute;
     width: 100vw;
     height: 100px;
@@ -170,11 +172,12 @@ article {
 
 #username,
 #password,
-#loginBtn {
+#loginBtn,
+#signUpBtn {
     width: 100%;
     height: 20%;
-    margin-top: 5%;
-    margin-bottom: 5%;
+    margin-top: 2%;
+    margin-bottom: 2%;
     border-top-right-radius: 27px;
     border-bottom-right-radius: 27px;
     border-top-left-radius: 27px;
@@ -192,9 +195,19 @@ article {
     background-image: linear-gradient(to right, #ccf5f5, #8feeee);
 }
 
+#signUpBtn {
+    background-image: linear-gradient(to right, #a4dbf5, #7c91ee);
+    transition: background-image 0.25s linear 0.25s;
+    cursor: pointer;
+}
+
+#signUpBtn:hover {
+    background-image: linear-gradient(to right, #ccf5f5, #8feeee);
+}
+
 .loginContainer {
     width: 70%;
-    height: 30%;
+    height: 35%;
     margin-top: 30%;
     margin-left: 10%
 }
