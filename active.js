@@ -26,8 +26,8 @@ function setMemoEvent() {
 const addScheduleButtons = document.querySelectorAll(".addSchedule");
 addScheduleButtons.forEach(button => {
     button.addEventListener('click', (e) => {
-        if (e.target.previousSibling.className !== 'memoNote' || e.target.previousSibling.className === 'title') {
-            e.target.insertAdjacentHTML('beforebegin', '<input type="text" class="memoNote">');
+        if (e.target.closest(".status").querySelector('.memo').childNodes.length === 0 || e.target.closest(".status").querySelector('.memo').lastChild.className !== 'memoNote') {
+            e.target.closest(".status").querySelector('.memo').insertAdjacentHTML('beforeend', '<input type="text" class="memoNote">');
 
             setMemoEvent();
         }
@@ -37,36 +37,28 @@ addScheduleButtons.forEach(button => {
 let card;
 
 document.addEventListener('dragstart', (e) => {
+    e.dataTransfer.setData('Text', e.target.firstChild.nodeValue);
     card = e.target;
-    e.target.style.opacity = "0.4";
 })
-
-document.addEventListener("dragend", function (event) {
-    event.target.style.opacity = "1";
-});
-
-/////
-document.addEventListener("dragenter", function (event) {
-    if (event.target.className == "aaaa") {
-        event.target.style.border = "3px dotted red";
-    }
-});
 
 document.addEventListener("dragover", function (event) {
     event.preventDefault();
 });
 
-document.addEventListener("dragleave", function (event) {
-    if (event.target.className == "aaaa") {
-        event.target.style.border = "";
-    }
-});
-
-////
 document.addEventListener("drop", function (event) {
     event.preventDefault();
-    if (event.target.className == "aaaa") {
-        event.target.style.border = "";
-        event.target.appendChild(card);
+    console.log(event.target.nodeName)
+    var data = event.dataTransfer.getData('Text');
+    if (event.target.className == "schedule") {
+        event.target.insertAdjacentHTML('beforebegin', `<p class="schedule" draggable="true">${data}</p>`);
+        card.parentNode.removeChild(card);
+    }
+    if (event.target.className == "addSchedule") {
+        event.target.insertAdjacentHTML('beforebegin', `<p class="schedule" draggable="true">${data}</p>`);
+        card.parentNode.removeChild(card);
+    }
+    if (event.target.nodeName === "LI") {
+        event.target.insertAdjacentHTML('beforeend', `<p class="schedule" draggable="true">${data}</p>`);
+        card.parentNode.removeChild(card);
     }
 });
