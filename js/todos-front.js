@@ -59,6 +59,7 @@ TodosFront.prototype.getTodosList = async function() {
 		if (response.ok) {
 			const todosList = await response.text();
 			if (todosList) {
+				this.setTodosList(JSON.parse(todosList));
 			}
 		} else {
 			location.href = '/error-404';
@@ -67,6 +68,14 @@ TodosFront.prototype.getTodosList = async function() {
 		console.log('error.....', error);
 		location.href = '/error-500';
 	}
+};
+
+TodosFront.prototype.setTodosList = function(todosList) {
+	todosList.forEach(todos => {
+		console.log(todos);
+		let { todos_status, todos_contents } = todos;
+		this.makeTodosList(todos_status, todos_contents);
+	});
 };
 
 TodosFront.prototype.appendLoggedInButton = function() {
