@@ -1,33 +1,31 @@
 const db = require('./DataHandler');
 const parseCookies = require('./cookie-session');
 
-const addTodoList = () => async (req, res, next) => {
+const list_todo_Item = () => async (req, res, next) => {
+
     const cookies = parseCookies(req.headers.cookie);
     if (cookies) {
-        const {title, status} = req.body;
+        const {status} = req.body;
         const user_name = db.get('session').find({'sessionId': parseInt(cookies.session)}).value().name;
         const user_idx = getIdxOfUser(user_name);
-        const newTask = await addItemToDB(user_idx,title,status);
+        const todoStatusItem = await getTodoStatusItemFromDB(user_idx, status);
+        console.log(todoStatusItem);
 
         res.statusCode = 200;
         res.setHeader('Content-Type', 'text/plain');
-        res.end(JSON.stringify(newTask));
+        res.end(JSON.stringify(todoStatusItem));
     }
 
 };
 
-
-const addItemToDB = (user_idx,title,status) =>{
-    return new Promise((async resolve => {
-        const newID = Math.floor(Math.random() * 10000) + 1;
-        const newTask = {
-            id    : newID,
-            title : title,
-            status: status,
-        };
-        await db.get(`users[${user_idx}].todos`).push(newTask).write();
-        resolve(newTask);
-    }))
+const getTodoStatusItemFromDB = (user_idx, todo_status) => {
+    return new Promise((resolve) => {
+        const user_todo_items = db.get(`users[${user_idx}].todos`).value();
+        const todoStatusItem= user_todo_items.filter(v=>{
+            return v.status === todo_status;
+        });
+        resolve(todoStatusItem)
+    });
 
 };
 
@@ -38,5 +36,5 @@ const getIdxOfUser = (login_user_id) => {
 
 
 module.exports = {
-    addTodoList
+    list_todo_Item
 };
