@@ -1,0 +1,14 @@
+{
+  "name": "nodejs-todo-web",
+  "version": "0.0.1",
+  "description": "todo application web version",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "author": "ingleby",
+  "license": "ISC",
+  "dependencies": {
+    "node": "^12.4.0"
+  }
+}
