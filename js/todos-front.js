@@ -193,18 +193,22 @@ TodosFront.prototype.addTodoList = function() {
 		return;
 	}
 
-	const todo = document.querySelector('#todo');
-	const todoArticle = document.createElement('article');
-	const todoContent = document.createTextNode(addTodo);
+	this.makeTodosList('todo', addTodo);
+	document.querySelector('#addTodo').value = '';
+};
 
-	todoArticle.appendChild(todoContent);
-	todoArticle.className = 'list';
-	todoArticle.setAttribute('draggable', 'true');
-	todoArticle.addEventListener('dragstart', event => {
+TodosFront.prototype.makeTodosList = function(status, contents) {
+	const todos = document.querySelector(`#${status}`);
+	const todosArticle = document.createElement('article');
+	const todoContents = document.createTextNode(contents);
+
+	todosArticle.appendChild(todoContents);
+	todosArticle.className = 'list';
+	todosArticle.setAttribute('draggable', 'true');
+	todosArticle.addEventListener('dragstart', event => {
 		this.drag(event);
 	});
-	todo.appendChild(todoArticle);
-	document.querySelector('#addTodo').value = '';
+	todos.appendChild(todosArticle);
 };
 
 TodosFront.prototype.deleteElement = function() {
