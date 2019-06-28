@@ -1,40 +1,40 @@
 const cookie = require('cookie');
-const db = require('./db.js');
+const memberDB = require('./memberDB.js');
 
 const login = loginData => {
-	const memberInfo = db.getUserInfo(loginData);
+	const memberInfo = memberDB.getUserInfo(loginData);
 
 	if (!memberInfo) {
 		return false;
 	}
 	const user_id = memberInfo.user_id;
 	const user_sid = makeSessionId();
-	db.setUserSid(user_id, user_sid);
+	memberDB.setUserSid(user_id, user_sid);
 
 	return { user_id, user_sid };
 };
 
 const logout = requestCookie => {
 	const cookies = cookie.parse(requestCookie);
-	db.resetUserSid(cookies);
+	memberDB.resetUserSid(cookies);
 };
 
 const signUp = signUpData => {
 	const { user_id, user_password } = JSON.parse(signUpData);
-	const duplicatedId = db.checkDuplicatedId(user_id);
+	const duplicatedId = memberDB.checkDuplicatedId(user_id);
 
 	if (duplicatedId) {
 		return false;
 	}
 	const user_sid = makeSessionId();
-	db.createUserInfo({ user_id, user_password, user_sid });
+	memberDB.createUserInfo({ user_id, user_password, user_sid });
 
 	return user_sid;
 };
 
 const getUserId = requestCookie => {
 	const cookies = cookie.parse(requestCookie);
-	return db.getUserId(cookies);
+	return memberDB.getUserId(cookies);
 };
 
 const makeSessionId = () => {
