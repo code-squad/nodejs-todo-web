@@ -72,7 +72,6 @@ TodosFront.prototype.getTodosList = async function() {
 
 TodosFront.prototype.setTodosList = function(todosList) {
 	todosList.forEach(todos => {
-		console.log(todos);
 		let { todos_status, todos_contents } = todos;
 		this.makeTodosList(todos_status, todos_contents);
 	});
