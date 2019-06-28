@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Todo Login</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            height: 100vh;
+            width: 100vw;
+            font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Noto Sans, Ubuntu, Droid Sans, Helvetica Neue, sans-serif;
+        }
+        .login-box {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            width: auto;
+            height: auto;
+
+        }    
+        .input-box {
+            width: 200px;
+            height: 20px;
+        }
+        .head {
+            font-size: 100px;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="head">T o D o</div>
+    <div class="login-box">
+        <div style= "display:flex; justify-content: space-between">
+            <label>ID</label>
+            <input type="text" class="input-box" id="id-box" placeholder="Enter ID"></input>
+        </div>
+        <div style= "display:flex; justify-content: space-between">
+            <label>Password</label>
+            <input type="password" class="input-box" id="password-box" placeholder="Enter Password"></input>
+        </div>
+        <div style="margin: 10px;">
+            <button type="button" id="login-button">Log In</button>
+            <button type="button" id="signup-button">Sign Up</button>
+        </div>
+    </div>
+    <script src="./login.js"></script>
+</body>
+</html>
