@@ -1,9 +1,9 @@
-function TodoFront() {
+function TodosFront() {
 	this.dragData = null;
 	this.userId = null;
 }
 
-TodoFront.prototype.load = function() {
+TodosFront.prototype.load = function() {
 	window.addEventListener('load', () => {
 		const addTodo = document.querySelector('#addTodo');
 		const addButton = document.querySelector('#addButton');
@@ -52,13 +52,13 @@ TodoFront.prototype.load = function() {
 	});
 };
 
-TodoFront.prototype.appendLoggedInButton = function() {
+TodosFront.prototype.appendLoggedInButton = function() {
 	const authButton = document.querySelector('#authButton');
 	authButton.appendChild(this.getLoggedInUserId());
 	authButton.appendChild(this.makeLogoutButton());
 };
 
-TodoFront.prototype.makeLoginButton = function() {
+TodosFront.prototype.makeLoginButton = function() {
 	const loginButton = document.createElement('button');
 	loginButton.setAttribute('type', 'button');
 	loginButton.setAttribute('id', 'loginButton');
@@ -71,7 +71,7 @@ TodoFront.prototype.makeLoginButton = function() {
 	return loginButton;
 };
 
-TodoFront.prototype.makeSignUpButton = function() {
+TodosFront.prototype.makeSignUpButton = function() {
 	const signUpButton = document.createElement('button');
 	signUpButton.setAttribute('type', 'button');
 	signUpButton.setAttribute('id', 'signUpButton');
@@ -84,13 +84,13 @@ TodoFront.prototype.makeSignUpButton = function() {
 	return signUpButton;
 };
 
-TodoFront.prototype.appendLoggedOutButton = function() {
+TodosFront.prototype.appendLoggedOutButton = function() {
 	const authButton = document.querySelector('#authButton');
 	authButton.appendChild(this.makeLoginButton());
 	authButton.appendChild(this.makeSignUpButton());
 };
 
-TodoFront.prototype.makeLogoutButton = function() {
+TodosFront.prototype.makeLogoutButton = function() {
 	const logoutButton = document.createElement('button');
 	logoutButton.setAttribute('type', 'button');
 	logoutButton.setAttribute('id', 'logoutButton');
@@ -103,7 +103,7 @@ TodoFront.prototype.makeLogoutButton = function() {
 	return logoutButton;
 };
 
-TodoFront.prototype.getLoggedInUserId = function() {
+TodosFront.prototype.getLoggedInUserId = function() {
 	const userIdArea = document.createElement('span');
 	userIdArea.setAttribute('id', 'userId');
 	userIdArea.innerHTML = `${this.userId} 님`;
@@ -111,7 +111,7 @@ TodoFront.prototype.getLoggedInUserId = function() {
 	return userIdArea;
 };
 
-TodoFront.prototype.setAuthButton = async function() {
+TodosFront.prototype.setAuthButton = async function() {
 	const isLoggedIn = await this.isValidLoggedIn();
 	if (isLoggedIn) {
 		return this.appendLoggedInButton();
@@ -119,7 +119,7 @@ TodoFront.prototype.setAuthButton = async function() {
 	return this.appendLoggedOutButton();
 };
 
-TodoFront.prototype.warning = async function() {
+TodosFront.prototype.warning = async function() {
 	const isLoggedIn = await this.isValidLoggedIn();
 	if (!isLoggedIn) {
 		alert('로그인이 필요합니다.');
@@ -128,7 +128,7 @@ TodoFront.prototype.warning = async function() {
 	}
 };
 
-TodoFront.prototype.isValidLoggedIn = async function(event) {
+TodosFront.prototype.isValidLoggedIn = async function(event) {
 	try {
 		const response = await fetch('/isValidLoggedIn');
 		if (response.ok) {
@@ -147,11 +147,11 @@ TodoFront.prototype.isValidLoggedIn = async function(event) {
 	}
 };
 
-TodoFront.prototype.drag = function(event) {
+TodosFront.prototype.drag = function(event) {
 	this.dragData = event.target;
 };
 
-TodoFront.prototype.drop = function(event) {
+TodosFront.prototype.drop = function(event) {
 	const dropAreaClassName = event.target.className.split(' ')[0];
 
 	if (dropAreaClassName === 'toss') {
@@ -163,11 +163,11 @@ TodoFront.prototype.drop = function(event) {
 	this.dropTodosArea(event, dropAreaClassName);
 };
 
-TodoFront.prototype.allowDrop = function(event) {
+TodosFront.prototype.allowDrop = function(event) {
 	event.preventDefault();
 };
 
-TodoFront.prototype.addTodoList = function() {
+TodosFront.prototype.addTodoList = function() {
 	this.warning();
 
 	const addTodo = document.querySelector('#addTodo').value;
@@ -189,17 +189,17 @@ TodoFront.prototype.addTodoList = function() {
 	document.querySelector('#addTodo').value = '';
 };
 
-TodoFront.prototype.deleteElement = function() {
+TodosFront.prototype.deleteElement = function() {
 	this.dragData.remove();
 };
 
-TodoFront.prototype.dropListArea = function(event) {
+TodosFront.prototype.dropListArea = function(event) {
 	event.stopPropagation();
 	const dropAreaId = this.getDropAreaId(event);
 	this.dropBetweenElements(event, dropAreaId);
 };
 
-TodoFront.prototype.dropTodosArea = function(event, dropAreaClassName) {
+TodosFront.prototype.dropTodosArea = function(event, dropAreaClassName) {
 	event.stopPropagation();
 	const dropAreaList = this.getDropAreaList(dropAreaClassName);
 	if (!dropAreaList.length) {
@@ -208,11 +208,11 @@ TodoFront.prototype.dropTodosArea = function(event, dropAreaClassName) {
 	this.dropBetweenElements(event, dropAreaClassName);
 };
 
-TodoFront.prototype.dropEndElement = function(appendElement) {
+TodosFront.prototype.dropEndElement = function(appendElement) {
 	document.querySelector(`#${appendElement}`).appendChild(this.dragData);
 };
 
-TodoFront.prototype.dropBetweenElements = function(event, dropAreaId) {
+TodosFront.prototype.dropBetweenElements = function(event, dropAreaId) {
 	const cursorYLocation = event.clientY;
 	const dropAreaList = this.getDropAreaList(dropAreaId);
 
@@ -223,20 +223,20 @@ TodoFront.prototype.dropBetweenElements = function(event, dropAreaId) {
 	document.querySelector(`#${dropAreaId}`).insertBefore(this.dragData, dropAreaList[appendTargetIndex]);
 };
 
-TodoFront.prototype.getDropAreaList = function(dropAreaId) {
+TodosFront.prototype.getDropAreaList = function(dropAreaId) {
 	return document.querySelector(`#${dropAreaId}`).children;
 };
 
-TodoFront.prototype.getDropAreaId = function(event) {
+TodosFront.prototype.getDropAreaId = function(event) {
 	return event.target.parentNode.id;
 };
 
-TodoFront.prototype.getElementMiddleY = function(element) {
+TodosFront.prototype.getElementMiddleY = function(element) {
 	const elementLocation = element.getBoundingClientRect();
 	return (elementLocation.top + elementLocation.bottom) / 2;
 };
 
-TodoFront.prototype.getAppendTargetIndex = function(dropAreaList, cursorYLocation) {
+TodosFront.prototype.getAppendTargetIndex = function(dropAreaList, cursorYLocation) {
 	const appendTargetIndex = Array.from(dropAreaList).findIndex(element => {
 		const elementMiddleY = this.getElementMiddleY(element);
 		return elementMiddleY >= cursorYLocation;
@@ -244,5 +244,5 @@ TodoFront.prototype.getAppendTargetIndex = function(dropAreaList, cursorYLocatio
 	return appendTargetIndex;
 };
 
-const todoFront = new TodoFront();
-todoFront.load();
+const todos = new TodosFront();
+todos.load();
