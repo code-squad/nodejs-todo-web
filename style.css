@@ -143,10 +143,10 @@ article {
 
 #trashCan {
     position: absolute;
-    bottom: 60px;
-    right: 10px;
-    width: 150px;
-    height: 150px;
+    bottom: 7vh;
+    right: 2vw;
+    width: 10vw;
+    height: 15vh;
 }
 
 .add {
@@ -199,7 +199,6 @@ article {
 
 .schedule {
     border: 2px solid #8aee7c;
-    /* margin: 10px; */
     margin-top: 10px;
     margin-bottom: 10px;
     padding: 10px;

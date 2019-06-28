@@ -41,24 +41,27 @@ document.addEventListener('dragstart', (e) => {
     card = e.target;
 })
 
-document.addEventListener("dragover", function (event) {
-    event.preventDefault();
+document.addEventListener("dragover", (e) => {
+    e.preventDefault();
 });
 
-document.addEventListener("drop", function (event) {
-    event.preventDefault();
-    console.log(event.target.nodeName)
-    var data = event.dataTransfer.getData('Text');
-    if (event.target.className == "schedule") {
-        event.target.insertAdjacentHTML('beforebegin', `<p class="schedule" draggable="true">${data}</p>`);
+document.addEventListener("drop", (e) => {
+    e.preventDefault();
+    var data = e.dataTransfer.getData('Text');
+    if (e.target.className == "schedule") {
+        e.target.insertAdjacentHTML('beforebegin', `<p class="schedule" draggable="true">${data}</p>`);
         card.parentNode.removeChild(card);
     }
-    if (event.target.className == "addSchedule") {
-        event.target.insertAdjacentHTML('beforebegin', `<p class="schedule" draggable="true">${data}</p>`);
+    if (e.target.className == "addSchedule") {
+        e.target.closest(".status").querySelector('.memo').insertAdjacentHTML('beforeend', `<p class="schedule" draggable="true">${data}</p>`);
         card.parentNode.removeChild(card);
     }
-    if (event.target.nodeName === "LI") {
-        event.target.insertAdjacentHTML('beforeend', `<p class="schedule" draggable="true">${data}</p>`);
+    if (e.target.nodeName === "LI") {
+        e.target.closest(".status").querySelector('.memo').insertAdjacentHTML('beforeend', `<p class="schedule" draggable="true">${data}</p>`);
+        card.parentNode.removeChild(card);
+    }
+    if (e.target.className === "title") {
+        e.target.closest(".status").querySelector('.memo').insertAdjacentHTML('afterbegin', `<p class="schedule" draggable="true">${data}</p>`);
         card.parentNode.removeChild(card);
     }
 });
