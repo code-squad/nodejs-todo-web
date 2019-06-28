@@ -49,6 +49,17 @@ class AddEvent {
         target.insertAdjacentHTML(`${index}`, data);
     }
 
+    applyActiveEvent(target) {
+        if (target.className === "schedule") {
+            this.toggleClass({ target, className: 'activeSchedule' });
+        } else if (target.className === "schedule activeSchedule") {
+            this.toggleClass({ target, className: 'activeSchedule' });
+        }
+        if (target.id === "trashCan") {
+            this.toggleClass({ target, className: 'activeTrashCan' });
+        }
+    }
+
     dragDrop() {
         document.addEventListener('dragstart', (e) => {
             e.dataTransfer.setData('Text', e.target.firstChild.nodeValue);
@@ -56,23 +67,12 @@ class AddEvent {
         })
 
         document.addEventListener("dragenter", (e) => {
-            if (e.target.className === "schedule") {
-                this.toggleClass({ target: e.target, className: 'activeSchedule' });
-            }
-            if (e.target.id == "trashCan") {
-                this.toggleClass({ target: e.target, className: 'activeTrashCan' });
-            }
+            this.applyActiveEvent(e.target);
 
         }, false);
 
         document.addEventListener("dragleave", (e) => {
-            if (e.target.className === "schedule activeSchedule") {
-                this.toggleClass({ target: e.target, className: 'activeSchedule' });
-            }
-            if (e.target.id == "trashCan") {
-                this.toggleClass({ target: e.target, className: 'activeTrashCan' });
-            }
-
+            this.applyActiveEvent(e.target);
         }, false);
 
         document.addEventListener("dragover", (e) => {
@@ -83,12 +83,12 @@ class AddEvent {
             e.preventDefault();
             var data = e.dataTransfer.getData('Text');
             const schedule = `<p class="schedule" draggable="true">${data}</p>`;
-            if (e.target.className == "schedule activeSchedule") {
+            if (e.target.className === "schedule activeSchedule") {
                 this.toggleClass({ target: e.target, className: 'activeSchedule' });
                 this.insertElement({ target: e.target, index: 'beforebegin', data: schedule });
                 this.card.parentNode.removeChild(this.card);
             }
-            if (e.target.className == "addSchedule") {
+            if (e.target.className === "addSchedule") {
                 this.insertElement({ target: e.target.closest(".status").querySelector('.memo'), index: 'beforeend', data: schedule });
                 this.card.parentNode.removeChild(this.card);
             }
