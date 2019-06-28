@@ -229,21 +229,35 @@ const addEnterKeyEvent = function (taskInput, eventHandler) {
 };
 
 const listTodoItemFromDB = async function() {
-    const response = await fetchData('/api/listTodoItem', `status=todo`);
+    const response = await fetchData('/api/list_todo_item', `status=todo`);
     const todoItems = await response.json();
-    listTodoItem(todoItems);
+    listItems(todoItems, incompleteTaskHolder, taskInProgress);
 };
-listTodoItemFromDB();
 
-const listTodoItem = function(todoItems) {
-    todoItems.forEach(todoItem => {
-        const {id, title, status} = todoItem;
+const listDoingItemFromDB = async function() {
+    const response = await fetchData('/api/list_doing_item', `status=doing`);
+    const doingItems = await response.json();
+    listItems(doingItems, inProgressTaskHolder, taskCompleted);
+};
+
+const listDoneItemFromDB = async function() {
+    const response = await fetchData('/api/list_done_item', `status=done`);
+    const doingItems = await response.json();
+    listItems(doingItems, completedTasksHolder, taskIncomplete);
+};
+
+const listItems = function(Items, taskHolder, checkBoxEvent) {
+    Items.forEach(Item => {
+        const {id, title, status} = Item;
         const listItem = createNewTaskElement(title, id, status);
-        incompleteTaskHolder.appendChild(listItem);
-        bindTaskEvents(listItem, taskInProgress);
+        taskHolder.appendChild(listItem);
+        bindTaskEvents(listItem, checkBoxEvent);
     });
 };
 
+listTodoItemFromDB();
+listDoingItemFromDB();
+listDoneItemFromDB();
 
 
 let draggingTarget = null;
