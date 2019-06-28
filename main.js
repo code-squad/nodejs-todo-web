@@ -14,42 +14,22 @@ const app = http.createServer( function(request,response){
     let setPath = url.parse(_url, true).pathname
     let filePath = `.${_url}`;
     let ext = path.extname(filePath); 
-
-    if(ext === '') {
-        filePath = 'index.html';
-        ext = '.html';
-    }
-    if(filePath !== "./favicon.ico"){
+    if(setPath === "/" || setPath === "/event.js" ||setPath === "/css/main.css"){
+        if(ext === '' ) {
+            filePath = 'index.html';
+            ext = '.html';
+        }
         fs.createReadStream(filePath).pipe(response); 
     }
     
-    if(setPath === "/login"){
-        let template = 
-        `<form action="/login_process" method="post">
-        <p><span>이메일 </span><input type="text" name="email" placeholder="email"></p>
-        <p><span>비밀번호 </span><input type="password" name="pwd" placeholder="password"></p>
-        <p>
-          <input type="submit" value="login">
-        </p>
-        </form>
-        <a href="/signUp">signUp</a>`
-        response.end(login.HTML(template));
+    else if(setPath === "/login"){
         response.writeHead(200);
+        response.end(login.show("login"));
     }
-    if(setPath === "/signUp"){
-        let template = 
-        `<form action="/signup_process" method="post">
-        <p><span>닉네임 </span><input type="text" name="nickName" placeholder="nickName"></p>
-        <p><span>이메일 </span><input type="text" name="email" placeholder="email"></p>
-        <p><span>비밀번호 </span><input type="password" name="pwd" placeholder="password"></p>
-        <p><span>비밀번호 확인 </span><input type="password" name="check_pwd" placeholder="password"></p>
-        <p>
-          <input type="submit" value="signUp">
-        </p>
-        </form>`
-        response.end(login.HTML(template));
+    else if(setPath === "/signUp"){
+        response.end(login.show("signup"));
     }
-    if(setPath === "/login_process"){
+    else if(setPath === "/login_process"){
         var body = '';
         request.on('data', function(data){
             body = body + data;
@@ -58,6 +38,7 @@ const app = http.createServer( function(request,response){
             var post = qs.parse(body);
             let loginCheck = await login.checkLogin(post);
             let sessionData = await session.makeSession(post.email);
+            console.log(loginCheck)
             if(loginCheck ) {
             // if(loginCheck && request.headers.cookie ) {
                 response.writeHead(302, {
@@ -67,11 +48,15 @@ const app = http.createServer( function(request,response){
                     ],
                     Location: `/`
                 });
+                response.end();
+            }else{
+                response.writeHead(200);
+                console.log("노노")
+                response.end(login.show("login"));
             }
-            response.end();
         });
     }
-    if(setPath === "/signup_process"){
+    else if(setPath === "/signup_process"){
         let body = '';
         request.on('data', function (data) {
             body += data;
@@ -80,9 +65,11 @@ const app = http.createServer( function(request,response){
             let post = qs.parse(body);
             let signUp = await login.signUp(post)
             if(signUp){
+                console.log("signup")
                 response.writeHead(302, {Location: `/login`}); 
                 response.end();
             }else{
+                console.log("login")
                 setTimeout(function() {
                     response.writeHead(302, {Location: `/signUp`}); 
                     response.end();

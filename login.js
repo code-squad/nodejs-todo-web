@@ -1,23 +1,22 @@
 const ControlData = require('./control_data');
-const Session = require('./session');
+const Show = require('./view/template');
 const data = new ControlData();
-const session = new Session();
+const show = new Show();
 
 class Login {
-
-  HTML(list){
-    return `
-    <!doctype html>
-    <html>
-    <head>
-      <title>Login</title>
-      <meta charset="utf-8">
-    </head>
-    <body>
-        ${list}
-    </body>
-    </html>
-    `;
+  show(view){
+    if(view === "signup"){
+      let signup = show.signupTemplate()
+      return show.HTML(signup)
+    }
+    if(view === "login"){
+      let login = show.loginTemplate()
+      return show.HTML(login)
+    }
+    // if(view === "main"){
+    //   let main = show.mainTemplate()
+    //   return show.HTML(main)
+    // }
   }
 
   async signUp(inputDataObj){
@@ -36,7 +35,6 @@ class Login {
   async checkLogin(inputDataObj){
     let clientArray = await data.readClientData();
     let alreadyExist = clientArray.some((infoObj)=>{return infoObj.email === inputDataObj.email && infoObj.pwd === inputDataObj.pwd})
-    // let sessionInfo = session.makeSession(inputDataObj)
 
     if(alreadyExist){
       console.log("로그인 되었습니다.") 
