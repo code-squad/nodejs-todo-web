@@ -1,7 +1,8 @@
 const http = require('http');
 const model = require('./model');
 const signupController = require('./signup-controller');
-const {parseCookie} = require('./util');
+const loginController = require('./login-controller');
+const {parseCookie, getRandomInt} = require('./util');
 const port = 8080;
 const session = {};
 
@@ -20,7 +21,24 @@ const server = http.createServer(async (request, response) => {
             response.statusCode = 200;
             response.end(loginJS);
         }
-
+    }
+    if(request.url === '/login' && request.method === 'POST') {
+        let body = [];
+        request.on('data', (chunk) => {
+            body.push(chunk);
+        }).on('end', async () => {
+            body = Buffer.concat(body).toString();
+            const {id, password} = JSON.parse(body);
+            if(await loginController.login(id, password)) {
+                const sid = getRandomInt();
+                session[sid] = id;
+                response.writeHead(200, {'Set-Cookie':`session =${sid}; HttpOnly`});
+                response.end("success");
+            } else {
+                response.statusCode = 200;
+                response.end("fail");
+            }
+        });
     }
 
     if(request.url === '/signup.html') {
@@ -39,10 +57,10 @@ const server = http.createServer(async (request, response) => {
         let body = [];
         request.on('data', (chunk) => {
             body.push(chunk);
-        }).on('end', () => {
+        }).on('end', async () => {
             body = Buffer.concat(body).toString();
             const {id, password} = JSON.parse(body);
-            if(signupController.signup(id, password)) {
+            if(await signupController.signup(id, password)) {
                 response.statusCode = 200;
                 response.end();
             } else {

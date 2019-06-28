@@ -4,6 +4,10 @@ const util = {
             acc[key] = value;
             return acc;
         }, {});
+    },
+
+    getRandomInt() {
+        return +new Date();
     }
 }
 
