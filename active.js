@@ -39,18 +39,22 @@ let card;
 document.addEventListener('dragstart', (e) => {
     e.dataTransfer.setData('Text', e.target.firstChild.nodeValue);
     card = e.target;
-    // e.target.classList.add("grabbingSchedule");
 })
 
 document.addEventListener("dragenter", (e) => {
+    if (e.target.className === "schedule") {
+        e.target.classList.add("activeSchedule");
+    }
     if (e.target.id == "trashCan") {
-
         e.target.classList.add("activeTrashCan");
     }
 
 }, false);
 
 document.addEventListener("dragleave", (e) => {
+    if (e.target.className === "schedule activeSchedule") {
+        e.target.classList.remove("activeSchedule");
+    }
     if (e.target.id == "trashCan") {
         e.target.classList.remove("activeTrashCan");
     }
@@ -58,14 +62,14 @@ document.addEventListener("dragleave", (e) => {
 }, false);
 
 document.addEventListener("dragover", (e) => {
-    // e.target.classList.toggle("activeTrashCan")
     e.preventDefault();
 });
 
 document.addEventListener("drop", (e) => {
     e.preventDefault();
     var data = e.dataTransfer.getData('Text');
-    if (e.target.className == "schedule") {
+    if (e.target.className == "schedule activeSchedule") {
+        e.target.classList.remove("activeSchedule");
         e.target.insertAdjacentHTML('beforebegin', `<p class="schedule" draggable="true">${data}</p>`);
         card.parentNode.removeChild(card);
     }

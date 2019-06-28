@@ -9,7 +9,6 @@ body {
 }
 
 body {
-    border: 2px solid red;
     margin: 0;
     position: relative;
     height: 100vh;
@@ -83,7 +82,6 @@ h1 {
 }
 
 article {
-    border: 2px solid orange;
     display: flex;
     height: 80vh;
     justify-content: center;
@@ -91,7 +89,6 @@ article {
 }
 
 #container {
-    border: 2px dotted red;
     width: 80vw;
     height: 70vh;
     display: flex;
@@ -99,10 +96,14 @@ article {
 }
 
 .status {
+    border: 2px solid rgb(247, 208, 136);
+    border-top-right-radius: 27px;
+    border-bottom-right-radius: 27px;
+    border-top-left-radius: 27px;
+    border-bottom-left-radius: 27px;
     list-style: none;
-    border: 2px dashed black;
     height: 70vh;
-    width: 20vw;
+    width: auto;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -118,7 +119,8 @@ article {
     border-bottom-left-radius: 27px;
     background-image: linear-gradient(to right, #cff5a4, #8aee7c);
     height: 55px;
-    width: 100%;
+    /* width: 100%; */
+    width: 25vw;
 }
 
 .memoNote {
@@ -136,7 +138,6 @@ article {
 }
 
 .memo {
-    border: 2px solid gray;
     height: auto;
     width: 100%;
 }
@@ -210,6 +211,11 @@ article {
     border-bottom-left-radius: 27px;
     text-align: center;
     cursor: grab;
+}
+
+.activeSchedule{
+    transition: transform 0.2s ease;
+    transform: translateY(15%);
 }
 
 .addSchedule {
