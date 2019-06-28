@@ -5,10 +5,10 @@ const todosDB = low(adapter);
 
 todosDB.defaults({ todos: [] }).write();
 
-const getTodosList = (user_id, status) => {
+const getTodosList = user_id => {
 	const todoList = todosDB
 		.get('todos')
-		.find({ user_id, todos_status: status })
+		.find({ user_id })
 		.value();
 
 	return todoList;
