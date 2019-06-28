@@ -4,13 +4,14 @@ function TodosFront() {
 }
 
 TodosFront.prototype.load = function() {
-	window.addEventListener('load', () => {
+	window.addEventListener('load', async () => {
 		const addTodo = document.querySelector('#addTodo');
 		const addButton = document.querySelector('#addButton');
 		const todos = document.querySelectorAll('.todos');
 		const toss = document.querySelectorAll('.toss');
 
-		this.setAuthButton();
+		await this.setAuthButton();
+		await this.getTodosList();
 
 		addTodo.addEventListener('click', event => {
 			this.warning();
@@ -50,6 +51,22 @@ TodosFront.prototype.load = function() {
 			});
 		});
 	});
+};
+
+TodosFront.prototype.getTodosList = async function() {
+	const response = await fetch('/todosList', { method: 'POST', body: JSON.stringify(this.userId) });
+	try {
+		if (response.ok) {
+			const todosList = await response.text();
+			if (todosList) {
+			}
+		} else {
+			location.href = '/error-404';
+		}
+	} catch (error) {
+		console.log('error.....', error);
+		location.href = '/error-500';
+	}
 };
 
 TodosFront.prototype.appendLoggedInButton = function() {
