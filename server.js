@@ -13,6 +13,18 @@ const server = http.createServer(async (request, response) => {
             response.statusCode = 200;
             response.end(loginHTML);
         }
+        if(request.url === '/login.js') {
+            const loginJS = await model.readStaticFile('./login.js');
+            response.statusCode = 200;
+            response.end(loginJS);
+        }
+
+    }
+    
+    if(request.url === '/signup.html') {
+        const signupHTML = await model.readStaticFile('./signup.html');
+        response.statusCode = 200;
+        response.end(signupHTML);
     }
 });
 
