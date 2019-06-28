@@ -22,6 +22,7 @@ const server = http.createServer(async (request, response) => {
             response.end(loginJS);
         }
     }
+
     if(request.url === '/login' && request.method === 'POST') {
         let body = [];
         request.on('data', (chunk) => {
@@ -62,10 +63,10 @@ const server = http.createServer(async (request, response) => {
             const {id, password} = JSON.parse(body);
             if(await signupController.signup(id, password)) {
                 response.statusCode = 200;
-                response.end();
+                response.end("success");
             } else {
-                response.statusCode = 400;
-                response.end();
+                response.statusCode = 200;
+                response.end("fail");
             }
         });
     }
