@@ -154,9 +154,10 @@ router.post('/todo', (request, response) => {
         const body = JSON.parse(chunk.toString('utf-8'));
         const userId = sessionManager.getUserId(request.sessionId);
         const { todos } = await db.read(userId);
-        const newTodo = new Todo((todos.length ? todos.slice(-1)[0].id : 0) + 1, body.name, body.position, body.todolist );
+        const newTodoId = (todos.length ? todos.slice(-1)[0].id : 0) + 1;
+        const newTodo = new Todo(newTodoId, body.name, body.position, body.todolist );
         await db.create(userId, 'todo', newTodo);
-        response.end();
+        response.end(JSON.stringify({id: newTodoId}));
       } else {
         sessionManager.removeSession(request.sessionId);
         response.statusCode = 302;
@@ -178,9 +179,10 @@ router.post('/todolist', (request, response) => {
         const body = JSON.parse(chunk.toString('utf-8'));
         const userId = sessionManager.getUserId(request.sessionId);
         const { todoLists } = await db.read(userId);
-        const todoList = new TodoList((todoLists.length ? todoLists.slice(-1)[0].id : 0 ) + 1, body.name, body.position );
-        await db.create(userId, 'todolist', todoList);
-        response.end();
+        const newTodoListId = (todoLists.length ? todoLists.slice(-1)[0].id : 0 ) + 1;
+        const newTodoList = new TodoList(newTodoListId, body.name, body.position );
+        await db.create(userId, 'todolist', newTodoList);
+        response.end(JSON.stringify({id: newTodoListId}));
       } else {
         sessionManager.removeSession(request.sessionId);
         response.statusCode = 302;

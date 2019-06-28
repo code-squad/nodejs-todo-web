@@ -4,9 +4,9 @@ function makeTodoHtmlText(todo) {
 
 function makeTodoListHtmlText(todoList, todos) { 
   const todosHtml = todos.map(todo => makeTodoHtmlText(todo)).join('\n');
-  return `<div class="todo-column todolist-container grey lighten-2">
+  return `<div class="todo-column todolist-container grey lighten-2" data-id="${todoList.id}">
 <div class="todolist-header">
-  ${todoList}
+  ${todoList.name}
 </div>
 <ul class="collection">
   ${todosHtml}
@@ -29,7 +29,7 @@ function makeIndexHtmlText(todoLists, todos) {
   for (const key in todoSets) {
     todoSets[key].sort((a, b) => a.position - b.position);
   }
-  const todoListsHtmlText = todoLists.map(todoList => makeTodoListHtmlText(todoList.name, todoSets[todoList.name])).join('\n');
+  const todoListsHtmlText = todoLists.map(todoList => makeTodoListHtmlText(todoList, todoSets[todoList.name])).join('\n');
   return `<!DOCTYPE html>
   <html lang="ko">
   <head>
