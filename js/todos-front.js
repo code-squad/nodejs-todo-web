@@ -97,6 +97,7 @@ TodosFront.prototype.makeLogoutButton = function() {
 	logoutButton.setAttribute('class', 'btn btn-outline-secondary');
 	logoutButton.innerHTML = '로그아웃';
 	logoutButton.addEventListener('click', event => {
+		this.userId = null;
 		location.href = '/logout';
 	});
 
