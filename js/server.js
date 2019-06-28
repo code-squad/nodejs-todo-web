@@ -35,7 +35,7 @@ const server = http.createServer(async (req, res) => {
 					res.end('true');
 				}
 			});
-		} else if (url === '/getTodosList' && method === 'POST') {
+		} else if (url === '/todosList' && method === 'POST') {
 			req.on('data', user_id => {
 				const todosList = todos.getTodosList(user_id);
 				res.end(JSON.stringify(todosList));
