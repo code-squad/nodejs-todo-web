@@ -184,6 +184,7 @@ article {
 #loginBtn {
     background-image: linear-gradient(to right, #cff5a4, #8aee7c);
     transition: background-image 0.25s linear 0.25s;
+    cursor: pointer;
 }
 
 #loginBtn:hover {
@@ -208,6 +209,7 @@ article {
     border-top-left-radius: 27px;
     border-bottom-left-radius: 27px;
     text-align: center;
+    cursor: grab;
 }
 
 .addSchedule {
@@ -221,6 +223,7 @@ article {
     color: #65e954;
     background-color: white;
     font-size: 2rem;
+    cursor: pointer;
 }
 
 .dropBox{
@@ -233,6 +236,9 @@ article {
 
 .growDropBox{
     transition: transform 1s ease 0.3s;
-    /* transform: scaleY(2); */
     transform-origin: 100% 0 0 scaleY(2);
+}
+
+.activeTrashCan{
+    transform: scale(1.2);
 }

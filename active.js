@@ -39,9 +39,26 @@ let card;
 document.addEventListener('dragstart', (e) => {
     e.dataTransfer.setData('Text', e.target.firstChild.nodeValue);
     card = e.target;
+    // e.target.classList.add("grabbingSchedule");
 })
 
+document.addEventListener("dragenter", (e) => {
+    if (e.target.id == "trashCan") {
+
+        e.target.classList.add("activeTrashCan");
+    }
+
+}, false);
+
+document.addEventListener("dragleave", (e) => {
+    if (e.target.id == "trashCan") {
+        e.target.classList.remove("activeTrashCan");
+    }
+
+}, false);
+
 document.addEventListener("dragover", (e) => {
+    // e.target.classList.toggle("activeTrashCan")
     e.preventDefault();
 });
 
@@ -62,6 +79,10 @@ document.addEventListener("drop", (e) => {
     }
     if (e.target.className === "title") {
         e.target.closest(".status").querySelector('.memo').insertAdjacentHTML('afterbegin', `<p class="schedule" draggable="true">${data}</p>`);
+        card.parentNode.removeChild(card);
+    }
+    if (e.target.id === "trashCan") {
+        e.target.classList.remove("activeTrashCan");
         card.parentNode.removeChild(card);
     }
 });
