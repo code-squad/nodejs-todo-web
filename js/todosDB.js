@@ -8,7 +8,7 @@ todosDB.defaults({ todos: [] }).write();
 const getTodosList = user_id => {
 	const todoList = todosDB
 		.get('todos')
-		.find({ user_id })
+		.filter({ user_id })
 		.value();
 
 	return todoList;
