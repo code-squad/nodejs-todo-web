@@ -1,13 +1,7 @@
 const fs = require('fs');
+const util = require('util');
 
-const readFile = (path, encoding = 'utf8') => {
-  return new Promise((resolve, reject) => {
-    fs.readFile(path, encoding, (err, data) => {
-      if (err) reject(err);
-      resolve(data);
-    })
-  })
-}
+const readFile = util.promisify(fs.readFile);
 
 const writeFile = (path, data, encoding = 'utf8') => {
   return new Promise((resolve, reject) => {

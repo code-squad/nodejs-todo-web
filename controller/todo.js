@@ -8,6 +8,13 @@ const getPage = () => async (req, res, next) => {
     res.end();
     return;
   }
+  
+  if (!req.session) {
+    res.writeHead(302, {'Location': '/' });
+    res.end();
+    return;
+  }
+  
   const userID = req.session.userID;
   const viewer = await view(userID, 'index.html');
 

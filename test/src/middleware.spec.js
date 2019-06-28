@@ -1,6 +1,6 @@
 const should = require('should');
 const sinon = require('sinon');
-const Middleware = require('../src/middleware');
+const Middleware = require('../../src/middleware');
 
 describe('Middleware Module', () => {
   let middleware;
@@ -70,7 +70,7 @@ describe('Middleware Module', () => {
       })
 
       middleware.run();
-      
+
       should(func2.called).equal(false);
     })
 
@@ -102,4 +102,50 @@ describe('Middleware Module', () => {
       })
     })
   })
+
+  describe('isOverLength(index)', () => {
+    it('미들웨어 배열이 index보다 작거나 같으면 true를 반환한다', () => {
+      const index = 3;
+
+      const func1 = sinon.stub();
+      const func2 = sinon.stub();
+      const func3 = sinon.stub();
+      const func4 = sinon.stub();
+
+      // index : 3, arrLength : 2
+      middleware.middlewareArr.push(func1);
+      middleware.middlewareArr.push(func2);
+      should(middleware.isOverLength(index)).be.equal(true);
+
+      // index : 3, arrLength : 3
+      middleware.middlewareArr.push(func3);
+      should(middleware.isOverLength(index)).be.equal(true);
+
+      // index : 3, arrLength : 4
+      middleware.middlewareArr.push(func4);
+      should(middleware.isOverLength(index)).be.equal(false);
+
+    })
+  })
+
+  describe('executeMiddleware(index, err)', () => {
+    it('err가 있을 경우, handleErrorMiddleware를 실행한다', () => {
+      const stub = {
+        func1(req, res, next) {},
+        errorFunc(req, res, next) {},
+        func2(req, res, next) {},
+        errorHandler(err, req, res, next) {}
+      }
+
+      sinon.stub(stub, 'func1').callsFake((req, res, next) => next());
+      sinon.stub(stub, 'errorFunc').callsFake((req, res, next) => next(Error()));
+      sinon.stub(stub, 'func2').callsFake((req, res, next) => next());
+      sinon.stub(stub, 'errorHandler').callsFake((err, req, res, next) => null);
+
+      
+
+    })
+  })
+
+
 })

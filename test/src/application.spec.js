@@ -1,6 +1,6 @@
 const should = require('should');
 const sinon = require('sinon');
-const App = require('../src/application');
+const App = require('../../src/application');
 
 describe('application module', () => {
   describe('listen() method', () => {

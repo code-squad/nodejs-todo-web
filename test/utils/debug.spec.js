@@ -1,6 +1,6 @@
 const should = require('should');
 const sinon = require('sinon');
-const debug = require('../utils/debug');
+const debug = require('../../utils/debug');
 
 describe('debug module', () => {
   describe('생성', () => {
@@ -9,7 +9,7 @@ describe('debug module', () => {
     })
 
     it('함수를 반환한다', () => {
-      const debug = require('../utils/debug')('tag');
+      const debug = require('../../utils/debug')('tag');
       should(typeof debug).be.equal('function');
     })
   })
