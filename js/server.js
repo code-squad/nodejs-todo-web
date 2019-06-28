@@ -2,6 +2,7 @@ const http = require('http');
 const path = require('path');
 const fs = require('./file.js');
 const member = require('./member.js');
+const todos = require('./todos.js');
 
 const port = 8000;
 
@@ -33,6 +34,11 @@ const server = http.createServer(async (req, res) => {
 					res.writeHead(200, { 'Set-Cookie': [`sid=${memberInfo.user_sid}; Max-Age=${60 * 60 * 24}; HttpOnly;`] });
 					res.end('true');
 				}
+			});
+		} else if (url === '/getTodosList' && method === 'POST') {
+			req.on('data', user_id => {
+				const todosList = todos.getTodosList(user_id);
+				res.end(JSON.stringify(todosList));
 			});
 		} else if (url === '/isValidLoggedIn' && method === 'GET') {
 			if (!req.headers.cookie) {
