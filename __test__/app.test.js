@@ -268,6 +268,7 @@ describe('TODO 서버 테스트', () => {
 
   afterAll(async done => {
     try {
+      const dataDir = path.join(process.cwd(), dataDir);
       await fs.promises.unlink(path.join(dataDir, userId, 'account'));
       await fs.promises.unlink(path.join(dataDir, userId, 'todo'));
       await fs.promises.unlink(path.join(dataDir, userId, 'todolist'));
