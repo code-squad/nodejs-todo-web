@@ -35,6 +35,7 @@ const checkDuplicatedId = user_id => {
 const createUserInfo = signUpData => {
 	signUpData['user_sid'] = '';
 	const { user_id, user_password, user_sid } = signUpData;
+
 	memberDB
 		.get('members')
 		.push({ user_id, user_password, user_sid })
@@ -52,16 +53,13 @@ const setUserSid = user_id => {
 	return user_sid;
 };
 
-const getUserId = cookies => {
-	const member = memberDB
+const getUserId = sid => {
+	const user_id = memberDB
 		.get('members')
-		.find({ user_sid: Number(cookies.sid) })
-		.value();
+		.find({ user_sid: Number(sid) })
+		.value().user_id;
 
-	if (!member) {
-		return false;
-	}
-	return member.user_id;
+	return user_id;
 };
 
 const makeSessionId = () => {

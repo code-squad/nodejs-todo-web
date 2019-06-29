@@ -33,7 +33,9 @@ const signUp = signUpData => {
 
 const getUserId = requestCookie => {
 	const cookies = cookie.parse(requestCookie);
-	return memberDB.getUserId(cookies);
+	const user_id = memberDB.getUserId(cookies.sid);
+
+	return user_id;
 };
 
 module.exports = { login, signUp, getUserId, logout };
