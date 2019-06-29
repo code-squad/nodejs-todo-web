@@ -5,7 +5,7 @@ const server = require('../app');
 const { parseCookie } = require('../util');
 
 const wrongId = 'test2', userId = 'test', wrongPassword = '1234', password = 'aaaa';
-jest.setTimeout(7 * 1000);
+jest.setTimeout(10 * 1000);
 
 function sleep(ms){
    return new Promise(resolve=>{
@@ -22,6 +22,17 @@ describe('TODO 서버 테스트', () => {
       expect(res.statusCode).toEqual(200);
       done();
     });
+  });
+
+  it('회원가입 페이지 열기', done => {
+    agent.get('/signup')
+         .send()
+         .set('Accept', 'application/json')
+         .expect(200)
+         .end((err, res) => {
+           if(err) return done(err);
+           done();
+         });
   });
 
   it('회원가입 시도', done => {
@@ -140,6 +151,17 @@ describe('TODO 서버 테스트', () => {
          });
   });  
 
+  it('todo 새로고침 시도', done => {
+    agent.get('/todo')
+         .send()
+         .set('cookie', `token=${sessionId};`)
+         .expect(200)
+         .end((err, res) => {
+           if(err) return done(err);
+           done();
+         });
+  });  
+
   it('todo 이동', done => {
     agent.put('/todo')
          .send([
@@ -153,6 +175,34 @@ describe('TODO 서버 테스트', () => {
            done();
          });
   });
+
+  it('todo 제거', done => {
+    agent.delete('/todo')
+         .send([
+           {id: 0, name: 'Test 1', position: 1, todoListName: 'todo'},
+         ])
+         .set('cookie', `token=${sessionId};`)
+         .expect(200)
+         .end((err, res) => {
+           if(err) return done(err);
+           done();
+         });
+  });
+
+  it('todolist 제거', done => {
+    agent.delete('/todolist')
+         .send({
+           todos:[],
+           todolists: []
+          })
+         .set('cookie', `token=${sessionId};`)
+         .expect(200)
+         .end((err, res) => {
+           if(err) return done(err);
+           done();
+         });
+  });
+
 
   it('정적 파일 요청', done => {
     agent.get('/public/index.css')
@@ -239,6 +289,42 @@ describe('TODO 서버 테스트', () => {
     });
   });
 
+  it('세션 만료 후 todo Drag&Drop 이벤트 발생 시 로그인 화면으로 리다이렉트', done => {
+    agent.put('/todo')
+    .send([
+      {id: 1, name: 'Test 2', position: 0, todoListName: 'todo'},
+      {id: 0, name: 'Test 1', position: 1, todoListName: 'todo'},
+    ])
+    .set('cookie', `token=${sessionId};`)
+    .expect(302)
+    .end((err, res) => {
+      if(err) return done(err);
+      done();
+    });
+  });
+
+  it('세션 만료 후 todo 제거 시 로그인 화면으로 리다이렉트', done => {
+    agent.delete('/todo')
+    .send([])
+    .set('cookie', `token=${sessionId};`)
+    .expect(302)
+    .end((err, res) => {
+      if(err) return done(err);
+      done();
+    });
+  });
+
+  it('세션 만료 후 todolist 제거 시 로그인 화면으로 리다이렉트', done => {
+    agent.delete('/todolist')
+    .send([])
+    .set('cookie', `token=${sessionId};`)
+    .expect(302)
+    .end((err, res) => {
+      if(err) return done(err);
+      done();
+    });
+  });
+
   it('로그아웃 테스트를 위한 로그인 시도', done => {
     agent.post('/login')
          .send({userId, password})
@@ -268,13 +354,14 @@ describe('TODO 서버 테스트', () => {
 
   afterAll(async done => {
     try {
-      const dataDir = path.join(process.cwd(), dataDir);
+      const dataDir = path.join(process.cwd(), 'data');
       await fs.promises.unlink(path.join(dataDir, userId, 'account'));
       await fs.promises.unlink(path.join(dataDir, userId, 'todo'));
       await fs.promises.unlink(path.join(dataDir, userId, 'todolist'));
       await fs.promises.rmdir(path.join(dataDir, userId));
       done();
     } catch (error) {
+      console.error(error);
       done(error);
     }
   });
