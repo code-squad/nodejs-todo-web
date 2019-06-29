@@ -40,12 +40,15 @@ const createUserInfo = signUpData => {
 		.write();
 };
 
-const setUserSid = (user_id, user_sid) => {
+const setUserSid = user_id => {
+	const user_sid = makeSessionId();
 	memberDB
 		.get('members')
 		.find({ user_id })
 		.set('user_sid', user_sid)
 		.write();
+
+	return user_sid;
 };
 
 const getUserId = cookies => {
@@ -58,6 +61,13 @@ const getUserId = cookies => {
 		return false;
 	}
 	return member.user_id;
+};
+
+const makeSessionId = () => {
+	const min = 10000000000000000;
+	const max = 99999999999999999;
+
+	return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
 module.exports = { getUserInfo, setUserSid, getUserId, resetUserSid, checkDuplicatedId, createUserInfo };

@@ -27,11 +27,11 @@ const server = http.createServer(async (req, res) => {
 			res.end(file);
 		} else if (url === '/login' && method === 'POST') {
 			req.on('data', loginData => {
-				const memberInfo = member.login(loginData);
-				if (!memberInfo) {
+				const user_sid = member.login(loginData);
+				if (!user_sid) {
 					res.end('false');
 				} else {
-					res.writeHead(200, { 'Set-Cookie': [`sid=${memberInfo.user_sid}; Max-Age=${60 * 60 * 24}; HttpOnly;`] });
+					res.writeHead(200, { 'Set-Cookie': [`sid=${user_sid}; Max-Age=${60 * 60 * 24}; HttpOnly;`] });
 					res.end('true');
 				}
 			});

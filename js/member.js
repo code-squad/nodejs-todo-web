@@ -8,10 +8,9 @@ const login = loginData => {
 		return false;
 	}
 	const user_id = memberInfo.user_id;
-	const user_sid = makeSessionId();
-	memberDB.setUserSid(user_id, user_sid);
+	const user_sid = memberDB.setUserSid(user_id);
 
-	return { user_id, user_sid };
+	return user_sid;
 };
 
 const logout = requestCookie => {
