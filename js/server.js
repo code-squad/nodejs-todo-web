@@ -35,6 +35,11 @@ const server = http.createServer(async (req, res) => {
 					res.end('true');
 				}
 			});
+		} else if (url === '/todoList' && method === 'POST') {
+			req.on('data', addTodoData => {
+				const addTodoList = todos.addTodoList(addTodoData);
+				res.end(JSON.stringify(addTodoList));
+			});
 		} else if (url === '/todosList' && method === 'POST') {
 			req.on('data', user_id => {
 				const todosList = todos.getTodosList(user_id);
