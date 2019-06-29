@@ -9,9 +9,9 @@ const addTodoList = requestData => {
 	const addTodoData = JSON.parse(requestData);
 
 	addTodoData['todos_id'] = makeTodosId();
-	const addTodoList = todosDB.addTodoList(addTodoData);
+	const addedTodoList = todosDB.addTodoList(addTodoData);
 
-	return addTodoList;
+	return addedTodoList;
 };
 
 const makeTodosId = () => {
