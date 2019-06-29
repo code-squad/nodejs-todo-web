@@ -192,16 +192,31 @@ TodosFront.prototype.allowDrop = function(event) {
 	event.preventDefault();
 };
 
-TodosFront.prototype.addTodoList = function() {
+TodosFront.prototype.addTodoList = async function() {
 	this.warning();
 
 	const addTodo = document.querySelector('#addTodo').value;
 	if (!addTodo) {
 		return;
 	}
-
-	this.makeTodosList('todo', addTodo);
-	document.querySelector('#addTodo').value = '';
+	const todos_status = 'todo';
+	const addTodoData = { user_id: this.userId, todos_status, todos_contents: addTodo };
+	const response = await fetch('/todoList', { method: 'POST', body: JSON.stringify(addTodoData) });
+	try {
+		if (response.ok) {
+			let addedTodoList = await response.text();
+			if (addedTodoList) {
+				addedTodoList = JSON.parse(addedTodoList)[0];
+				this.makeTodosList(addedTodoList);
+				document.querySelector('#addTodo').value = '';
+			}
+		} else {
+			location.href = '/error-404';
+		}
+	} catch (error) {
+		console.log('error.....', error);
+		location.href = '/error-500';
+	}
 };
 
 TodosFront.prototype.makeTodosList = function(todosData) {
