@@ -36,11 +36,4 @@ const getUserId = requestCookie => {
 	return memberDB.getUserId(cookies);
 };
 
-const makeSessionId = () => {
-	const min = 10000000000000000;
-	const max = 99999999999999999;
-
-	return Math.floor(Math.random() * (max - min + 1)) + min;
-};
-
 module.exports = { login, signUp, getUserId, logout };
