@@ -5,20 +5,9 @@ const getTodosList = user_id => {
 	return todosList;
 };
 
-const addTodoList = requestData => {
-	const addTodoData = JSON.parse(requestData);
-
-	addTodoData['todos_id'] = makeTodosId();
-	const addedTodoList = todosDB.addTodoList(addTodoData);
-
+const addTodoList = addTodoData => {
+	const addedTodoList = todosDB.addTodoList(JSON.parse(addTodoData));
 	return addedTodoList;
-};
-
-const makeTodosId = () => {
-	const min = 1000;
-	const max = 9999;
-
-	return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
 module.exports = { getTodosList, addTodoList };
