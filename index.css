@@ -39,14 +39,17 @@ input {
 }
 
 .formTag {
+    margin-left: 2.5px;
+    margin-right: 2.5px;
     width: 100px;
-    text-align: right;
-    margin-left: 5px;
 }
 
 .btn {
+    background-color: aliceblue;
+    margin-left: 0px;
+    margin-right: 0px;
     margin-top: 10px;
-    width: 100px;
+    width: 100%;
 }
 
 .contents_section {
