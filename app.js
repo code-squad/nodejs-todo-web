@@ -112,8 +112,12 @@ router.post('/login', (request, response) => {
         response.end();
       }
     } catch (error) {
-      response.statusCode = (error.code === 'ERR_INVALID_ARG_TYPE' ? 403 : 500);
-      response.end();
+      if(error.errno === -2){
+        response.statusCode = 403;
+        response.end();
+      } else {
+        response.emit('error', error);
+      }
     }
   });
 });
