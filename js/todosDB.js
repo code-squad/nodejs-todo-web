@@ -17,12 +17,12 @@ const getTodosList = user_id => {
 const addTodoList = addTodoData => {
 	const { user_id, todos_id, todos_status, todos_contents } = addTodoData;
 
-	const addTodoList = todosDB
+	todosDB
 		.get('todos')
 		.push({ user_id, todos_id, todos_status, todos_contents })
 		.write();
 
-	return addTodoList;
+	return getTodoList(todos_id);
 };
 
 const getTodoList = todos_id => {
