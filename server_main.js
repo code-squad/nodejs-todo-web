@@ -12,11 +12,12 @@ const app = http.createServer(async (request, response) => {
         if (request.url === "/login" || request.url === '/' || request.url === "/login.html") {
             if (request.headers.cookie) {
                 const cookies = cookie.parse(request.headers.cookie);
-                if (session.isValidSessionID(cookies.sessionID)) {
+                const sessionData = session.isValidSessionID(cookies.sessionID);
+                if (sessionData) {
                     response.writeHead(302, {
                         'Location': './index',
                         'Content-Type': 'text/html',
-                        'Set-Cookie': [`sessionID = ${cookies.sessionID}; Max-Age = ${60 * 60 / 2}`]
+                        'Set-Cookie': [`sessionID = ${sessionData.sessionID}; Path = /s; Max-Age = ${60 * 60 / 2}`]
                     });
                     return response.end('redirection');
                 }
@@ -28,23 +29,45 @@ const app = http.createServer(async (request, response) => {
         if (request.url === "/index" || request.url === "/index.html") {
             if (request.headers.cookie) {
                 const cookies = cookie.parse(request.headers.cookie);
-                if (session.isValidSessionID(cookies.sessionID)) {
+                const sessionData = session.isValidSessionID(cookies.sessionID);
+                if (sessionData) {
                     response.writeHead(200, {
                         'Content-Type': 'text/html',
-                        'Set-Cookie': [`sessionID = ${
-                            cookies.sessionID}; Max-Age = ${60 * 60 / 2}`]
+                        'Set-Cookie': [`sessionID = ${sessionData.sessionID}; Max-Age = ${60 * 60 / 2}`]
                     });
                     url = '/index.html';
                     return response.end(await userManager.myReadFile(__dirname + url));
                 }
+                response.writeHead(302, {
+                    'Location': './login',
+                    'Content-Type': 'text/html',
+                    'Set-Cookie': [`sessionID = ''; Path = / ; Max-Age = 0`]
+                });
+                return response.end('redirection');
+            }
+            response.writeHead(302, {
+                'Location': './login',
+            });
+            return response.end('redirection');
+        }
+        if (request.url === "/index/userData") {
+            const cookies = cookie.parse(request.headers.cookie);
+            const sessionData = session.isValidSessionID(cookies.sessionID);
+            if (sessionData) {
+                response.writeHead(200, {
+                    'Content-Type': 'text/html',
+                    'Set-Cookie': [`sessionID = ${sessionData.sessionID}; Path = /; Max-Age = ${60 * 60 / 2}`]
+                });
+                return response.end(JSON.stringify(sessionData));
             }
             response.writeHead(302, {
                 'Location': './login',
                 'Content-Type': 'text/html',
-                'Set-Cookie': [`sessionID = ''; Max-Age = 0`]
-            });
+                'Set-Cookie': [`sessionID = ''; Path = /; Max-Age = 0`]
+            }); 
             return response.end('redirection');
         }
+
         return fs.readFile(`.${request.url}`, (err, data) => {
             if (err) {
                 response.writeHead(404, 'NOT FOUND');
@@ -60,9 +83,6 @@ const app = http.createServer(async (request, response) => {
             request.on('data', (data) => {
                 body += data;
             });
-            if (request.headers.cookie) {
-                const cookies = cookie.parse(request.headers.cookie);
-            }
             return request.on('end', async () => {
                 const id = JSON.parse(body).id;
                 const pw = Number(JSON.parse(body).pw);
@@ -71,14 +91,14 @@ const app = http.createServer(async (request, response) => {
                     response.writeHead(409, 'CONFLICT');
                     return response.end('CONFLICT');
                 } else {
-                    const sessionID = session.getSessionID(userInfo);
+                    const sessionData = session.getSessionID(userInfo);
                     response.writeHead(302, {
                         'Content-Type': 'text/html',
                         'Location': './index',
-                        'Set-Cookie': [`sessionID = ${sessionID}; Max-Age = ${60 * 60 / 2}`]
+                        'Set-Cookie': [`sessionID = ${sessionData.sessionID}; Path = / ; Max-Age = ${60 * 60 / 2}`]
                     });
-                    console.log(`user "${id}" has logged in. sessionID = "${sessionID}"`);
-                    return response.end('set cookie');
+                    console.log(`user "${sessionData.id}" has logged in. sessionID = "${sessionData.sessionID}"`);
+                    return response.end("set cookie");
                 }
             });
         }
