@@ -59,7 +59,7 @@ describe('TODO 서버 테스트', () => {
 
   it('잘못된 로그인 시도 - 비밀번호 불일치', done => {
     agent.post('/login')
-         .send({userId, wrongPassword})
+         .send({userId, password: wrongPassword})
          .set('Accept', 'application/json')
          .expect(403)
          .end((err, res) => {
@@ -70,7 +70,7 @@ describe('TODO 서버 테스트', () => {
 
   it('잘못된 로그인 시도 - 존재하지 않는 아이디', done => {
     agent.post('/login')
-         .send({wrongId, password})
+         .send({userId: wrongId, password})
          .set('Accept', 'application/json')
          .expect(403)
          .end((err, res) => {
