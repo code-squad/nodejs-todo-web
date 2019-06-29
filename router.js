@@ -26,3 +26,7 @@ exports.post = (url, action) => {
 exports.put = (url, action) => {
   routes["PUT"][url] = action;
 } 
+
+exports.delete = (url, action) => {
+  routes["DELETE"][url] = action;
+}

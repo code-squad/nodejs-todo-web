@@ -222,4 +222,55 @@ router.put('/todo', (request, response) => {
   });
 });
 
+router.delete('/todo', (request, response) => {
+  request.on('data', async chunk => {
+    try {
+      if(sessionManager.isValidSession(request.sessionId)){
+        const body = JSON.parse(chunk.toString('utf-8'));
+        const todos = body.map(todo => new Todo(todo.id, todo.name, todo.position, todo.todoListName))
+                          .sort((a, b) => a.id - b.id);
+        await db.update(sessionManager.getUserId(request.sessionId), 'todo', todos);
+        response.end();
+      } else {
+        sessionManager.removeSession(request.sessionId);
+        response.statusCode = 302;
+        response.setHeader('Set-Cookie', [`token=${request.sessionId}; Max-Age=0; HttpOnly`]);
+        response.setHeader('location', '/');
+        response.end();
+      }
+    } catch (error) {
+      console.log(error);
+      response.statusCode = 500;
+      response.end();
+    }
+  });
+});
+
+router.delete('/todolist', (request, response) => {
+  request.on('data', async chunk => {
+    try {
+      if(sessionManager.isValidSession(request.sessionId)){
+        const body = JSON.parse(chunk.toString('utf-8'));
+        const todos = body.todos.map(todo => new Todo(todo.id, todo.name, todo.position, todo.todoListName))
+                          .sort((a, b) => a.id - b.id);
+        const todolists = body.todolists.map(todolist => new TodoList(todolist.id, todolist.name, todolist.position))
+                              .sort((a, b) => a.id - b.id);
+        await db.update(sessionManager.getUserId(request.sessionId), 'todolist', todolists);
+        await db.update(sessionManager.getUserId(request.sessionId), 'todo', todos);
+        response.end();
+      } else {
+        sessionManager.removeSession(request.sessionId);
+        response.statusCode = 302;
+        response.setHeader('Set-Cookie', [`token=${request.sessionId}; Max-Age=0; HttpOnly`]);
+        response.setHeader('location', '/');
+        response.end();
+      }
+    } catch (error) {
+      console.log(error);
+      response.statusCode = 500;
+      response.end();
+    }
+  });
+});
+
 module.exports = server;
