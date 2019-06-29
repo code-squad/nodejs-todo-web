@@ -1,26 +1,4 @@
-function getTodoListContainer(id, title) {
-  return `<div class="todo-column todolist-container grey lighten-2" data-id="${id}">
-  <i class="material-icons small todolist-delete">delete</i>
-<div class="todolist-header">
-  ${title}
-</div>
-<ul class="collection">
-</ul>
-<div class="todolist-footer">
-  <button class="add-card">Add card</button>
-  <div class="add-card-form hide-element">
-    <input class="input-field new-card-name" placeholder="Input new card name">
-  </div>
-</div>
-</div>
-`;
-}
-
-function getTodoItem(id, value) {
-  return `<li class="collection-item todo-item" draggable="true" data-id="${id}"><div>${value}</div></li>`
-}
-
-function getAllTodo(){
+function getAllTodo() {
   var todos = [];
   var todoColumns = document.querySelectorAll('.todo-column');
   for(var i=0; i<todoColumns.length-1; ++i){
@@ -33,6 +11,20 @@ function getAllTodo(){
     }
   }
   return todos;
+}
+
+function getAllTodoList() {
+  var todoLists = [];
+  var todoColumns = document.querySelectorAll('.todo-column');
+  for(var i=0; i<todoColumns.length-1; ++i){
+    var todoListName = todoColumns[i].querySelector('.todolist-header').innerText;
+    todoLists.push({
+      id: todoColumns[i].getAttribute('data-id'),
+      name: todoListName,
+      position: i
+    });
+  }
+  return todoLists;
 }
 
 function fetchData(url = '/todo', data = {}, method = 'POST') {
@@ -89,6 +81,8 @@ function keyDownHandlerOfCardNameInput(event) {
     .then(resBody => {
       var parser = new DOMParser();
       var newDOM = parser.parseFromString(resBody.html, 'text/html');
+      var todoDeleteBtn = newDOM.querySelector('.todo-delete');
+      todoDeleteBtn.addEventListener('click', onClickHandlerForTodoDeleteBtn);
       addDnDHandlersForTodoItem(newDOM.body.firstChild);
       target.appendChild(newDOM.body.firstChild);
       hideInputTag(this, '.add-card');
@@ -120,6 +114,8 @@ function keyDownHandlerOfTodoNameInput(event) {
       var newAddCardBtn = newDOM.querySelector('.add-card');
       var newCardNameInput = newDOM.querySelector('.new-card-name');
       var todoListFooter = newDOM.querySelector('.todolist-footer');
+      var todoListDeleteBtn = newDOM.querySelector('.todolist-delete');
+      todoListDeleteBtn.addEventListener('click', onClickHandlerForTodoListDeleteBtn);
   
       newAddCardBtn.addEventListener('click', onClickListenerOfAddTodoBtn);
       newCardNameInput.addEventListener('keydown', keyDownHandlerOfCardNameInput);
@@ -135,6 +131,24 @@ function keyDownHandlerOfTodoNameInput(event) {
   if(key === 27){
     hideInputTag(this, '#add-todo-btn');
   }
+}
+
+function onClickHandlerForTodoDeleteBtn(event) {
+  var deleteTarget = this.parentNode;
+  deleteTarget.parentNode.removeChild(deleteTarget);
+
+  fetchData(`http://${window.location.host}/todo`, getAllTodo(), 'DELETE')
+  .then(response => response)
+  .catch(error => console.error('Error:', error));
+}
+
+function onClickHandlerForTodoListDeleteBtn (event) {
+  var deleteTarget = this.parentNode.parentNode;
+  deleteTarget.parentNode.removeChild(deleteTarget);
+
+  fetchData(`http://${window.location.host}/todolist`, {todos: getAllTodo(), todolists: getAllTodoList()}, 'DELETE')
+  .then(response => response)
+  .catch(error => console.error('Error:', error));
 }
 
 function handleDragStart(event) {
@@ -200,6 +214,9 @@ function handleDropForTodolistFooter(event) {
     var dropElem = target.lastChild;
     addDnDHandlersForTodoItem(dropElem);
 
+    var todoDeleteBtn = dropElem.querySelector('.todo-delete');
+    todoDeleteBtn.addEventListener('click', onClickHandlerForTodoDeleteBtn);
+
     fetchData(`http://${window.location.host}/todo`, getAllTodo(), 'PUT')
     .then(response => console.log('Success:', response === undefined && response === '' ? response : JSON.stringify(response)))
     .catch(error => console.error('Error:', error));
@@ -229,27 +246,42 @@ function addDnDHandlersForTodoListFooter(todolistFooter) {
   todolistFooter.addEventListener('drop', handleDropForTodolistFooter, false);
 }
 
-var addTodoListBtn = document.getElementById('add-todo-btn');
-var todoListInput = document.querySelector('.new-list-name');
-addTodoListBtn.addEventListener('click', function(event) {
-  event.preventDefault();
-  appearInputTag(this, '.add-list-form', '.new-list-name');
-});
-todoListInput.addEventListener('keydown', keyDownHandlerOfTodoNameInput);
+function init() {
+  var addTodoListBtn = document.getElementById('add-todo-btn');
+  var todoListInput = document.querySelector('.new-list-name');
+  addTodoListBtn.addEventListener('click', function(event) {
+    event.preventDefault();
+    appearInputTag(this, '.add-list-form', '.new-list-name');
+  });
+  todoListInput.addEventListener('keydown', keyDownHandlerOfTodoNameInput);
 
-var addTodoBtn = document.getElementsByClassName('add-card');
-var cardNameInput = document.getElementsByClassName('new-card-name');
-var todoListFooters = document.getElementsByClassName('todolist-footer');
-var todoItems = document.getElementsByClassName('todo-item');
-for(var i=0; i<addTodoBtn.length; ++i){
-  addTodoBtn[i].addEventListener('click', onClickListenerOfAddTodoBtn);
+  var addTodoBtn = document.getElementsByClassName('add-card');
+  var cardNameInput = document.getElementsByClassName('new-card-name');
+  var todoListFooters = document.getElementsByClassName('todolist-footer');
+  var todoItems = document.getElementsByClassName('todo-item');
+  for(var i=0; i<addTodoBtn.length; ++i){
+    addTodoBtn[i].addEventListener('click', onClickListenerOfAddTodoBtn);
+  }
+  for(var i=0; i<cardNameInput.length; ++i){
+    cardNameInput[i].addEventListener('keydown', keyDownHandlerOfCardNameInput);
+  }
+  for(var i=0; i<todoListFooters.length; ++i){
+    addDnDHandlersForTodoListFooter(todoListFooters[i]);
+  }
+  for(var i=0; i<todoItems.length; ++i){
+    addDnDHandlersForTodoItem(todoItems[i]);
+  }
+
+  var todolistDeleteBtn = document.getElementsByClassName('todolist-delete');
+  var todoDeleteBtn = document.getElementsByClassName('todo-delete');
+
+  for(var i=0; i<todolistDeleteBtn.length; ++i) {
+    todolistDeleteBtn[i].addEventListener('click', onClickHandlerForTodoListDeleteBtn);
+  }
+
+  for(var i=0; i<todoDeleteBtn.length; ++i) {
+    todoDeleteBtn[i].addEventListener('click', onClickHandlerForTodoDeleteBtn);
+  }
 }
-for(var i=0; i<cardNameInput.length; ++i){
-  cardNameInput[i].addEventListener('keydown', keyDownHandlerOfCardNameInput);
-}
-for(var i=0; i<todoListFooters.length; ++i){
-  addDnDHandlersForTodoListFooter(todoListFooters[i]);
-}
-for(var i=0; i<todoItems.length; ++i){
-  addDnDHandlersForTodoItem(todoItems[i]);
-}
+
+init();
