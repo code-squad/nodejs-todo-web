@@ -38,6 +38,21 @@ input {
     margin: 0 auto;
 }
 
+#formTag {
+    text-align: right;
+    margin-left: 2.5px;
+    margin-right: 2.5px;
+    width: 100px;
+}
+
+#btn {
+    background-color: aliceblue;
+    margin-left: 0px;
+    margin-right: 0px;
+    margin-top: 10px;
+    width: 100%;
+}
+
 .contents_section {
     background-image: url('./my_background_image.png');
     background-position: center;
