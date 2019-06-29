@@ -72,8 +72,7 @@ TodosFront.prototype.getTodosList = async function() {
 
 TodosFront.prototype.setTodosList = function(todosList) {
 	todosList.forEach(todos => {
-		let { todos_status, todos_contents } = todos;
-		this.makeTodosList(todos_status, todos_contents);
+		this.makeTodosList(todos);
 	});
 };
 
@@ -205,14 +204,16 @@ TodosFront.prototype.addTodoList = function() {
 	document.querySelector('#addTodo').value = '';
 };
 
-TodosFront.prototype.makeTodosList = function(status, contents) {
-	const todos = document.querySelector(`#${status}`);
+TodosFront.prototype.makeTodosList = function(todosData) {
+	const { todos_id, todos_status, todos_contents } = todosData;
+	const todos = document.querySelector(`#${todos_status}`);
 	const todosArticle = document.createElement('article');
-	const todoContents = document.createTextNode(contents);
+	const todoContents = document.createTextNode(todos_contents);
 
 	todosArticle.appendChild(todoContents);
 	todosArticle.className = 'list';
 	todosArticle.setAttribute('draggable', 'true');
+	todosArticle.setAttribute('id', `${todos_id}`);
 	todosArticle.addEventListener('dragstart', event => {
 		this.drag(event);
 	});
