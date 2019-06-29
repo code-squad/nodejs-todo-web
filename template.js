@@ -1,10 +1,18 @@
 function makeTodoHtmlText(todo) {
-  return `<li class="collection-item todo-item" draggable="true" data-id="${todo.id}"><div>${todo.name}</div></li>`
+  return `<li class="collection-item todo-item" draggable="true" data-id="${todo.id}">
+    <span class="todo-name">
+    ${todo.name}
+    </span>
+    <i class="material-icons todo-delete">delete</i>
+  </li>`
 }
 
 function makeTodoListHtmlText(todoList, todos) { 
-  const todosHtml = todos.map(todo => makeTodoHtmlText(todo)).join('\n');
+  const todosHtml = todos ? todos.map(todo => makeTodoHtmlText(todo)).join('\n') : '';
   return `<div class="todo-column todolist-container grey lighten-2" data-id="${todoList.id}">
+  <div class="icon-wrapper">
+<i class="material-icons small todolist-delete">delete</i>
+</div>
 <div class="todolist-header">
   ${todoList.name}
 </div>
@@ -39,6 +47,7 @@ function makeIndexHtmlText(todoLists, todos) {
     <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="public/index.css" media="screen" />
     <link rel="stylesheet" type="text/css" href="public/materialize.min.css" media="screen" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> 
     <title>TODO</title>
   </head>
   <body>
@@ -71,4 +80,8 @@ function makeIndexHtmlText(todoLists, todos) {
   </html>`
 }
 
-module.exports = makeIndexHtmlText;
+module.exports = {
+  makeIndexHtmlText,
+  makeTodoHtmlText,
+  makeTodoListHtmlText
+} ;

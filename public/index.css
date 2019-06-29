@@ -213,3 +213,21 @@ p {
   right: 0;
   margin: 15px;
 }
+
+.todolist-delete {
+  position: absolute;
+  right: 0;
+  margin-top: 3px;
+}
+
+.todo-delete {
+  position: absolute;
+  right: 0;
+  font-size: 1.5rem !important;
+  margin-right: 12px;
+}
+
+.icon-wrapper {
+  position: relative !important;
+  width: 100%;
+}

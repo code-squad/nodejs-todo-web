@@ -1,6 +1,6 @@
 const http = require('http');
 const fs = require('fs');
-const makeIndexHtmlText = require('./template');
+const template = require('./template');
 const { getFileExtentsion, makeFilePath, getMimeType, generateSessionId, parseCookie } = require('./util');
 const db = require('./db');
 const router = require('./router');
@@ -131,7 +131,7 @@ router.get('/todo', async (request, response) => {
     if(sessionManager.isValidSession(request.sessionId)) {
       const { todos, todoLists } = await db.read(sessionManager.getUserId(request.sessionId));
       response.setHeader('Content-Type', 'text/html');
-      response.write(makeIndexHtmlText(todoLists, todos));
+      response.write(template.makeIndexHtmlText(todoLists, todos));
       response.end();
     } else {
       sessionManager.removeSession(request.sessionId);
@@ -157,7 +157,7 @@ router.post('/todo', (request, response) => {
         const newTodoId = (todos.length ? todos.slice(-1)[0].id : 0) + 1;
         const newTodo = new Todo(newTodoId, body.name, body.position, body.todolist );
         await db.create(userId, 'todo', newTodo);
-        response.end(JSON.stringify({id: newTodoId}));
+        response.end(JSON.stringify({html: template.makeTodoHtmlText(newTodo)}));
       } else {
         sessionManager.removeSession(request.sessionId);
         response.statusCode = 302;
@@ -182,7 +182,7 @@ router.post('/todolist', (request, response) => {
         const newTodoListId = (todoLists.length ? todoLists.slice(-1)[0].id : 0 ) + 1;
         const newTodoList = new TodoList(newTodoListId, body.name, body.position );
         await db.create(userId, 'todolist', newTodoList);
-        response.end(JSON.stringify({id: newTodoListId}));
+        response.end(JSON.stringify({html: template.makeTodoListHtmlText(newTodoList, null)}));
       } else {
         sessionManager.removeSession(request.sessionId);
         response.statusCode = 302;

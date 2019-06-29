@@ -1,5 +1,6 @@
 function getTodoListContainer(id, title) {
   return `<div class="todo-column todolist-container grey lighten-2" data-id="${id}">
+  <i class="material-icons small todolist-delete">delete</i>
 <div class="todolist-header">
   ${title}
 </div>
@@ -27,7 +28,8 @@ function getAllTodo(){
     var todoListHeader = todoColumns[i].querySelector('.todolist-header');
     var todoListName = todoListHeader.innerText;
     for(var j=0; j<todoItems.length; ++j){
-      todos.push({id: todoItems[j].getAttribute('data-id'), name: todoItems[j].innerText, position: j, todoListName,});
+      var todoName = todoItems[j].querySelector('.todo-name');
+      todos.push({id: todoItems[j].getAttribute('data-id'), name: todoName.innerText, position: j, todoListName,});
     }
   }
   return todos;
@@ -79,15 +81,14 @@ function keyDownHandlerOfCardNameInput(event) {
     var header = todoColumn.querySelector('.todolist-header');
     var target = todoColumn.querySelector('.collection');
 
-    var position = target.children.length - 1;
+    var position = target.children.length;
     var todoBody = { name: this.value , position, todolist: header.innerText };
 
     fetchData(`http://${window.location.host}/todo`, todoBody)
     .then(response => response.json())
     .then(resBody => {
-      console.log(resBody);
       var parser = new DOMParser();
-      var newDOM = parser.parseFromString(getTodoItem(resBody.id, this.value), 'text/html');
+      var newDOM = parser.parseFromString(resBody.html, 'text/html');
       addDnDHandlersForTodoItem(newDOM.body.firstChild);
       target.appendChild(newDOM.body.firstChild);
       hideInputTag(this, '.add-card');
@@ -109,12 +110,12 @@ function keyDownHandlerOfTodoNameInput(event) {
     var parser = new DOMParser();
     var todoListName = this.value;
     var todoContainer = document.querySelector('.todo-container');
-    var position = todoContainer.children.length - 2;
+    var position = todoContainer.children.length - 1;
 
     fetchData(`http://${window.location.host}/todolist`, {name: todoListName , position })
     .then(response => response.json())
     .then(resBody => {
-      var newDOM = parser.parseFromString(getTodoListContainer(resBody.id, todoListName), 'text/html');
+      var newDOM = parser.parseFromString(resBody.html, 'text/html');
 
       var newAddCardBtn = newDOM.querySelector('.add-card');
       var newCardNameInput = newDOM.querySelector('.new-card-name');
