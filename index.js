@@ -1,12 +1,13 @@
 class Title {
-    constructor(name,dragging){
+    constructor(name, dragging) {
         this.name = name;
         this.title;
         this.bin;
         this.dragging = dragging;
+        this.userData;
     }
 
-    setTitle(){
+    setTitle() {
         const body = document.querySelector('body');
         const header = document.createElement('header');
         this.title = document.createElement('div');
@@ -15,10 +16,10 @@ class Title {
         header.appendChild(this.setBin());
         header.classList.add('header');
         this.title.classList.add('title');
-        body.insertBefore(header,body.firstChild);
+        body.insertBefore(header, body.firstChild);
     }
 
-    setBin(){
+    setBin() {
         this.bin = document.createElement('IMG');
         this.bin.setAttribute('src', 'https://user-images.githubusercontent.com/26920620/59901372-fc627800-9435-11e9-8cb7-e7c3a9a39824.png');
         this.addDropListener(this.bin);
@@ -26,25 +27,25 @@ class Title {
         return this.bin;
     }
 
-    addDropListener(div){
-        div.addEventListener('dragover', event =>{
+    addDropListener(div) {
+        div.addEventListener('dragover', event => {
             event.preventDefault();
         });
-        div.addEventListener('drop', event =>{
+        div.addEventListener('drop', event => {
             event.preventDefault();
             this.dragging.data.remove();
         });
     }
 }
 
-class ManagerSection{
-    constructor(dragging){
+class ManagerSection {
+    constructor(dragging) {
         this.dragging = dragging;
         this.main;
         this.addingSectionBox;
         this.textarea;
     }
-    setManagerSection(){
+    setManagerSection() {
         this.main = document.querySelector('main');
         this.section = document.createElement('section');
         const div = document.createElement('div');
@@ -57,14 +58,14 @@ class ManagerSection{
         this.main.appendChild(this.section);
     }
 
-    addBoxOpenListener(button){
+    addBoxOpenListener(button) {
         button.addEventListener('click', (event) => {
             this.addingSectionBox.classList.toggle("hide");
             this.textarea.focus();
         });
     }
 
-    setAddingSectionBox(){
+    setAddingSectionBox() {
         this.addingSectionBox = document.createElement('div');
         this.addingSectionBox.appendChild(this.setTextArea());
         this.addingSectionBox.appendChild(this.setButtonBox());
@@ -74,23 +75,23 @@ class ManagerSection{
         return this.addingSectionBox;
     }
 
-    setTextArea(){
-        this.textarea = document.createElement('textarea');
+    setTextArea() {
+        this.textarea = document.createElement('input');
         this.textarea.placeholder = "Please enter here.";
         this.addKeyListener(this.textarea);
         this.textarea.classList.add('cardTextArea');
         return this.textarea
     }
 
-    addKeyListener(textarea){
+    addKeyListener(textarea) {
         textarea.addEventListener('keyup', event => {
-            if(event.keyCode === 13){
+            if (event.keyCode === 13) {
                 this.addSection();
             }
         });
     }
 
-    setButtonBox(){
+    setButtonBox() {
         this.buttonBox = document.createElement('div');
         this.buttonBox.appendChild(this.setAddButton());
         this.buttonBox.appendChild(this.setCancleButton());
@@ -98,7 +99,7 @@ class ManagerSection{
         return this.buttonBox
     }
 
-    setAddButton(){
+    setAddButton() {
         const button = document.createElement('button');
         button.innerText = '+';
         this.addCreateSectionListener(button);
@@ -107,12 +108,12 @@ class ManagerSection{
         return button;
     }
 
-    addSection(){
-        if(this.textarea.value === ""){
+    addSection() {
+        if (this.textarea.value === "") {
             alert("내용을 입력해 주세요");
             return;
         }
-        const section = new Section(this.textarea.value,this.dragging);
+        const section = new Section(this.textarea.value, this.dragging);
         const newSection = section.setSection();
 
         this.textarea.value = "";
@@ -120,13 +121,13 @@ class ManagerSection{
 
     }
 
-    addCreateSectionListener(button){
+    addCreateSectionListener(button) {
         button.addEventListener('click', (event) => {
             this.addSection();
         });
     }
 
-    setCancleButton(){
+    setCancleButton() {
         const button = document.createElement('button');
         button.innerText = 'X';
         this.addCancleAddingCardListener(button);
@@ -134,17 +135,17 @@ class ManagerSection{
         return button;
     }
 
-    addCancleAddingCardListener(button){
+    addCancleAddingCardListener(button) {
         button.addEventListener('click', (event) => {
             this.textarea.value = "";
             this.addingSectionBox.classList.toggle("hide");
-         });
+        });
     }
 
 }
 
-class Section{
-    constructor(name,dragging){
+class Section {
+    constructor(name, dragging) {
         this.headerName = name;
         this.dragging = dragging;
         this.main;
@@ -155,7 +156,7 @@ class Section{
         this.cardBox;
     }
 
-    setSection(){
+    setSection() {
         this.main = document.querySelector('main');
         this.section = document.createElement('section');
         this.section.appendChild(this.setHeader());
@@ -163,23 +164,23 @@ class Section{
         this.section.appendChild(this.setAddingCardBox())
         this.section.appendChild(this.setCardBox());
         this.section.classList.add('section');
-        this.section.setAttribute('draggable','true');
+        this.section.setAttribute('draggable', 'true');
         this.addDragStartListener(this.section);
         this.main.insertBefore(this.section, this.main.lastElementChild);
     }
 
-    addDragStartListener(section){
+    addDragStartListener(section) {
         section.addEventListener('dragstart', event => {
             this.dragging.data = event.target;
         });
     }
 
-    setCardBox(){
+    setCardBox() {
         this.cardBox = document.createElement('div');
         return this.cardBox;
     }
 
-    setHeader(){
+    setHeader() {
         this.header = document.createElement('header');
         this.header.innerText = `${this.headerName}`;
         this.addDropListener(this.header);
@@ -187,7 +188,7 @@ class Section{
         return this.header;
     }
 
-    setOpenButton(){
+    setOpenButton() {
         const button = document.createElement('button');
         button.innerText = '+';
         this.addBoxOpenListener(button);
@@ -196,7 +197,7 @@ class Section{
         return button;
     }
 
-    addBoxOpenListener(button){
+    addBoxOpenListener(button) {
         button.addEventListener('click', (event) => {
             const addingCardBox = event.target.nextElementSibling;
             addingCardBox.classList.toggle("hide");
@@ -204,18 +205,18 @@ class Section{
         });
     }
 
-    addDropListener(div){
-        div.addEventListener('dragover', event =>{
+    addDropListener(div) {
+        div.addEventListener('dragover', event => {
             event.preventDefault();
         });
-        div.addEventListener('drop', event =>{
-            if(this.dragging.data.tagName !== "ARTICLE") return;
+        div.addEventListener('drop', event => {
+            if (this.dragging.data.tagName !== "ARTICLE") return;
             event.preventDefault();
             this.cardBox.insertBefore(this.dragging.data, this.cardBox.firstChild);
         });
     }
 
-    setAddingCardBox(){
+    setAddingCardBox() {
         this.addingCardBox = document.createElement('div');
         this.addingCardBox.appendChild(this.setTextArea());
         this.addingCardBox.appendChild(this.setButtonBox());
@@ -226,23 +227,23 @@ class Section{
         return this.addingCardBox
     }
 
-    setTextArea(){
-        this.textarea = document.createElement('textarea');
+    setTextArea() {
+        this.textarea = document.createElement('input');
         this.textarea.placeholder = "Please enter here.";
         this.addKeyListener(this.textarea);
         this.textarea.classList.add('cardTextArea');
         return this.textarea
     }
 
-    addKeyListener(textarea){
+    addKeyListener(textarea) {
         textarea.addEventListener('keyup', event => {
-            if(event.keyCode === 13){
+            if (event.keyCode === 13) {
                 this.addCard();
             }
         });
     }
 
-    setButtonBox(){
+    setButtonBox() {
         this.buttonBox = document.createElement('div');
         this.buttonBox.appendChild(this.setAddButton());
         this.buttonBox.appendChild(this.setCancleButton());
@@ -250,7 +251,7 @@ class Section{
         return this.buttonBox
     }
 
-    setAddButton(){
+    setAddButton() {
         const button = document.createElement('button');
         button.innerText = '+';
         button.classList.add('addButton');
@@ -258,26 +259,32 @@ class Section{
 
         return button;
     }
-    addCard(){
-        if(this.textarea.value === ""){
-            alert("내용을 입력해 주세요");
-            return;
+    addCard(text) {
+        if (text) {
+            const card = new Card(text, this.dragging);
+            const newCard = card.setCard();
+            this.cardBox.appendChild(newCard);
+        } else {
+            if (this.textarea.value === '') {
+                alert("내용을 입력해 주세요");
+                return;
+            }
+            const card = new Card(text, this.dragging);
+            const newCard = card.setCard();
+            this.cardBox.appendChild(newCard);
+            this.textarea.value = "";
+            this.addingCardBox.classList.toggle("hide");
         }
-        const card = new Card(this.textarea.value, this.dragging);
-        const newCard = card.setCard();
-        this.cardBox.appendChild(newCard);
-        this.textarea.value = "";
-        this.addingCardBox.classList.toggle("hide");
     }
 
-    addCreateCardListener(button){
+    addCreateCardListener(button) {
         button.addEventListener('click', (event) => {
-           this.addCard();
+            this.addCard();
 
         });
     }
 
-    setCancleButton(){
+    setCancleButton() {
         const button = document.createElement('button');
         button.innerText = 'X';
         this.addCancleAddingCardListener(button);
@@ -286,25 +293,25 @@ class Section{
         return button;
     }
 
-    addCancleAddingCardListener(button){
+    addCancleAddingCardListener(button) {
         button.addEventListener('click', (event) => {
             this.textarea.value = "";
             this.addingCardBox.classList.toggle("hide");
-         });
+        });
     }
 
 
 }
 
-class Card{
-    constructor(text, dragging){
+class Card {
+    constructor(text, dragging) {
         this.text = text;
         this.dragging = dragging;
     }
-    setCard(){
+    setCard() {
         const article = document.createElement('article');
         article.innerText = this.text;
-        article.setAttribute('draggable','true');
+        article.setAttribute('draggable', 'true');
         this.addDragStartListener(article);
         this.addDropListener(article);
         article.classList.add('card');
@@ -312,18 +319,18 @@ class Card{
         return article;
     }
 
-    addDragStartListener(article){
+    addDragStartListener(article) {
         article.addEventListener('dragstart', event => {
             this.dragging.data = event.target;
         });
     }
 
-    addDropListener(article){
-        article.addEventListener('dragover', event =>{
+    addDropListener(article) {
+        article.addEventListener('dragover', event => {
             event.preventDefault();
         });
-        article.addEventListener('drop', event =>{
-            if(this.dragging.data.tagName !== "ARTICLE") return;
+        article.addEventListener('drop', event => {
+            if (this.dragging.data.tagName !== "ARTICLE") return;
             event.preventDefault();
             event.target.parentNode.insertBefore(this.dragging.data, event.target.nextElementSibling);
         });
@@ -331,20 +338,36 @@ class Card{
 
 }
 
-const setIndexPage = () =>{
-    const dragging = {};
-    const title = new Title('Wangmin',dragging);
-    title.setTitle();
-    
-    const managerSection = new ManagerSection(dragging);
-    managerSection.setManagerSection();
-    
-    const todoSection = new Section('todo',dragging);
-    todoSection.setSection();
-    const doingSection = new Section('doing',dragging);
-    doingSection.setSection();
-    const doneSection = new Section('done',dragging);
-    doneSection.setSection();
+
+const setItems = () => {
+    const request = new XMLHttpRequest();
+    request.onload = () => {
+        const url = 'http://localhost:3000/index/userData';
+        if (request.status === 200) {
+            if (request.responseURL === url) {
+                const userID = JSON.parse(request.responseText).id;
+                const userData = JSON.parse(request.responseText).data;
+                const dragging = {};
+                const title = new Title(userID, dragging);
+                title.setTitle();
+
+                const managerSection = new ManagerSection(dragging);
+                managerSection.setManagerSection();
+
+                for (let key in userData) {
+                    const section = new Section(key, dragging);
+                    section.setSection();
+                    userData[key].forEach((item) => {
+                        section.addCard(item);
+                    })
+                }
+                return;
+            }
+        }
+    }
+
+    request.open('GET', './index/userData');
+    request.send();
 }
 
-setIndexPage();
+setItems();
