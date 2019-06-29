@@ -14,4 +14,15 @@ const getTodosList = user_id => {
 	return todoList;
 };
 
-module.exports = { getTodosList };
+const addTodoList = addTodoData => {
+	const { user_id, todos_id, todos_status, todos_contents } = addTodoData;
+
+	const addTodoList = todosDB
+		.get('todos')
+		.push({ user_id, todos_id, todos_status, todos_contents })
+		.write();
+
+	return addTodoList;
+};
+
+module.exports = { getTodosList, addTodoList };
