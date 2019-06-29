@@ -25,4 +25,13 @@ const addTodoList = addTodoData => {
 	return addTodoList;
 };
 
+const getTodoList = todos_id => {
+	const todoList = todosDB
+		.get('todos')
+		.filter({ todos_id })
+		.value();
+
+	return todoList;
+};
+
 module.exports = { getTodosList, addTodoList };
