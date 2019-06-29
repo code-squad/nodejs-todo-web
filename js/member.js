@@ -25,8 +25,8 @@ const signUp = signUpData => {
 	if (duplicatedId) {
 		return false;
 	}
-	const user_sid = makeSessionId();
-	memberDB.createUserInfo({ user_id, user_password, user_sid });
+	memberDB.createUserInfo({ user_id, user_password });
+	const user_sid = memberDB.setUserSid(user_id);
 
 	return user_sid;
 };

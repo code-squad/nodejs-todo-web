@@ -33,6 +33,7 @@ const checkDuplicatedId = user_id => {
 };
 
 const createUserInfo = signUpData => {
+	signUpData['user_sid'] = '';
 	const { user_id, user_password, user_sid } = signUpData;
 	memberDB
 		.get('members')
