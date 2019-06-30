@@ -1,6 +1,16 @@
-module.exports.getExtension = async (url) => {
+module.exports.getExtension = (url) => {
     const commaIndex = url.lastIndexOf('.');
     return url.substr(commaIndex, url.length - commaIndex);
+}
+
+module.exports.convert = (url) => {
+    const convertURL = {
+        '/'             : '/index.html',
+        '/signIn?'      : '/signIn.html',
+        '/signUp?'      : '/signUp.html',
+        '/todoList'     : '/todoList.html',
+    }
+    return (convertURL[url] === undefined) ? url : convertURL[url];
 }
 
 module.exports.parse = (cookie) => {
