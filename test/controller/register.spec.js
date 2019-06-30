@@ -63,7 +63,7 @@ describe('register Controller Test', () => {
   })
 
   describe('submitRegisterInfo()', () => {
-    it('회원가입 db 쓰기 작업 이후 302 상태코드, /로 리다이렉트', async() => {
+    it('중복 아이디가 아닐 경우 회원가입 db 쓰기 작업 이후 302 상태코드, /로 리다이렉트', async() => {
       const next = () => {};
       const id = await cryptoUtil.getCryptoHash('uniqueID');
       request.body = { 'id' : id, 'password' : 1234 };
