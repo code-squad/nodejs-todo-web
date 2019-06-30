@@ -45,7 +45,7 @@ const server = http.createServer(async (req, res) => {
 				const todosList = todos.getTodosList(user_id);
 				res.end(JSON.stringify(todosList));
 			});
-		} else if (url === '/isValidLoggedIn' && method === 'GET') {
+		} else if (url === '/user' && method === 'GET') {
 			if (!req.headers.cookie) {
 				res.end('false');
 			} else {

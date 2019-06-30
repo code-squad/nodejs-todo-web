@@ -155,7 +155,7 @@ TodosFront.prototype.warning = async function() {
 
 TodosFront.prototype.isValidLoggedIn = async function(event) {
 	try {
-		const response = await fetch('/isValidLoggedIn');
+		const response = await fetch('/user');
 		if (response.ok) {
 			const userId = await response.text();
 			if (userId === 'false') {
