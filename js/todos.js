@@ -5,9 +5,9 @@ const getTodosList = user_id => {
 	return todosList;
 };
 
-const addTodoList = addTodoData => {
-	const addedTodoList = todosDB.addTodoList(JSON.parse(addTodoData));
-	return addedTodoList;
+const addTodo = addTodoData => {
+	const addedTodo = todosDB.addTodo(JSON.parse(addTodoData));
+	return addedTodo;
 };
 
-module.exports = { getTodosList, addTodoList };
+module.exports = { getTodosList, addTodo };

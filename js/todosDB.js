@@ -6,15 +6,15 @@ const todosDB = low(adapter);
 todosDB.defaults({ todos: [] }).write();
 
 const getTodosList = user_id => {
-	const todoList = todosDB
+	const todosList = todosDB
 		.get('todos')
 		.filter({ user_id })
 		.value();
 
-	return todoList;
+	return todosList;
 };
 
-const addTodoList = addTodoData => {
+const addTodo = addTodoData => {
 	addTodoData['todos_id'] = makeTodosId();
 	const { user_id, todos_id, todos_status, todos_contents } = addTodoData;
 	todosDB
@@ -22,17 +22,17 @@ const addTodoList = addTodoData => {
 		.push({ user_id, todos_id, todos_status, todos_contents })
 		.write();
 
-	const todoList = getTodoList(todos_id);
-	return todoList;
+	const addedTodo = getTodos(todos_id);
+	return addedTodo;
 };
 
-const getTodoList = todos_id => {
-	const todoList = todosDB
+const getTodos = todos_id => {
+	const todos = todosDB
 		.get('todos')
 		.filter({ todos_id })
 		.value();
 
-	return todoList;
+	return todos;
 };
 
 const makeTodosId = () => {
@@ -42,4 +42,4 @@ const makeTodosId = () => {
 	return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
-module.exports = { getTodosList, addTodoList };
+module.exports = { getTodosList, addTodo };

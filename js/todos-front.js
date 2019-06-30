@@ -19,12 +19,12 @@ TodosFront.prototype.load = function() {
 
 		addTodo.addEventListener('keyup', event => {
 			if (event.keyCode === 13) {
-				this.addTodoList();
+				this.addTodo();
 			}
 		});
 
 		addButton.addEventListener('click', event => {
-			this.addTodoList();
+			this.addTodo();
 		});
 
 		todos.forEach(element => {
@@ -72,7 +72,7 @@ TodosFront.prototype.getTodosList = async function() {
 
 TodosFront.prototype.setTodosList = function(todosList) {
 	todosList.forEach(todos => {
-		this.makeTodosList(todos);
+		this.makeTodos(todos);
 	});
 };
 
@@ -188,7 +188,7 @@ TodosFront.prototype.allowDrop = function(event) {
 	event.preventDefault();
 };
 
-TodosFront.prototype.addTodoList = async function() {
+TodosFront.prototype.addTodo = async function() {
 	this.warning();
 
 	const addTodo = document.querySelector('#addTodo').value;
@@ -200,10 +200,10 @@ TodosFront.prototype.addTodoList = async function() {
 	const response = await fetch('/todo', { method: 'POST', body: JSON.stringify(addTodoData) });
 	try {
 		if (response.ok) {
-			let addedTodoList = await response.text();
-			if (addedTodoList) {
-				addedTodoList = JSON.parse(addedTodoList)[0];
-				this.makeTodosList(addedTodoList);
+			let addedTodo = await response.text();
+			if (addedTodo) {
+				addedTodo = JSON.parse(addedTodo)[0];
+				this.makeTodos(addedTodo);
 				document.querySelector('#addTodo').value = '';
 			}
 		} else {
@@ -215,7 +215,7 @@ TodosFront.prototype.addTodoList = async function() {
 	}
 };
 
-TodosFront.prototype.makeTodosList = function(todosData) {
+TodosFront.prototype.makeTodos = function(todosData) {
 	const { todos_id, todos_status, todos_contents } = todosData;
 	const todos = document.querySelector(`#${todos_status}`);
 	const todosArticle = document.createElement('article');
