@@ -1,7 +1,7 @@
 const should = require('should');
-const sinon = require('sinon');
 const httpMocks = require('node-mocks-http');
 const registerController = require('../../controller/register');
+const cryptoUtil = require('../../utils/crypto-util');
 
 describe('register Controller Test', () => {
   let response;
@@ -47,7 +47,8 @@ describe('register Controller Test', () => {
 
     it('동일한 아이디가 아닐 경우, 응답으로 success 반환', async() => {
       const next = () => {};
-      request.url = '/register/uniqueID'
+      const id = await cryptoUtil.getCryptoHash('uniqueID');
+      request.url = `/register/${id}`
 
       await registerController.checkDupleId()(request, response, next);
 
@@ -61,5 +62,19 @@ describe('register Controller Test', () => {
     })
   })
 
+  describe('submitRegisterInfo()', () => {
+    it('회원가입 db 쓰기 작업 이후 302 상태코드, /로 리다이렉트', async() => {
+      const next = () => {};
+      const id = await cryptoUtil.getCryptoHash('uniqueID');
+      request.body = { 'id' : id, 'password' : 1234 };
 
+      await registerController.submitRegisterInfo()(request, response, next);
+
+      const statusCode = await response.statusCode;
+      const redirectUrl = await response._getHeaders().location;
+
+      should(statusCode).equal(302);
+      should(redirectUrl).equal('/');
+    })
+  })
 })

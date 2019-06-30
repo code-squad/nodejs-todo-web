@@ -24,9 +24,26 @@ const checkDupleId = () => async (req, res, next) => {
   res.end();
 }
 
+const isDupleId = async (inputId) => {
+  const allTodoData = await csvParser.getKeyValueObj('./db/user.csv');
+
+  if (allTodoData[inputId]) {
+    return true;
+  }
+
+  return false;
+}
+
 const submitRegisterInfo = () => async (req, res, next) => {
   const {id, password} = (req.body);
   const csvDataStr = `\r\n${id},${password}`;
+
+  const isDupleID = await isDupleId(id);
+
+  if (isDupleID) {
+    console.error('id is duplicated')
+    return;
+  }
 
   await fileUtil.appendFile('./db/user.csv', csvDataStr);
   res.writeHead(302, { 'Location': '/' });
