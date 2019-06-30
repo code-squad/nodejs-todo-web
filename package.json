@@ -12,7 +12,9 @@
   },
   "devDependencies": {
     "mocha": "^6.1.4",
-    "nyc": "^14.1.1"
+    "node-mocks-http": "^1.7.6",
+    "nyc": "^14.1.1",
+    "request": "^2.88.0"
   },
   "scripts": {
     "test": "nyc mocha test/*/*.spec.js && nyc mocha test/*.spec.js"
