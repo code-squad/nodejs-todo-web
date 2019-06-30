@@ -197,7 +197,7 @@ TodosFront.prototype.addTodoList = async function() {
 	}
 	const todos_status = 'todo';
 	const addTodoData = { user_id: this.userId, todos_status, todos_contents: addTodo };
-	const response = await fetch('/todoList', { method: 'POST', body: JSON.stringify(addTodoData) });
+	const response = await fetch('/todo', { method: 'POST', body: JSON.stringify(addTodoData) });
 	try {
 		if (response.ok) {
 			let addedTodoList = await response.text();
