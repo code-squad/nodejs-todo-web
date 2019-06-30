@@ -1,80 +1,120 @@
-const fileManager   = require('./file_manager');
-const queryString   = require('querystring');
-//const cookie        = require('cookie');
-const http          = require('http');
+const fileManager = require('./file_manager');
+const httpStatus = require('./http_status');
+const utility = require('./utility');
+const http = require('http');
 
-const checkMember = async (input) => {
-    console.time(`>> check member`);
-    const member = JSON.parse(await fileManager.readMemberInfo());
-    console.timeEnd(`>> check member`);
-    return (member[input.id] === input.pw) ? true : false;
-}
+const sessionTable = new Map();
 
 const receiveData = (request) => {
     return new Promise((resolve) => {
         let body = '';
-        console.time(`>> receive data`);
-        request.on('data', (chunk) => body += chunk).on('end', () => resolve(queryString.parse(body)));
-        console.timeEnd(`>> receive data`);
+        request.on('data', (chunk) => body += chunk).on('end', () => resolve(JSON.parse(body)));
     });
 }
 
-const signIn = async (input) => {
-    console.log(`${input.id}`);
-    if (await checkMember(input)) {
-        // 세션 ID 발급
-        // 쿠키에 SID 정보 저장..
-        // todoList.html 이동 및 DB에서 정보 가져오기
-        return true;
-    }
-    return false;
+const checkSessionID = async (cookie) => {
+    return cookie !== undefined && sessionTable.has(utility.parse(cookie).SID);
 }
 
-const signUp = async (input) => {
-    if (!await checkMember(input)) {
-        fileManager.writeMemberInfo(input);
-        return true;
-    }
-    return false;
+const login = async (input) => {
+    const member = JSON.parse(await fileManager.readMemberInfo());
+    return (member[input.id] === input.pw) ? true : false;
 }
 
-const sign = async (request, response) => {
-    console.time(`>> sign`);
-    let nextPage = '';
+const isNotExistMember = async (input) => {
+    const member = JSON.parse(await fileManager.readMemberInfo());
+    return (member[input.id] === undefined) ? true : false;
+}
+
+const createSessionID = async (inputID) => {
+    let sessionID = 0;
+    while (true) {
+        const min = 100000000000000000, max = 999999999999999999;
+        sessionID = String(Math.floor(Math.random() * (max - min + 1)) + min);
+        if (!sessionTable.has(sessionID)) {
+            sessionTable.set(sessionID, inputID);
+            break;
+        }
+    }
+    return sessionID;
+}
+
+const signIn = async (request, response) => {
+    console.time(`[ Sign In ] process `);
     const input = await receiveData(request);
-    switch (request.url) {
-        case '/signInCheck': 
-            nextPage = (await signIn(input)) ? '/todoListPage' : '/signInPage';
-            break;
-        case '/signUpCheck':  
-            nextPage = (await signUp(input)) ? '/signInPage' : '/signUpPage';
-            break;
+    if (await login(input)) {
+        const cookieInfo = [`SID=${await createSessionID(input.id)}; Max-Age=${60 * 30}`];
+        response.statusCode = httpStatus.MOVED_PERMANENTLY;
+        response.setHeader('Set-Cookie', cookieInfo);
+    } else response.statusCode = httpStatus.OK;
+    response.end();
+    console.timeEnd(`[ Sign In ] process `);
+}
+
+const signUp = async (request, response) => {
+    console.time(`[ Sign Up ] process `);
+    const input = await receiveData(request);
+    if (await isNotExistMember(input)) {
+        fileManager.writeMemberInfo(input);
+        response.statusCode = httpStatus.MOVED_PERMANENTLY;
+    } else response.statusCode = httpStatus.OK;
+    response.end();
+    console.timeEnd(`[ Sign Up ] process `);
+}
+
+const signOut = async (request, response) => {
+    console.time(`[ Sign Out ] process `);
+    if (request.headers.cookie !== undefined) {
+        const sessionID = utility.parse(request.headers.cookie).SID;
+        if (sessionTable.has(sessionID)) sessionTable.delete(sessionID);
     }
-    fileManager.loadStaticFile(nextPage, response);
-    console.timeEnd(`>> sign`);
+    response.statusCode = httpStatus.MOVED_PERMANENTLY;
+    response.setHeader('Location', `http://${request.headers.host}/`);
+    response.end();
+    console.timeEnd(`[ Sign Out ] process `);
+}
+
+const error = async (response) => {
+    response.statusCode = httpStatus.NOT_FOUND;
+    response.end();
+}
+
+const post = async (request, response) => {
+    switch (request.url) {
+        case '/signInCheck': signIn(request, response); break;
+        case '/signUpCheck': signUp(request, response); break;
+        case '/signOut': signOut(request, response); break;
+        default: error(response); break;
+    }
+}
+
+const get = async (request, response) => {
+    if (await checkSessionID(request.headers.cookie)) {
+        switch (request.url) {
+            case '/': case '/signIn?': case '/signUp?': 
+                response.statusCode = httpStatus.MOVED_PERMANENTLY;
+                response.setHeader('Location', `http://${request.headers.host}/todoList`);
+                response.end();
+                break;
+            default: fileManager.loadStaticFile(request.url, response);
+        }
+    } else {
+        switch(request.url) {
+            case '/todoList':
+                response.statusCode = httpStatus.MOVED_PERMANENTLY;
+                response.setHeader('Location', `http://${request.headers.host}/signIn?`);
+                response.end();
+                break;
+            default: fileManager.loadStaticFile(request.url, response);
+        }
+    }
 }
 
 const serverEventEmitter = http.createServer((request, response) => {
-    if (request.headers.cookie === undefined) {
-        if (request.method === 'GET') fileManager.loadStaticFile(request.url, response);
-        else if (request.method === 'POST') {
-            switch(request.url) {
-                case '/signInPage': case '/signUpPage': 
-                    fileManager.loadStaticFile(request.url, response); 
-                    break;
-                case '/signInCheck': case '/signUpCheck': 
-                    sign(request, response); 
-                    break;
-                case 'signOut': break;
-            }
-        } else {
-            response.statusCode = httpStatus.NOT_FOUND;
-            response.end();
-        }
-    } else {
-        // 쿠키 정보를 분석한다.
-        // 쿠키에 있는 세션 ID와 세션 테이블의 ID가 일치하면.. todoList.html 이동 및 DB에서 정보 가져오기
-        // 일치하지 않으면.. 로그인 페이지로 이동
+    switch (request.method) {
+        case 'POST': post(request, response); break;
+        case 'GET': get(request, response); break;
+        default: error(response); break;
     }
 });
 
