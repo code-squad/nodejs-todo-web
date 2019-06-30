@@ -236,7 +236,9 @@ TodosFront.prototype.makeTodosList = function(todosData) {
 };
 
 TodosFront.prototype.deleteElement = function() {
+	event.stopPropagation();
 	this.dragData.remove();
+	this.dragData = null;
 };
 
 TodosFront.prototype.dropListArea = function(event) {
