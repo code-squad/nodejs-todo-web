@@ -26,6 +26,13 @@ const addTodo = addTodoData => {
 	return addedTodo;
 };
 
+const deleteTodos = todos_id => {
+	todosDB
+		.get('todos')
+		.remove({ todos_id })
+		.write();
+};
+
 const getTodos = todos_id => {
 	const todos = todosDB
 		.get('todos')
@@ -42,4 +49,4 @@ const makeTodosId = () => {
 	return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
-module.exports = { getTodosList, addTodo };
+module.exports = { getTodosList, addTodo, deleteTodos };
