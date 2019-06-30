@@ -6,12 +6,9 @@ describe('TodoList Manager Test', () => {
     test('todoList parse', async () => {
         const todoList = JSON.parse(await todoListManager.readTodoList());
         console.log(todoList);
-        expect(Array.isArray(todoList)).toEqual(true);
-        todoList.forEach((element) => {
-            if (element.id === 'hyodol') {
-                console.log(element.contents);
-                expect(Array.isArray(element.contents.todo)).toEqual(true);
-            }
-        });
+        console.log(todoList['hyodol92']);
+        expect(Array.isArray(todoList['hyodol92'].todo)).toEqual(true);
+        expect(Array.isArray(todoList['hyodol92'].doing)).toEqual(true);
+        expect(Array.isArray(todoList['hyodol92'].done)).toEqual(true);
     });
 });
