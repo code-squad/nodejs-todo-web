@@ -11,41 +11,42 @@
 	</head>
 	<body>
 		<div id="authButton"></div>
-		<div class="deleteZone">
-			<header id="mainHeader">
-				<div id="headerTitle" class="deleteZone">todos</div>
-				<div id="headerContent">
-					<input type="text" id="addTodo" class="deleteZone" placeholder="What needs to be done?" />
-					<input type="button" id="addButton" class="deleteZone" value="Add"/>
-				</div>
-			</header>
+		<header id="mainHeader">
+			<div id="headerTitle">todos</div>
+			<div id="headerContent">
+				<input type="text" id="addTodo" placeholder="What needs to be done?" />
+				<input type="button" id="addButton" value="Add"/>
+			</div>
+		</header>
 
-			<section id="todos-section" class="deleteZone">
-				<div class="todo todos">
-					<div class="todo todos-title">
-						todo<hr class="todo todos-underline">
-					</div>
-					<div id="todo" class="todo dropArea">
-					</div>
+		<section id="todos-section">
+			<div class="todo todos">
+				<div class="todo todos-title">
+					todo<img src="css/img/trash-can.png" alt="trash-can" width="20">
+					<hr class="todo todos-underline">
 				</div>
+				<div id="todo" class="todo dropArea">
+				</div>
+			</div>
 
-				<div class="doing todos">
-					<div class="doing todos-title">
-						doing<hr class="doing todos-underline">
-					</div>
-					<div id="doing" class="doing dropArea">
-					</div>
+			<div class="doing todos">
+				<div class="doing todos-title">
+					doing<img src="css/img/trash-can.png" alt="trash-can" width="20">
+					<hr class="doing todos-underline">
 				</div>
+				<div id="doing" class="doing dropArea">
+				</div>
+			</div>
 
-				<div class="done todos">
-					<div class="done todos-title">
-						done<hr class="done todos-underline">
-					</div>
-					<div id="done" class="done dropArea">
-					</div>
+			<div class="done todos">
+				<div class="done todos-title">
+					done<img src="css/img/trash-can.png" alt="trash-can" width="20">
+					<hr class="done todos-underline">
 				</div>
-			</section>
-		</div>
+				<div id="done" class="done dropArea">
+				</div>
+			</div>
+		</section>
   </body>
   <script type="text/javascript" src=js/todos-front.js></script>
 </html>
