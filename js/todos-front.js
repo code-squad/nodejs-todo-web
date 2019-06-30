@@ -8,7 +8,7 @@ TodosFront.prototype.load = function() {
 		const addTodo = document.querySelector('#addTodo');
 		const addButton = document.querySelector('#addButton');
 		const todos = document.querySelectorAll('.todos');
-		const deleteZone = document.querySelectorAll('.deleteZone');
+		const trashCan = document.querySelectorAll('.trash-can');
 
 		await this.setAuthButton();
 		await this.getTodosList();
@@ -39,15 +39,15 @@ TodosFront.prototype.load = function() {
 			});
 		});
 
-		deleteZone.forEach(element => {
+		trashCan.forEach(element => {
 			element.addEventListener('dragover', event => {
 				this.allowDrop(event);
 			});
 		});
 
-		deleteZone.forEach(element => {
+		trashCan.forEach(element => {
 			element.addEventListener('drop', event => {
-				this.drop(event);
+				this.deleteElement();
 			});
 		});
 	});
@@ -178,10 +178,6 @@ TodosFront.prototype.drag = function(event) {
 
 TodosFront.prototype.drop = function(event) {
 	const dropAreaClassName = event.target.className.split(' ')[0];
-
-	if (dropAreaClassName === 'deleteZone') {
-		return this.deleteElement();
-	}
 	if (dropAreaClassName === 'list') {
 		return this.dropListArea(event);
 	}
