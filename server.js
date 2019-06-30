@@ -1,3 +1,4 @@
+const todoListManager = require('./todoList_manager');
 const fileManager = require('./file_manager');
 const httpStatus = require('./http_status');
 const utility = require('./utility');
@@ -40,7 +41,7 @@ const createSessionID = async (inputID) => {
 }
 
 const signIn = async (request, response) => {
-    console.time(`[ Sign In ] process `);
+    console.time(`[ Server ] Sign In process `);
     const input = await receiveData(request);
     if (await login(input)) {
         const cookieInfo = [`SID=${await createSessionID(input.id)}; Max-Age=${60 * 30}`];
@@ -48,22 +49,23 @@ const signIn = async (request, response) => {
         response.setHeader('Set-Cookie', cookieInfo);
     } else response.statusCode = httpStatus.OK;
     response.end();
-    console.timeEnd(`[ Sign In ] process `);
+    console.timeEnd(`[ Server ] Sign In process `);
 }
 
 const signUp = async (request, response) => {
-    console.time(`[ Sign Up ] process `);
+    console.time(`[ Server ] Sign Up process `);
     const input = await receiveData(request);
     if (await isNotExistMember(input)) {
         fileManager.writeMemberInfo(input);
+        todoListManager.initTodoList(input.id);
         response.statusCode = httpStatus.MOVED_PERMANENTLY;
     } else response.statusCode = httpStatus.OK;
     response.end();
-    console.timeEnd(`[ Sign Up ] process `);
+    console.timeEnd(`[ Server ] Sign Up process `);
 }
 
 const signOut = async (request, response) => {
-    console.time(`[ Sign Out ] process `);
+    console.time(`[ Server ] Sign Out process `);
     if (request.headers.cookie !== undefined) {
         const sessionID = utility.parse(request.headers.cookie).SID;
         if (sessionTable.has(sessionID)) sessionTable.delete(sessionID);
@@ -71,7 +73,7 @@ const signOut = async (request, response) => {
     response.statusCode = httpStatus.MOVED_PERMANENTLY;
     response.setHeader('Location', `http://${request.headers.host}/`);
     response.end();
-    console.timeEnd(`[ Sign Out ] process `);
+    console.timeEnd(`[ Server ] Sign Out process `);
 }
 
 const error = async (response) => {
