@@ -9,6 +9,6 @@ describe('TodoList Manager Test', () => {
         console.log(todoList['hyodol92']);
         expect(Array.isArray(todoList['hyodol92'].todo)).toEqual(true);
         expect(Array.isArray(todoList['hyodol92'].doing)).toEqual(true);
-        expect(Array.isArray(todoList['hyodol92'].done)).toEqual(true);
+        expect(Array.isArray(todoList['hyodol92'].todo)).toEqual(true);
     });
 });
