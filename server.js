@@ -34,6 +34,7 @@ const createSessionID = async (inputID) => {
         sessionID = String(Math.floor(Math.random() * (max - min + 1)) + min);
         if (!sessionTable.has(sessionID)) {
             sessionTable.set(sessionID, inputID);
+            console.log(`[ Server ] session Table size : ${sessionTable.size}`);
             break;
         }
     }
@@ -81,6 +82,20 @@ const error = async (response) => {
     response.end();
 }
 
+const redirect = async (response, request, URL) => {
+    response.statusCode = httpStatus.MOVED_PERMANENTLY;
+    response.setHeader('Location', `http://${request.headers.host}${URL}`);
+    response.end();
+}
+
+const showAll = async (request, response) => {
+    const sessionID = utility.parse(request.headers.cookie).SID;
+    if (!sessionTable.has(sessionID)) throw Error(`[Server - Error] Session ID is not saved after Login.`);
+    const todoList = JSON.parse(await todoListManager.readTodoList());
+    response.write(JSON.stringify(todoList[sessionTable.get(sessionID)]));
+    response.end();
+}
+
 const post = async (request, response) => {
     switch (request.url) {
         case '/signInCheck': signIn(request, response); break;
@@ -92,21 +107,14 @@ const post = async (request, response) => {
 
 const get = async (request, response) => {
     if (await checkSessionID(request.headers.cookie)) {
-        switch (request.url) {
-            case '/': case '/signIn?': case '/signUp?': 
-                response.statusCode = httpStatus.MOVED_PERMANENTLY;
-                response.setHeader('Location', `http://${request.headers.host}/todoList`);
-                response.end();
-                break;
+        switch (request.url) { 
+            case '/showAll': showAll(request, response); break;
+            case '/': case '/signIn?': case '/signUp?': redirect(response, request, '/todoList'); break;
             default: fileManager.loadStaticFile(request.url, response);
         }
     } else {
-        switch(request.url) {
-            case '/todoList':
-                response.statusCode = httpStatus.MOVED_PERMANENTLY;
-                response.setHeader('Location', `http://${request.headers.host}/signIn?`);
-                response.end();
-                break;
+        switch (request.url) {
+            case '/todoList': redirect(response, request, '/signIn?'); break;
             default: fileManager.loadStaticFile(request.url, response);
         }
     }

@@ -10,3 +10,13 @@ for (const element of todoListMainDiv) {
 
 const addEvent = new AddEvent(dragDropEvent, todoListMainDiv, storyInputText, storyAddBtn);
 for (let i = 0; i < storyAddBtn.length; i++) addEvent.click(i);
+
+fetch('http://localhost:8888/showAll')
+.then((response) => { return response.json(); })
+.then((json) => {
+    let index = 0;
+    for (const todoList of Object.values(json)) {
+        for (const value of todoList) addEvent.AddStoryDiv(index, value);
+        index++;
+    }
+});

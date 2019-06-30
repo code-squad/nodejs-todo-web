@@ -25,22 +25,22 @@ class AddEvent {
         return inputButton;
     }
 
-    createChildDiv(index) {
+    createChildDiv(index, value) {
         const b = document.createElement('div');
-        b.innerText = this.addText[index].value;
+        b.innerText = (value === undefined) ? this.addText[index].value : value;
         b.className = 'story_inner_text';
         this.addText[index].value = '';
         return b;
     }
 
-    AddStoryDiv(index) {
+    AddStoryDiv(index, value) {
         const divStory = this.createParentDiv();
         divStory.appendChild(this.createChildInputButton());
-        divStory.appendChild(this.createChildDiv(index));
+        divStory.appendChild(this.createChildDiv(index, value));
         this.todoMainDiv[index].appendChild(divStory);
     }
 
     click(index) {
-        this.addBtn[index].addEventListener('click', () => this.AddStoryDiv(index) );
+        this.addBtn[index].addEventListener('click', () => this.AddStoryDiv(index, undefined) );
     }
 }
