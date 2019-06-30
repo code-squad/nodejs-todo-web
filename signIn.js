@@ -3,7 +3,6 @@ document.querySelector('#signInButton').addEventListener('click', () => {
     const pw = document.querySelector('#userPW').value;
     fetch('http://localhost:8888/signInCheck', {
         method: 'post',
-        redirect: 'follow',
         body: JSON.stringify({ id: id, pw: pw }),
         headers: new Headers({ 'Content-Type': 'application/json' }),
     }).then((response) => { 
@@ -12,7 +11,7 @@ document.querySelector('#signInButton').addEventListener('click', () => {
                 alert(`회원 정보가 존재하지 않습니다!`);
                 break;
             case 301:
-                window.location.href = '/todoList';
+                window.location = '/todoList';
                 break;
             default:
                 alert(`HTTP status : ${response.status}`);

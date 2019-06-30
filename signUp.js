@@ -3,7 +3,6 @@ document.querySelector('#signUpButton').addEventListener('click', () => {
     const pw = document.querySelector('#userPW').value;
     fetch('http://localhost:8888/signUpCheck', {
         method: 'post',
-        // redirect: 'follow',
         body: JSON.stringify({ id: id, pw: pw }),
         headers: new Headers({ 'Content-Type': 'application/json' }),
     }).then((response) => {
@@ -13,7 +12,7 @@ document.querySelector('#signUpButton').addEventListener('click', () => {
                 break;
             case 301:
                 alert(`회원 가입 완료!`);
-                window.location.href = '/';
+                window.location = '/';
                 break;
             default:
                 alert(`HTTP status : ${response.status}`);
