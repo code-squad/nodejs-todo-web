@@ -26,7 +26,11 @@ const server = http.createServer(async (request, response) => {
             response.end(mainJS);
         }
         if (request.url === '/init') {
-            const items = JSON.parse(await model.readStaticFile('./items.json'))
+            const sid = cookie.session;
+            const user = session[sid];
+            const items = JSON.parse(await model.readStaticFile('./items.json'))[user];
+            response.writeHead(200, {'Content-Type': 'application/json'});
+            response.end(JSON.stringify(items));
         }
     }
 
@@ -79,10 +83,7 @@ const server = http.createServer(async (request, response) => {
             body.push(chunk);
         }).on('end', async () => {
             body = Buffer.concat(body).toString();
-            const {
-                id,
-                password
-            } = JSON.parse(body);
+            const { id, password } = JSON.parse(body);
             if (await signupController.signup(id, password)) {
                 response.statusCode = 200;
                 response.end("success");
