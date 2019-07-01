@@ -10,4 +10,8 @@ const addTodo = addTodoData => {
 	return addedTodo;
 };
 
-module.exports = { getTodosList, addTodo };
+const deleteTodos = todos_id => {
+	todosDB.deleteTodos(todos_id);
+};
+
+module.exports = { getTodosList, addTodo, deleteTodos };
