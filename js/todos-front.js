@@ -231,10 +231,22 @@ TodosFront.prototype.makeTodos = function(todosData) {
 	todos.appendChild(todosArticle);
 };
 
-TodosFront.prototype.deleteElement = function() {
+TodosFront.prototype.deleteElement = async function() {
 	event.stopPropagation();
-	this.dragData.remove();
-	this.dragData = null;
+
+	const todos_id = this.dragData.id;
+	const response = await fetch(`/todos/${todos_id}`, { method: 'DELETE' });
+	try {
+		if (response.ok) {
+			this.dragData.remove();
+			this.dragData = null;
+		} else {
+			location.href = '/error-404';
+		}
+	} catch (error) {
+		console.log('error.....', error);
+		location.href = '/error-500';
+	}
 };
 
 TodosFront.prototype.dropListArea = function(event) {
