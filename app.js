@@ -1,4 +1,3 @@
-
 const serveStatic = require('./middlewares/serve-static');
 const logger = require('./middlewares/logger');
 const index = require('./routers/index');
@@ -11,9 +10,7 @@ const addTask = require('./api/addTask');
 const deleteTask = require('./api/deleteTask');
 const updateTask = require('./api/updateTask');
 const updateStatus = require('./api/updateStatus');
-const listTodo = require('./api/list_todo_item');
-const listDoing = require('./api/list_doing_item');
-const listDone = require('./api/list_done_item');
+const listItems = require('./api/list_items_by_status');
 const errors = require('./middlewares/errors');
 const bodyParser = require('./middlewares/body-parser');
 const App = require('./src/Application');
@@ -32,9 +29,7 @@ app.post('/api/addTask', addTask.addTodoList());
 app.post('/api/deleteTask', deleteTask.deleteTodoList());
 app.post('/api/updateTask', updateTask.updateTodoList());
 app.post('/api/updateStatus', updateStatus.updateItemStatus());
-app.post('/api/list_todo_item', listTodo.list_todo_item());
-app.post('/api/list_doing_item', listDoing.list_doing_item());
-app.post('/api/list_done_item', listDone.list_done_item());
+app.post('/api/list_items_by_status', listItems.list_items());
 app.use(errors.error404());
 app.use(errors.error());
 

@@ -7,8 +7,6 @@ const listLoginPage = () => (req, res, next) => {
     console.log('req.header.cookie: ',req.headers.cookie);
     const cookies = parseCookies(req.headers.cookie);
     const session = db.get('session').value();
-    console.log('session!',session);
-    console.log('cookie!', cookies);
 
     if (cookies.session) {
         res.writeHead(302, {

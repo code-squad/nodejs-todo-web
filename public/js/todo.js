@@ -2,10 +2,9 @@ const taskInput = document.getElementById("new-task");
 const incompleteTaskHolder = document.getElementById("incomplete-tasks");//ul of #incomplete-tasks
 const completedTasksHolder = document.getElementById("completed-tasks"); //ul of #completed-tasks
 const inProgressTaskHolder = document.getElementById('inprogress-tasks'); //ul of #inprogress-tasks
-
 const logoutButton = document.getElementById('logout-button');
 
-logoutButton.addEventListener('click', function (event) {
+logoutButton.addEventListener('click', function () {
 
     const logout = () => {
         const options = {
@@ -61,6 +60,7 @@ const fetchData = function (url, data) {
     const options = {
         method : 'POST',
         body   : data,
+        redirect : 'follow',
         headers: new Headers({
             'Content-Type': 'application/json'
         })
@@ -86,11 +86,11 @@ const addTask = async function () {
 };
 
 const getListItemID = function (listItem) {
-    return  listItem.querySelector('label').id;
+    return listItem.querySelector('label').id;
 };
 
 const changeListItemStatus = function (listItem, update_status) {
-    return  listItem.querySelector('label').className = update_status;
+    return listItem.querySelector('label').className = update_status;
 };
 
 const editTask = async function (event) {
@@ -107,7 +107,7 @@ const editTask = async function (event) {
     //If class of the parent is .editmode
     if (containsClass) {
         const response = await fetchData('/api/updateTask', `item_id=${item_id}&updated_title=${editInput.value}`);
-        const {id, title, status}  = await response.json();
+        const {id, title, status} = await response.json();
 
         todoTask.innerText = title;
         todoTask.hidden = false;
@@ -153,7 +153,7 @@ const taskCompleted = function (event) {
     const listItem = this.parentNode;
     completedTasksHolder.appendChild(listItem);
     bindTaskEvents(listItem, taskIncomplete);
-    updateItemStatus(listItem,'done');
+    updateItemStatus(listItem, 'done');
 };
 
 const taskIncomplete = function (event) {
@@ -162,7 +162,7 @@ const taskIncomplete = function (event) {
     const listItem = this.parentNode;
     incompleteTaskHolder.appendChild(listItem);
     bindTaskEvents(listItem, taskInProgress);
-    updateItemStatus(listItem,'todo');
+    updateItemStatus(listItem, 'todo');
 };
 
 const taskInProgress = function (event) {
@@ -171,7 +171,7 @@ const taskInProgress = function (event) {
     const listItem = this.parentNode;
     inProgressTaskHolder.appendChild(listItem);
     bindTaskEvents(listItem, taskCompleted);
-    updateItemStatus(listItem,'doing');
+    updateItemStatus(listItem, 'doing');
 };
 
 const bindTaskEvents = function (taskListItem, checkBoxEventHandler) {
@@ -228,37 +228,26 @@ const addEnterKeyEvent = function (taskInput, eventHandler) {
     })
 };
 
-const listTodoItemFromDB = async function() {
-    const response = await fetchData('/api/list_todo_item', `status=todo`);
-    const todoItems = await response.json();
-    listItems(todoItems, incompleteTaskHolder, taskInProgress);
+const getItemsFromDB = async function () {
+    const response = await fetchData('/api/list_items_by_status');
+    const Items = await response.json();
+    const {todoStatusItem,doingStatusItem,doneStatusItem} = Items;
+
+    listItems(todoStatusItem, incompleteTaskHolder, taskInProgress);
+    listItems(doingStatusItem, inProgressTaskHolder, taskCompleted);
+    listItems(doneStatusItem, completedTasksHolder, taskIncomplete);
 };
 
-const listDoingItemFromDB = async function() {
-    const response = await fetchData('/api/list_doing_item', `status=doing`);
-    const doingItems = await response.json();
-    listItems(doingItems, inProgressTaskHolder, taskCompleted);
-};
-
-const listDoneItemFromDB = async function() {
-    const response = await fetchData('/api/list_done_item', `status=done`);
-    const doingItems = await response.json();
-    listItems(doingItems, completedTasksHolder, taskIncomplete);
-};
-
-const listItems = function(Items, taskHolder, checkBoxEvent) {
+const listItems = function (Items, taskHolder, checkBoxEvent) {
     Items.forEach(Item => {
         const {id, title, status} = Item;
         const listItem = createNewTaskElement(title, id, status);
+        const checkbox = listItem.querySelector('input[type=checkbox]');
+        status === 'done' ? checkbox.checked = true : checkbox.checked = false;
         taskHolder.appendChild(listItem);
         bindTaskEvents(listItem, checkBoxEvent);
     });
 };
-
-listTodoItemFromDB();
-listDoingItemFromDB();
-listDoneItemFromDB();
-
 
 let draggingTarget = null;
 
@@ -297,13 +286,29 @@ const addDragEvent = function (listItem) {
         if (target.children.length === 2) {
             target.style['border-bottom'] = '';
             target.style['border-top'] = '';
-            target.children[1].appendChild(draggingTarget)
+            target.children[1].appendChild(draggingTarget);
+
+            const updated_status = target.className.split(' ')[0];
+            updateItemStatus(draggingTarget, updated_status);
+            const checkbox = draggingTarget.querySelector('input[type=checkbox]');
+            updated_status === 'done' ? checkbox.checked = true : checkbox.checked = false;
+
         } else if (target.style['border-bottom'] !== '') {
             target.style['border-bottom'] = '';
             target.parentNode.insertBefore(draggingTarget, event.target.nextSibling);
+
+            const updated_status = event.target.nextElementSibling.querySelector('label').className;
+            updateItemStatus(draggingTarget, updated_status);
+            const checkbox = draggingTarget.querySelector('input[type=checkbox]');
+            updated_status === 'done' ? checkbox.checked = true : checkbox.checked = false;
+
         } else {
             target.style['border-top'] = '';
             target.parentNode.insertBefore(draggingTarget, event.target);
+            const updated_status = event.target.querySelector('label').className;
+            updateItemStatus(draggingTarget, updated_status);
+            const checkbox = draggingTarget.querySelector('input[type=checkbox]');
+            updated_status === 'done' ? checkbox.checked = true : checkbox.checked = false;
         }
     });
 
@@ -317,7 +322,9 @@ const addDragEvent = function (listItem) {
     }
 };
 
-const init = function () {
+const init = async function () {
+    await getItemsFromDB();
     bindDragEventOnList();
 };
+
 init();

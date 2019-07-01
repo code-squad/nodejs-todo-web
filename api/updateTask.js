@@ -11,7 +11,7 @@ const updateTodoList = () => (req, res, next) => {
 
         db.get(`users[${user_idx}].todos`).find({id: parseInt(item_id)}).assign({title: updated_title}).write();
         const updatedItem = db.get(`users[${user_idx}].todos`).find({id: parseInt(item_id)}).value();
-        console.log(updatedItem);
+
         res.statusCode = 200;
         res.setHeader('Content-Type', 'text/plain');
         res.end(JSON.stringify(updatedItem));
