@@ -9,36 +9,11 @@ const addForm = `
 const openAddFormLinks = document.getElementsByClassName('open-add-form-link');
 let draggingTarget = null;
 const defaultItems = document.getElementsByClassName('default-item');
+setItems();
 
 for (defaultItem of defaultItems) {
     addDragEvent(defaultItem);
 }
-
-const xhr = new XMLHttpRequest();
-xhr.onreadystatechange = () => {
-    if(xhr.readyState === xhr.DONE) {
-        if(xhr.status === 200) {
-            const items = JSON.parse(xhr.responseText);
-            for (item of items)  {
-                const listBoxNode = document.querySelector(`#${item.status}`);
-                const listArea = listBoxNode.querySelector('.list-area');
-                const itemDiv= document.createElement('div');
-                itemDiv.setAttribute('class', 'item');
-                itemDiv.setAttribute('id', item.id);
-                itemDiv.setAttribute('draggable', true);
-                itemDiv.innerHTML = `${item.name}`;
-                addDragEvent(itemDiv);
-                addDeleteEvent(itemDiv);
-                listArea.appendChild(itemDiv);
-            }
-        } else {
-            console.error(xhr.responseText);
-        }
-    }
-}
-xhr.open('GET', '/init');
-xhr.send();
-
 for (openAddFormLink of openAddFormLinks) {
     openAddFormLink.addEventListener('click', (event) => {
         const listBoxNode = event.target.parentNode;
@@ -54,7 +29,6 @@ for (openAddFormLink of openAddFormLinks) {
 
 const logoutButton = document.getElementById('logout-button');
 logoutButton.addEventListener('click', ()=> {
-    console.log("Tt");
     const xhr = new XMLHttpRequest();
     xhr.onreadystatechange = () => {
         if(xhr.readyState === xhr.DONE) {
@@ -74,18 +48,15 @@ function generateRandomId() {
     return Date.now();
 }
 
-function addItem(listArea, name, isAddByButton) {
+function addItem(listArea, name, id) {
     const item = document.createElement('div');
-    const idOfItem = generateRandomId();
-    const status = listArea.parentNode.id;
     item.setAttribute('class', 'item');
-    item.setAttribute('id', idOfItem);
+    item.setAttribute('id', id);
     item.setAttribute('draggable', true);
     item.innerHTML = `${name}`;
     addDragEvent(item);
     addDeleteEvent(item);
     listArea.appendChild(item);
-    addController.add(user, [name, status, idOfItem]);
 }
 
 function closeAllAddForm(event) {
@@ -117,10 +88,24 @@ function addItemByAddButton(event) {
     const listBoxNode = addFormNode.parentNode;
     const listArea = listBoxNode.getElementsByClassName('list-area')[0];
     const textArea = addFormNode.getElementsByTagName('textarea')[0];
+    const status = listArea.parentNode.id;
     const name = textArea.value;
+    const item = {"name":name,"status":status};
     if (!(name === '')) {
-        addItem(listArea, name, true);
-        textArea.value = null;
+        const xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = () => {
+            if(xhr.readyState === xhr.DONE) {
+                if(xhr.status === 200) {
+                    const id = xhr.responseText;
+                    addItem(listArea, name, id);
+                    textArea.value = null;
+                } else {
+                    console.error(xhr.responseText);
+                }
+            }
+        }
+        xhr.open('POST', '/add');
+        xhr.send(JSON.stringify(item));
     }
     textArea.focus();
 }
@@ -162,4 +147,31 @@ function addDeleteEvent(item) {
         event.target.parentNode.removeChild(event.target);
         deleteController.delete(user, item);
     });
+}
+
+function setItems() {
+    const xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = () => {
+        if(xhr.readyState === xhr.DONE) {
+            if(xhr.status === 200) {
+                const items = JSON.parse(xhr.responseText);
+                for (item of items)  {
+                    const listBoxNode = document.querySelector(`#${item.status}`);
+                    const listArea = listBoxNode.querySelector('.list-area');
+                    const itemDiv= document.createElement('div');
+                    itemDiv.setAttribute('class', 'item');
+                    itemDiv.setAttribute('id', item.id);
+                    itemDiv.setAttribute('draggable', true);
+                    itemDiv.innerHTML = `${item.name}`;
+                    addDragEvent(itemDiv);
+                    addDeleteEvent(itemDiv);
+                    listArea.appendChild(itemDiv);
+                }
+            } else {
+                console.error(xhr.responseText);
+            }
+        }
+    }
+    xhr.open('GET', '/init');
+    xhr.send();
 }

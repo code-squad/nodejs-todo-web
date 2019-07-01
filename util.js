@@ -6,7 +6,7 @@ const util = {
         }, {});
     },
 
-    getRandomInt() {
+    generateRandomInt() {
         return +new Date();
     }
 }
