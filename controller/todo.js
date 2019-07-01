@@ -3,13 +3,7 @@ const csvParser = require('../utils/csv-parser');
 const fileHandler = require('../utils/file-system');
 
 const getPage = () => async (req, res, next) => {
-  if (req.session === 'false') {
-    res.writeHead(302, { 'Location': '/' });
-    res.end();
-    return;
-  }
-  
-  if (!req.session) {
+  if (!req.session || req.session === 'false') {
     res.writeHead(302, {'Location': '/' });
     res.end();
     return;
@@ -23,10 +17,10 @@ const getPage = () => async (req, res, next) => {
   res.end();
 }
 
-const updateTodoKey = async (keyObj) => {
+const updateTodoKey = async (keyObj, path) => {
   keyObj.cardKey++;
   const csvData = csvParser.keyObjToCsvStr(keyObj);
-  await fileHandler.writeFile('./db/keys.csv', csvData);
+  await fileHandler.writeFile(path, csvData);
 }
 
 const addTodo = () => async (req, res, next) => {
@@ -38,7 +32,7 @@ const addTodo = () => async (req, res, next) => {
   const dataStr = `\r\n${cardKey},${type},${data},${userID}`;
   
   await csvParser.appendData('./db/todoList.csv', dataStr);
-  await updateTodoKey(keyObj);
+  await updateTodoKey(keyObj, './db/keys.csv');
 
   res.writeHead(200, {'Content-Type' : 'text/plain'});
   res.write(cardKey);
