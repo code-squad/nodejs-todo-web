@@ -112,5 +112,21 @@ describe('todoController Test', () => {
       ajaxAnswer = await response._getData();
       should(ajaxAnswer).equal('success');
     })
+    
+    it('카드 순서 업데이트 시 db반영 후 sucesss string 반환', async () => {
+      request.session = {'userID' : 'uniqueID'};
+      request.body = { 'todo' : '1#', 'doing' : '2#', 'done' : '3#' };
+      
+      await todoController.updateCardSequence()(request, response, next);
+      const answer = await response._getData();
+      const contentType = await response.getHeader('Content-Type');
+      const statusCode = await response.statusCode;
+      
+      should(answer).equal('success');
+      should(contentType).equal('text/plain');
+      should(statusCode).equal(200);
+
+    })
+
   })
 })
