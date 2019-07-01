@@ -33,7 +33,8 @@ const createSessionID = async (inputID) => {
         const min = 100000000000000000, max = 999999999999999999;
         sessionID = String(Math.floor(Math.random() * (max - min + 1)) + min);
         if (!sessionTable.has(sessionID)) {
-            sessionTable.set(sessionID, inputID);
+            const jsonData = JSON.parse(await todoListManager.readTodoList());
+            sessionTable.set(sessionID, { id : inputID, contents : jsonData[inputID] });
             console.log(`[ Server ] session Table size : ${sessionTable.size}`);
             break;
         }
@@ -45,7 +46,7 @@ const signIn = async (request, response) => {
     console.time(`[ Server ] Sign In process `);
     const input = await receiveData(request);
     if (await login(input)) {
-        const cookieInfo = [`SID=${await createSessionID(input.id)}; Max-Age=${60 * 30}`];
+        const cookieInfo = [`SID=${await createSessionID(input.id)}; Max-Age=${60 * 60 * 24 * 30}`];
         response.statusCode = httpStatus.MOVED_PERMANENTLY;
         response.setHeader('Set-Cookie', cookieInfo);
     } else response.statusCode = httpStatus.OK;
@@ -88,43 +89,71 @@ const redirect = async (response, request, URL) => {
     response.end();
 }
 
-const showAll = async (request, response) => {
+////////////////////////////////////////////////////////////////////////////
+// command ..
+const addItem = async (request, response) => {
+    const data = await receiveData(request);
     const sessionID = utility.parse(request.headers.cookie).SID;
-    if (!sessionTable.has(sessionID)) throw Error(`[Server - Error] Session ID is not saved after Login.`);
-    const todoList = JSON.parse(await todoListManager.readTodoList());
-    response.write(JSON.stringify(todoList[sessionTable.get(sessionID)]));
-    response.end();
+    if (sessionTable.has(sessionID)) {
+        const todoList = sessionTable.get(sessionID).contents;
+        todoList[data.type].splice(data.index, 0, data.value);
+        response.end();
+    } else throw Error(`[Server - Error] Session ID is not saved after Login. ( Add Item )`);
 }
+
+const deleteItem = async (request, response) => {
+    const data = await receiveData(request);
+    const sessionID = utility.parse(request.headers.cookie).SID;
+    if (sessionTable.has(sessionID)) {
+        const todoList = sessionTable.get(sessionID).contents;
+        todoList[data.type].splice(data.index, 1);
+        response.end();
+    } else throw Error(`[Server - Error] Session ID is not saved after Login. ( Delete Item )`);
+}
+
+const showItem = async (request, response) => {
+    const sessionID = utility.parse(request.headers.cookie).SID;
+    if (sessionTable.has(sessionID)) {
+        const todoList = sessionTable.get(sessionID).contents;
+        response.write(JSON.stringify(todoList));
+        response.end();
+    } else throw Error(`[Server - Error] Session ID is not saved after Login. ( Show Item )`);
+}
+////////////////////////////////////////////////////////////////////////////
 
 const post = async (request, response) => {
     switch (request.url) {
-        case '/signInCheck': signIn(request, response); break;
-        case '/signUpCheck': signUp(request, response); break;
-        case '/signOut': signOut(request, response); break;
-        default: error(response); break;
+        case '/add'         : addItem(request, response);    break;
+        case '/delete'      : deleteItem(request, response); break;
+        case '/signInCheck' : signIn(request, response);     break;
+        case '/signUpCheck' : signUp(request, response);     break;
+        case '/signOut'     : signOut(request, response);    break;
+        default             : error(response);               break;
     }
 }
 
 const get = async (request, response) => {
     if (await checkSessionID(request.headers.cookie)) {
         switch (request.url) { 
-            case '/showAll': showAll(request, response); break;
-            case '/': case '/signIn?': case '/signUp?': redirect(response, request, '/todoList'); break;
-            default: fileManager.loadStaticFile(request.url, response);
+            case '/'        : 
+            case '/signIn?' : 
+            case '/signUp?' : redirect(response, request, '/todoList'); break;
+            case '/show'    : showItem(request, response);              break;
+            default         : fileManager.loadStaticFile(request.url, response);
         }
     } else {
         switch (request.url) {
             case '/todoList': redirect(response, request, '/signIn?'); break;
-            default: fileManager.loadStaticFile(request.url, response);
+            default         : fileManager.loadStaticFile(request.url, response);
         }
     }
 }
 
 const serverEventEmitter = http.createServer((request, response) => {
     switch (request.method) {
-        case 'POST': post(request, response); break;
-        case 'GET': get(request, response); break;
-        default: error(response); break;
+        case 'POST' : post(request, response);  break;
+        case 'GET'  : get(request, response);   break;
+        default     : error(response);
     }
 });
 
