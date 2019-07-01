@@ -1,6 +1,7 @@
 class TodoApp {
     constructor() {
         this.dragTarget = null;
+        this.xhr = new XMLHttpRequest();
     }
 
     setClickAddEvent() { // 칼럼 하단부 이벤트 달기
@@ -56,7 +57,8 @@ class TodoApp {
         addLink.style.display = 'block';
     }
 
-    addCard(cardText, parentElement) { // card 추가, 버튼에 이벤트 리스너 달기
+    addCard(cardText, parentElement) { // card가 추가될 때 이벤트
+        // card 추가
         const ulElement = parentElement.querySelector('ul');
         const liElement = document.createElement('li');
         const columntype = ulElement.id.split('-')[0];
@@ -68,21 +70,29 @@ class TodoApp {
             <input class="delete-btn" id="${columntype}-delete" type="button" value="X">`;
         ulElement.appendChild(liElement);
 
+        // textarea 초기화, 포커싱
         const textareaElement = parentElement.querySelector('textarea');
         textareaElement.value = '';
-        textareaElement.focus();
+        textareaElement.focus(); 
         
+        // card와 버튼에 이벤트 추가
         liElement.addEventListener('dragstart', event => this.dragStartEvent(event));
-        liElement.addEventListener('mouseenter', event => this.handleBtnVitibility(event));
-        liElement.addEventListener('mouseleave', event => this.handleBtnVitibility(event));
-        
+        liElement.addEventListener('mouseenter', event => this.handleBtnVisible(event));
+        liElement.addEventListener('mouseleave', event => this.handleBtnVisible(event));
         const updateBtn = liElement.querySelector('.update-btn');
         updateBtn.addEventListener('click', event => this.updateCardEvent(event));
         const deleteBtn = liElement.querySelector('.delete-btn');
         deleteBtn.addEventListener('click', event => this.deleteCardEvent(event));
+
+        // 서버에 데이터 전송
+        //this.xhr.onreadystatechange();
+        this.xhr.open("POST", "/cards", true);
+        this.xhr.setRequestHeader('Content-Type', 'application/json');
+        const card = {columnType: columntype, text: cardText};
+        this.xhr.send(JSON.stringify(card));
     }
 
-    handleBtnVitibility(event) {
+    handleBtnVisible(event) {
         let attribute;
         if (event.type === 'mouseenter') attribute = 'visible';
         if (event.type === 'mouseleave') attribute = 'hidden';
@@ -97,14 +107,14 @@ class TodoApp {
         const targetElement = event.target.parentElement;
         targetElement.remove();
     }
-
+    
     updateCardEvent(event) { // card 수정 
         const targetElement = event.target.previousSibling.previousSibling;
         targetElement.removeAttribute('readonly');
         targetElement.select();
     }
 
-    setDropEvent() {
+    setDropEvent() { // 칼럼에 이벤트 달기
         const columnBoxElements = document.getElementsByClassName('column-box');
         for (let columnBoxElement of columnBoxElements) {
             columnBoxElement.addEventListener('dragover', event => event.preventDefault());
@@ -112,7 +122,7 @@ class TodoApp {
         }
     }
 
-    dorpCardEvent(event) { 
+    dorpCardEvent(event) {  
         event.preventDefault();
         const columnType = event.target.id.split('-')[0];
         const ulElement = document.getElementById(columnType + '-list');
@@ -140,7 +150,11 @@ window.onload = function() {
     const todoApp = new TodoApp();
     todoApp.setClickAddEvent();
     todoApp.setDropEvent();
-}
+};
 
-
+// 브라우저에서 서버쪽으로 데이터 보내야할 경우
+// add-form에서 add버튼 누를 때 
+// card에서 수정할 때
+// card에서 삭제 누를 때
+// drop될 때 
 

@@ -1,6 +1,10 @@
 const http = require('http');
 const path = require('path');
 const fs = require('fs');
+const Model = require('./model');
+
+const model = new Model();
+const sessions = [];
 
 const server = http.createServer((req, res) => {
     const fileType = {
@@ -37,8 +41,23 @@ const server = http.createServer((req, res) => {
             res.end(data);
         });
     }
-})
 
-server.listen(8080, () => {
-    console.log('8080포트에서 대기중');
+    if (req.method == 'POST') {
+        if (req.url === '/cards') {
+            req.on('data', (data) => {
+                console.log(typeof data, data.toString());
+                //model.loadData();
+                model.appendCard(data);
+                
+            });
+        }
+    }
 });
+
+server.listen(8081, () => {
+    console.log('8081포트에서 대기중');
+});
+
+// 1) 로그인 
+// 2) 회원가입
+// 3) 
