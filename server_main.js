@@ -17,7 +17,7 @@ const app = http.createServer(async (request, response) => {
                     response.writeHead(302, {
                         'Location': './index',
                         'Content-Type': 'text/html',
-                        'Set-Cookie': [`sessionID = ${sessionData.sessionID}; Path = /s; Max-Age = ${60 * 60 / 2}`]
+                        'Set-Cookie': [`sessionID = ${sessionData.sessionID}; Path = /; Max-Age = ${60 * 60 / 2}`]
                     });
                     return response.end('redirection');
                 }
@@ -54,11 +54,12 @@ const app = http.createServer(async (request, response) => {
             const cookies = cookie.parse(request.headers.cookie);
             const sessionData = session.isValidSessionID(cookies.sessionID);
             if (sessionData) {
+                const userData = await userManager.readUserData(sessionData.id,sessionData.pw);
                 response.writeHead(200, {
                     'Content-Type': 'text/html',
                     'Set-Cookie': [`sessionID = ${sessionData.sessionID}; Path = /; Max-Age = ${60 * 60 / 2}`]
                 });
-                return response.end(JSON.stringify(sessionData));
+                return response.end(JSON.stringify({'id':userData.id,data:userData.data}));
             }
             response.writeHead(302, {
                 'Location': './login',
@@ -101,6 +102,21 @@ const app = http.createServer(async (request, response) => {
                     return response.end("set cookie");
                 }
             });
+        }
+        if(request.url === '/index/saveData'){
+            let body = '';
+            request.on('data', (data) => {
+                body += data;
+            });
+            return request.on('end', async () => {
+                console.log(body);
+                const id = JSON.parse(body).id;
+                const userData = JSON.parse(body).userData;
+                userManager.saveData(id,userData);
+                response.writeHead(200);
+                return response.end("saved data");
+            });
+
         }
     }
 
