@@ -29,7 +29,7 @@ const addTodo = addTodoData => {
 const deleteTodos = todos_id => {
 	todosDB
 		.get('todos')
-		.remove({ todos_id })
+		.remove({ todos_id: Number(todos_id) })
 		.write();
 };
 
