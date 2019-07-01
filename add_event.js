@@ -1,46 +1,45 @@
 class AddEvent {
-    constructor(dragDropEvent, todoMainDiv, addText, addBtn) {
+    constructor(dragDropEvent, todoMainDiv, addText) {
         this.dragDropEvent = dragDropEvent;
         this.todoMainDiv = todoMainDiv;
         this.addText = addText;
-        this.addBtn = addBtn;
-        this.count = 0;
     }
 
-    createParentDiv() {
+    createParentDiv(todoListIndex, itemIndex) {
         const div = document.createElement('div');
         div.addEventListener('dragstart', () => dragDropEvent.drag(event) );
-        div.id = 'drag' + this.count++;
+        div.id = JSON.stringify({ type : todoListIndex, index : itemIndex });
         div.className = 'story';
         div.draggable = true;
         return div;
     }
 
-    createChildInputButton() {
+    createChildInputButton(todoListIndex, itemIndex) {
         const inputButton = document.createElement('input');
-        inputButton.addEventListener('click', () => inputButton.parentNode.remove() );
+        inputButton.addEventListener('click',  () => {
+            const type = ['todo', 'doing', 'done'];
+            const body = JSON.stringify({ type : type[todoListIndex], index : itemIndex });
+            fetch('http://localhost:8888/delete', { method : 'post', body : body });
+            inputButton.parentNode.remove(); 
+        });
         inputButton.setAttribute('type', 'button');
         inputButton.className = 'story_delete';
         inputButton.value = 'x';
         return inputButton;
     }
 
-    createChildDiv(index, value) {
+    createChildDiv(todoListIndex, value) {
         const b = document.createElement('div');
-        b.innerText = (value === undefined) ? this.addText[index].value : value;
+        b.innerText = (value === undefined) ? this.addText[todoListIndex].value : value;
         b.className = 'story_inner_text';
-        this.addText[index].value = '';
+        this.addText[todoListIndex].value = '';
         return b;
     }
 
-    AddStoryDiv(index, value) {
-        const divStory = this.createParentDiv();
-        divStory.appendChild(this.createChildInputButton());
-        divStory.appendChild(this.createChildDiv(index, value));
-        this.todoMainDiv[index].appendChild(divStory);
-    }
-
-    click(index) {
-        this.addBtn[index].addEventListener('click', () => this.AddStoryDiv(index, undefined) );
+    AddStoryDiv(todoListIndex, itemIndex, value) {
+        const divStory = this.createParentDiv(todoListIndex, itemIndex);
+        divStory.appendChild(this.createChildInputButton(todoListIndex, itemIndex));
+        divStory.appendChild(this.createChildDiv(todoListIndex, value));
+        this.todoMainDiv[todoListIndex].appendChild(divStory);
     }
 }

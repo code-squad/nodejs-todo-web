@@ -61,9 +61,9 @@ class DragDropEvent {
         const element = this.getElement(event, className);
         if (className === 'story' || className === 'story_inner_text') {
             const midY = this.getMidY(element);
-            if (midY < event.pageY) element.after(object);
-            else element.before(object);
+            (midY < event.pageY) ? element.after(object) : element.before(object);
         } else if (className === 'todo_list_main') {
+            // 오늘 구현할 것..!
             const index = this.getIndex(element, event.pageY);
             element.item(index).before(object);
         } else if (className === 'story_delete') element.before(object);
