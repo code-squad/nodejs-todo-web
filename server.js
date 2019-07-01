@@ -8,29 +8,36 @@ const session = {};
 
 
 const server = http.createServer(async (request, response) => {
-    const cookie = parseCookie(request.headers.cookie);
-    if (cookie.session in session) {
-        if (request.url === '/') {
-            const mainHTML = await model.readStaticFile('./main.html');
-            response.statusCode = 200;
-            response.end(mainHTML);
-        }
-        if (request.url === '/main.css') {
-            const mainCSS = await model.readStaticFile('./main.css');
-            response.writeHead(200, {'Content-Type': 'text/css'});
-            response.end(mainCSS);
-        }
-        if (request.url === '/main.js') {
-            const mainJS = await model.readStaticFile('./main.js');
-            response.writeHead(200, {'Content-Type': 'text/javascript'});
-            response.end(mainJS);
-        }
-        if (request.url === '/init') {
+    if(request.headers.cookie) {
+        const cookie = parseCookie(request.headers.cookie);
+        if (cookie.session in session) {
             const sid = cookie.session;
             const user = session[sid];
-            const items = JSON.parse(await model.readStaticFile('./items.json'))[user];
-            response.writeHead(200, {'Content-Type': 'application/json'});
-            response.end(JSON.stringify(items));
+            if (request.url === '/') {
+                const mainHTML = await model.readStaticFile('./main.html');
+                response.statusCode = 200;
+                response.end(mainHTML);
+            }
+            if (request.url === '/main.css') {
+                const mainCSS = await model.readStaticFile('./main.css');
+                response.writeHead(200, {'Content-Type': 'text/css'});
+                response.end(mainCSS);
+            }
+            if (request.url === '/main.js') {
+                const mainJS = await model.readStaticFile('./main.js');
+                response.writeHead(200, {'Content-Type': 'text/javascript'});
+                response.end(mainJS);
+            }
+            if (request.url === '/init') {
+                const items = JSON.parse(await model.readStaticFile('./items.json'))[user];
+                response.writeHead(200, {'Content-Type': 'application/json'});
+                response.end(JSON.stringify(items));
+            }
+            if (request.url === '/logout') {
+                delete session[sid];
+                response.writeHead(200, {'Set-Cookie': [`session = ''; Max-Age = 0`]});
+                response.end();
+            }
         }
     }
 

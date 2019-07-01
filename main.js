@@ -54,8 +54,20 @@ for (openAddFormLink of openAddFormLinks) {
 
 const logoutButton = document.getElementById('logout-button');
 logoutButton.addEventListener('click', ()=> {
-    loginController.logout();
-    window.location.href = './login.html';
+    console.log("Tt");
+    const xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = () => {
+        if(xhr.readyState === xhr.DONE) {
+            if(xhr.status === 200) {
+                alert("로그아웃하였습니다.");
+                window.location.href = '/';
+            } else {
+                console.error(xhr.responseText);
+            }
+        }
+    }
+    xhr.open('POST', '/logout');
+    xhr.send();
 });
 
 function generateRandomId() {
