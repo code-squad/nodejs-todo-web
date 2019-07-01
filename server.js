@@ -3,6 +3,7 @@ const model = require('./model');
 const signupController = require('./signup-controller');
 const loginController = require('./login-controller');
 const addController = require('./add-controller');
+const deleteController = require('./delete-controller');
 const { parseCookie, generateRandomInt } = require('./util');
 const port = 8080;
 const session = {};
@@ -54,6 +55,21 @@ const server = http.createServer(async (request, response) => {
                         response.statusCode = 400;
                         response.end();
                     }
+                });
+            }
+
+            if (request.url === '/delete') {       
+                let body = [];
+                request.on('data', (chunk) => {
+                    body.push(chunk);
+                }).on('end', async () => {
+                    const id = Buffer.concat(body).toString();
+                    if(deleteController.delete(user, id)) {
+                        response.statusCode = 200;
+                        response.end();
+                    }
+                    response.statusCode = 400;
+                    response.end();
                 });
             }
         }

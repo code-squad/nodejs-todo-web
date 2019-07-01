@@ -44,10 +44,6 @@ logoutButton.addEventListener('click', ()=> {
     xhr.send();
 });
 
-function generateRandomId() {
-    return Date.now();
-}
-
 function addItem(listArea, name, id) {
     const item = document.createElement('div');
     item.setAttribute('class', 'item');
@@ -144,8 +140,19 @@ function updateStatus(item, status) {
 
 function addDeleteEvent(item) {
     item.addEventListener('dblclick', (event) => {
-        event.target.parentNode.removeChild(event.target);
-        deleteController.delete(user, item);
+        const id = event.target.id;
+        const xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = () => {
+            if(xhr.readyState === xhr.DONE) {
+                if(xhr.status === 200) {
+                    event.target.parentNode.removeChild(event.target);
+                } else {
+                    console.error(xhr.responseText);
+                }
+            }
+        }
+        xhr.open('POST', '/delete');
+        xhr.send(`${id}`);
     });
 }
 
