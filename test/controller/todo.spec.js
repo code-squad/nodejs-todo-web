@@ -1,6 +1,7 @@
 const todoController = require('../../controller/todo');
 const should = require('should');
 const httpMocks = require('node-mocks-http');
+const cryptoUtil = require('../../utils/crypto-util');
 
 describe('todoController Test', () => {
   let response;
@@ -38,7 +39,8 @@ describe('todoController Test', () => {
     })
 
     it('session애 userID 프로퍼티가 존재할 경우, status200, content-Type text/html로 응답', async () => {
-      request.session = {'userID' : 'uniqueID'};
+      const id = await cryptoUtil.getCryptoHash('uniqueID');
+      request.session = {'userID' : id};
       await todoController.getPage()(request, response, next);
 
       const statusCode = await response.statusCode;
@@ -49,4 +51,22 @@ describe('todoController Test', () => {
 
     })
   })
+
+  describe('addTodo()', () => {
+    it('요청 객체로 데이터 추가를 요청했을 때, text/plain 형태의 숫자로 string 반환', async () => {
+      request.body = {'data' : 'mockData', 'type' : "todo"};
+      request.session = {'userID' : 'uniqueID'};
+
+      await todoController.addTodo()(request, response, next);
+
+      const statusCode = await response.statusCode;
+      const contentType = await response.getHeader('Content-Type');
+      const ajaxAnswer = await response._getData();
+
+      should(contentType).equal('text/plain');
+      should(statusCode).equal(200);
+      should(typeof (ajaxAnswer*1)).equal('number');
+    })
+  })
+
 })
