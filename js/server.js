@@ -40,6 +40,10 @@ const server = http.createServer(async (req, res) => {
 				const addedTodo = todos.addTodo(addTodoData);
 				res.end(JSON.stringify(addedTodo));
 			});
+		} else if (url.startsWith('/todos') && method === 'DELETE') {
+			const todos_id = url.split('/')[2];
+			todos.deleteTodos(todos_id);
+			res.end();
 		} else if (url === '/todosList' && method === 'POST') {
 			req.on('data', user_id => {
 				const todosList = todos.getTodosList(user_id);
