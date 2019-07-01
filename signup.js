@@ -40,6 +40,6 @@ function signup() {
             }
         }
     }
-    xhr.open('POST', '/signup');
+    xhr.open('POST', '/members');
     xhr.send(JSON.stringify(info));
 }

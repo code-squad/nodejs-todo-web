@@ -40,7 +40,7 @@ logoutButton.addEventListener('click', ()=> {
             }
         }
     }
-    xhr.open('POST', '/logout');
+    xhr.open('DELETE', '/auth');
     xhr.send();
 });
 
@@ -100,7 +100,7 @@ function addItemByAddButton(event) {
                 }
             }
         }
-        xhr.open('POST', '/add');
+        xhr.open('POST', '/items');
         xhr.send(JSON.stringify(item));
     }
     textArea.focus();
@@ -151,7 +151,7 @@ function addDeleteEvent(item) {
                 }
             }
         }
-        xhr.open('POST', '/delete');
+        xhr.open('DELETE', '/items');
         xhr.send(`${id}`);
     });
 }
@@ -179,6 +179,6 @@ function setItems() {
             }
         }
     }
-    xhr.open('GET', '/init');
+    xhr.open('GET', '/items');
     xhr.send();
 }

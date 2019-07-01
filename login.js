@@ -42,6 +42,6 @@ function login() {
             }
         }
     }
-    xhr.open('POST', '/login');
+    xhr.open('POST', '/auth');
     xhr.send(JSON.stringify(info));
 }
