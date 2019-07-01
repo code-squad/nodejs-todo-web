@@ -8,7 +8,6 @@ const model = {
                     console.error(error);
                     resolve(false);
                 }
-
                 resolve(data.toString());
             });
         });
