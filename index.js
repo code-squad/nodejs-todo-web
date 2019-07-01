@@ -145,8 +145,9 @@ class ManagerSection {
 }
 
 class Section {
-    constructor(name, dragging) {
+    constructor(name, index, dragging) {
         this.headerName = name;
+        this.index = index;
         this.dragging = dragging;
         this.main;
         this.section;
@@ -213,6 +214,8 @@ class Section {
             if (this.dragging.data.tagName !== "ARTICLE") return;
             event.preventDefault();
             this.cardBox.insertBefore(this.dragging.data, this.cardBox.firstChild);
+            
+            setItems();
         });
     }
 
@@ -259,9 +262,9 @@ class Section {
 
         return button;
     }
-    addCard(text) {
+    addCard(text, index) {
         if (text) {
-            const card = new Card(text, this.dragging);
+            const card = new Card(text, index, this.dragging);
             const newCard = card.setCard();
             this.cardBox.appendChild(newCard);
         } else {
@@ -269,11 +272,10 @@ class Section {
                 alert("내용을 입력해 주세요");
                 return;
             }
-            const card = new Card(text, this.dragging);
-            const newCard = card.setCard();
-            this.cardBox.appendChild(newCard);
+            data.userData[this.index].push(this.textarea.value);
             this.textarea.value = "";
             this.addingCardBox.classList.toggle("hide");
+            saveData();
         }
     }
 
@@ -304,8 +306,9 @@ class Section {
 }
 
 class Card {
-    constructor(text, dragging) {
+    constructor(text, index, dragging) {
         this.text = text;
+        this.index = index;
         this.dragging = dragging;
     }
     setCard() {
@@ -337,6 +340,29 @@ class Card {
     }
 
 }
+const data = {};
+const clearBody = () => {
+    const body = document.getElementById('body');
+    body.innerHTML = '<main></main>';
+}
+
+const saveData = () => {
+    const request = new XMLHttpRequest();
+    request.onload = () => {
+        const url = 'http://localhost:3000/index/saveData';
+        if (request.status === 200) {
+            if (request.responseURL === url) {
+                setItems();
+            }
+        }
+    
+    }
+    
+    request.open('POST', './index/saveData');
+    request.setRequestHeader('Content-type', 'application/json');
+    request.send(JSON.stringify(data));
+}
+
 
 
 const setItems = () => {
@@ -345,25 +371,29 @@ const setItems = () => {
         const url = 'http://localhost:3000/index/userData';
         if (request.status === 200) {
             if (request.responseURL === url) {
-                const userID = JSON.parse(request.responseText).id;
-                const userData = JSON.parse(request.responseText).data;
+                clearBody();
+                data.id = JSON.parse(request.responseText).id;
+                data.userData = JSON.parse(request.responseText).data;
                 const dragging = {};
-                const title = new Title(userID, dragging);
+                const title = new Title(data.id, dragging);
                 title.setTitle();
 
                 const managerSection = new ManagerSection(dragging);
                 managerSection.setManagerSection();
+                console.log(data.userData);
 
-                for (let key in userData) {
-                    const section = new Section(key, dragging);
+                for(let i = 0; i < data.userData.length; i++){
+                    const section = new Section(data.userData[i][0], i, dragging);
                     section.setSection();
-                    userData[key].forEach((item) => {
-                        section.addCard(item);
-                    })
+                    for(let j = 1; j < data.userData[i].length; j++){
+                        section.addCard(data.userData[i][j], j);
+                    }
+
                 }
                 return;
             }
         }
+    
     }
 
     request.open('GET', './index/userData');
@@ -371,3 +401,5 @@ const setItems = () => {
 }
 
 setItems();
+
+
