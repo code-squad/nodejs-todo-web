@@ -1,4 +1,5 @@
 const http = require('http');
+const path = require('path');
 const model = require('./model');
 const signupController = require('./signup-controller');
 const loginController = require('./login-controller');
@@ -6,12 +7,19 @@ const addController = require('./add-controller');
 const updateController = require('./update-controller');
 const deleteController = require('./delete-controller');
 const { parseCookie, generateRandomInt } = require('./util');
+const mimeType = require('./mime-type');
 const port = 8080;
 const session = {};
 
-
 const server = http.createServer(async (request, response) => {
     const method = request.method;
+    const ext = path.parse(request.url).ext;
+    if (Object.keys(mimeType).includes(ext)) {
+        const file = await model.readStaticFile(`.${request.url}`);
+        response.writeHead(200, {'Content-Type': `${mimeType[ext]}`});
+        response.end(file);
+    }
+
     if(request.headers.cookie) {
         const cookie = parseCookie(request.headers.cookie);
         if (cookie.session in session) {
@@ -23,19 +31,6 @@ const server = http.createServer(async (request, response) => {
                     response.statusCode = 200;
                     response.end(mainHTML);
                 }
-
-                if (request.url === '/main.css') {
-                    const mainCSS = await model.readStaticFile('./main.css');
-                    response.writeHead(200, {'Content-Type': 'text/css'});
-                    response.end(mainCSS);
-                }
-            
-                if (request.url === '/main.js') {
-                    const mainJS = await model.readStaticFile('./main.js');
-                    response.writeHead(200, {'Content-Type': 'text/javascript'});
-                    response.end(mainJS);
-                }
-
                 if (request.url === '/items') {
                     const items = JSON.parse(await model.readStaticFile('./items.json'))[user];
                     response.writeHead(200, {'Content-Type': 'application/json'});
@@ -107,24 +102,6 @@ const server = http.createServer(async (request, response) => {
             response.end(loginHTML);
         }
 
-        if (request.url === '/login.js') {
-            const loginJS = await model.readStaticFile('./login.js');
-            response.writeHead(200, {'Content-Type': 'text/javascript'});
-            response.end(loginJS);
-        }
-
-
-        if (request.url === '/signup.html') {
-            const signupHTML = await model.readStaticFile('./signup.html');
-            response.statusCode = 200;
-            response.end(signupHTML);
-        }
-
-        if (request.url === '/signup.js') {
-            const signupJS = await model.readStaticFile('./signup.js');
-            response.writeHead(200, {'Content-Type': 'text/javascript'});
-            response.end(signupJS);
-        }
     } else if (method === 'POST') {
         if (request.url === '/auth') {
             let body = [];
