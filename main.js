@@ -1,8 +1,6 @@
 const http = require('http');
-const url = require('url');
 const qs = require('querystring');
 const fs = require('fs');
-const path = require('path')
 const Login = require('./login');
 const Session = require('./session');
 
@@ -11,52 +9,55 @@ const session = new Session;
 
 const app = http.createServer( function(request,response){
     let _url = request.url;
-    let setPath = url.parse(_url, true).pathname
     let filePath = `.${_url}`;
-    let ext = path.extname(filePath); 
-    if(setPath === "/" || setPath === "/event.js" ||setPath === "/css/main.css"){
-        if(ext === '' ) {
-            filePath = 'index.html';
-            ext = '.html';
-        }
-        fs.createReadStream(filePath).pipe(response); 
+    let cookie = request.headers.cookie 
+    let sessionID = cookie.match('(^|;) ?sessionID=([^;]*)(;|$)')[2];
+    let goToMain = (_url === "/index.html" || _url === "/event.js" || _url === "/css/main.css"); 
+    if(!sessionID && _url === "/index.html"){
+        response.writeHead(302, {Location: `/login`});
+        response.end();
     }
-    
-    else if(setPath === "/login"){
+    else if(goToMain){
+        fs.createReadStream(filePath).pipe(response);         
+    } 
+    else if(_url === "/login"){
         response.writeHead(200);
         response.end(login.show("login"));
     }
-    else if(setPath === "/signUp"){
+    else if(_url === "/signUp"){
+        response.writeHead(200);
         response.end(login.show("signup"));
     }
-    else if(setPath === "/login_process"){
-        var body = '';
+    else if(_url === "/login_process" && request.method === "POST"){
+        let body = '';
         request.on('data', function(data){
             body = body + data;
+            console.log(body)
         });
         request.on('end', async function(){
             var post = qs.parse(body);
             let loginCheck = await login.checkLogin(post);
             let sessionData = await session.makeSession(post.email);
-            console.log(loginCheck)
             if(loginCheck ) {
             // if(loginCheck && request.headers.cookie ) {
+                // console.log(request.headers.cookie)
                 response.writeHead(302, {
                     'Set-Cookie':[
                     `sessionID=${sessionData.ID}`,
                     `HttpOnly=${sessionData.HttpOnly}`,
+                    `Max-Age= 1000 * 60 * 60`,
                     ],
-                    Location: `/`
+                    Location: `/index.html`
                 });
                 response.end();
             }else{
-                response.writeHead(200);
-                console.log("노노")
-                response.end(login.show("login"));
+                response.writeHead(302, {Location: `/login`});
+                response.end();
             }
         });
+        
     }
-    else if(setPath === "/signup_process"){
+    else if(_url === "/signup_process"){
         let body = '';
         request.on('data', function (data) {
             body += data;
@@ -65,11 +66,9 @@ const app = http.createServer( function(request,response){
             let post = qs.parse(body);
             let signUp = await login.signUp(post)
             if(signUp){
-                console.log("signup")
                 response.writeHead(302, {Location: `/login`}); 
                 response.end();
             }else{
-                console.log("login")
                 setTimeout(function() {
                     response.writeHead(302, {Location: `/signUp`}); 
                     response.end();
@@ -77,7 +76,16 @@ const app = http.createServer( function(request,response){
             }
         });
     }
-
+    else if(_url === "/logout"){
+        response.writeHead(302, {
+            'Set-Cookie':[
+                `sessionID = `,
+                `Max-Age = 0`
+            ],
+            Location: `/login`
+        });
+        response.end();
+    }
     
 })
 app.listen(3000);

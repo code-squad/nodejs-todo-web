@@ -52,3 +52,10 @@ const drag = (listWrap, list) => {
         event.target.parentNode.insertBefore(dragging, event.target.nextSibling);
     });
 }
+
+
+// const form = document.querySelector('form');
+// console.log(form);
+// form.delete("email");
+// form.delete("pwd");
+//form.reset();
