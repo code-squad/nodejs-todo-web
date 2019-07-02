@@ -42,6 +42,16 @@ const getTodos = todosData => {
 	return todos;
 };
 
+const deleteDragElement = dragData => {
+	const { user_id, todos_id } = dragData;
+	const todosList = getTodosList(user_id);
+	const deletedDragElement = todosList.filter(todos => {
+		return todos.todos_id !== Number(todos_id);
+	});
+
+	todosDB.set(`${user_id}`, deletedDragElement).write();
+};
+
 const makeTodosId = () => {
 	const min = 1000;
 	const max = 9999;
@@ -49,4 +59,4 @@ const makeTodosId = () => {
 	return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
-module.exports = { getTodosList, addTodo, deleteTodos, createUserArea };
+module.exports = { getTodosList, addTodo, deleteTodos, createUserArea, deleteDragElement };
