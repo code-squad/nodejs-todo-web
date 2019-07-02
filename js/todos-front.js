@@ -54,8 +54,8 @@ TodosFront.prototype.load = function() {
 };
 
 TodosFront.prototype.getTodosList = async function() {
-	const response = await fetch(`/todos/${this.userId}`, { method: 'GET' });
 	try {
+		const response = await fetch(`/todos/${this.userId}`, { method: 'GET' });
 		if (response.ok) {
 			const todosList = await response.text();
 			if (todosList) {
@@ -102,7 +102,7 @@ TodosFront.prototype.makeSignUpButton = function() {
 	signUpButton.setAttribute('class', 'btn btn-outline-success');
 	signUpButton.innerHTML = '회원가입';
 	signUpButton.addEventListener('click', event => {
-		location.href = '/signUp';
+		location.href = '/users';
 	});
 
 	return signUpButton;
@@ -121,11 +121,25 @@ TodosFront.prototype.makeLogoutButton = function() {
 	logoutButton.setAttribute('class', 'btn btn-outline-secondary');
 	logoutButton.innerHTML = '로그아웃';
 	logoutButton.addEventListener('click', event => {
-		this.userId = null;
-		location.href = '/logout';
+		this.logout();
 	});
 
 	return logoutButton;
+};
+
+TodosFront.prototype.logout = async function() {
+	try {
+		const response = await fetch('/users', { method: 'DELETE' });
+		if (response.ok) {
+			this.userId = null;
+			location.href = '/';
+		} else {
+			location.href = '/error-404';
+		}
+	} catch (error) {
+		console.log('error.....', error);
+		location.href = '/error-500';
+	}
 };
 
 TodosFront.prototype.getLoggedInUserId = function() {
@@ -197,8 +211,8 @@ TodosFront.prototype.addTodo = async function() {
 	}
 	const todos_status = 'todo';
 	const addTodoData = { user_id: this.userId, todos_status, todos_contents: addTodo };
-	const response = await fetch('/todo', { method: 'POST', body: JSON.stringify(addTodoData) });
 	try {
+		const response = await fetch('/todo', { method: 'POST', body: JSON.stringify(addTodoData) });
 		if (response.ok) {
 			let addedTodo = await response.text();
 			if (addedTodo) {
@@ -235,8 +249,8 @@ TodosFront.prototype.deleteElement = async function() {
 	event.stopPropagation();
 
 	const todos_id = this.dragData.id;
-	const response = await fetch(`/todos/${this.userId}/${todos_id}`, { method: 'DELETE' });
 	try {
+		const response = await fetch(`/todos/${this.userId}/${todos_id}`, { method: 'DELETE' });
 		if (response.ok) {
 			this.dragData.remove();
 			this.dragData = null;
