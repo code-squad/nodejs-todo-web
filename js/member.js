@@ -28,7 +28,7 @@ const signUp = signUpData => {
 	memberDB.createUserInfo({ user_id, user_password });
 	const user_sid = memberDB.setUserSid(user_id);
 
-	return user_sid;
+	return { user_sid, user_id };
 };
 
 const getUserId = requestCookie => {

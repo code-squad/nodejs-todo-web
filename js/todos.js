@@ -14,4 +14,8 @@ const deleteTodos = deleteTodoData => {
 	todosDB.deleteTodos(deleteTodoData);
 };
 
-module.exports = { getTodosList, addTodo, deleteTodos };
+const createUserArea = user_id => {
+	todosDB.createUserArea(user_id);
+};
+
+module.exports = { getTodosList, addTodo, deleteTodos, createUserArea };
