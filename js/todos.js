@@ -10,8 +10,8 @@ const addTodo = addTodoData => {
 	return addedTodo;
 };
 
-const deleteTodos = todos_id => {
-	todosDB.deleteTodos(todos_id);
+const deleteTodos = deleteTodoData => {
+	todosDB.deleteTodos(deleteTodoData);
 };
 
 module.exports = { getTodosList, addTodo, deleteTodos };

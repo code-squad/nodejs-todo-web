@@ -3,14 +3,10 @@ const FileSync = require('lowdb/adapters/FileSync');
 const adapter = new FileSync(`${__dirname}/../data/todos.json`);
 const todosDB = low(adapter);
 
-todosDB.defaults({ todos: [] }).write();
+todosDB.defaults({}).write();
 
 const getTodosList = user_id => {
-	const todosList = todosDB
-		.get('todos')
-		.filter({ user_id })
-		.value();
-
+	const todosList = todosDB.get(user_id).value();
 	return todosList;
 };
 
@@ -18,24 +14,26 @@ const addTodo = addTodoData => {
 	addTodoData['todos_id'] = makeTodosId();
 	const { user_id, todos_id, todos_status, todos_contents } = addTodoData;
 	todosDB
-		.get('todos')
-		.push({ user_id, todos_id, todos_status, todos_contents })
+		.get(user_id)
+		.push({ todos_id, todos_status, todos_contents })
 		.write();
 
-	const addedTodo = getTodos(todos_id);
+	const addedTodo = getTodos({ user_id, todos_id });
 	return addedTodo;
 };
 
-const deleteTodos = todos_id => {
+const deleteTodos = deleteTodoData => {
+	const { user_id, todos_id } = deleteTodoData;
 	todosDB
-		.get('todos')
+		.get(user_id)
 		.remove({ todos_id: Number(todos_id) })
 		.write();
 };
 
-const getTodos = todos_id => {
+const getTodos = todosData => {
+	const { user_id, todos_id } = todosData;
 	const todos = todosDB
-		.get('todos')
+		.get(user_id)
 		.filter({ todos_id })
 		.value();
 

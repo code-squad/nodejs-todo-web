@@ -235,7 +235,7 @@ TodosFront.prototype.deleteElement = async function() {
 	event.stopPropagation();
 
 	const todos_id = this.dragData.id;
-	const response = await fetch(`/todos/${todos_id}`, { method: 'DELETE' });
+	const response = await fetch(`/todos/${this.userId}/${todos_id}`, { method: 'DELETE' });
 	try {
 		if (response.ok) {
 			this.dragData.remove();
