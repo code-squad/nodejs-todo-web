@@ -27,4 +27,32 @@ describe('loginController Test', () => {
     })
   })
 
+  describe('loginRequest()', () => {
+    it('올바르지 않은 유저 정보를 가질 경우 302 "/"로 리다이렉트', async () => {
+      request.body = {'id' : 'invlaidID', 'password' : 'thisispass'};
+      await loginController.loginRequest()(request, response, next);
+
+      const statusCode = await response.statusCode;
+      const redirectUrl = await response._getHeaders().location;
+
+      should(statusCode).equal(302);
+      should(redirectUrl).equal('/');
+    })
+
+    it('올바른 유저 정보일 경우 todos로 리다이렉트', async () => {
+      request.body = {'id' : 'korea', 'password' : '1234'};
+      await loginController.loginRequest()(request, response, next);
+
+      const statusCode = await response.statusCode;
+      const redirectUrl = await response._getHeaders().location;
+      const cookieStr = await response.getHeader('Set-Cookie');
+      const maxAgeStr = cookieStr[0].split('; ')[1];
+
+      should(statusCode).equal(302);
+      should(redirectUrl).equal('/todos');
+      should(maxAgeStr).equal('Max-age=604800');
+    })
+
+  })
+
 })
