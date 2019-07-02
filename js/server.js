@@ -17,37 +17,46 @@ const server = http.createServer(async (req, res) => {
 	}
 
 	try {
-		if (url === '/' && method === 'GET') {
+		if (url === '/') {
 			const { file, mimeType } = await fs.readFile(`${publicPath}/index.html`, ext);
 			res.writeHead(200, { 'Content-Type': mimeType });
 			res.end(file);
-		} else if (url === '/auth' && method === 'GET') {
-			const { file, mimeType } = await fs.readFile(`${publicPath}/login.html`, ext);
-			res.writeHead(200, { 'Content-Type': mimeType });
-			res.end(file);
-		} else if (url === '/auth' && method === 'POST') {
-			req.on('data', loginData => {
-				const user_sid = member.login(loginData);
-				if (!user_sid) {
-					res.end('false');
-				} else {
-					res.writeHead(200, { 'Set-Cookie': [`sid=${user_sid}; Max-Age=${60 * 60 * 24}; HttpOnly;`] });
-					res.end('true');
-				}
-			});
-		} else if (url === '/todo' && method === 'POST') {
-			req.on('data', addTodoData => {
-				const addedTodo = todos.addTodo(addTodoData);
-				res.end(JSON.stringify(addedTodo));
-			});
-		} else if (url.startsWith('/todos') && method === 'DELETE') {
-			const todos_id = url.split('/')[2];
-			todos.deleteTodos(todos_id);
-			res.end();
-		} else if (url.startsWith('/todos') && method === 'GET') {
-			const user_id = url.split('/')[2];
-			const todosList = todos.getTodosList(user_id);
-			res.end(JSON.stringify(todosList));
+		} else if (url === '/auth') {
+			if (method === 'GET') {
+				const { file, mimeType } = await fs.readFile(`${publicPath}/login.html`, ext);
+				res.writeHead(200, { 'Content-Type': mimeType });
+				res.end(file);
+			} else if (method === 'POST') {
+				req.on('data', loginData => {
+					const user_sid = member.login(loginData);
+					if (!user_sid) {
+						res.end('false');
+					} else {
+						res.writeHead(200, { 'Set-Cookie': [`sid=${user_sid}; Max-Age=${60 * 60 * 24}; HttpOnly;`] });
+						res.end('true');
+					}
+				});
+			}
+		} else if (url === '/users') {
+			if (method === 'GET') {
+				const { file, mimeType } = await fs.readFile(`${publicPath}/sign-up.html`, ext);
+				res.writeHead(200, { 'Content-Type': mimeType });
+				res.end(file);
+			} else if (method === 'POST') {
+				req.on('data', signUpData => {
+					const { user_sid, user_id } = member.signUp(signUpData);
+					todos.createUserArea(user_id);
+					if (!user_sid) {
+						res.end('false');
+					}
+					res.writeHead(302, { 'Set-Cookie': [`sid=${user_sid}; Max-Age=${60 * 60 * 24}; HttpOnly;`], Location: '/' });
+					res.end();
+				});
+			} else if (method === 'DELETE') {
+				member.logout(req.headers.cookie);
+				res.writeHead(302, { 'Set-Cookie': [`sid=; Max-Age=0; HttpOnly;`], Location: '/' });
+				res.end();
+			}
 		} else if (url === '/permission' && method === 'GET') {
 			if (!req.headers.cookie) {
 				res.end('false');
@@ -58,23 +67,23 @@ const server = http.createServer(async (req, res) => {
 				}
 				res.end(userId);
 			}
-		} else if (url === '/logout' && method === 'GET') {
-			member.logout(req.headers.cookie);
-			res.writeHead(302, { 'Set-Cookie': [`sid=; Max-Age=0; HttpOnly;`], Location: '/' });
-			res.end();
-		} else if (url === '/users' && method === 'GET') {
-			const { file, mimeType } = await fs.readFile(`${publicPath}/sign-up.html`, ext);
-			res.writeHead(200, { 'Content-Type': mimeType });
-			res.end(file);
-		} else if (url === '/users' && method === 'POST') {
-			req.on('data', signUpData => {
-				const user_sid = member.signUp(signUpData);
-				if (!user_sid) {
-					res.end('false');
-				}
-				res.writeHead(302, { 'Set-Cookie': [`sid=${user_sid}; Max-Age=${60 * 60 * 24}; HttpOnly;`], Location: '/' });
-				res.end();
+		} else if (url === '/todo' && method === 'POST') {
+			req.on('data', addTodoData => {
+				const addedTodo = todos.addTodo(addTodoData);
+				res.end(JSON.stringify(addedTodo));
 			});
+		} else if (url.startsWith('/todos')) {
+			if (method === 'GET') {
+				const user_id = url.split('/')[2];
+				const todosList = todos.getTodosList(user_id);
+				res.end(JSON.stringify(todosList));
+			} else if (method === 'DELETE') {
+				const user_id = url.split('/')[2];
+				const todos_id = url.split('/')[3];
+				const deleteTodos = { user_id, todos_id };
+				todos.deleteTodos(deleteTodos);
+				res.end();
+			}
 		} else if (url === '/error-500' && method === 'GET') {
 			const { file, mimeType } = await fs.readFile(`${publicPath}/error-500.html`, ext);
 			res.writeHead(200, { 'Content-Type': mimeType });
