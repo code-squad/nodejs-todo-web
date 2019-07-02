@@ -3,7 +3,9 @@ const FileSync = require('lowdb/adapters/FileSync');
 const adapter = new FileSync(`${__dirname}/../data/todos.json`);
 const todosDB = low(adapter);
 
-todosDB.defaults({}).write();
+const createUserArea = user_id => {
+	todosDB.defaults({ [user_id]: [] }).write();
+};
 
 const getTodosList = user_id => {
 	const todosList = todosDB.get(user_id).value();
@@ -47,4 +49,4 @@ const makeTodosId = () => {
 	return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
-module.exports = { getTodosList, addTodo, deleteTodos };
+module.exports = { getTodosList, addTodo, deleteTodos, createUserArea };
