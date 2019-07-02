@@ -58,10 +58,10 @@ const createNewTaskElement = function (newTask, id, status) {
 
 const fetchData = function (url, data) {
     const options = {
-        method : 'POST',
-        body   : data,
-        redirect : 'follow',
-        headers: new Headers({
+        method  : 'POST',
+        body    : data,
+        redirect: 'follow',
+        headers : new Headers({
             'Content-Type': 'application/json'
         })
     };
@@ -139,10 +139,10 @@ const deleteTask = async function () {
 
 };
 
-const updateItemStatus = async function (listItem, updated_status,) {
+const updateItemStatus = async function (listItem, updated_status, targetItemId) {
     changeListItemStatus(listItem, updated_status);
     const item_id = getListItemID(listItem);
-    const response = await fetchData('/api/updateStatus', `item_id=${item_id}&updated_status=${updated_status}`);
+    const response = await fetchData('/api/updateStatus', `item_id=${item_id}&updated_status=${updated_status}&targetItemId=${targetItemId}`);
     const updatedStatusItem = await response.json();
     console.log(updatedStatusItem);
 };
@@ -231,7 +231,7 @@ const addEnterKeyEvent = function (taskInput, eventHandler) {
 const getItemsFromDB = async function () {
     const response = await fetchData('/api/list_items_by_status');
     const Items = await response.json();
-    const {todoStatusItem,doingStatusItem,doneStatusItem} = Items;
+    const {todoStatusItem, doingStatusItem, doneStatusItem} = Items;
 
     listItems(todoStatusItem, incompleteTaskHolder, taskInProgress);
     listItems(doingStatusItem, inProgressTaskHolder, taskCompleted);
@@ -255,7 +255,6 @@ const addDragEvent = function (listItem) {
 
     listItem.addEventListener('dragstart', function (event) {
         draggingTarget = getDragTarget(event.target);
-        // event.dataTransfer.setData('text/plain', null);
         event.dataTransfer.setDragImage(draggingTarget, 0, 0);
     });
 
@@ -268,9 +267,6 @@ const addDragEvent = function (listItem) {
         if (event.clientY - offset > 0) {
             target.style['border-bottom'] = 'solid 4px black';
             target.style['border-top'] = '';
-        } else {
-            target.style['border-top'] = 'solid 4px black';
-            target.style['border-bottom'] = '';
         }
     });
 
@@ -297,16 +293,9 @@ const addDragEvent = function (listItem) {
             target.style['border-bottom'] = '';
             target.parentNode.insertBefore(draggingTarget, event.target.nextSibling);
 
-            const updated_status = event.target.nextElementSibling.querySelector('label').className;
-            updateItemStatus(draggingTarget, updated_status);
-            const checkbox = draggingTarget.querySelector('input[type=checkbox]');
-            updated_status === 'done' ? checkbox.checked = true : checkbox.checked = false;
-
-        } else {
-            target.style['border-top'] = '';
-            target.parentNode.insertBefore(draggingTarget, event.target);
-            const updated_status = event.target.querySelector('label').className;
-            updateItemStatus(draggingTarget, updated_status);
+            const targetItemId = event.target.querySelector('label').id;
+            const updated_status = event.target.parentNode.querySelector('label').className;
+            updateItemStatus(draggingTarget, updated_status, targetItemId);
             const checkbox = draggingTarget.querySelector('input[type=checkbox]');
             updated_status === 'done' ? checkbox.checked = true : checkbox.checked = false;
         }
@@ -323,7 +312,7 @@ const addDragEvent = function (listItem) {
 };
 
 const init = async function () {
-    await getItemsFromDB();
+    getItemsFromDB();
     bindDragEventOnList();
 };
 

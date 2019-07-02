@@ -18,17 +18,17 @@ const list_items = () => async (req, res, next) => {
 
 const getTodoStatusItemFromDB = (user_idx) => {
     return new Promise((resolve) => {
-        const user_todo_items = db.get(`users[${user_idx}].todos`).value();
-        const todoStatusItem= user_todo_items.filter(v=>{
+        const user_items = db.get(`users[${user_idx}].todos`).value();
+        const todoStatusItem = user_items.filter(v => {
             return v.status === 'todo';
         });
-        const doingStatusItem= user_todo_items.filter(v=>{
+        const doingStatusItem = user_items.filter(v => {
             return v.status === 'doing';
         });
-        const doneStatusItem= user_todo_items.filter(v=>{
+        const doneStatusItem = user_items.filter(v => {
             return v.status === 'done';
         });
-        resolve({todoStatusItem,doingStatusItem,doneStatusItem})
+        resolve({todoStatusItem, doingStatusItem, doneStatusItem})
     });
 
 };

@@ -7,7 +7,7 @@ const addTodoList = () => async (req, res, next) => {
         const {title, status} = req.body;
         const user_name = db.get('session').find({'sessionId': parseInt(cookies.session)}).value().name;
         const user_idx = getIdxOfUser(user_name);
-        const newTask = await addItemToDB(user_idx,title,status);
+        const newTask = await addItemToDB(user_idx, title, status);
 
         res.statusCode = 200;
         res.setHeader('Content-Type', 'text/plain');
@@ -17,7 +17,7 @@ const addTodoList = () => async (req, res, next) => {
 };
 
 
-const addItemToDB = (user_idx,title,status) =>{
+const addItemToDB = (user_idx, title, status) => {
     return new Promise((async resolve => {
         const newID = Math.floor(Math.random() * 10000) + 1;
         const newTask = {
