@@ -12,6 +12,7 @@ class Session {
         this.sessionData["ID"] = id;
         this.sessionData[id] = data;
         this.sessionData["HttpOnly"] = "HttpOnly";
+        this.sessionData["Max-Age"] = id;
         return this.sessionData;
     }
 

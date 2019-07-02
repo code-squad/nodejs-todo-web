@@ -13,10 +13,6 @@ class Login {
       let login = show.loginTemplate()
       return show.HTML(login)
     }
-    // if(view === "main"){
-    //   let main = show.mainTemplate()
-    //   return show.HTML(main)
-    // }
   }
 
   async signUp(inputDataObj){
