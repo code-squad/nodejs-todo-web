@@ -129,13 +129,24 @@ function addDragEvent(item) {
         event.target.style['border-bottom'] = '';
         const listArea = event.target.parentNode;
         const status = listArea.parentNode.id;
-        listArea.insertBefore(draggingTarget, event.target.nextElementSibling);
-        updateStatus(draggingTarget, status);
+        let siblingID = null;
+        if(!(event.target.nextElementSibling === null)) {
+            siblingID = event.target.nextElementSibling.id;
+        }
+        const targetID = draggingTarget.id;
+        const xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = () => {
+            if(xhr.readyState === xhr.DONE) {
+                if(xhr.status === 200) {
+                    listArea.insertBefore(draggingTarget, event.target.nextElementSibling);
+                } else {
+                    console.error(xhr.responseText);
+                }
+            }
+        }
+        xhr.open('PATCH', '/items');
+        xhr.send(JSON.stringify({ "targetID":targetID, "siblingID":siblingID, "status":status }));
     });
-}
-
-function updateStatus(item, status) {
-    updateController.update(user, item, status);
 }
 
 function addDeleteEvent(item) {

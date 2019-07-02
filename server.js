@@ -3,6 +3,7 @@ const model = require('./model');
 const signupController = require('./signup-controller');
 const loginController = require('./login-controller');
 const addController = require('./add-controller');
+const updateController = require('./update-controller');
 const deleteController = require('./delete-controller');
 const { parseCookie, generateRandomInt } = require('./util');
 const port = 8080;
@@ -52,6 +53,23 @@ const server = http.createServer(async (request, response) => {
                         if(id) {
                             response.statusCode = 200;
                             response.end(`${id}`);
+                        } else {
+                            response.statusCode = 400;
+                            response.end();
+                        }
+                    });
+                }
+            } else if (method === 'PATCH') {
+                if (request.url === '/items') {       
+                    let body = [];
+                    request.on('data', (chunk) => {
+                        body.push(chunk);
+                    }).on('end', async () => {
+                        body = Buffer.concat(body).toString();
+                        const { targetID, siblingID, status } = JSON.parse(body);
+                        if (await updateController.update({ user, targetID, siblingID, status })) {
+                            response.statusCode = 200;
+                            response.end();
                         } else {
                             response.statusCode = 400;
                             response.end();
