@@ -84,6 +84,14 @@ const server = http.createServer(async (req, res) => {
 				todos.deleteTodos(deleteTodos);
 				res.end();
 			}
+		} else if (url.startsWith('/events')) {
+			if (method === 'DELETE') {
+				const user_id = url.split('/')[2];
+				const todos_id = url.split('/')[3];
+				const dragData = { user_id, todos_id };
+				todos.deleteDragElement(dragData);
+				res.end();
+			}
 		} else if (url === '/error-500' && method === 'GET') {
 			const { file, mimeType } = await fs.readFile(`${publicPath}/error-500.html`, ext);
 			res.writeHead(200, { 'Content-Type': mimeType });
