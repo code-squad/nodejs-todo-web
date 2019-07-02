@@ -186,8 +186,18 @@ TodosFront.prototype.isValidLoggedIn = async function(event) {
 	}
 };
 
-TodosFront.prototype.drag = function(event) {
-	this.dragData = event.target;
+TodosFront.prototype.drag = async function(event) {
+	try {
+		const response = await fetch(`/events/${this.userId}/${event.target.id}`, { method: 'DELETE' });
+		if (response.ok) {
+			this.dragData = event.target;
+		} else {
+			location.href = '/error-404';
+		}
+	} catch (error) {
+		console.log('error.....', error);
+		location.href = '/error-500';
+	}
 };
 
 TodosFront.prototype.drop = function(event) {
