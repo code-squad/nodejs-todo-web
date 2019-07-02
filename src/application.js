@@ -42,12 +42,6 @@ const Application = class {
     this.use(path, func);
   }
 
-  put(path, func) {
-    if (!path || !func) throw Error('path and fn is required');
-    func.method = 'put';
-    this.use(path, func);
-  }
-
   patch(path, func) {
     if (!path || !func) throw Error('path and fn is required');
     func.method = 'patch';
