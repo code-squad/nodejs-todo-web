@@ -2,6 +2,9 @@ const http = require('http');
 const server = http.createServer();
 const fs = require('fs');
 const qs = require('querystring');
+const User = require('./user');
+
+const user = new User();
 
 server.on('request', (request, response) => {
   const { method, url } = request;
@@ -11,7 +14,6 @@ server.on('request', (request, response) => {
 
   if (method === "GET" && url === "/") {
     response.statusCode = 200;
-    //response.setHeader('Content-Type', 'application/json');
     data = fs.readFileSync(__dirname + '/public/index.html')
     response.write(data);
     response.end();
@@ -19,7 +21,11 @@ server.on('request', (request, response) => {
   }
   
   if (method === "GET" && url === "/signIn") {
-
+    response.statusCode = 200;
+    data = fs.readFileSync(__dirname + '/public/signIn.html')
+    response.write(data);
+    response.end();
+    return;
   }
 
   if (method === "POST" && url === "/session") {
@@ -33,7 +39,8 @@ server.on('request', (request, response) => {
     }).on('end', () => {
       body = Buffer.concat(body).toString();
       console.log(body);
-      let { username, password } = qs.parse(body);
+      let query = qs.parse(body);
+      user.exec[method](query);
     });
     
   }
