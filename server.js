@@ -20,7 +20,7 @@ const server = http.createServer((req, res) => {
     const ext = path.parse(req.url).ext; // 확장자 정보
     const publicPath = path.join(__dirname, '/public'); // public 경로
 
-    if(Object.keys(fileType).includes(ext)) {
+    if(Object.keys(fileType).includes(ext)) { // 정적파일 처리
         fs.readFile(`${publicPath}${req.url}`, (err, data) => {
             if(err) {
                 res.statusCode = 404;
@@ -35,29 +35,36 @@ const server = http.createServer((req, res) => {
         res.statusCode = 200;
         res.setHeader('Content-Type', 'text/html');
 
-        const filePath = path.join(__dirname, 'public/index.html');
+        const filePath = path.join(__dirname, 'public/login.html');
         fs.readFile(filePath, (err, data) => {
             if (err) throw err;
             res.end(data);
         });
     }
+    // 로그인 회원가입 일 때 - 쿠키가 없음..
+    if (req.method == 'GET') {
 
-    if (req.method == 'POST') {
-        if (req.url === '/cards') {
-            req.on('data', (data) => {
-                console.log(typeof data, data.toString());
-                //model.loadData();
-                model.appendCard(data);
-                
-            });
-        }
+    } else if (req.method == 'POST') {
+
+    } else if (req.method == 'PUT') {
+
+    } else if (req.method == 'DELETE') {
+
     }
+
+    // 로그인 후 todo 페이지 - 쿠키가 발급됨..
+    
 });
 
 server.listen(8081, () => {
     console.log('8081포트에서 대기중');
 });
 
-// 1) 로그인 
-// 2) 회원가입
-// 3) 
+        // if (req.url === '/cards') {
+        //     req.on('data', (data) => {
+        //         console.log(typeof data, data.toString());
+        //         //model.loadData();
+        //         model.appendCard(data);
+                
+        //     });
+        // }
