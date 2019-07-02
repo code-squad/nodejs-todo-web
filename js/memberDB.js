@@ -3,8 +3,6 @@ const FileSync = require('lowdb/adapters/FileSync');
 const adapter = new FileSync(`${__dirname}/../data/member.json`);
 const memberDB = low(adapter);
 
-memberDB.defaults({ members: [] }).write();
-
 const getUserInfo = loginData => {
 	const { user_id, user_password } = JSON.parse(loginData);
 	const memberInfo = memberDB
@@ -37,6 +35,7 @@ const createUserInfo = signUpData => {
 	const { user_id, user_password, user_sid } = signUpData;
 
 	memberDB
+		.defaults({ members: [] })
 		.get('members')
 		.push({ user_id, user_password, user_sid })
 		.write();
