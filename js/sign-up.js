@@ -20,7 +20,7 @@ const isValidSignUpData = () => {
 
 const submitSignUpData = async signUpData => {
 	try {
-		const response = await fetch('/signUp', { method: 'POST', body: JSON.stringify(signUpData) });
+		const response = await fetch('/users', { method: 'POST', body: JSON.stringify(signUpData) });
 		if (response.ok) {
 			const successSignUp = await response.text();
 			if (successSignUp === 'false') {

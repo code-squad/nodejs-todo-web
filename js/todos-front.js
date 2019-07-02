@@ -54,7 +54,7 @@ TodosFront.prototype.load = function() {
 };
 
 TodosFront.prototype.getTodosList = async function() {
-	const response = await fetch('/todosList', { method: 'POST', body: JSON.stringify(this.userId) });
+	const response = await fetch(`/todos/${this.userId}`, { method: 'GET' });
 	try {
 		if (response.ok) {
 			const todosList = await response.text();
@@ -89,7 +89,7 @@ TodosFront.prototype.makeLoginButton = function() {
 	loginButton.setAttribute('class', 'btn btn-outline-danger');
 	loginButton.innerHTML = '로그인';
 	loginButton.addEventListener('click', event => {
-		location.href = '/login';
+		location.href = '/auth';
 	});
 
 	return loginButton;
@@ -155,7 +155,7 @@ TodosFront.prototype.warning = async function() {
 
 TodosFront.prototype.isValidLoggedIn = async function(event) {
 	try {
-		const response = await fetch('/user');
+		const response = await fetch('/permission');
 		if (response.ok) {
 			const userId = await response.text();
 			if (userId === 'false') {

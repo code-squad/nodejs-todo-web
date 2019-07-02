@@ -7,7 +7,7 @@ const load = () => {
 			login();
 		});
 		signUpButton.addEventListener('click', () => {
-			location.href = '/signUp';
+			location.href = '/users';
 		});
 	});
 };
@@ -18,7 +18,7 @@ const login = async () => {
 	const loginData = { user_id, user_password };
 
 	try {
-		const response = await fetch('/login', { method: 'POST', body: JSON.stringify(loginData) });
+		const response = await fetch('/auth', { method: 'POST', body: JSON.stringify(loginData) });
 		if (response.ok) {
 			const validMember = await response.text();
 			if (validMember === 'true') {

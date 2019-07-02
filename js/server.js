@@ -18,14 +18,14 @@ const server = http.createServer(async (req, res) => {
 
 	try {
 		if (url === '/' && method === 'GET') {
-			const { file, mimeType } = await fs.readFile(`${publicPath}/index${ext}`, ext);
+			const { file, mimeType } = await fs.readFile(`${publicPath}/index.html`, ext);
 			res.writeHead(200, { 'Content-Type': mimeType });
 			res.end(file);
-		} else if (url === '/login' && method === 'GET') {
-			const { file, mimeType } = await fs.readFile(`${publicPath}${url}${ext}`, ext);
+		} else if (url === '/auth' && method === 'GET') {
+			const { file, mimeType } = await fs.readFile(`${publicPath}/login.html`, ext);
 			res.writeHead(200, { 'Content-Type': mimeType });
 			res.end(file);
-		} else if (url === '/login' && method === 'POST') {
+		} else if (url === '/auth' && method === 'POST') {
 			req.on('data', loginData => {
 				const user_sid = member.login(loginData);
 				if (!user_sid) {
@@ -44,12 +44,11 @@ const server = http.createServer(async (req, res) => {
 			const todos_id = url.split('/')[2];
 			todos.deleteTodos(todos_id);
 			res.end();
-		} else if (url === '/todosList' && method === 'POST') {
-			req.on('data', user_id => {
-				const todosList = todos.getTodosList(user_id);
-				res.end(JSON.stringify(todosList));
-			});
-		} else if (url === '/user' && method === 'GET') {
+		} else if (url.startsWith('/todos') && method === 'GET') {
+			const user_id = url.split('/')[2];
+			const todosList = todos.getTodosList(user_id);
+			res.end(JSON.stringify(todosList));
+		} else if (url === '/permission' && method === 'GET') {
 			if (!req.headers.cookie) {
 				res.end('false');
 			} else {
@@ -63,11 +62,11 @@ const server = http.createServer(async (req, res) => {
 			member.logout(req.headers.cookie);
 			res.writeHead(302, { 'Set-Cookie': [`sid=; Max-Age=0; HttpOnly;`], Location: '/' });
 			res.end();
-		} else if (url === '/signUp' && method === 'GET') {
-			const { file, mimeType } = await fs.readFile(`${publicPath}/sign-up${ext}`, ext);
+		} else if (url === '/users' && method === 'GET') {
+			const { file, mimeType } = await fs.readFile(`${publicPath}/sign-up.html`, ext);
 			res.writeHead(200, { 'Content-Type': mimeType });
 			res.end(file);
-		} else if (url === '/signUp' && method === 'POST') {
+		} else if (url === '/users' && method === 'POST') {
 			req.on('data', signUpData => {
 				const user_sid = member.signUp(signUpData);
 				if (!user_sid) {
@@ -77,7 +76,7 @@ const server = http.createServer(async (req, res) => {
 				res.end();
 			});
 		} else if (url === '/error-500' && method === 'GET') {
-			const { file, mimeType } = await fs.readFile(`${publicPath}${url}${ext}`, ext);
+			const { file, mimeType } = await fs.readFile(`${publicPath}/error-500.html`, ext);
 			res.writeHead(200, { 'Content-Type': mimeType });
 			res.end(file);
 		} else {
@@ -87,7 +86,7 @@ const server = http.createServer(async (req, res) => {
 		}
 	} catch (error) {
 		console.log('error.....', error);
-		const { file, mimeType } = await fs.readFile(`${publicPath}/error-404${ext}`, ext);
+		const { file, mimeType } = await fs.readFile(`${publicPath}/error-404.html`, ext);
 		res.writeHead(404, { 'Content-Type': mimeType });
 		res.end(file);
 	}
