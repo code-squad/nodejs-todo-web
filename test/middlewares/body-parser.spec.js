@@ -1,1 +1,0 @@
-const bodyParser = require('../../middlewares/body-parser');

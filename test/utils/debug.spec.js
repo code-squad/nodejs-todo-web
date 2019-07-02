@@ -20,12 +20,4 @@ describe('debug module', () => {
       should(logString).be.equal('\x1b[36m[tag]\x1b[0m message');
     })
   })
-
-  describe('메시지 출력', () => {
-    it('[tag] msg로 메시지 출력', () => {
-      sinon.spy(console, 'log');
-      debug('tag')('msg');
-      sinon.assert.calledWith(console.log, `\x1b[36m[tag]\x1b[0m msg`)
-    })
-  })
 })
