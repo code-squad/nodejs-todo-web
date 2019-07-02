@@ -103,13 +103,22 @@ const app = http.createServer(async (request, response) => {
                 }
             });
         }
+        if(request.url === '/index/logout'){
+            response.writeHead(302, {
+                'Location': '../login',
+                'Content-Type': 'text/html',
+                'Set-Cookie': [`sessionID = ; Path = /; Max-Age = 0`]
+            });
+            return response.end('redirection');
+        }
+        
+    }else if (request.method === 'PUT'){
         if(request.url === '/index/saveData'){
             let body = '';
             request.on('data', (data) => {
                 body += data;
             });
             return request.on('end', async () => {
-                console.log(body);
                 const id = JSON.parse(body).id;
                 const userData = JSON.parse(body).userData;
                 userManager.saveData(id,userData);
@@ -118,6 +127,7 @@ const app = http.createServer(async (request, response) => {
             });
 
         }
+    
     }
 
     response.writeHead(404, 'NOT FOUND');
