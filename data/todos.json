@@ -1,51 +1,19 @@
 {
-	"admin": [
+	"진진진": [
 		{
-			"todos_id": 29424,
-			"todos_status": "done",
-			"todos_contents": "테스트에유"
-		},
-		{
-			"todos_id": 2944,
-			"todos_status": "doing",
-			"todos_contents": "와~~~~"
-		},
-		{
-			"todos_id": 29454,
-			"todos_status": "doing",
-			"todos_contents": "으"
-		},
-		{
-			"todos_id": 3769,
-			"todos_status": "done",
-			"todos_contents": "으악"
-		},
-		{
-			"todos_id": 5061,
-			"todos_status": "doing",
-			"todos_contents": "으악"
-		},
-		{
-			"todos_id": 6974,
-			"todos_status": "doing",
-			"todos_contents": "으"
-		},
-		{
-			"todos_id": 7430,
+			"todos_id": 5127,
 			"todos_status": "todo",
-			"todos_contents": "투투두"
-		}
-	],
-	"abc": [
-		{
-			"todos_id": 8877,
-			"todos_status": "todo",
-			"todos_contents": "에이비씨"
+			"todos_contents": "wls"
 		},
 		{
-			"todos_id": 2944,
-			"todos_status": "doing",
-			"todos_contents": "신발가게"
+			"todos_id": 7064,
+			"todos_status": "todo",
+			"todos_contents": "진님"
+		},
+		{
+			"todos_id": 6069,
+			"todos_status": "todo",
+			"todos_contents": "진!!!!"
 		}
 	]
 }
