@@ -18,4 +18,8 @@ const createUserArea = user_id => {
 	todosDB.createUserArea(user_id);
 };
 
-module.exports = { getTodosList, addTodo, deleteTodos, createUserArea };
+const deleteDragElement = dragData => {
+	todosDB.deleteDragElement(dragData);
+};
+
+module.exports = { getTodosList, addTodo, deleteTodos, createUserArea, deleteDragElement };
