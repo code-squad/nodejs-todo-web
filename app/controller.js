@@ -66,20 +66,16 @@ module.exports = class Controller {
         let status;
         let body = '';
         if(url === '/login'){
-            console.log('in login');
             request.on('data', (data) => {
                 body += data;
             });
             return request.on('end', async () => {
-                console.log('end');
                 const [id, pw] = [JSON.parse(body).id, JSON.parse(body).pw];
                 const userInfo = await this.userManager.logIn(id, pw);
                 if (!userInfo) {
-                    console.log('conflict');
                     status = 'CONFLICT';
                     return this.error(request,response,status);
                 } else {
-                    console.log('els');
                     const sessionData = this.session.getSessionID(userInfo);
                     status = 'FOUND';
                     response.writeHead(this.httpStatusCode[status], this.setHeadObject('./index', sessionData.sessionID, this.maxAge));
