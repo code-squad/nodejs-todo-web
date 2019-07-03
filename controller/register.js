@@ -17,11 +17,9 @@ const checkDupleId = () => async (req, res, next) => {
   res.writeHead(200, {'Content-Type' : 'text/plain'});
   
   if (allTodoData[inputId]) {
-    res.write('deny');
-  } else {
-    res.write('success');
+    res.end('deny');
   }
-  res.end();
+    res.end('success');
 }
 
 const isDupleId = async (inputId) => {
