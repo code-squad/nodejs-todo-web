@@ -1,16 +1,4 @@
-const utility       = require('../utility');
-const mime          = require('../mime');
-const path          = require('path');
-const fs            = require('fs');
-
-module.exports.loadStaticFile = async (requestURL, response) => {
-    console.time(`[ Member Mananger ] Load '${requestURL}' file `);
-    const url = utility.convert(requestURL);
-    const extension = utility.getExtension(url);
-    response.setHeader('Content-Type', mime[extension]);
-    fs.createReadStream(path.join(__dirname, url)).pipe(response);
-    console.timeEnd(`[ Member Mananger ] Load '${requestURL}' file `);
-}
+const fs = require('fs');
 
 module.exports.readMemberInfo = () => {
     return new Promise((resolve) => {
