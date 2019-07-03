@@ -2,7 +2,7 @@ const db = require('./DataHandler');
 
 // json 파일 db 데이터 초기화
 if (!db.get('users')) {
-    db.defaults({users: [], session: [] }).write();
+    db.defaults({users: [], session: [], test: []}).write();
 }
 
 const valid_info = () => (req, res, next) => {
@@ -32,5 +32,6 @@ const checkDuplicatedID = (id) => {
 };
 
 module.exports = {
-    valid_info
+    valid_info,
+    checkDuplicatedID,
 };

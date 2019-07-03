@@ -27,4 +27,5 @@ const checkID_PW = (login_user_id, login_user_pw) => {
 
 module.exports = {
     valid_info,
+    checkID_PW,
 };

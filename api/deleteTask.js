@@ -31,5 +31,6 @@ const getIdxOfUser = (login_user_id) => {
 
 
 module.exports = {
-    deleteTodoList
+    deleteTodoList,
+    getIdxOfUser
 };
