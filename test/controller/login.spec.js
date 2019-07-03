@@ -45,12 +45,9 @@ describe('loginController Test', () => {
 
       const statusCode = await response.statusCode;
       const redirectUrl = await response._getHeaders().location;
-      const cookieStr = await response.getHeader('Set-Cookie');
-      const maxAgeStr = cookieStr[0].split('; ')[1];
 
       should(statusCode).equal(302);
       should(redirectUrl).equal('/todos');
-      should(maxAgeStr).equal('Max-age=604800');
     })
 
   })
