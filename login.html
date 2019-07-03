@@ -6,12 +6,21 @@
 		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
 		<title>Document</title>
 		<link rel="shortcut icon" href="css/img/favicon.ico" />
+		<link rel="stylesheet" href="css/auth.css" />
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 	</head>
 	<body>
-		ID <input type="text" id="id" /> <br />
-		PW <input type="password" id="password" /><br>
-		<input type="button" id="loginButton" value="로그인">
-		<input type="button" id="signUpButton" value="회원가입">
+		<header id="title">Sign in</header>
+		<section>
+			<div id="inputArea">
+				<input type="text" id="id" class="form-control" placeholder="ID"> <br />
+				<input type="password" id="password" class="form-control" placeholder="PASSWORD" /><br>
+				<input type="button" id="loginButton" class="btn btn-outline-success buttonGroup" value="Sign in">
+			</div>
+			<div id="signUpButton">
+				<a href="/users">New to TODO APP? Create an account.</a>
+			</div>
+		</section>
 	</body>
 	<script type="text/javascript" src=js/login.js></script>
 </html>
