@@ -24,7 +24,7 @@ const Middleware = function()  {
 
       return isNextErrorMw ?
         nextMw(err, _req, _res, next) :
-        _run(i + 1, err)
+        _run(index + 1, err)
     }
 
     nextMw(_req, _res, next);

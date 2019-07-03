@@ -20,17 +20,21 @@ exports.readUserPassword = async ({userId, password}) => {
 }
 
 exports.read = async (userId) => {
-  const todoLists = (await fs.promises.readFile(path.join(dataDir, userId, 'todolist'), 'utf-8'))
-                      .split('\n')
-                      .filter(line => line !== undefined && line !== '')
-                      .map(line =>  new TodoList(...line.split(',')));
+  try{
+    const todoLists = (await fs.promises.readFile(path.join(dataDir, userId, 'todolist'), 'utf-8'))
+                          .split('\n')
+                          .filter(line => line !== undefined && line !== '')
+                          .map(line =>  new TodoList(...line.split(',')));
 
-  const todos = (await fs.promises.readFile(path.join(dataDir, userId, 'todo'), 'utf-8'))
-    .split('\n')
-    .filter(line => line !== undefined && line !== '')
-    .map(line => new Todo(...line.split(',')));
+    const todos = (await fs.promises.readFile(path.join(dataDir, userId, 'todo'), 'utf-8'))
+      .split('\n')
+      .filter(line => line !== undefined && line !== '')
+      .map(line => new Todo(...line.split(',')));
 
-  return { todos, todoLists };
+    return { todos, todoLists };
+  } catch (error) { 
+    throw error;
+  }
 };
 
 exports.create = async (userId, type, data) => {

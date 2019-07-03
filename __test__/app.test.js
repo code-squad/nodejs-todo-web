@@ -240,6 +240,23 @@ describe('TODO 서버 테스트', () => {
          });
   });
 
+  it('갑자기 파일 접근이 안될 때', async done => {
+    try {
+      const dataDir = path.join(process.cwd(), 'data');
+      await fs.promises.unlink(path.join(dataDir, userId, 'todo'));
+      agent.post('/todo')
+      .send({name: 'Test 4', position: '2', todolist: 'todo'})
+      .set('cookie', `token=${sessionId};`)
+      .expect(500)
+      .end((err, res) => {
+        if(err) return done(err);
+        done();
+      });
+    } catch (error) {
+      console.error(error);
+      done(error);
+    }
+  });
 
   it('세션 만료 후 todo 접근 시 로그인 화면으로 리다이렉트', async done => {
     await sleep(5 * 1000);
@@ -356,7 +373,7 @@ describe('TODO 서버 테스트', () => {
     try {
       const dataDir = path.join(process.cwd(), 'data');
       await fs.promises.unlink(path.join(dataDir, userId, 'account'));
-      await fs.promises.unlink(path.join(dataDir, userId, 'todo'));
+      // await fs.promises.unlink(path.join(dataDir, userId, 'todo'));
       await fs.promises.unlink(path.join(dataDir, userId, 'todolist'));
       await fs.promises.rmdir(path.join(dataDir, userId));
       done();

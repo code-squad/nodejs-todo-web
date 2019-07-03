@@ -1,280 +1,66 @@
 const http = require('http');
-const fs = require('fs');
-const template = require('./template');
-const { getFileExtentsion, makeFilePath, getMimeType, generateSessionId, parseCookie } = require('./util');
-const db = require('./db');
-const router = require('./router');
-const sessionManager = require('./sessionmanager');
 
-const Todo = require('./model/todo');
-const TodoList = require('./model/todolist');
+const Middleware = require('./app/middleware');
 
-const server = http.createServer(async (request, response) => {
-  request.on('error', (err) => {
+const cookieParser = require('./app/middlewares/cookieparser');
+const staticRouter = require('./app/middlewares/staticRouter');
+const bodyParser = require('./app/middlewares/bodyparser');
+
+const indexRouter = require('./app/routes/indexrouter');
+const loginRouter = require('./app/routes/loginRouter');
+const signupRouter = require('./app/routes/signuprouter');
+const logoutRouter = require('./app/routes/logoutrouter');
+const todoRouter = require('./app/routes/todorouter');
+const todolistRouter = require('./app/routes/todolistrouter');
+
+const server = http.createServer(async (req, res) => {
+  req.on('error', (err) => {
     console.error(err);
-    response.statusCode = 400;
-    response.end();
+    res.statusCode = 400;
+    res.end();
   });
-  response.on('error', (err) => {
+  res.on('error', (err) => {
     console.error(err);
-    response.statusCode = 500;
-    response.end();
+    res.statusCode = 500;
+    res.end();
   });
 
-  const cookies = parseCookie(request.headers.cookie);
-  request.sessionId = cookies ? cookies.token : undefined;
+  const middleware = new Middleware();
 
-  if (request.method === 'GET' && RegExp(/\/public.*/).test(request.url)) {
-    response.setHeader('Content-Type', getMimeType(getFileExtentsion(request.url)));
-    try {
-      const content = await fs.promises.readFile(makeFilePath(request.url));
-      response.end(content);
-    } catch (error) {
-      response.statusCode = 404;
-      response.end();
-    }
-  } else if (RegExp(/\/data.*/).test(request.url)) {
-    response.statusCode = 403;
-    response.end();
-  } else {
-    router.handle(request, response);
-  }
-});
+  console.log(`This req find ${req.url} with ${req.method} method.`);
 
-router.get('/', async (request, response) => {
-  if(sessionManager.isValidSession(request.sessionId)) {
-    response.statusCode = 302;
-    response.setHeader('location', '/todo');
-    response.end();
-  } else {
-    try {
-      const content = await fs.promises.readFile(makeFilePath('/public/login.html'));
-      sessionManager.removeSession(request.sessionId);
-      response.setHeader('Content-Type', 'text/html');
-      response.setHeader('Set-Cookie', [`token=${request.sessionId}; Max-Age=0; HttpOnly`]);
-      response.end(content);
-    } catch (error) {
-      console.error(error);
-      response.statusCode = 500;
-      response.end();
-    }
-  }
-});
+  middleware.add(staticRouter);
 
-router.get('/signup', async (request, response) => {
-  try {
-    const content = await fs.promises.readFile(makeFilePath('/public/signup.html'));
-    response.setHeader('Content-Type', 'text/html');
-    response.setHeader('Set-Cookie', [`token=${request.sessionId}; Max-Age=0; HttpOnly`]);
-    response.end(content);
-  } catch (error) {
-    console.error(error);
-    response.statusCode = 500;
-    response.end();
-  }
-});
-
-router.post('/signup', (request, response) => {
-  request.on('data', async chunk => {
-    const body = JSON.parse(chunk.toString('utf-8'));
-    const existUser = await db.isExistUser(body.userId);
-    if(existUser) {
-      response.statusCode = 409;
-      response.end();
+  middleware.add((req, res, next) => {
+    if(RegExp(/\/data.*/).test(req.url)){
+      res.statusCode = 403;
+      res.end();
     } else {
-      try {
-        await db.makeUserFile(body.userId, body.password);
-        response.statusCode = 302;
-        response.setHeader('location', '/todo');
-        response.end();
-      } catch (error) {
-        console.error(error);
-        response.emit('error');
-      }
+      next();
     }
   });
-});
 
-router.post('/login', (request, response) => {
-  request.on('data', async chunk => {
-    try {
-      const body = JSON.parse(chunk.toString('utf-8'));
-      const loginResult = await db.readUserPassword(body);
-      if(loginResult){
-        const sessionId = generateSessionId(body.userId), maxAge = sessionManager.getMaxAge();
-        sessionManager.setSession(sessionId, body.userId, new Date());
-        response.setHeader('Set-Cookie', [`token=${sessionId}; Max-Age=${maxAge}; HttpOnly`]);
-        response.statusCode = 302;
-        response.setHeader('location', '/todo');
-        response.end();
-      } else {
-        response.statusCode = 403;
-        response.end();
-      }
-    } catch (error) {
-      if(error.errno === -2){
-        response.statusCode = 403;
-        response.end();
-      } else {
-        response.emit('error', error);
-      }
-    }
+  middleware.add(cookieParser);
+  middleware.add(bodyParser())
+
+  middleware.add('/', indexRouter);
+  middleware.add('/signup', signupRouter);
+  middleware.add('/login', loginRouter);
+  middleware.add('/logout', logoutRouter);
+  middleware.add('/todo', todoRouter);
+  middleware.add('/todolist', todolistRouter);
+
+  middleware.add((req, res, next) => {
+    res.statusCode = 404;
+    res.end();
   });
-});
 
-router.post('/logout', (request, response) => {
-  sessionManager.removeSession(request.sessionId);
-  response.statusCode = 302;
-  response.setHeader('Set-Cookie', [`token=${request.sessionId}; Max-Age=0; HttpOnly`]);
-  response.setHeader('location', '/');
-  response.end();
-});
-
-router.get('/todo', async (request, response) => {
-  try {
-    if(sessionManager.isValidSession(request.sessionId)) {
-      const { todos, todoLists } = await db.read(sessionManager.getUserId(request.sessionId));
-      response.setHeader('Content-Type', 'text/html');
-      response.write(template.makeIndexHtmlText(todoLists, todos));
-      response.end();
-    } else {
-      sessionManager.removeSession(request.sessionId);
-      response.statusCode = 302;
-      response.setHeader('Set-Cookie', [`token=${request.sessionId}; Max-Age=0; HttpOnly`]);
-      response.setHeader('location', '/');
-      response.end();
-    }
-  } catch (error) {
-    console.error(error);
-    response.statusCode = 500;
-    response.end();
-  }
-});
-
-router.post('/todo', (request, response) => {
-  request.on('data', async chunk => {
-    try {
-      if(sessionManager.isValidSession(request.sessionId)){
-        const body = JSON.parse(chunk.toString('utf-8'));
-        const userId = sessionManager.getUserId(request.sessionId);
-        const { todos } = await db.read(userId);
-        const newTodoId = (todos.length ? todos.slice(-1)[0].id : 0) + 1;
-        const newTodo = new Todo(newTodoId, body.name, body.position, body.todolist );
-        await db.create(userId, 'todo', newTodo);
-        response.end(JSON.stringify({html: template.makeTodoHtmlText(newTodo)}));
-      } else {
-        sessionManager.removeSession(request.sessionId);
-        response.statusCode = 302;
-        response.setHeader('Set-Cookie', [`token=${request.sessionId}; Max-Age=0; HttpOnly`]);
-        response.setHeader('location', '/');
-        response.end();
-      }
-    } catch (error) {
-      response.statusCode = 500;
-      response.end();
-    }
+  middleware.add((err, req, res, next) => {
+    console.error(err);
+    res.statusCode = (res.statusCode !== 200 ? res.statusCode : 500);
+    res.end();
   });
-});
-
-router.post('/todolist', (request, response) => {
-  request.on('data', async chunk => {
-    try {
-      if(sessionManager.isValidSession(request.sessionId)){
-        const body = JSON.parse(chunk.toString('utf-8'));
-        const userId = sessionManager.getUserId(request.sessionId);
-        const { todoLists } = await db.read(userId);
-        const newTodoListId = (todoLists.length ? todoLists.slice(-1)[0].id : 0 ) + 1;
-        const newTodoList = new TodoList(newTodoListId, body.name, body.position );
-        await db.create(userId, 'todolist', newTodoList);
-        response.end(JSON.stringify({html: template.makeTodoListHtmlText(newTodoList, null)}));
-      } else {
-        sessionManager.removeSession(request.sessionId);
-        response.statusCode = 302;
-        response.setHeader('Set-Cookie', [`token=${request.sessionId}; Max-Age=0; HttpOnly`]);
-        response.setHeader('location', '/');
-        response.end();
-      }
-    } catch (error) {
-      console.error(error);
-      response.statusCode = 503;
-      response.end();
-    }
-  });
-});
-
-router.put('/todo', (request, response) => {
-  request.on('data', async chunk => {
-    try {
-      if(sessionManager.isValidSession(request.sessionId)){
-        const body = JSON.parse(chunk.toString('utf-8'));
-        const todos = body.map(todo => new Todo(todo.id, todo.name, todo.position, todo.todoListName))
-                          .sort((a, b) => a.id - b.id);
-        await db.update(sessionManager.getUserId(request.sessionId), 'todo', todos);
-        response.end();
-      } else {
-        sessionManager.removeSession(request.sessionId);
-        response.statusCode = 302;
-        response.setHeader('Set-Cookie', [`token=${request.sessionId}; Max-Age=0; HttpOnly`]);
-        response.setHeader('location', '/');
-        response.end();
-      }
-    } catch (error) {
-      console.log(error);
-      response.statusCode = 500;
-      response.end();
-    }
-  });
-});
-
-router.delete('/todo', (request, response) => {
-  request.on('data', async chunk => {
-    try {
-      if(sessionManager.isValidSession(request.sessionId)){
-        const body = JSON.parse(chunk.toString('utf-8'));
-        const todos = body.map(todo => new Todo(todo.id, todo.name, todo.position, todo.todoListName))
-                          .sort((a, b) => a.id - b.id);
-        await db.update(sessionManager.getUserId(request.sessionId), 'todo', todos);
-        response.end();
-      } else {
-        sessionManager.removeSession(request.sessionId);
-        response.statusCode = 302;
-        response.setHeader('Set-Cookie', [`token=${request.sessionId}; Max-Age=0; HttpOnly`]);
-        response.setHeader('location', '/');
-        response.end();
-      }
-    } catch (error) {
-      console.log(error);
-      response.statusCode = 500;
-      response.end();
-    }
-  });
-});
-
-router.delete('/todolist', (request, response) => {
-  request.on('data', async chunk => {
-    try {
-      if(sessionManager.isValidSession(request.sessionId)){
-        const body = JSON.parse(chunk.toString('utf-8'));
-        const todos = body.todos.map(todo => new Todo(todo.id, todo.name, todo.position, todo.todoListName))
-                          .sort((a, b) => a.id - b.id);
-        const todolists = body.todolists.map(todolist => new TodoList(todolist.id, todolist.name, todolist.position))
-                              .sort((a, b) => a.id - b.id);
-        await db.update(sessionManager.getUserId(request.sessionId), 'todolist', todolists);
-        await db.update(sessionManager.getUserId(request.sessionId), 'todo', todos);
-        response.end();
-      } else {
-        sessionManager.removeSession(request.sessionId);
-        response.statusCode = 302;
-        response.setHeader('Set-Cookie', [`token=${request.sessionId}; Max-Age=0; HttpOnly`]);
-        response.setHeader('location', '/');
-        response.end();
-      }
-    } catch (error) {
-      console.log(error);
-      response.statusCode = 500;
-      response.end();
-    }
-  });
+  middleware.run(req, res);
 });
 
 module.exports = server;

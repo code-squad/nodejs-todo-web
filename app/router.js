@@ -2,10 +2,10 @@ const Middleware = require('./middleware');
 
 class ErrorCatcher {
   constructor(){
-    this.thrownError = undefined;
+    this.thrownError = null;
   }
 
-  setError(err) {
+  setError(err, req, res, next) {
     this.thrownError = err;
   }
 }
@@ -54,7 +54,8 @@ class Router {
     if(req.url.split('/')[1] === this.basePath.split('/')[1] && route){
       const routerMiddlewares = route;
 
-      routerMiddlewares.add(errorCatcher.setError.bind(errorCatcher));
+      const boundSetError = errorCatcher.setError.bind(errorCatcher);
+      routerMiddlewares.add(boundSetError);
       routerMiddlewares.run(req, res);
       if(errorCatcher.thrownError){
         next(errorCatcher.thrownError);
