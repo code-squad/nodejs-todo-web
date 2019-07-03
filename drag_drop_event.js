@@ -12,22 +12,18 @@ class DragDropEvent {
         event.preventDefault(); 
         const data = event.dataTransfer.getData("text");
         const storyDiv = document.getElementById(data);
-        this.handleDrop(event, storyDiv);
+        const dataObject = this.handleDrop(event, storyDiv);
+        this.send(dataObject);
     }
 
     getElement(event, className) {
         const element = {
-            // Key : className of div tag
-            // Value : element (node)
-            'story'             : event.target,
-            'todo_list_main'    : event.target.childNodes,
+            'todo_list_main'    : event.target,
             'todo_list'         : event.target.childNodes.item(3),
             'todo_list_title'   : event.target.nextElementSibling,
             'todo_list_input'   : event.target.previousElementSibling,
             'story_input'       : event.target.parentNode.previousElementSibling,
             'story_add'         : event.target.parentNode.previousElementSibling,
-            'story_inner_text'  : event.target.parentNode,
-            'story_delete'      : event.target.parentNode,
         };
         return element[className];
     }
@@ -38,10 +34,6 @@ class DragDropEvent {
 
     getRectBottom(element) {
         return element.getBoundingClientRect().bottom;
-    }
-
-    getMidY(element) {
-        return (this.getRectTop(element) + this.getRectBottom(element)) / 2;
     }
 
     getIndex(element, pageY) {
@@ -56,17 +48,36 @@ class DragDropEvent {
         return end;
     }
 
-    handleDrop(event, object) {
+    handleDrop(event, storyDiv) {
         const className = event.target.className;
         const element = this.getElement(event, className);
-        if (className === 'story' || className === 'story_inner_text') {
-            const midY = this.getMidY(element);
-            (midY < event.pageY) ? element.after(object) : element.before(object);
-        } else if (className === 'todo_list_main') {
-            // 오늘 구현할 것..!
-            const index = this.getIndex(element, event.pageY);
-            element.item(index).before(object);
-        } else if (className === 'story_delete') element.before(object);
-        else element.appendChild(object);
+
+        if (element === undefined) return;
+
+        const data = { 
+            delete : JSON.parse(storyDiv.id), 
+            add : { type : parseInt(element.id) }
+        };
+
+        if (className === 'todo_list_main') {
+            data.add.index = this.getIndex(element.childNodes, event.pageY);
+            element.childNodes.item(data.add.index).before(storyDiv);
+        } else {
+            data.add.index = element.childElementCount;
+            element.appendChild(storyDiv);
+        }
+
+        return data;
+    }
+
+    send(data) {
+        const type = ['todo', 'doing', 'done'];
+        const body = JSON.stringify({ 
+            deleteType  : type[data.delete.type], 
+            deleteIndex : data.delete.index,
+            addType     : type[data.add.type],   
+            addIndex    : data.add.index
+        });
+        fetch('http://localhost:8888/update', { method : 'POST', body : body });
     }
 }

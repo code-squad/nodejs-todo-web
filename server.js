@@ -111,6 +111,18 @@ const deleteItem = async (request, response) => {
     } else throw Error(`[Server - Error] Session ID is not saved after Login. ( Delete Item )`);
 }
 
+const updateItem = async (request, response) => {
+    const data = await receiveData(request);
+    const sessionID = utility.parse(request.headers.cookie).SID;
+    if (sessionTable.has(sessionID)) {
+        const todoList = sessionTable.get(sessionID).contents;
+        const [ addValue ] = todoList[data.deleteType].splice(data.deleteIndex, 1);
+        if (data.deleteType === data.addType && data.deleteIndex < data.addIndex) data.addIndex--;
+        todoList[data.addType].splice(data.addIndex, 0, addValue);
+        response.end();
+    } else throw Error(`[Server - Error] Session ID is not saved after Login. ( Delete Item )`);
+}
+
 const showItem = async (request, response) => {
     const sessionID = utility.parse(request.headers.cookie).SID;
     if (sessionTable.has(sessionID)) {
@@ -125,6 +137,7 @@ const post = async (request, response) => {
     switch (request.url) {
         case '/add'         : addItem(request, response);    break;
         case '/delete'      : deleteItem(request, response); break;
+        case '/update'      : updateItem(request, response); break;
         case '/signInCheck' : signIn(request, response);     break;
         case '/signUpCheck' : signUp(request, response);     break;
         case '/signOut'     : signOut(request, response);    break;
