@@ -187,17 +187,7 @@ TodosFront.prototype.isValidLoggedIn = async function(event) {
 };
 
 TodosFront.prototype.drag = async function(event) {
-	try {
-		const response = await fetch(`/events/${this.userId}/${event.target.id}`, { method: 'DELETE' });
-		if (response.ok) {
-			this.dragData = event.target;
-		} else {
-			location.href = '/error-404';
-		}
-	} catch (error) {
-		console.log('error.....', error);
-		location.href = '/error-500';
-	}
+	this.dragData = event.target;
 };
 
 TodosFront.prototype.drop = function(event) {
@@ -289,6 +279,7 @@ TodosFront.prototype.dropTodosArea = function(event, dropAreaClassName) {
 };
 
 TodosFront.prototype.dropEndElement = function(appendElement) {
+	this.sortingTodosList(appendElement, -1);
 	document.querySelector(`#${appendElement}`).appendChild(this.dragData);
 };
 
@@ -300,7 +291,25 @@ TodosFront.prototype.dropBetweenElements = function(event, dropAreaId) {
 	if (appendTargetIndex === -1) {
 		return this.dropEndElement(dropAreaId);
 	}
+	this.sortingTodosList(dropAreaId, dropAreaList[appendTargetIndex].id);
 	document.querySelector(`#${dropAreaId}`).insertBefore(this.dragData, dropAreaList[appendTargetIndex]);
+};
+
+TodosFront.prototype.sortingTodosList = async function(dropAreaId, targetElementId) {
+	const updateTodosData = { updateStatus: dropAreaId, targetElementId, dragElementId: this.dragData.id };
+
+	try {
+		const response = await fetch(`/events/${this.userId}`, {
+			method: 'PUT',
+			body: JSON.stringify(updateTodosData)
+		});
+		if (!response.ok) {
+			location.href = '/error-404';
+		}
+	} catch (error) {
+		console.log('error.....', error);
+		location.href = '/error-500';
+	}
 };
 
 TodosFront.prototype.getDropAreaList = function(dropAreaId) {
