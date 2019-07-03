@@ -53,7 +53,7 @@ loginBtn.addEventListener('click', function(e){
 
   if(!passValidation) return;
 
-  fetchData(`http://${window.location.host}/login`, {userId, password})
+  fetchData(`/login`, {userId, password})
   .then(response => {
     if(response.status === 403) {
       makeToast('일치하는 정보가 없습니다.');

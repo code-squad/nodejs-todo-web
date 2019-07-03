@@ -76,7 +76,7 @@ function keyDownHandlerOfCardNameInput(event) {
     var position = target.children.length;
     var todoBody = { name: this.value , position, todolist: header.innerText };
 
-    fetchData(`http://${window.location.host}/todo`, todoBody)
+    fetchData(`/todo`, todoBody)
     .then(response => response.json())
     .then(resBody => {
       var parser = new DOMParser();
@@ -106,7 +106,7 @@ function keyDownHandlerOfTodoNameInput(event) {
     var todoContainer = document.querySelector('.todo-container');
     var position = todoContainer.children.length - 1;
 
-    fetchData(`http://${window.location.host}/todolist`, {name: todoListName , position })
+    fetchData(`/todolist`, {name: todoListName , position })
     .then(response => response.json())
     .then(resBody => {
       var newDOM = parser.parseFromString(resBody.html, 'text/html');
@@ -137,7 +137,7 @@ function onClickHandlerForTodoDeleteBtn(event) {
   var deleteTarget = this.parentNode;
   deleteTarget.parentNode.removeChild(deleteTarget);
 
-  fetchData(`http://${window.location.host}/todo`, getAllTodo(), 'DELETE')
+  fetchData(`/todo`, getAllTodo(), 'DELETE')
   .then(response => response)
   .catch(error => console.error('Error:', error));
 }
@@ -146,7 +146,7 @@ function onClickHandlerForTodoListDeleteBtn (event) {
   var deleteTarget = this.parentNode.parentNode;
   deleteTarget.parentNode.removeChild(deleteTarget);
 
-  fetchData(`http://${window.location.host}/todolist`, {todos: getAllTodo(), todolists: getAllTodoList()}, 'DELETE')
+  fetchData(`/todolist`, {todos: getAllTodo(), todolists: getAllTodoList()}, 'DELETE')
   .then(response => response)
   .catch(error => console.error('Error:', error));
 }
@@ -192,7 +192,7 @@ function handleDropForTodoItem(event) {
     var dropElem = this.previousSibling;
     addDnDHandlersForTodoItem(dropElem);
 
-    fetchData(`http://${window.location.host}/todo`, getAllTodo(), 'PUT')
+    fetchData(`/todo`, getAllTodo(), 'PUT')
     .then(response => console.log('Success:', response === undefined && response === '' ? response : JSON.stringify(response)))
     .catch(error => console.error('Error:', error));
   }
@@ -217,7 +217,7 @@ function handleDropForTodolistFooter(event) {
     var todoDeleteBtn = dropElem.querySelector('.todo-delete');
     todoDeleteBtn.addEventListener('click', onClickHandlerForTodoDeleteBtn);
 
-    fetchData(`http://${window.location.host}/todo`, getAllTodo(), 'PUT')
+    fetchData(`/todo`, getAllTodo(), 'PUT')
     .then(response => console.log('Success:', response === undefined && response === '' ? response : JSON.stringify(response)))
     .catch(error => console.error('Error:', error));
   }
