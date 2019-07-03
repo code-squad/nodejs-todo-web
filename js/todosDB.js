@@ -42,14 +42,27 @@ const getTodos = todosData => {
 	return todos;
 };
 
-const deleteDragElement = dragData => {
-	const { user_id, todos_id } = dragData;
+const sortingTodosList = updateTodosData => {
+	const { user_id, updateStatus, targetElementId, dragElementId } = updateTodosData;
 	const todosList = getTodosList(user_id);
-	const deletedDragElement = todosList.filter(todos => {
-		return todos.todos_id !== Number(todos_id);
+	const deleteTodosIndex = todosList.findIndex(todos => {
+		return todos.todos_id === Number(dragElementId);
 	});
 
-	todosDB.set(`${user_id}`, deletedDragElement).write();
+	const updateTodos = todosList[deleteTodosIndex];
+	updateTodos['todos_status'] = updateStatus;
+	todosList.splice(deleteTodosIndex, 1);
+
+	if (Number(targetElementId) === -1) {
+		todosList.push(updateTodos);
+	} else {
+		const updateTodosIndex = todosList.findIndex(todos => {
+			return todos.todos_id === Number(targetElementId);
+		});
+		todosList.splice(updateTodosIndex, 0, updateTodos);
+	}
+
+	todosDB.set(`${user_id}`, todosList).write();
 };
 
 const makeTodosId = () => {
@@ -59,4 +72,4 @@ const makeTodosId = () => {
 	return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
-module.exports = { getTodosList, addTodo, deleteTodos, createUserArea, deleteDragElement };
+module.exports = { getTodosList, addTodo, deleteTodos, createUserArea, sortingTodosList };
