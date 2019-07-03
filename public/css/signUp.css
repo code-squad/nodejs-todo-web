@@ -45,7 +45,7 @@ strong {
 }
 
 .contents_section {
-    background-image: url('./my_background_image.png');
+    background-image: url('/public/img/my_background_image.png');
     background-position: center;
     background-size: cover;
     opacity: 0.8;
