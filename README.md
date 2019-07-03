@@ -1,6 +1,6 @@
 # nodejs-todo-web
 [![Build Status](https://travis-ci.org/cocahack/nodejs-todo-web.svg?branch=master)](https://travis-ci.org/cocahack/nodejs-todo-web) 
-[![Coverage Status](https://coveralls.io/repos/github/cocahack/nodejs-todo-web/badge.svg?branch=master)](https://coveralls.io/github/cocahack/nodejs-todo-web?branch=master)
+[![Coverage Status](https://coveralls.io/repos/github/cocahack/nodejs-todo-web/badge.svg?branch=master)](https://coveralls.io/github/cocahack/nodejs-todo-web?branch=master&service=github)
 
 Node.js TODO web project
 
