@@ -1,5 +1,5 @@
-const utility       = require('./utility');
-const mime          = require('./mime');
+const utility       = require('../utility');
+const mime          = require('../mime');
 const path          = require('path');
 const fs            = require('fs');
 

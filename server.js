@@ -1,5 +1,5 @@
-const todoListManager = require('./todoList_manager');
-const fileManager = require('./file_manager');
+const todoListManager = require('./manager/todoList_manager');
+const fileManager = require('./manager/file_manager');
 const httpStatus = require('./http_status');
 const utility = require('./utility');
 const http = require('http');
