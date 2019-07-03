@@ -13,7 +13,7 @@ class DragDropEvent {
         const data = event.dataTransfer.getData("text");
         const storyDiv = document.getElementById(data);
         const dataObject = this.handleDrop(event, storyDiv);
-        this.send(dataObject);
+        if (dataObject !== undefined) this.send(dataObject);
     }
 
     getElement(event, className) {
@@ -52,12 +52,14 @@ class DragDropEvent {
         const className = event.target.className;
         const element = this.getElement(event, className);
 
-        if (element === undefined) return;
+        if (element === undefined) return undefined;
 
         const data = { 
             delete : JSON.parse(storyDiv.id), 
             add : { type : parseInt(element.id) }
         };
+
+        const storyDivParent = storyDiv.parentNode;
 
         if (className === 'todo_list_main') {
             data.add.index = this.getIndex(element.childNodes, event.pageY);
@@ -67,7 +69,19 @@ class DragDropEvent {
             element.appendChild(storyDiv);
         }
 
+        if (data.delete.type !== data.add.type) this.setNumber(storyDivParent);
+        this.setNumber(element, data.add.type);
+
         return data;
+    }
+
+    setNumber(object, type = undefined) {
+        for (let index = 0; index < object.childElementCount; index++) {
+            const tempObject = JSON.parse(object.childNodes.item(index).id);
+            if (type !== undefined) tempObject.type = type;
+            tempObject.index = index;
+            object.childNodes.item(index).id = JSON.stringify(tempObject);
+        }
     }
 
     send(data) {
