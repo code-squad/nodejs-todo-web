@@ -3,11 +3,9 @@ const fs = require('fs');
 const cookie = require('cookie');
 const UserManager = require('./user_manager.js');
 const Session = require('./session.js');
-const Parser = require('./parser.js');
 const Controller = require('./app/controller.js');
 const userManager = new UserManager(fs);
 const session = new Session();
-const parser = new Parser();
 const port = 3000;
 const httpStatusCode = {
     'OK': 200,
@@ -22,9 +20,7 @@ const controller = new Controller(httpStatusCode, fs, session, cookie, userManag
 
 const server = http.createServer(async (request, response) => {
     try {
-        const [url, extension] = parser.parseUrl(request.url);
-        let status;
-
+        const [url, extension] = request.url.split('.');
         console.log(request.method, request.url);
         if (extension) { 
             await controller.static(request, response, request.url);
