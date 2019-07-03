@@ -85,12 +85,12 @@ const server = http.createServer(async (req, res) => {
 				res.end();
 			}
 		} else if (url.startsWith('/events')) {
-			if (method === 'DELETE') {
+			if (method === 'PUT') {
 				const user_id = url.split('/')[2];
-				const todos_id = url.split('/')[3];
-				const dragData = { user_id, todos_id };
-				todos.deleteDragElement(dragData);
-				res.end();
+				req.on('data', updateTodosData => {
+					todos.sortingTodosList(user_id, updateTodosData);
+					res.end();
+				});
 			}
 		} else if (url === '/error-500' && method === 'GET') {
 			const { file, mimeType } = await fs.readFile(`${publicPath}/error-500.html`, ext);
