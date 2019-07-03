@@ -10,7 +10,7 @@ module.exports = class UserManager {
 
     async signUp(id, pw) {
         await this.loadData();
-        if(await this.isMember(id,pw)){
+        if(!(await this.isMember(id,pw,'signup'))){
             return false;
         }else{
             const tempInfo = new User(id,pw);
@@ -37,8 +37,14 @@ module.exports = class UserManager {
         this.data = JSON.parse((await this.myReadFile('./data/userData.txt')).toString());
     }
 
-    async isMember(id, pw) {
+    async isMember(id, pw, option) {
         await this.loadData();
+        if(option){
+            if(id in this.data){
+                return false;
+            }
+            return true;
+        }
         if(id in this.data){
             if(this.data[id].pw === pw){
                 return this.data[id];
@@ -49,7 +55,7 @@ module.exports = class UserManager {
 
     async readUserData(id, pw) {
         return await this.isMember(id, pw);
-    }
+    } 
 
     async writeData(){
         await this.myWriteFile('./data/userData.txt', JSON.stringify(this.data));
@@ -61,6 +67,12 @@ module.exports = class UserManager {
         this.data[id] = tempInfo;
         await this.writeData();
     }
+
+    async saveData(id,data){
+        this.data[id].data = data;
+        await this.updateUserData(id);
+    }
+
 
     myReadFile(path){
         return new Promise(resolve => {
@@ -91,6 +103,6 @@ class User{
     constructor(id,pw){
         this.id = id;
         this.pw = pw;
-        this.data = {}; 
+        this.data = [['todo'],['doing'],['done']]; 
     }
 }
