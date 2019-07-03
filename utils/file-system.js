@@ -7,8 +7,7 @@ const writeFile = (path, data, encoding = 'utf8') => {
   return new Promise((resolve, reject) => {
     fs.writeFile(path, data, encoding, (err) => {
       if (err) reject(err);
-      resolve(data);
-      console.log(`save : ${data}`)
+      resolve();
     })
   })
 }
@@ -17,8 +16,7 @@ const appendFile = (path, data, encoding = 'utf8') => {
   return new Promise((resolve, reject) => {
     fs.appendFile(path, data, encoding, (err) => {
       if (err) reject(err);
-      resolve(data);
-      console.log(`save : ${data}`)
+      resolve();
     })
   })
 };
