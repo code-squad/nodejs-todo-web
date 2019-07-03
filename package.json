@@ -17,7 +17,8 @@
     "request": "^2.88.0"
   },
   "scripts": {
-    "test": "nyc mocha test/*/*.spec.js && nyc mocha test/*.spec.js"
+    "test": "nyc mocha test/*/*.spec.js && nyc mocha test/*.spec.js",
+    "start": "node bin.js"
   },
   "repository": {
     "type": "git",
