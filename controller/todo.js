@@ -13,8 +13,7 @@ const getPage = () => async (req, res, next) => {
   const viewer = await view(userID, 'index.html');
 
   res.writeHead(200, { 'Content-Type': 'text/html' });
-  res.write(viewer);
-  res.end();
+  res.end(viewer);
 }
 
 const updateTodoKey = async (keyObj, path) => {
@@ -35,8 +34,7 @@ const addTodo = () => async (req, res, next) => {
   await updateTodoKey(keyObj, './db/keys.csv');
 
   res.writeHead(200, {'Content-Type' : 'text/plain'});
-  res.write(cardKey);
-  res.end();
+  res.end(cardKey);
 }
 
 const deleteTodo = () => async (req, res, next) => {
@@ -54,8 +52,7 @@ const deleteTodo = () => async (req, res, next) => {
   await fileHandler.writeFile('./db/todoList.csv', dataStr);
 
   res.writeHead(200, {'Content-Type' : 'text/plain'});
-  res.write('success');
-  res.end();
+  res.end('success');
 }
 
 const updateTodo = () => async (req, res, next) => {
@@ -75,8 +72,7 @@ const updateTodo = () => async (req, res, next) => {
   await fileHandler.writeFile('./db/todoList.csv', dataStr);
 
   res.writeHead(200, {'Content-Type' : 'text/plain'});
-  res.write('success');
-  res.end();
+  res.end('success');
 }
 
 const updateCardSequence = () => async (req, res, next) => {
@@ -96,8 +92,7 @@ const updateCardSequence = () => async (req, res, next) => {
   await fileHandler.writeFile('./db/todo-sequence.csv', dataStr);
 
   res.writeHead(200, {'Content-Type' : 'text/plain'});
-  res.write('success');
-  res.end();
+  res.end('success');
 }
 
 module.exports = {
