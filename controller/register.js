@@ -18,8 +18,10 @@ const checkDupleId = () => async (req, res, next) => {
   
   if (allTodoData[inputId]) {
     res.end('deny');
+    return;
   }
     res.end('success');
+  
 }
 
 const isDupleId = async (inputId) => {
