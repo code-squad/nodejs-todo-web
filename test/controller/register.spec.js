@@ -30,21 +30,6 @@ describe('register Controller Test', () => {
   })
 
   describe('checkDupleID()', () => {
-    it('동일한 아이디가 있을 경우, 응답으로 deny를 반환한다', async() => {
-      const next = () => {};
-      request.url = '/register/korea'
-
-      await registerController.checkDupleId()(request, response, next);
-
-      const contentType = await response.getHeader('Content-Type');
-      const statusCode = await response.statusCode;
-      const answer = await response._getData();
-      
-      should(contentType).equal('text/plain');
-      should(statusCode).equal(200);
-      should(answer).equal('deny');
-    })
-
     it('동일한 아이디가 아닐 경우, 응답으로 success 반환', async() => {
       const next = () => {};
       const id = await cryptoUtil.getCryptoHash('uniqueID');

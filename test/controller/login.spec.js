@@ -38,18 +38,6 @@ describe('loginController Test', () => {
       should(statusCode).equal(302);
       should(redirectUrl).equal('/');
     })
-
-    it('올바른 유저 정보일 경우 todos로 리다이렉트', async () => {
-      request.body = {'id' : 'korea', 'password' : '1234'};
-      await loginController.loginRequest()(request, response, next);
-
-      const statusCode = await response.statusCode;
-      const redirectUrl = await response._getHeaders().location;
-
-      should(statusCode).equal(302);
-      should(redirectUrl).equal('/todos');
-    })
-
   })
 
 })

@@ -72,29 +72,6 @@ describe('todoController Test', () => {
       should(typeof (ajaxAnswer*1)).equal('number');
     })
 
-    it('이전에 추가한 데이터의 업데이트 요청 시 업데이트 데이터가 db 반영 후 success 문자열 반환', async () => {
-      
-      // 데이터 업데이트
-      const updateType = 'doing';
-      request.url = `/todos/${ajaxAnswer}`;
-      request.body = {'type' : 'doing'};
-
-      await todoController.updateTodo()(request, response, next);
-
-      statusCode = await response.statusCode;
-      contentType = await response.getHeader('Content-Type');
-      
-      should(contentType).equal('text/plain');
-      should(statusCode).equal(200);
-      
-      const allDataObj = await csvParser.getKeyValueObj('./db/todoList.csv');
-      const card = allDataObj[ajaxAnswer];
-      should(card.type).equal(updateType);
-      
-      const ajaxStr = await response._getData();
-      should(ajaxStr).equal('success');
-    })
-
     it('데이터 삭제 요청 시 해당 아이템 삭제', async () => {
       request.url = `/todos/${ajaxAnswer}`;
       await todoController.deleteTodo()(request, response, next);
