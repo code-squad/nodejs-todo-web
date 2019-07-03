@@ -77,7 +77,7 @@ describe('todoController Test', () => {
       // 데이터 업데이트
       const updateType = 'doing';
       request.url = `/todos/${ajaxAnswer}`;
-      request.body = {'type' : updateType};
+      request.body = {'type' : 'doing'};
 
       await todoController.updateTodo()(request, response, next);
 

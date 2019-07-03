@@ -29,8 +29,8 @@ const addTodo = () => async (req, res, next) => {
   const cardKey = keyObj.cardKey;
   
   const dataStr = `\r\n${cardKey},${type},${data},${userID}`;
-  
-  await csvParser.appendData('./db/todoList.csv', dataStr);
+
+  await fileHandler.appendFile('./db/todoList.csv', dataStr);
   await updateTodoKey(keyObj, './db/keys.csv');
 
   res.writeHead(200, {'Content-Type' : 'text/plain'});
