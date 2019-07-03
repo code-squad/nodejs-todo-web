@@ -16,6 +16,9 @@ class Title {
         header.appendChild(this.setBin());
         header.classList.add('header');
         this.title.classList.add('title');
+        this.title.setAttribute('draggable', 'true');
+        this.addDragStartListener(this.title);
+
         body.insertBefore(header, body.firstChild);
     }
 
@@ -27,13 +30,40 @@ class Title {
         return this.bin;
     }
 
+    addDragStartListener(article) {
+        article.addEventListener('dragstart', event => {
+            this.dragging.data = event.target;
+        });
+    }
+
     addDropListener(div) {
         div.addEventListener('dragover', event => {
             event.preventDefault();
         });
         div.addEventListener('drop', event => {
             event.preventDefault();
-            this.dragging.data.remove();
+            if (this.dragging.data.className == 'title') {
+                const request = new XMLHttpRequest();
+                request.onload = () => {
+                    const url = 'http://localhost:3000/login';
+                    if (request.status === 200) {
+                        if (request.responseURL === url) {
+                            return window.location.replace(request.responseURL);
+                        }
+                    }
+
+                }
+                request.open('POST', './index/logout');
+                request.send();
+                return;
+            }
+            const [draggingSectionIndex, draggingObjectIndex] = getIndex(this.dragging.data.id);
+            if (draggingSectionIndex == 'section') {
+                data.userData.splice(Number(draggingObjectIndex), 1);
+            } else {
+                data.userData[Number(draggingSectionIndex)].splice(Number(draggingObjectIndex), 1);
+            }
+            saveData();
         });
     }
 }
@@ -113,11 +143,15 @@ class ManagerSection {
             alert("내용을 입력해 주세요");
             return;
         }
-        const section = new Section(this.textarea.value, this.dragging);
-        const newSection = section.setSection();
+
+        data.userData.push([`${this.textarea.value}`]);
+        // const section = new Section(this.textarea.value, this.dragging);
+        // const newSection = section.setSection();
 
         this.textarea.value = "";
         this.addingSectionBox.classList.toggle("hide");
+
+        saveData();
 
     }
 
@@ -166,6 +200,7 @@ class Section {
         this.section.appendChild(this.setCardBox());
         this.section.classList.add('section');
         this.section.setAttribute('draggable', 'true');
+        this.section.setAttribute('id', `section$${this.index}`);
         this.addDragStartListener(this.section);
         this.main.insertBefore(this.section, this.main.lastElementChild);
     }
@@ -186,6 +221,7 @@ class Section {
         this.header.innerText = `${this.headerName}`;
         this.addDropListener(this.header);
         this.header.classList.add('sectionHeader');
+        this.header.setAttribute("id", `${this.index}$header`);
         return this.header;
     }
 
@@ -195,6 +231,7 @@ class Section {
         this.addBoxOpenListener(button);
         this.addDropListener(button);
         button.classList.add('openButton');
+        button.setAttribute("id", `${this.index}$openButton`);
         return button;
     }
 
@@ -213,9 +250,12 @@ class Section {
         div.addEventListener('drop', event => {
             if (this.dragging.data.tagName !== "ARTICLE") return;
             event.preventDefault();
-            this.cardBox.insertBefore(this.dragging.data, this.cardBox.firstChild);
-            
-            setItems();
+            const [draggingSectionIndex, draggingCardIndex] = getIndex(this.dragging.data.id);
+            const [targetSectionIndex, targetCardIndex] = getIndex(event.target.id);
+            const dragginCard = data.userData[Number(draggingSectionIndex)].splice(Number(draggingCardIndex), 1)[0];
+            data.userData[Number(targetSectionIndex)].splice(1, 0, dragginCard);
+
+            saveData();
         });
     }
 
@@ -266,6 +306,7 @@ class Section {
         if (text) {
             const card = new Card(text, index, this.dragging);
             const newCard = card.setCard();
+            newCard.setAttribute("id", `${this.index}$${index}`);
             this.cardBox.appendChild(newCard);
         } else {
             if (this.textarea.value === '') {
@@ -335,7 +376,12 @@ class Card {
         article.addEventListener('drop', event => {
             if (this.dragging.data.tagName !== "ARTICLE") return;
             event.preventDefault();
-            event.target.parentNode.insertBefore(this.dragging.data, event.target.nextElementSibling);
+            const [draggingSectionIndex, draggingCardIndex] = getIndex(this.dragging.data.id);
+            const [targetSectionIndex, targetCardIndex] = getIndex(event.target.id);
+            const dragginCard = data.userData[Number(draggingSectionIndex)].splice(Number(draggingCardIndex), 1)[0];
+            data.userData[Number(targetSectionIndex)].splice(Number(targetCardIndex) + 1, 0, dragginCard);
+
+            saveData();
         });
     }
 
@@ -344,6 +390,8 @@ const data = {};
 const clearBody = () => {
     const body = document.getElementById('body');
     body.innerHTML = '<main></main>';
+    // const main = document.createElement('main');
+    // body.appendChild(main);
 }
 
 const saveData = () => {
@@ -355,15 +403,17 @@ const saveData = () => {
                 setItems();
             }
         }
-    
+
     }
-    
-    request.open('POST', './index/saveData');
+
+    request.open('PUT', './index/saveData');
     request.setRequestHeader('Content-type', 'application/json');
     request.send(JSON.stringify(data));
 }
 
-
+const getIndex = (str) => {
+    return str.split('$');
+}
 
 const setItems = () => {
     const request = new XMLHttpRequest();
@@ -380,12 +430,10 @@ const setItems = () => {
 
                 const managerSection = new ManagerSection(dragging);
                 managerSection.setManagerSection();
-                console.log(data.userData);
-
-                for(let i = 0; i < data.userData.length; i++){
+                for (let i = 0; i < data.userData.length; i++) {
                     const section = new Section(data.userData[i][0], i, dragging);
                     section.setSection();
-                    for(let j = 1; j < data.userData[i].length; j++){
+                    for (let j = 1; j < data.userData[i].length; j++) {
                         section.addCard(data.userData[i][j], j);
                     }
 
@@ -393,7 +441,7 @@ const setItems = () => {
                 return;
             }
         }
-    
+
     }
 
     request.open('GET', './index/userData');

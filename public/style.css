@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css?family=Noto+Sans+KR&display=swap');
 .hide {
     display: none;
 }
@@ -31,7 +32,7 @@ main{
 }
 
 .title{
-    width: calc(100% - 50px);
+    margin-right: auto;
     font-family: 'Black Han Sans';
     font-weight: bold; 
     font-size: 20px;
