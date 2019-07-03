@@ -5,10 +5,10 @@ module.exports.getExtension = (url) => {
 
 module.exports.convert = (url) => {
     const convertURL = {
-        '/'             : '/index.html',
-        '/signIn?'      : '/signIn.html',
-        '/signUp?'      : '/signUp.html',
-        '/todoList'     : '/todoList.html',
+        '/'             : '/public/index.html',
+        '/signIn?'      : '/public/signIn.html',
+        '/signUp?'      : '/public/signUp.html',
+        '/todoList'     : '/public/todoList.html',
     }
     return (convertURL[url] === undefined) ? url : convertURL[url];
 }
