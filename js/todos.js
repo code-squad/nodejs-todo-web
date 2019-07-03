@@ -22,4 +22,10 @@ const deleteDragElement = dragData => {
 	todosDB.deleteDragElement(dragData);
 };
 
-module.exports = { getTodosList, addTodo, deleteTodos, createUserArea, deleteDragElement };
+const sortingTodosList = (user_id, updateTodos) => {
+	const updateTodosData = JSON.parse(updateTodos);
+	updateTodosData['user_id'] = user_id;
+	todosDB.sortingTodosList(updateTodosData);
+};
+
+module.exports = { getTodosList, addTodo, deleteTodos, createUserArea, deleteDragElement, sortingTodosList };
