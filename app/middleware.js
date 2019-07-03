@@ -1,4 +1,4 @@
-const Middleware = function()  {
+const Middleware = function() {
   const middlewareContainer = [];
   let _req, res;
 
@@ -7,9 +7,12 @@ const Middleware = function()  {
       fn.basePath = path;
       const boundRun = fn.run.bind(fn);
       middlewareContainer.push(boundRun);
-    } else {
+    } else if (typeof path === 'function'){
       // In this branch, Path is a callback function.
-      middlewareContainer.push(path);
+      fn = path;
+      middlewareContainer.push(fn);
+    } else {
+      throw new Error('Add router or middleware');
     }
   };
 

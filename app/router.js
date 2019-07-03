@@ -48,18 +48,21 @@ class Router {
     return this.routes[method][routeUrl];
   }
 
+  lastRouterMiddleware(err, req, res, next) {
+    req.next(err);
+  }
+
   run(req, res, next) {
     const route = this.find(req.method, req.url);
-    const errorCatcher = new ErrorCatcher();
+    // const errorCatcher = new ErrorCatcher();
     if(req.url.split('/')[1] === this.basePath.split('/')[1] && route){
+      req.next = next;
       const routerMiddlewares = route;
 
-      const boundSetError = errorCatcher.setError.bind(errorCatcher);
-      routerMiddlewares.add(boundSetError);
+      // const boundSetError = errorCatcher.setError.bind(errorCatcher);
+      // routerMiddlewares.add(boundSetError);
+      routerMiddlewares.add(this.lastRouterMiddleware);
       routerMiddlewares.run(req, res);
-      if(errorCatcher.thrownError){
-        next(errorCatcher.thrownError);
-      }
     } else {
       next();
     }
