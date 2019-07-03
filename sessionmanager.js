@@ -1,8 +1,7 @@
 class SessionManager {
   constructor() {
     this.sessionStorage = new Map();
-    // this.maxAge = (process.env.NODE_ENV === 'development' ? 5 : 1 * 60 * 60) * 1000;
-    this.maxAge = 1 * 60 * 60 * 1000;
+    this.maxAge = (process.env.NODE_ENV === 'development' ? 5 : 1 * 60 * 60) * 1000;
   }
 
   setSession(sessionId, userId, establishedTime) {
