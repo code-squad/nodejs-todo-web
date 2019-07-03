@@ -7,7 +7,8 @@
     "test": "./node_modules/jest/bin/jest.js",
     "coverage": "./node_modules/jest/bin/jest.js --coverage",
     "start": "node server",
-    "eslint": "./node_modules/eslint/bin/eslint.js"
+    "eslint": "./node_modules/eslint/bin/eslint.js",
+    "coveralls": "./node_modules/jest/bin/jest.js --coverage && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
   },
   "repository": {
     "type": "git",
@@ -27,6 +28,7 @@
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-preset-env": "^1.7.0",
+    "coveralls": "^3.0.4",
     "eslint": "^5.16.0",
     "jest": "^24.8.0",
     "nodemon": "^1.19.1",
