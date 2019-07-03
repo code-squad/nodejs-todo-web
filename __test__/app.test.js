@@ -4,7 +4,6 @@ const path = require('path');
 const server = require('../app');
 const { parseCookie } = require('../util');
 
-const wrongId = 'test2', userId = 'test', wrongPassword = '1234', password = 'aaaa';
 jest.setTimeout(10 * 1000);
 
 function sleep(ms){
@@ -15,7 +14,25 @@ function sleep(ms){
 
 describe('TODO 서버 테스트', () => {
   const agent = request.agent(server);
+  const wrongId = 'test2', userId = 'test', wrongPassword = '1234', password = 'aaaa';
+  const dataDir = path.join(process.cwd(), 'data');
+
   let sessionId = '';
+
+  beforeAll(async done => {
+    try {
+      await fs.promises.access((dataDir), fs.F_OK);
+      done();
+    } catch (error) {
+      if(error.errno === -2) {
+        await fs.promises.mkdir(dataDir);
+        done();
+      } else {
+        console.error('디렉토리 생성 실패');
+        done(error);
+      }
+    }
+  });
 
   it('최초 실행 시 로그인 페이지 로드 성공 여부 확인', done => {
     agent.get('/').then(res => {
