@@ -6,9 +6,18 @@ module.exports.initTodoList = async (id) => {
     const option = { encoding: 'utf-8', flag: 'a' };
     fs.appendFile('./db/todoList_Information.csv', writeData, option, (error) => {
         if (error) throw error;
-        console.log("todoList is appended to file successfully.");
     });
     console.timeEnd(`[ TodoList Mananger ] Init todoList `);
+}
+
+module.exports.writeTodoList = async (todoList) => {
+    console.time(`[ TodoList Mananger ] write todoList `);
+    const option = { encoding: 'utf-8', flag: 'w' };
+    todoList = todoList.substr(1, todoList.length - 2) + ",";
+    fs.writeFile('./db/todoList_Information.csv', todoList, option, (error) => {
+        if (error) throw error;
+    });
+    console.timeEnd(`[ TodoList Mananger ] write todoList `);
 }
 
 module.exports.readTodoList = () => {

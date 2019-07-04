@@ -1,8 +1,9 @@
-const todoListManager = require('./manager/todoList_manager');
-const fileManager = require('./manager/file_manager');
-const httpStatus = require('./http_status');
-const utility = require('./utility');
-const http = require('http');
+const todoListManager   = require('./manager/todoList_manager');
+const memberManager     = require('./manager/member_manager');
+const utilCookies       = require('./util/cookie_parser');
+const staticFile        = require('./static_file');
+const httpStatus        = require('./http_status');
+const http              = require('http');
 
 const sessionTable = new Map();
 
@@ -13,28 +14,28 @@ const receiveData = (request) => {
     });
 }
 
-const checkSessionID = async (cookie) => {
-    return cookie !== undefined && sessionTable.has(utility.parse(cookie).SID);
+const isExistSessionID = async (cookie) => {
+    return cookie !== undefined && sessionTable.has(utilCookies.parse(cookie).SID);
 }
 
-const login = async (input) => {
-    const member = JSON.parse(await fileManager.readMemberInfo());
+const isExistPassword = async (input) => {
+    const member = JSON.parse(await memberManager.readMemberInfo());
     return (member[input.id] === input.pw) ? true : false;
 }
 
 const isNotExistMember = async (input) => {
-    const member = JSON.parse(await fileManager.readMemberInfo());
+    const member = JSON.parse(await memberManager.readMemberInfo());
     return (member[input.id] === undefined) ? true : false;
 }
 
+// TODO : crypto 모듈 사용해서 세션 ID를 만들도록 변경할 것..
 const createSessionID = async (inputID) => {
     let sessionID = 0;
     while (true) {
         const min = 100000000000000000, max = 999999999999999999;
         sessionID = String(Math.floor(Math.random() * (max - min + 1)) + min);
         if (!sessionTable.has(sessionID)) {
-            const jsonData = JSON.parse(await todoListManager.readTodoList());
-            sessionTable.set(sessionID, { id : inputID, contents : jsonData[inputID] });
+            sessionTable.set(sessionID, inputID);
             console.log(`[ Server ] session Table size : ${sessionTable.size}`);
             break;
         }
@@ -45,7 +46,7 @@ const createSessionID = async (inputID) => {
 const signIn = async (request, response) => {
     console.time(`[ Server ] Sign In process `);
     const input = await receiveData(request);
-    if (await login(input)) {
+    if (await isExistPassword(input)) {
         const cookieInfo = [`SID=${await createSessionID(input.id)}; Max-Age=${60 * 60 * 24 * 30}`];
         response.statusCode = httpStatus.MOVED_PERMANENTLY;
         response.setHeader('Set-Cookie', cookieInfo);
@@ -58,7 +59,7 @@ const signUp = async (request, response) => {
     console.time(`[ Server ] Sign Up process `);
     const input = await receiveData(request);
     if (await isNotExistMember(input)) {
-        fileManager.writeMemberInfo(input);
+        memberManager.writeMemberInfo(input);
         todoListManager.initTodoList(input.id);
         response.statusCode = httpStatus.MOVED_PERMANENTLY;
     } else response.statusCode = httpStatus.OK;
@@ -69,7 +70,7 @@ const signUp = async (request, response) => {
 const signOut = async (request, response) => {
     console.time(`[ Server ] Sign Out process `);
     if (request.headers.cookie !== undefined) {
-        const sessionID = utility.parse(request.headers.cookie).SID;
+        const sessionID = utilCookies.parse(request.headers.cookie).SID;
         if (sessionTable.has(sessionID)) sessionTable.delete(sessionID);
     }
     response.statusCode = httpStatus.MOVED_PERMANENTLY;
@@ -93,40 +94,47 @@ const redirect = async (response, request, URL) => {
 // command ..
 const addItem = async (request, response) => {
     const data = await receiveData(request);
-    const sessionID = utility.parse(request.headers.cookie).SID;
+    const sessionID = utilCookies.parse(request.headers.cookie).SID;
     if (sessionTable.has(sessionID)) {
-        const todoList = sessionTable.get(sessionID).contents;
+        const jsonData = JSON.parse(await todoListManager.readTodoList());
+        const todoList = jsonData[sessionTable.get(sessionID)];
         todoList[data.type].splice(data.index, 0, data.value);
+        todoListManager.writeTodoList(JSON.stringify(jsonData));
         response.end();
     } else throw Error(`[Server - Error] Session ID is not saved after Login. ( Add Item )`);
 }
 
 const deleteItem = async (request, response) => {
     const data = await receiveData(request);
-    const sessionID = utility.parse(request.headers.cookie).SID;
+    const sessionID = utilCookies.parse(request.headers.cookie).SID;
     if (sessionTable.has(sessionID)) {
-        const todoList = sessionTable.get(sessionID).contents;
+        const jsonData = JSON.parse(await todoListManager.readTodoList());
+        const todoList = jsonData[sessionTable.get(sessionID)];
         todoList[data.type].splice(data.index, 1);
+        todoListManager.writeTodoList(JSON.stringify(jsonData));
         response.end();
     } else throw Error(`[Server - Error] Session ID is not saved after Login. ( Delete Item )`);
 }
 
 const updateItem = async (request, response) => {
     const data = await receiveData(request);
-    const sessionID = utility.parse(request.headers.cookie).SID;
+    const sessionID = utilCookies.parse(request.headers.cookie).SID;
     if (sessionTable.has(sessionID)) {
-        const todoList = sessionTable.get(sessionID).contents;
+        const jsonData = JSON.parse(await todoListManager.readTodoList());
+        const todoList = jsonData[sessionTable.get(sessionID)];
         const [ addValue ] = todoList[data.deleteType].splice(data.deleteIndex, 1);
         if (data.deleteType === data.addType && data.deleteIndex < data.addIndex) data.addIndex--;
         todoList[data.addType].splice(data.addIndex, 0, addValue);
+        todoListManager.writeTodoList(JSON.stringify(jsonData));
         response.end();
     } else throw Error(`[Server - Error] Session ID is not saved after Login. ( Delete Item )`);
 }
 
 const showItem = async (request, response) => {
-    const sessionID = utility.parse(request.headers.cookie).SID;
+    const sessionID = utilCookies.parse(request.headers.cookie).SID;
     if (sessionTable.has(sessionID)) {
-        const todoList = sessionTable.get(sessionID).contents;
+        const jsonData = JSON.parse(await todoListManager.readTodoList());
+        const todoList = jsonData[sessionTable.get(sessionID)];
         response.write(JSON.stringify(todoList));
         response.end();
     } else throw Error(`[Server - Error] Session ID is not saved after Login. ( Show Item )`);
@@ -146,18 +154,18 @@ const post = async (request, response) => {
 }
 
 const get = async (request, response) => {
-    if (await checkSessionID(request.headers.cookie)) {
+    if (await isExistSessionID(request.headers.cookie)) {
         switch (request.url) { 
             case '/'        : 
             case '/signIn?' : 
             case '/signUp?' : redirect(response, request, '/todoList'); break;
             case '/show'    : showItem(request, response);              break;
-            default         : fileManager.loadStaticFile(request.url, response);
+            default         : staticFile.load(request.url, response);
         }
     } else {
         switch (request.url) {
             case '/todoList': redirect(response, request, '/signIn?'); break;
-            default         : fileManager.loadStaticFile(request.url, response);
+            default         : staticFile.load(request.url, response);
         }
     }
 }
