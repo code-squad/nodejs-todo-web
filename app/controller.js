@@ -7,10 +7,42 @@ module.exports = class Controller {
         this.userManager = userManager;
         this.maxAge = 60 * 60 / 2;
         this.userData;
+        this.end = false;
+    }
+
+    async app(request, response){
+        this.end = false;
+        const [url, extension] = request.url.split('.');
+        if (extension && extension !== 'html') { 
+            await this.static(request, response, request.url);
+        }
+
+        if (request.method === 'GET') {
+            await this.get(request, response, request.url);
+        }
+
+        if (request.method === 'POST') {
+            await this.post(request, response, request.url);
+        }
+
+        if (request.method === 'PUT') {
+            await this.put(request, response, request.url);
+        }
+
+        if (!this.end){
+            const status = 'NOT FOUND';
+            this.error(request, response, status);
+        }
+    }
+
+    endResponse(response,body){
+        this.end = true;
+        return response.end(body);
     }
  
     async static(request, response, url) {
-        return response.end(await this.userManager.myReadFile(__dirname+'/../public'+ url));
+        const body = await this.userManager.myReadFile(__dirname+'/../public'+ url);
+        return this.endResponse(response,body);
 
     }
 
@@ -79,7 +111,8 @@ module.exports = class Controller {
                     const sessionData = this.session.getSessionID(userInfo);
                     status = 'FOUND';
                     response.writeHead(this.httpStatusCode[status], this.setHeadObject('./index', sessionData.sessionID, this.maxAge));
-                    return response.end("Logged in");
+                    const body = "Logged in";
+                    return this.endResponse(response, body);
                 } 
             });
         }
@@ -98,7 +131,8 @@ module.exports = class Controller {
                     const sessionData = this.session.getSessionID(userInfo);
                     status = 'FOUND';
                     response.writeHead(this.httpStatusCode[status], this.setHeadObject('./index', sessionData.sessionID, this.maxAge));
-                    return response.end("Sign Up");
+                    const body = "Sign Up";
+                    return this.endResponse(response, body);
                 }
             });
         }
@@ -106,7 +140,7 @@ module.exports = class Controller {
         if (url === '/index/logout') {
             status = 'FOUND';
             response.writeHead(this.httpStatusCode[status], this.setHeadObject('../login', '', 0));
-            return response.end(status);
+            return this.endResponse(response,status);
         }
     }
 
@@ -119,7 +153,8 @@ module.exports = class Controller {
             return request.on('end', async () => {
                 const [id, userData] = [JSON.parse(body).id, JSON.parse(body).userData];
                 this.userManager.saveData(id, userData);
-                return response.end("saved data");
+                const body = "saved data";
+                return this.endResponse(response,body);
             });
 
         }
