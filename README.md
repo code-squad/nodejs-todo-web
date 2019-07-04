@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/dev-dongwon/todoapp.svg?branch=master)](https://travis-ci.org/cocahack/nodejs-todo-web) 
+[![Build Status](https://travis-ci.org/dev-dongwon/todoapp.svg?branch=master)](https://travis-ci.org/dev-dongwon/todoapp)
 
 # TODO APP with Node.js
 
