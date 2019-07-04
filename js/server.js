@@ -9,17 +9,28 @@ const publicPath = path.join(__dirname, '..');
 const get = async (url, req, res) => {
 	const ext = path.parse(url).ext;
 
-	if (ext) {
-		const { file, mimeType } = await fs.readFile(`${publicPath}${url}`, ext);
-		res.writeHead(200, { 'Content-Type': mimeType });
-		return res.end(file);
+	try {
+		if (ext) {
+			const { file, mimeType } = await fs.readFile(`${publicPath}${url}`, ext);
+			if (!file || !mimeType) {
+				throw new Error('FILE DOES NOT EXIST');
+			}
+			res.writeHead(200, { 'Content-Type': mimeType });
+			return res.end(file);
+		}
+		if (readFileUrl(url)) {
+			const fileName = readFileUrl(url);
+			const { file, mimeType } = await fs.readFile(`${publicPath}${fileName}`, '.html');
+			if (!file || !mimeType) {
+				throw new Error('FILE DOES NOT EXIST');
+			}
+			res.writeHead(200, { 'Content-Type': mimeType });
+			return res.end(file);
+		}
+	} catch (error) {
+		throw error;
 	}
-	if (readFileUrl(url)) {
-		const fileName = readFileUrl(url);
-		const { file, mimeType } = await fs.readFile(`${publicPath}${fileName}`, '.html');
-		res.writeHead(200, { 'Content-Type': mimeType });
-		return res.end(file);
-	}
+
 	if (url === '/permission') {
 		if (!req.headers.cookie) {
 			return res.end('false');
@@ -97,10 +108,17 @@ const del = async (url, req, res) => {
 };
 
 const use = async (url, req, res) => {
-	const statusCode = url.slice(7);
-	const { file, mimeType } = await fs.readFile(`${publicPath}${url}.html`, '.html');
-	res.writeHead(statusCode, { 'Content-Type': mimeType });
-	return res.end(file);
+	try {
+		const statusCode = url.slice(7);
+		const { file, mimeType } = await fs.readFile(`${publicPath}${url}.html`, '.html');
+		if (!file || !mimeType) {
+			throw new Error('FILE DOES NOT EXIST');
+		}
+		res.writeHead(statusCode, { 'Content-Type': mimeType });
+		return res.end(file);
+	} catch (error) {
+		throw error;
+	}
 };
 
 const readFileUrl = url => {
