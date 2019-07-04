@@ -21,6 +21,9 @@ const isValidSignUpData = () => {
 const submitSignUpData = async signUpData => {
 	try {
 		const response = await fetch('/users', { method: 'POST', body: JSON.stringify(signUpData) });
+		if (response.redirected) {
+			return;
+		}
 		if (response.ok) {
 			const successSignUp = await response.text();
 			if (successSignUp === 'false') {
@@ -30,7 +33,6 @@ const submitSignUpData = async signUpData => {
 				alert('이미 사용중인 아이디입니다.');
 				return;
 			}
-			location.href = '/';
 		} else {
 			location.href = '/error-404';
 		}
