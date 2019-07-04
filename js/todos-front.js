@@ -130,6 +130,9 @@ TodosFront.prototype.makeLogoutButton = function() {
 TodosFront.prototype.logout = async function() {
 	try {
 		const response = await fetch('/users', { method: 'DELETE' });
+		if (response.redirected) {
+			return;
+		}
 		if (response.ok) {
 			this.userId = null;
 			location.href = '/';
