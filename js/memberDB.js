@@ -70,7 +70,7 @@ const getUserId = sid => {
 	const userInfo = memberList.filter(member => {
 		return member.user_sid === Number(sid);
 	});
-	return userInfo.user_id;
+	return userInfo[0].user_id;
 };
 
 const makeSessionId = () => {
