@@ -13,7 +13,7 @@ const logoutRouter = require('./app/routes/logoutrouter');
 const todoRouter = require('./app/routes/todorouter');
 const todolistRouter = require('./app/routes/todolistrouter');
 
-const server = http.createServer(async (req, res) => {
+const server = http.createServer((req, res) => {
   req.on('error', (err) => {
     console.error(err);
     res.statusCode = 400;

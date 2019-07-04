@@ -1,6 +1,6 @@
 const Middleware = function() {
   const middlewareContainer = [];
-  let _req, res;
+  let _req, _res;
 
   const add = (path, fn) => {
     if(typeof path === 'string'){
