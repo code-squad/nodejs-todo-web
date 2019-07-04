@@ -63,3 +63,7 @@ typings/
 .DS_STORE
 
 .vscode
+
+# User-defined ignore list
+data
+.eslint*

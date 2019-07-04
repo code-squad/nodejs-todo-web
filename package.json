@@ -1,0 +1,39 @@
+{
+  "name": "nodejs-todo-web",
+  "version": "0.0.1",
+  "description": "나만의 TODO 앱 만들기",
+  "main": "app.js",
+  "scripts": {
+    "test": "./node_modules/jest/bin/jest.js",
+    "coverage": "./node_modules/jest/bin/jest.js --coverage",
+    "start": "node server",
+    "eslint": "./node_modules/eslint/bin/eslint.js",
+    "coveralls": "./node_modules/jest/bin/jest.js --coverage && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cocahack/nodejs-todo-web.git"
+  },
+  "keywords": [
+    "TODO",
+    "http",
+    "Jest"
+  ],
+  "author": "Jake",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/cocahack/nodejs-todo-web/issues"
+  },
+  "homepage": "https://github.com/cocahack/nodejs-todo-web#readme",
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "coveralls": "^3.0.4",
+    "eslint": "^5.16.0",
+    "jest": "^24.8.0",
+    "nodemon": "^1.19.1",
+    "superagent": "^5.1.0",
+    "supertest": "^4.0.2"
+  },
+  "dependencies": {}
+}
