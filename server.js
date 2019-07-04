@@ -48,9 +48,9 @@ const signIn = async (request, response) => {
     const input = await receiveData(request);
     if (await isExistPassword(input)) {
         const cookieInfo = [`SID=${await createSessionID(input.id)}; Max-Age=${60 * 60 * 24 * 30}`];
-        response.statusCode = httpStatus.MOVED_PERMANENTLY;
+        response.statusCode = httpStatus.FOUND;
         response.setHeader('Set-Cookie', cookieInfo);
-    } else response.statusCode = httpStatus.OK;
+    } else response.statusCode = httpStatus.FORBIDDEN;
     response.end();
     console.timeEnd(`[ Server ] Sign In process `);
 }
@@ -61,8 +61,8 @@ const signUp = async (request, response) => {
     if (await isNotExistMember(input)) {
         memberManager.writeMemberInfo(input);
         todoListManager.initTodoList(input.id);
-        response.statusCode = httpStatus.MOVED_PERMANENTLY;
-    } else response.statusCode = httpStatus.OK;
+        response.statusCode = httpStatus.FOUND;
+    } else response.statusCode = httpStatus.FORBIDDEN;
     response.end();
     console.timeEnd(`[ Server ] Sign Up process `);
 }
@@ -73,9 +73,7 @@ const signOut = async (request, response) => {
         const sessionID = utilCookies.parse(request.headers.cookie).SID;
         if (sessionTable.has(sessionID)) sessionTable.delete(sessionID);
     }
-    response.statusCode = httpStatus.MOVED_PERMANENTLY;
-    response.setHeader('Location', `http://${request.headers.host}/`);
-    response.end();
+    redirect(response, '/');
     console.timeEnd(`[ Server ] Sign Out process `);
 }
 
@@ -84,9 +82,9 @@ const error = async (response) => {
     response.end();
 }
 
-const redirect = async (response, request, URL) => {
-    response.statusCode = httpStatus.MOVED_PERMANENTLY;
-    response.setHeader('Location', `http://${request.headers.host}${URL}`);
+const redirect = async (response, URL) => {
+    response.statusCode = httpStatus.FOUND;
+    response.setHeader('Location', `${URL}`);
     response.end();
 }
 
@@ -158,14 +156,14 @@ const get = async (request, response) => {
         switch (request.url) { 
             case '/'        : 
             case '/signIn?' : 
-            case '/signUp?' : redirect(response, request, '/todoList'); break;
+            case '/signUp?' : redirect(response, '/todoList');          break;
             case '/show'    : showItem(request, response);              break;
-            default         : staticFile.load(request.url, response);
+            default         : staticFile.load(request.url, response);   break;
         }
     } else {
         switch (request.url) {
-            case '/todoList': redirect(response, request, '/signIn?'); break;
-            default         : staticFile.load(request.url, response);
+            case '/todoList': redirect(response, '/signIn?');           break;
+            default         : staticFile.load(request.url, response);   break;
         }
     }
 }
@@ -174,7 +172,7 @@ const serverEventEmitter = http.createServer((request, response) => {
     switch (request.method) {
         case 'POST' : post(request, response);  break;
         case 'GET'  : get(request, response);   break;
-        default     : error(response);
+        default     : error(response);          break;
     }
 });
 

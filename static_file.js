@@ -1,4 +1,5 @@
 const staticFiles   = require('./util/static_file_parser');
+const httpStatus    = require('./http_status');
 const path          = require('path');
 const fs            = require('fs');
 
@@ -24,7 +25,7 @@ module.exports.load = async (requestURL, response) => {
     console.time(`[ Static files ] Load '${requestURL}' file `);
     const url = convert(requestURL);
     const extension = staticFiles.parse(url);
-    response.setHeader('Content-Type', mime[extension]);
+    response.writeHead(httpStatus.OK, { 'Content-Type' : mime[extension] });
     fs.createReadStream(path.join(__dirname, url)).pipe(response);
     console.timeEnd(`[ Static files ] Load '${requestURL}' file `);
 }
