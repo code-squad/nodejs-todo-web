@@ -131,7 +131,7 @@ TodosFront.prototype.logout = async function() {
 	try {
 		const response = await fetch('/users', { method: 'DELETE' });
 		if (response.redirected) {
-			return;
+			return (location.href = response.url);
 		}
 		if (response.ok) {
 			this.userId = null;

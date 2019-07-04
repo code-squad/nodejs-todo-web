@@ -19,11 +19,10 @@ const login = async () => {
 
 	try {
 		const response = await fetch('/auth', { method: 'POST', body: JSON.stringify(loginData) });
+		if (response.redirected) {
+			return (location.href = response.url);
+		}
 		if (response.ok) {
-			const validMember = await response.text();
-			if (validMember === 'true') {
-				return (location.href = '/');
-			}
 			document.querySelector('#password').value = '';
 			document.querySelector('#id').focus();
 			alert('아이디나 비밀번호가 올바르지 않습니다.');
