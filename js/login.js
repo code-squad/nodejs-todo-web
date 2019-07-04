@@ -27,7 +27,7 @@ const login = async () => {
 			document.querySelector('#id').focus();
 			alert('아이디나 비밀번호가 올바르지 않습니다.');
 		} else {
-			location.href = '/error-404';
+			throw new Error('500');
 		}
 	} catch (error) {
 		console.log('error.....', error);

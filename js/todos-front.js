@@ -62,7 +62,7 @@ TodosFront.prototype.getTodosList = async function() {
 				this.setTodosList(JSON.parse(todosList));
 			}
 		} else {
-			location.href = '/error-404';
+			throw new Error('500');
 		}
 	} catch (error) {
 		console.log('error.....', error);
@@ -137,7 +137,7 @@ TodosFront.prototype.logout = async function() {
 			this.userId = null;
 			location.href = '/';
 		} else {
-			location.href = '/error-404';
+			throw new Error('500');
 		}
 	} catch (error) {
 		console.log('error.....', error);
@@ -181,7 +181,7 @@ TodosFront.prototype.isValidLoggedIn = async function(event) {
 			this.userId = userId;
 			return true;
 		} else {
-			location.href = '/error-404';
+			throw new Error('500');
 		}
 	} catch (error) {
 		console.log('error.....', error);
@@ -224,7 +224,7 @@ TodosFront.prototype.addTodo = async function() {
 				document.querySelector('#addTodo').value = '';
 			}
 		} else {
-			location.href = '/error-404';
+			throw new Error('500');
 		}
 	} catch (error) {
 		console.log('error.....', error);
@@ -258,7 +258,7 @@ TodosFront.prototype.deleteElement = async function() {
 			this.dragData.remove();
 			this.dragData = null;
 		} else {
-			location.href = '/error-404';
+			throw new Error('500');
 		}
 	} catch (error) {
 		console.log('error.....', error);
@@ -307,7 +307,7 @@ TodosFront.prototype.sortingTodosList = async function(dropAreaId, targetElement
 			body: JSON.stringify(updateTodosData)
 		});
 		if (!response.ok) {
-			location.href = '/error-404';
+			throw new Error('500');
 		}
 	} catch (error) {
 		console.log('error.....', error);

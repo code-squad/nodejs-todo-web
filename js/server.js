@@ -14,9 +14,6 @@ const get = async (url, req, res) => {
 		res.writeHead(200, { 'Content-Type': mimeType });
 		return res.end(file);
 	}
-	if (url === '/error-500') {
-		use(url, req, res);
-	}
 	if (readFileUrl(url)) {
 		const fileName = readFileUrl(url);
 		const { file, mimeType } = await fs.readFile(`${publicPath}${fileName}`, '.html');
@@ -38,6 +35,10 @@ const get = async (url, req, res) => {
 		const todosList = todos.getTodosList(user_id);
 		return res.end(JSON.stringify(todosList));
 	}
+	if (url === '/error-500') {
+		return use(url, req, res);
+	}
+	return use('/error-404', req, res);
 };
 
 const post = async (url, req, res) => {

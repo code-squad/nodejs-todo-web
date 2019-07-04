@@ -33,7 +33,7 @@ const submitSignUpData = async signUpData => {
 				alert('이미 사용중인 아이디입니다.');
 			}
 		} else {
-			location.href = '/error-404';
+			throw new Error('500');
 		}
 	} catch (error) {
 		console.log('error.....', error);
