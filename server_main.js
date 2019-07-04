@@ -20,24 +20,8 @@ const controller = new Controller(httpStatusCode, fs, session, cookie, userManag
 
 const server = http.createServer(async (request, response) => {
     try {
-        const [url, extension] = request.url.split('.');
         console.log(request.method, request.url);
-        if (extension) { 
-            await controller.static(request, response, request.url);
-        }
-
-        if (request.method === 'GET') {
-            await controller.get(request, response, url);
-        }
-
-        if (request.method === 'POST') {
-            await controller.post(request, response, url);
-        }
-
-        if (request.method === 'PUT') {
-            await controller.put(request, response, url);
-        }
-
+        controller.app(request,response);
     } catch (err) {
         const status = 'INTERNAL SERVER ERROR';
         controller.error(request, response, status);
