@@ -5,7 +5,7 @@ module.exports = class Session{
 
     isValidSessionID(sessionID){
         if(sessionID in this.sessionList){
-            return true;
+            return this.sessionList[sessionID];
         }
         return false;
     }
@@ -16,8 +16,12 @@ module.exports = class Session{
             return this.getSessionID(userInfo);
         }
 
-        this.sessionList[sessionID] = userInfo.id;
-        return sessionID;
+        this.sessionList[sessionID] = {
+            'sessionID' : sessionID,
+            'id' : userInfo.id,
+            'pw' : userInfo.pw
+        }
+        return this.sessionList[sessionID];
     }
 }
 
