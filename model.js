@@ -4,10 +4,7 @@ const model = {
     readStaticFile(file) {
         return new Promise((resolve) => {
             fs.readFile(file, (error, data) => {
-                if(error) {
-                    console.error(error);
-                    resolve(false);
-                }
+                if(error) console.error(error);
                 resolve(data.toString());
             });
         });

@@ -162,8 +162,8 @@ function addDeleteEvent(item) {
                 }
             }
         }
-        xhr.open('DELETE', '/items');
-        xhr.send(`${id}`);
+        xhr.open('DELETE', `/items/?id=${id}`);
+        xhr.send();
     });
 }
 

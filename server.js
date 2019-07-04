@@ -1,5 +1,7 @@
 const http = require('http');
 const path = require('path');
+const url = require('url');
+const querystring = require('querystring');
 const model = require('./model');
 const signupController = require('./signup-controller');
 const loginController = require('./login-controller');
@@ -8,14 +10,17 @@ const updateController = require('./update-controller');
 const deleteController = require('./delete-controller');
 const { parseCookie, generateRandomInt } = require('./util');
 const mimeType = require('./mime-type');
-const port = 8080;
+const port = process.env.PORT || 8080;
 const session = {};
 
 const server = http.createServer(async (request, response) => {
     const method = request.method;
-    const ext = path.parse(request.url).ext;
+    const pathObj = path.parse(request.url) 
+    const ext = pathObj.ext;
+    const filePath = __dirname + '/' + pathObj.base;
+
     if (Object.keys(mimeType).includes(ext)) {
-        const file = await model.readStaticFile(`.${request.url}`);
+        const file = await model.readStaticFile(`${filePath}`);
         response.writeHead(200, {'Content-Type': `${mimeType[ext]}`});
         response.end(file);
     }
@@ -79,19 +84,15 @@ const server = http.createServer(async (request, response) => {
                         delete session[sid];
                         response.writeHead(200, {'Set-Cookie': [`session = ''; Max-Age = 0`]});
                         response.end();
-                    } else if (request.url === '/items') {       
-                        let body = [];
-                        request.on('data', (chunk) => {
-                            body.push(chunk);
-                        }).on('end', async () => {
-                            const id = Buffer.concat(body).toString();
-                            if(deleteController.delete(user, id)) {
-                                response.statusCode = 200;
-                                response.end();
-                            }
-                            response.statusCode = 503;
+                    } else if (request.url.startsWith('/items')) {
+                        const query = querystring.parse(url.parse(request.url).query);
+                        const id = query.id;
+                        if(deleteController.delete(user, id)) {
+                            response.statusCode = 200;
                             response.end();
-                        });
+                        }
+                        response.statusCode = 503;
+                        response.end();
                     }
                     break;
             }
