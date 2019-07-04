@@ -45,10 +45,10 @@ const post = async (url, req, res) => {
 		req.on('data', loginData => {
 			const user_sid = member.login(loginData);
 			if (!user_sid) {
-				return res.end('false');
+				return res.end();
 			}
-			res.writeHead(200, { 'Set-Cookie': [`sid=${user_sid}; Max-Age=${60 * 60 * 24}; HttpOnly;`] });
-			return res.end('true');
+			res.writeHead(302, { 'Set-Cookie': [`sid=${user_sid}; Max-Age=${60 * 60 * 24}; HttpOnly;`], Location: '/' });
+			return res.end();
 		});
 	}
 	if (url === '/users') {
@@ -83,7 +83,7 @@ const put = async (url, req, res) => {
 const del = async (url, req, res) => {
 	if (url === '/users') {
 		member.logout(req.headers.cookie);
-		res.writeHead(302, { 'Set-Cookie': [`sid=; Max-Age=0; HttpOnly;`], Location: '/' });
+		res.writeHead(303, { 'Set-Cookie': [`sid=; Max-Age=0; HttpOnly;`], Location: '/' });
 		return res.end();
 	}
 	if (url.startsWith('/todos')) {
@@ -96,7 +96,7 @@ const del = async (url, req, res) => {
 };
 
 const use = async (url, req, res) => {
-	const statusCode = url.slice(6);
+	const statusCode = url.slice(7);
 	const { file, mimeType } = await fs.readFile(`${publicPath}${url}.html`, '.html');
 	res.writeHead(statusCode, { 'Content-Type': mimeType });
 	return res.end(file);
