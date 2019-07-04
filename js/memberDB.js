@@ -52,13 +52,25 @@ const setUserSid = user_id => {
 	return user_sid;
 };
 
-const getUserId = sid => {
-	const user_id = memberDB
+const getMemberList = () => {
+	const memberList = memberDB
+		.defaults({ members: [] })
 		.get('members')
-		.find({ user_sid: Number(sid) })
-		.value().user_id;
+		.value();
 
-	return user_id;
+	return memberList;
+};
+
+const getUserId = sid => {
+	const memberList = getMemberList();
+
+	if (!memberList) {
+		return false;
+	}
+	const userInfo = memberList.filter(member => {
+		return member.user_sid === Number(sid);
+	});
+	return userInfo.user_id;
 };
 
 const makeSessionId = () => {
