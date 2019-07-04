@@ -17,8 +17,10 @@ Game 기능 -> Socket.io를 사용
 
 ### Todo list
 
-1. http 모듈에 대한 nodejs 문서 정리
-2. server에서 http 모듈을 사용하여 로그인 회원가입 기능 구현
+1. user.js 에서 CRUD 구현
+2. 이후 user CRUD에 해당하는 프론트 구현
+3. session 구현
+4. 이후 로그인 프론트 구현
 
 (이전 프로젝트 참고할것)
 
