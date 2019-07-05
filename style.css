@@ -1,0 +1,146 @@
+.hide {
+    display: none;
+}
+
+html{
+    height: 100%;
+}
+
+body {
+    user-select: none;
+    background: #E0E0D8;
+    margin: 0;
+    height: 100%;
+}
+
+main{
+    padding-left: 10px;
+    padding-top: 10px;
+    display: flex;
+    align-items: flex-start;
+    height: calc(100% - 70px);
+    overflow-x:scroll;
+}
+
+.header{
+    align-items: center;
+    display: flex;
+    color : white;
+    background : #606F82;
+    padding: 10px 10px 10px 20px ;
+}
+
+.title{
+    width: calc(100% - 50px);
+    font-family: 'Black Han Sans';
+    font-weight: bold; 
+    font-size: 20px;
+
+}
+
+.sectionHeader{
+    cursor: pointer;
+    font-family: 'Black Han Sans';
+    font-weight: bold;
+    padding : 4px 0 4px 0;
+}
+
+.managerSection{
+    flex: 0 0 auto;
+    text-align: left;
+    margin: 10px;
+    width: 270px;
+}
+
+.addListButton{
+    border-radius: 3px;
+    cursor: pointer;
+    background : #A59C91;
+    padding: 5px;
+}
+
+.section{
+    flex: 0 0 auto;
+    border-radius: 3px;
+    max-height: 950px;
+    width: 270px;
+    background: #C8C2B6;
+    margin : 10px;
+    text-align: center;
+    padding-bottom: 5px;
+    overflow-y: auto;
+}
+
+.openButton{
+    cursor: pointer;
+    width : 100%;
+    background: #A59C91;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    width : 100%;
+    border : #A59C91 solid;
+    color: white;
+    font-size: 30px;
+    height: 30px;
+    line-height: 0px;
+}
+
+.addingCardBox{
+    background: #C8C2B6;
+    padding: 10px;
+}
+.cardTextArea{
+    width: 100%;
+    height: 50px;
+    padding: 0;
+}
+
+.buttonBox{
+    text-align: left;
+    height : 50px;
+}
+.addButton{
+    cursor: pointer;
+    position: relative;
+    top : 6.5px;
+    height: 40px;
+    width: 40px;
+    margin: 0 5px 0 0 ;
+    color: white;
+    background: #A59C91;
+    border : #A59C91 solid;
+    font-size: 40px;
+    line-height: 0px;
+}
+
+.cancleButton{
+    cursor: pointer;
+    height: 40px;
+    width: 40px;
+    color: rgb(112, 106, 99);
+    background: #C8C2B6;
+    border : #C8C2B6 solid;
+    font-size: 20px;
+    font-weight: bolder;
+    line-height: 0px;
+}
+
+.card{
+    cursor: pointer;
+    word-break: break-all;
+    max-height: 35px;
+    overflow-y: auto;
+    font-family: 'Gothic A1';
+    background: white;
+    color: #464646;
+    box-shadow: 2px 2px grey;
+    margin: 10px;
+    text-align: left;
+    padding: 5px 5px 5px 10px;
+}
+
+.bin{
+    padding: 5px;
+    height: 30px;
+    width: 30px;
+}
