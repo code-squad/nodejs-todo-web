@@ -1,0 +1,14 @@
+@import url(//cdn.rawgit.com/hiun/NanumSquare/master/nanumsquare.css);
+
+.message {
+	margin: 100px 0 30px 0;
+	font-family: 'Nanum Square';
+	font-size: 50px;
+	font-weight: bold;
+	text-align: center;
+}
+.warning {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}
