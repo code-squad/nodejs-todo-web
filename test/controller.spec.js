@@ -28,8 +28,8 @@ const server = http.createServer(async (request, response) => {
 });
 const agent = request.agent(server);
 let sessionID = '';
-const userData = {"id":"wangman","data":[["todo","go home"],["doing"],["done"]]};
-const sendingUserData = {"id":"wangman","userData":[["todo","go home"],["doing"],["done"]], "test":"test"};
+const userData = { "id": "wangman", "data": [["todo", "go home"], ["doing"], ["done"]] };
+const sendingUserData = { "id": "wangman", "userData": [["todo", "go home"], ["doing"], ["done"]], "test": "test" };
 
 const [userID, userPW, fakeID, fakePW, newID] = ['wangman', '1234', 'wongman', '1234', 'wangmin'];
 
@@ -68,7 +68,7 @@ describe('# Server test', () => {
             });
     });
 
-    
+
     it('try logout', done => {
         agent.post('/index/logout')
             .expect(302)
@@ -140,7 +140,7 @@ describe('# Server test', () => {
                 done();
             });
     });
-    
+
     it('get /index with incorrect session', done => {
         agent.get('/index')
             .expect(302)
@@ -174,8 +174,8 @@ describe('# Server test', () => {
                 done();
             });
     });
-    
-    
+
+
     it('get /index/userData with correct session', done => {
         agent.get('/index/userData')
             .expect(200)
@@ -187,7 +187,7 @@ describe('# Server test', () => {
                 done();
             });
     });
-    
+
     it('get /index/userData with incorrect session', done => {
         agent.get('/index/userData')
             .expect(302)
@@ -199,7 +199,7 @@ describe('# Server test', () => {
                 done();
             });
     });
-    
+
     it('get /index/userData withouth session', done => {
         agent.get('/index/userData')
             .expect(302)

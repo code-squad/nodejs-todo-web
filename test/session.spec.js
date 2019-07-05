@@ -1,16 +1,11 @@
 const assert = require('assert');
 const Session = require('../session.js');
 const session = new Session();
-
 class User{
     constructor(id,pw){
         this.id = id;
         this.pw = pw;
-        this.data = {
-            todo : [],
-            doing : [],
-            done : []
-        }; 
+        this.data = [['todo'],['doing'],['done']]; 
     }
 }
 
@@ -26,7 +21,7 @@ describe('# session test', () => {
         });
         it('should includes data', () => {
             const sessionData =  session.getSessionID(new User('wangman', 1234));
-            assert.equal(JSON.stringify(sessionData.data), JSON.stringify({todo : [],doing:[],done:[]}));
+            assert.equal(JSON.stringify(sessionData.pw), JSON.stringify(1234));
         });
     });
     describe('# is valid session id test',() => {
