@@ -1,5 +1,6 @@
 {
   "scripts": {
+    "start": "nodejs server_main.js",
     "test": "mocha"
   },
   "name": "todo_web",
@@ -23,6 +24,7 @@
     "cookie": "^0.4.0"
   },
   "devDependencies": {
+    "assert": "^2.0.0",
     "supertest": "^4.0.2"
   }
 }
