@@ -1,0 +1,36 @@
+{
+  "name": "tuna-todoapp",
+  "version": "1.0.0",
+  "description": "todoapp - vanilla http server in node.js",
+  "main": "binistanbul c.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "should": "^13.2.3",
+    "sinon": "^7.3.2"
+  },
+  "devDependencies": {
+    "mocha": "^6.1.4",
+    "node-mocks-http": "^1.7.6",
+    "nyc": "^14.1.1",
+    "request": "^2.88.0"
+  },
+  "scripts": {
+    "test": "nyc mocha test/*/*.spec.js && nyc mocha test/*.spec.js",
+    "start": "node bin.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dev-dongwon/todoapp.git"
+  },
+  "keywords": [
+    "todoapp"
+  ],
+  "author": "dev-dongwon",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dev-dongwon/nodejs-todo-web/issues"
+  },
+  "homepage": "https://github.com/dev-dongwon/nodejs-todo-web#readme"
+}

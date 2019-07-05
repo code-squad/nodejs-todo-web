@@ -1,0 +1,22 @@
+#title {
+    color: #ef5285;
+    text-align: center;
+    font-size: 30px;
+    margin: 10% 0px 10% 0px;
+    text-shadow: 1px 1px 1px gainsboro;
+}
+
+#login-box {
+    margin-top: 15%;
+}
+
+.form-label-group {
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+#btn-register {
+    margin-top: 5px;
+    background-color: aliceblue;
+    color: #ef5285;
+}
