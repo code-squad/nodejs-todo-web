@@ -86,9 +86,9 @@ module.exports = class UserManager {
         await this.writeData(test);
     }
 
-    async saveData(id, data) {
+    async saveData(id, data, test) {
         this.data[id].data = data;
-        await this.updateUserData(id);
+        await this.updateUserData(id, test);
     }
 
 
