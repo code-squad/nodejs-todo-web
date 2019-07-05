@@ -1,7 +1,7 @@
 @import url(//cdn.rawgit.com/hiun/NanumSquare/master/nanumsquare.css);
 
 body {
-	background-image: url('./img/overall-background.png');
+	background-image: url('../img/overall-background.png');
 	background-color: #ffffff;
 	overflow: hidden;
 }

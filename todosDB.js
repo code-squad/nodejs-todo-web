@@ -1,6 +1,6 @@
 const low = require('lowdb');
 const FileSync = require('lowdb/adapters/FileSync');
-const adapter = new FileSync(`${__dirname}/../data/todos.json`);
+const adapter = new FileSync('./db/todos.json');
 const todosDB = low(adapter);
 
 const createUserArea = user_id => {

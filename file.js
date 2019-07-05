@@ -1,5 +1,5 @@
 const fs = require('fs');
-const mimeTypeList = require('../data/mime-type.js');
+const mimeTypeList = require('./mime-type.js');
 
 const readFile = (filePath, ext) => {
 	return new Promise((resolve, reject) => {

@@ -1,6 +1,6 @@
 const low = require('lowdb');
 const FileSync = require('lowdb/adapters/FileSync');
-const adapter = new FileSync(`${__dirname}/../data/member.json`);
+const adapter = new FileSync('./db/member.json');
 const memberDB = low(adapter);
 
 const getUserInfo = loginData => {

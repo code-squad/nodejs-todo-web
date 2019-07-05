@@ -8,7 +8,7 @@ body {
 	padding: 0;
 }
 body {
-	background-image: url('./img/overall-background.png');
+	background-image: url('../img/overall-background.png');
 	background-color: #ffffff;
 	overflow: hidden;
 }

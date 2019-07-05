@@ -1,10 +1,10 @@
 const path = require('path');
 const fs = require('./file.js');
 const member = require('./member.js');
-const todos = require('./todos.js');
-const urlList = require('../data/url.js');
+const todos = require('./public/js/todos.js');
+const urlList = require('./url.js');
 
-const publicPath = path.join(__dirname, '..');
+const publicPath = path.join(__dirname, './public');
 
 const get = async (url, req, res) => {
 	const ext = path.parse(url).ext;
