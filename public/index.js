@@ -74,6 +74,10 @@ class ManagerSection {
         this.main;
         this.addingSectionBox;
         this.textarea;
+        this.buttonText = {
+            add : '+',
+            cancle : 'X'
+        }
     }
     setManagerSection() {
         this.main = document.querySelector('main');
@@ -131,7 +135,7 @@ class ManagerSection {
 
     setAddButton() {
         const button = document.createElement('button');
-        button.innerText = '+';
+        button.innerText = this.buttonText.add;
         this.addCreateSectionListener(button);
         button.classList.add('addButton');
 
@@ -145,9 +149,6 @@ class ManagerSection {
         }
 
         data.userData.push([`${this.textarea.value}`]);
-        // const section = new Section(this.textarea.value, this.dragging);
-        // const newSection = section.setSection();
-
         this.textarea.value = "";
         this.addingSectionBox.classList.toggle("hide");
 
@@ -163,7 +164,7 @@ class ManagerSection {
 
     setCancleButton() {
         const button = document.createElement('button');
-        button.innerText = 'X';
+        button.innerText = this.buttonText.cancle;
         this.addCancleAddingCardListener(button);
         button.classList.add('cancleButton');
         return button;
@@ -189,6 +190,10 @@ class Section {
         this.addingCardBox;
         this.textarea;
         this.cardBox;
+        this.buttonText = {
+            add : '+',
+            cancle : 'X'
+        }
     }
 
     setSection() {
@@ -227,7 +232,7 @@ class Section {
 
     setOpenButton() {
         const button = document.createElement('button');
-        button.innerText = '+';
+        button.innerText = this.buttonText.add;
         this.addBoxOpenListener(button);
         this.addDropListener(button);
         button.classList.add('openButton');
@@ -296,7 +301,7 @@ class Section {
 
     setAddButton() {
         const button = document.createElement('button');
-        button.innerText = '+';
+        button.innerText = this.buttonText.add;
         button.classList.add('addButton');
         this.addCreateCardListener(button);
 
@@ -329,7 +334,7 @@ class Section {
 
     setCancleButton() {
         const button = document.createElement('button');
-        button.innerText = 'X';
+        button.innerText = this.buttonText.cancle;
         this.addCancleAddingCardListener(button);
         button.classList.add('cancleButton');
 
@@ -390,8 +395,6 @@ const data = {};
 const clearBody = () => {
     const body = document.getElementById('body');
     body.innerHTML = '<main></main>';
-    // const main = document.createElement('main');
-    // body.appendChild(main);
 }
 
 const saveData = () => {
