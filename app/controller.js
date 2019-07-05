@@ -79,13 +79,14 @@ module.exports = class Controller {
     
         if( url === '/index/userData'){
             if (request.headers.cookie) {
+                const test = request.headers.test;
                 const cookies = this.cookie.parse(request.headers.cookie);
                 const sessionData = this.session.isValidSessionID(cookies.sessionID);
                 if (sessionData) {
-                    this.userData = await this.userManager.readUserData(sessionData.id, sessionData.pw);
+                    this.userData = await this.userManager.readUserData(sessionData.id, sessionData.pw, test);
                     status = 'OK';
                     response.writeHead(this.httpStatusCode[status], this.setHeadObject('./index', sessionData.sessionID,this.maxAge));
-                    return response.end(JSON.stringify({'id': this.userData.id, data: this.userData.data}));
+                    return this.endResponse(response, JSON.stringify({'id': this.userData.id, data: this.userData.data}));
                 }
             }
             status = 'FOUND';
@@ -94,16 +95,17 @@ module.exports = class Controller {
         }
     }
 
-    post(request, response, url) {
+    async post(request, response, url) {
         let status;
         let body = '';
         if(url === '/login'){
+            this.end = true;
             request.on('data', (data) => {
                 body += data;
             });
             return request.on('end', async () => {
-                const [id, pw] = [JSON.parse(body).id, JSON.parse(body).pw];
-                const userInfo = await this.userManager.logIn(id, pw);
+                const [id, pw, test] = [JSON.parse(body).id, JSON.parse(body).pw, JSON.parse(body).test];
+                const userInfo = await this.userManager.logIn(id, pw,test);
                 if (!userInfo) {
                     status = 'CONFLICT';
                     return this.error(request,response,status);
@@ -111,19 +113,20 @@ module.exports = class Controller {
                     const sessionData = this.session.getSessionID(userInfo);
                     status = 'FOUND';
                     response.writeHead(this.httpStatusCode[status], this.setHeadObject('./index', sessionData.sessionID, this.maxAge));
-                    const body = "Logged in";
-                    return this.endResponse(response, body);
+                    const responseBody = "Logged in";
+                    return this.endResponse(response, responseBody);
                 } 
             });
         }
 
         if(url === '/signup'){
+            this.end = true;
             request.on('data', (data) => {
                 body += data;
             });
             return request.on('end', async () => {
-                const [id, pw] = [JSON.parse(body).id, JSON.parse(body).pw];
-                const userInfo = await this.userManager.signUp(id, pw);
+                const [id, pw, test] = [JSON.parse(body).id, JSON.parse(body).pw, JSON.parse(body).test];
+                const userInfo = await this.userManager.signUp(id, pw, test);
                 if (!userInfo) {
                     status = 'CONFLICT';
                     return this.error(request,response,status);
@@ -131,8 +134,8 @@ module.exports = class Controller {
                     const sessionData = this.session.getSessionID(userInfo);
                     status = 'FOUND';
                     response.writeHead(this.httpStatusCode[status], this.setHeadObject('./index', sessionData.sessionID, this.maxAge));
-                    const body = "Sign Up";
-                    return this.endResponse(response, body);
+                    const responseBody = "Sign Up";
+                    return this.endResponse(response, responseBody);
                 }
             });
         }
@@ -145,16 +148,17 @@ module.exports = class Controller {
     }
 
     put(request, response, url) {
+        this.end = true;
         let body = '';
         if (url === '/index/saveData') {
             request.on('data', (data) => {
                 body += data;
             });
             return request.on('end', async () => {
-                const [id, userData] = [JSON.parse(body).id, JSON.parse(body).userData];
-                this.userManager.saveData(id, userData);
-                const body = "saved data";
-                return this.endResponse(response,body);
+                const [id, userData, test] = [JSON.parse(body).id, JSON.parse(body).userData, JSON.parse(body).test];
+                this.userManager.saveData(id, userData, test);
+                const responseBody = "saved data";
+                return this.endResponse(response,responseBody);
             });
 
         }
@@ -170,7 +174,7 @@ module.exports = class Controller {
         return {
             'Location': location,
             'Content-Type': 'text/html',
-            'Set-Cookie': [`sessionID = ${sessionID}; Path = /; Max-Age = ${maxAge}`]
+            'Set-Cookie': [`sessionID = ${sessionID} ; Path = / ; Max-Age = ${maxAge}`]
         }
     }
 
