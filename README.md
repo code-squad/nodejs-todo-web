@@ -36,6 +36,11 @@ Express 와 DataBase 를 사용하지 않고 구현 함으로써 HTTP를 학습�
 ### 구조
 ![structure](https://user-images.githubusercontent.com/26920620/60753309-4a1cda00-a00b-11e9-8237-e73510d5ec5a.png)
 
+### 개선사항
+
+- 암호화
+- Data 파일 세분화
+
 
 
 
