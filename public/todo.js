@@ -53,7 +53,7 @@ class Title {
                     }
 
                 }
-                request.open('POST', './index/logout');
+                request.open('POST', './todo/logout');
                 request.send();
                 return;
             }
@@ -400,7 +400,7 @@ const clearBody = () => {
 const saveData = () => {
     const request = new XMLHttpRequest();
     request.onload = () => {
-        const url = 'http://localhost:3000/index/saveData';
+        const url = 'http://localhost:3000/todo/saveData';
         if (request.status === 200) {
             if (request.responseURL === url) {
                 setItems();
@@ -409,7 +409,7 @@ const saveData = () => {
 
     }
 
-    request.open('PUT', './index/saveData');
+    request.open('PUT', './todo/saveData');
     request.setRequestHeader('Content-type', 'application/json');
     request.send(JSON.stringify(data));
 }
@@ -421,7 +421,7 @@ const getIndex = (str) => {
 const setItems = () => {
     const request = new XMLHttpRequest();
     request.onload = () => {
-        const url = 'http://localhost:3000/index/userData';
+        const url = 'http://localhost:3000/todo/userData';
         if (request.status === 200) {
             if (request.responseURL === url) {
                 clearBody();
@@ -447,7 +447,7 @@ const setItems = () => {
 
     }
 
-    request.open('GET', './index/userData');
+    request.open('GET', './todo/userData');
     request.send();
 }
 
