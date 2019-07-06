@@ -102,7 +102,7 @@ class Login {
             const pw = this.pwTextarea.value;
             const request = new XMLHttpRequest();
             request.onload = () => {
-                const url = 'http://localhost:3000/index';
+                const url = 'http://localhost:3000/todo';
                 if (request.status === 409) {
                     return alert("id나 pw가 올바르지 않습니다.");
                 } else if (request.status === 200) {
@@ -144,7 +144,7 @@ class Login {
             const pw = this.pwTextarea.value;
             const request = new XMLHttpRequest();
             request.onload = () => {
-                const url = 'http://localhost:3000/index';
+                const url = 'http://localhost:3000/todo';
                 if (request.status === 409) {
                     return alert("id가 이미 존재합니다.");
                 } else if (request.status === 200) {

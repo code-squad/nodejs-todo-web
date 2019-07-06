@@ -54,7 +54,7 @@ module.exports = class Controller {
                 const sessionData = this.session.isValidSessionID(cookies.sessionID);
                 if (sessionData) {
                     status = 'FOUND';
-                    response.writeHead(this.httpStatusCode[status], this.setHeadObject('./index', sessionData.sessionID, this.maxAge));
+                    response.writeHead(this.httpStatusCode[status], this.setHeadObject('./todo', sessionData.sessionID, this.maxAge));
                     return this.static(request, response, '/login.html');
                 }
             }
@@ -63,12 +63,12 @@ module.exports = class Controller {
             return this.static(request, response, '/login.html');
         }
 
-        if (url === '/index') {
+        if (url === '/todo') {
             if (request.headers.cookie) {
                 const cookies = this.cookie.parse(request.headers.cookie);
                 const sessionData = this.session.isValidSessionID(cookies.sessionID);
                 if (sessionData) {
-                    return this.static(request, response, '/index.html');
+                    return this.static(request, response, '/todo.html');
                 }
 
             }
@@ -77,7 +77,7 @@ module.exports = class Controller {
             return this.static(request, response, '/login.html');
         }
     
-        if( url === '/index/userData'){
+        if( url === '/todo/userData'){
             if (request.headers.cookie) {
                 const test = request.headers.test;
                 const cookies = this.cookie.parse(request.headers.cookie);
@@ -85,7 +85,7 @@ module.exports = class Controller {
                 if (sessionData) {
                     this.userData = await this.userManager.readUserData(sessionData.id, sessionData.pw, test);
                     status = 'OK';
-                    response.writeHead(this.httpStatusCode[status], this.setHeadObject('./index', sessionData.sessionID,this.maxAge));
+                    response.writeHead(this.httpStatusCode[status], this.setHeadObject('./todo', sessionData.sessionID,this.maxAge));
                     return this.endResponse(response, JSON.stringify({'id': this.userData.id, data: this.userData.data}));
                 }
             }
@@ -112,7 +112,7 @@ module.exports = class Controller {
                 } else {
                     const sessionData = this.session.getSessionID(userInfo);
                     status = 'FOUND';
-                    response.writeHead(this.httpStatusCode[status], this.setHeadObject('./index', sessionData.sessionID, this.maxAge));
+                    response.writeHead(this.httpStatusCode[status], this.setHeadObject('./todo', sessionData.sessionID, this.maxAge));
                     const responseBody = "Logged in";
                     return this.endResponse(response, responseBody);
                 } 
@@ -133,14 +133,14 @@ module.exports = class Controller {
                 } else {
                     const sessionData = this.session.getSessionID(userInfo);
                     status = 'FOUND';
-                    response.writeHead(this.httpStatusCode[status], this.setHeadObject('./index', sessionData.sessionID, this.maxAge));
+                    response.writeHead(this.httpStatusCode[status], this.setHeadObject('./todo', sessionData.sessionID, this.maxAge));
                     const responseBody = "Sign Up";
                     return this.endResponse(response, responseBody);
                 }
             });
         }
 
-        if (url === '/index/logout') {
+        if (url === '/todo/logout') {
             status = 'FOUND';
             response.writeHead(this.httpStatusCode[status], this.setHeadObject('../login', '', 0));
             return this.endResponse(response,status);
@@ -150,7 +150,7 @@ module.exports = class Controller {
     put(request, response, url) {
         this.end = true;
         let body = '';
-        if (url === '/index/saveData') {
+        if (url === '/todo/saveData') {
             request.on('data', (data) => {
                 body += data;
             });
