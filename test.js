@@ -1,8 +1,21 @@
-const todoListManager   = require('./manager/todoList_manager');
-const request   = require('supertest');
-const server    = require('./server');
+const TodoListManager   = require('./manager/todoList_manager');
+const MemberManager     = require('./manager/member_manager');
+const request           = require('supertest');
+const server            = require('./server');
+const fs                = require('fs');
+
+const todoListManager = new TodoListManager(fs);
+const memberManager = new MemberManager(fs);
 
 describe('TodoList Manager Test', () => {
+    test('read member information test', async () => {
+        const member = JSON.parse(await memberManager.readMemberInfo());
+        expect(member['hyodol92']).toEqual('1234');
+    });
+    test('write member information test', async() => {
+        const input = { id:'test12345678910', pw:'1234' };
+        memberManager.writeMemberInfo(input);
+    });
     test('todoList parse', async () => {
         const jsonData = JSON.parse(await todoListManager.readTodoList());
         expect(Array.isArray(jsonData['hyodol'].todo)).toEqual(true);
