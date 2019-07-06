@@ -11,7 +11,6 @@ server.on('request', (request, response) => {
   console.log(`method : ${ method }, url: ${ url }`);
   let data = '';
   let body = [];
-
   if (method === "GET" && url === "/") {
     response.statusCode = 200;
     data = fs.readFileSync(__dirname + '/public/index.html')
@@ -32,7 +31,6 @@ server.on('request', (request, response) => {
 
   }
   if (method === "POST" && url === "/user") {
-    
     request.on('data', (chunk) => {
       body.push(chunk);
       console.log('Im here')
@@ -42,7 +40,6 @@ server.on('request', (request, response) => {
       let query = qs.parse(body);
       user.exec[method](query);
     });
-    
   }
 
   response.statusCode = 404;

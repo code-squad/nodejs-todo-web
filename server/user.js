@@ -7,7 +7,7 @@ const users = JSON.parse(rawData);
 
 class User {
   constructor() {
-    this.exec = { "POST" : this.post, "GET" : this.get, "DELETE" : this.delete };
+    this.exec = { "POST" : this.post, "GET" : this.get, "DELETE" : this.delete, "UPDATE" : this.update};
   }
 
   async post(query) {
@@ -35,13 +35,16 @@ class User {
   async delete(query, sessions) {
     const { sid, name } = query;
     const delIdx = sessions.findIndex(el => el.sid === sid && el.name === name);
-    // 임시 세션
     if (delIdx === -1) {
       return { statusCode: 203, message: '잘못된 접근입니다.' };
     }
     await users.splice(delIdx, 1);
     fs.writeFileSync(`./data/user.json`, JSON.stringify(users));
     return { statusCode: 202, message: '유저를 삭제했습니다.'};
+  }
+
+  async update() {
+  
   }
 }
 
