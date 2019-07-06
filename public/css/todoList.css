@@ -39,20 +39,13 @@ input {
     margin: 0 auto;
 }
 
-#formTag {
-    text-align: right;
-    margin-left: 2.5px;
-    margin-right: 2.5px;
-    width: 100px;
-}
-
-#btn {
+#SignOutButton {
     background-color: aliceblue;
     font-family: 'Russo One', sans-serif;
     margin-left: 0px;
     margin-right: 0px;
     margin-top: 10px;
-    width: 100%;
+    width: 100px;
 }
 
 .contents_section {

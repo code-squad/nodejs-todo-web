@@ -1,6 +1,7 @@
-const todoListMainDiv = document.querySelectorAll('.todo_list_main');
-const storyInputText = document.querySelectorAll('.story_input');
-const storyAddBtn = document.querySelectorAll('.story_add');
+const todoListMainDiv   = document.querySelectorAll('.todo_list_main');
+const storyInputText    = document.querySelectorAll('.story_input');
+const storyAddBtn       = document.querySelectorAll('.story_add');
+const signOutButton     = document.querySelector('#SignOutButton');
 
 const dragDropEvent = new DragDropEvent();
 const addEvent = new AddEvent(dragDropEvent, todoListMainDiv, storyInputText);
@@ -34,3 +35,15 @@ for (let i = 0; i < storyAddBtn.length; i++) {
         addEvent.AddStoryDiv(i, index, undefined);
     });
 }
+
+// signOut
+signOutButton.addEventListener('click', () => {
+    fetch('http://localhost:8888/signOut', { method : 'post', redirect : 'follow' })
+    .then(response => { 
+        switch (response.status) {
+            case 403: alert(`회원 정보가 존재하지 않습니다!`); break;
+            case 302: window.location.href = '/'; break;
+            default: alert(`HTTP status : ${response.status}`); break;
+        }
+    });
+});
