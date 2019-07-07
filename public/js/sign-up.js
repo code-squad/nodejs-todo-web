@@ -21,15 +21,19 @@ const isValidSignUpData = () => {
 const submitSignUpData = async signUpData => {
 	try {
 		const response = await fetch('/users', { method: 'POST', body: JSON.stringify(signUpData) });
+
 		if (response.redirected) {
 			return (location.href = response.url);
 		}
+
 		if (response.ok) {
 			const successSignUp = await response.text();
+
 			if (!successSignUp) {
 				document.querySelector('#password').value = '';
 				document.querySelector('#rePassword').value = '';
 				document.querySelector('#id').focus();
+
 				alert('이미 사용중인 아이디입니다.');
 			}
 		} else {
@@ -54,10 +58,12 @@ const isValidPassword = (password, rePassword) => {
 		document.querySelector('#password').focus();
 		return;
 	}
+
 	if (!rePassword) {
 		document.querySelector('#rePassword').focus();
 		return;
 	}
+
 	if (password !== rePassword) {
 		document.querySelector('#rePassword').value = '';
 		document.querySelector('#password').focus();

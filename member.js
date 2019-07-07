@@ -7,6 +7,7 @@ const login = loginData => {
 	if (!memberInfo) {
 		return false;
 	}
+
 	const user_id = memberInfo.user_id;
 	const user_sid = sessionStorage.setSession(user_id);
 
@@ -24,6 +25,7 @@ const signUp = signUpData => {
 	if (duplicatedId) {
 		return false;
 	}
+
 	memberDB.createUserInfo({ user_id, user_password });
 	const user_sid = login(signUpData);
 

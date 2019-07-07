@@ -19,9 +19,11 @@ const login = async () => {
 
 	try {
 		const response = await fetch('/auth', { method: 'POST', body: JSON.stringify(loginData) });
+
 		if (response.redirected) {
 			return (location.href = response.url);
 		}
+
 		if (response.ok) {
 			document.querySelector('#password').value = '';
 			document.querySelector('#id').focus();

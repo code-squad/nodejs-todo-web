@@ -10,12 +10,15 @@ const server = http.createServer((req, res) => {
 	if (method === 'GET') {
 		myApp.get(url, req, res);
 	}
+
 	if (method === 'POST') {
 		myApp.post(url, req, res);
 	}
+
 	if (method === 'PUT') {
 		myApp.put(url, req, res);
 	}
+
 	if (method === 'DELETE') {
 		myApp.del(url, req, res);
 	}

@@ -4,6 +4,7 @@ const mimeTypeList = require('./mime-type.js');
 const readFile = (filePath, ext) => {
 	return new Promise((resolve, reject) => {
 		const mimeType = getMimeType(ext);
+
 		fs.readFile(filePath, (error, file) => {
 			if (error) {
 				reject(error);

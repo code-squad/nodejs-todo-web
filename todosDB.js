@@ -15,6 +15,7 @@ const getTodosList = user_id => {
 const addTodo = addTodoData => {
 	addTodoData['todos_id'] = makeTodosId();
 	const { user_id, todos_id, todos_status, todos_contents } = addTodoData;
+
 	todosDB
 		.get(user_id)
 		.push({ todos_id, todos_status, todos_contents })
@@ -26,6 +27,7 @@ const addTodo = addTodoData => {
 
 const deleteTodos = deleteTodoData => {
 	const { user_id, todos_id } = deleteTodoData;
+
 	todosDB
 		.get(user_id)
 		.remove({ todos_id: Number(todos_id) })

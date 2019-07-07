@@ -13,6 +13,7 @@ const get = async (url, req, res) => {
 	try {
 		if (ext) {
 			const { file, mimeType } = await fs.readFile(`${publicPath}${url}`, ext);
+
 			if (!file || !mimeType) {
 				throw new Error('500');
 			}
@@ -24,6 +25,7 @@ const get = async (url, req, res) => {
 		if (readFileUrl(url)) {
 			const fileName = readFileUrl(url);
 			const { file, mimeType } = await fs.readFile(`${publicPath}${fileName}`, '.html');
+
 			if (!file || !mimeType) {
 				throw new Error('500');
 			}
@@ -72,6 +74,7 @@ const post = async (url, req, res) => {
 	if (url === '/auth') {
 		req.on('data', loginData => {
 			const user_sid = member.login(loginData);
+
 			if (!user_sid) {
 				return res.end();
 			}
@@ -84,6 +87,7 @@ const post = async (url, req, res) => {
 	if (url === '/users') {
 		req.on('data', signUpData => {
 			const { user_sid, user_id } = member.signUp(signUpData);
+
 			todos.createUserArea(user_id);
 			if (!user_sid) {
 				return res.end();
@@ -105,6 +109,7 @@ const post = async (url, req, res) => {
 const put = async (url, req, res) => {
 	if (url.startsWith('/events')) {
 		const user_id = url.split('/')[2];
+
 		req.on('data', updateTodosData => {
 			todos.sortingTodosList(user_id, updateTodosData);
 			return res.end();

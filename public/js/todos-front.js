@@ -59,6 +59,7 @@ TodosFront.prototype.getTodosList = async function() {
 
 		if (response.ok) {
 			const todosList = await response.text();
+
 			if (todosList) {
 				this.setTodosList(JSON.parse(todosList));
 			}
@@ -140,6 +141,7 @@ TodosFront.prototype.logout = async function() {
 		if (response.redirected) {
 			return (location.href = response.url);
 		}
+
 		if (response.ok) {
 			this.userId = null;
 			location.href = '/';
@@ -295,6 +297,7 @@ TodosFront.prototype.dropTodosArea = function(event, dropAreaClassName) {
 	event.stopPropagation();
 
 	const dropAreaList = this.getDropAreaList(dropAreaClassName);
+
 	if (!dropAreaList.length) {
 		return this.dropEndElement(dropAreaClassName);
 	}
@@ -312,6 +315,7 @@ TodosFront.prototype.dropBetweenElements = function(event, dropAreaId) {
 	const dropAreaList = this.getDropAreaList(dropAreaId);
 
 	const appendTargetIndex = this.getAppendTargetIndex(dropAreaList, cursorYLocation);
+
 	if (appendTargetIndex === -1) {
 		return this.dropEndElement(dropAreaId);
 	}
@@ -328,6 +332,7 @@ TodosFront.prototype.sortingTodosList = async function(dropAreaId, targetElement
 			method: 'PUT',
 			body: JSON.stringify(updateTodosData)
 		});
+
 		if (!response.ok) {
 			throw new Error('500');
 		}
