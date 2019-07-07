@@ -12,7 +12,7 @@ class SessionMananger {
         let sessionID = 0;
         while (true) {
             const min = 1e15, max = Number.MAX_SAFE_INTEGER;
-            sessionID = String(Math.floor(Math.random() * (max - min + 1)) + min);
+            sessionID = String(Math.floor(Math.random() * (max - min + 1)));
             if (!this.sessionTable.has(sessionID)) {
                 this.sessionTable.set(sessionID, JSON.stringify({ id : inputID, date : new Date()}));
                 console.log(`Session Table Size : ${this.sessionTable.size}`);
@@ -45,7 +45,7 @@ class SessionMananger {
             const initMS    = new Date(JSON.parse(this.getValue(sessionID)).date).getTime();
             const currentMS = new Date().getTime();
             const limitMS   = 18e5;
-            if (currentMS - initMS > limitMS) {
+            if (Math.abs(currentMS - initMS) > limitMS) {
                 this.deleteSession(sessionID);
                 return false;
             }
