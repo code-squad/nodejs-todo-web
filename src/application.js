@@ -1,34 +1,19 @@
 const http = require("http");
+const serveStatic = require("./serve-static");
 const path = require("path");
 const fs = require("fs");
 
 const Application = () => {
   const server = http.createServer((req, res) => {
-    const mimeType = {
-      ".ico": "image/x-icon",
-      ".html": "text/html",
-      ".js": "text/javascript",
-      ".css": "text/css",
-      ".png": "image/png",
-      ".jpg": "image/jpeg",
-      ".eot": "appliaction/vnd.ms-fontobject",
-      ".ttf": "aplication/font-sfnt"
-    };
-    const ext = path.parse(req.url).ext;
+    serveStatic(req, res);
     const publicPath = path.join(__dirname, "../public");
+    fs.readFile(`${publicPath}/index.html`, (err, data) => {
+      if (err) throw err;
 
-    if (Object.keys(mimeType).includes(ext)) {
-      fs.readFile(`${publicPath}${req.url}`, (err, data) => {
-        if (err) {
-          res.statusCode = 404;
-          res.end("Not found");
-        } else {
-          res.statusCode = 200;
-          res.setHeader("Content-Type", mimeType[ext]);
-          res.end(data);
-        }
-      });
-    }
+      res.statusCode = 200;
+      res.setHeader("Content-Type", "text/html");
+      res.end(data);
+    });
   });
 
   const listen = (port = 3000, hostname = "127.0.0.1", fn) => {
