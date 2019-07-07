@@ -11,6 +11,7 @@
   },
   "scripts": {
     "test": "./node_modules/jest/bin/jest.js",
+    "start": "node app",
     "test:coverage": "./node_modules/jest/bin/jest.js --coverage"
   },
   "repository": {
