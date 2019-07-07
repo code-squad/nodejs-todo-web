@@ -32,20 +32,22 @@ const get = async (url, req, res) => {
 
 	if (url === '/permission') {
 		if (!req.headers.cookie) {
-			return res.end('false');
+			return res.end();
 		}
 
 		const cookies = cookie.parse(req.headers.cookie);
 		const userId = member.getUserId(cookies.sid);
 
-		if (!userId) {
-			return res.end('false');
-		}
 		return res.end(userId);
 	}
-	if (url.startsWith('/todos')) {
-		const user_id = url.split('/')[2];
-		const todosList = todos.getTodosList(user_id);
+	if (url === '/todos') {
+		if (!req.headers.cookie) {
+			return res.end();
+		}
+
+		const cookies = cookie.parse(req.headers.cookie);
+		const userId = member.getUserId(cookies.sid);
+		const todosList = todos.getTodosList(userId);
 
 		return res.end(JSON.stringify(todosList));
 	}
@@ -72,7 +74,7 @@ const post = async (url, req, res) => {
 			const { user_sid, user_id } = member.signUp(signUpData);
 			todos.createUserArea(user_id);
 			if (!user_sid) {
-				return res.end('false');
+				return res.end();
 			}
 
 			res.writeHead(302, { 'Set-Cookie': [`sid=${user_sid}; Max-Age=${60 * 60 * 24}; HttpOnly;`], Location: '/' });
@@ -106,10 +108,13 @@ const del = async (url, req, res) => {
 		return res.end();
 	}
 	if (url.startsWith('/todos')) {
-		const user_id = url.split('/')[2];
-		const todos_id = url.split('/')[3];
+		const cookies = cookie.parse(req.headers.cookie);
+		const user_id = member.getUserId(cookies.sid);
+		const todos_id = url.split('/')[2];
+
 		const deleteTodos = { user_id, todos_id };
 		todos.deleteTodos(deleteTodos);
+
 		return res.end();
 	}
 };
@@ -118,7 +123,7 @@ const use = async (url, req, res) => {
 	const statusCode = url.slice(7);
 	const { file, mimeType } = await fs.readFile(`${publicPath}${url}.html`, '.html');
 	if (!file || !mimeType) {
-		throw new Error('FILE DOES NOT EXIST');
+		throw new Error('FILE_DOES_NOT_EXIST');
 	}
 
 	res.writeHead(statusCode, { 'Content-Type': mimeType });

@@ -26,7 +26,7 @@ const submitSignUpData = async signUpData => {
 		}
 		if (response.ok) {
 			const successSignUp = await response.text();
-			if (successSignUp === 'false') {
+			if (!successSignUp) {
 				document.querySelector('#password').value = '';
 				document.querySelector('#rePassword').value = '';
 				document.querySelector('#id').focus();

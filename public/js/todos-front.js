@@ -55,7 +55,8 @@ TodosFront.prototype.load = function() {
 
 TodosFront.prototype.getTodosList = async function() {
 	try {
-		const response = await fetch(`/todos/${this.userId}`, { method: 'GET' });
+		const response = await fetch(`/todos`, { method: 'GET' });
+
 		if (response.ok) {
 			const todosList = await response.text();
 			if (todosList) {
@@ -175,7 +176,7 @@ TodosFront.prototype.isValidLoggedIn = async function(event) {
 		const response = await fetch('/permission');
 		if (response.ok) {
 			const userId = await response.text();
-			if (userId === 'false') {
+			if (!userId) {
 				return false;
 			}
 			this.userId = userId;
@@ -250,10 +251,10 @@ TodosFront.prototype.makeTodos = function(todosData) {
 
 TodosFront.prototype.deleteElement = async function() {
 	event.stopPropagation();
-
 	const todos_id = this.dragData.id;
+
 	try {
-		const response = await fetch(`/todos/${this.userId}/${todos_id}`, { method: 'DELETE' });
+		const response = await fetch(`/todos/${todos_id}`, { method: 'DELETE' });
 		if (response.ok) {
 			this.dragData.remove();
 			this.dragData = null;
