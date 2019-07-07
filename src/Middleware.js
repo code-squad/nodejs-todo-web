@@ -9,11 +9,17 @@ class Middleware {
         this.middlewares.push(fn);
     }
 
-    _run(i) {
+    _run(i, err) {
         if (i < 0 || i >= this.middlewares.length) return;
 
         const selectedFunc = this.middlewares[i];
-        const next = () => this._run(i + 1);
+        const next = (err) => this._run(i + 1, err);
+
+        if (err) {
+            return selectedFunc.length === 4 ?
+                selectedFunc(err, this.req, this.res, next) :
+                this._run(i + 1, err);
+        }
 
         selectedFunc(this.req, this.res, next);
     }
@@ -22,7 +28,7 @@ class Middleware {
         this.req = req;
         this.res = res;
 
-        this._run(0);
+        this._run(0, null);
     }
 
 }
