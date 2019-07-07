@@ -107,11 +107,16 @@ const post = async (url, req, res) => {
 };
 
 const put = async (url, req, res) => {
-	if (url.startsWith('/events')) {
-		const user_id = url.split('/')[2];
+	if (url === '/events') {
+		if (!req.headers.cookie) {
+			return res.end('false');
+		}
+
+		const cookies = cookie.parse(req.headers.cookie);
+		const userId = member.getUserId(cookies.sid);
 
 		req.on('data', updateTodosData => {
-			todos.sortingTodosList(user_id, updateTodosData);
+			todos.sortingTodosList(userId, updateTodosData);
 			return res.end();
 		});
 	}
