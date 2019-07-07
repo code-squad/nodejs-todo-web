@@ -9,6 +9,7 @@ class SessionManage {
 
 	setSession(userId) {
 		let sid = this.makeSessionId();
+
 		while (this.sessionStorage.has(sid)) {
 			sid = this.makeSessionId();
 		}
@@ -22,10 +23,10 @@ class SessionManage {
 	}
 
 	getUserId(sid) {
-		if (this.sessionStorage.has(sid)) {
-			return this.sessionStorage.get(sid);
+		if (this.sessionStorage.has(Number(sid))) {
+			return this.sessionStorage.get(Number(sid));
 		}
-		throw new Error(500);
+		throw new Error('INVALID_ACCESS');
 	}
 
 	makeSessionId() {
