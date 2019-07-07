@@ -123,10 +123,10 @@ const addDragEvent = function(card) {
 
   card.addEventListener("dragenter", function(event) {
     if (event.target.className === "board") {
-      event.target.style["border-bottom"] = "solid 60px rgb(161, 193, 253)";
+      event.target.style["border-bottom"] = "solid 70px rgb(161, 193, 253)";
     }
     if (event.target.className === "todo-card") {
-      event.target.style["border-top"] = "solid 15px darkblue";
+      event.target.style["border-top"] = "solid 70px rgb(161, 193, 253)";
     }
   });
 
