@@ -2,6 +2,7 @@ const app = require('./src/Application');
 const serveStatic = require('./middlewares/serve-static');
 const path = require('path');
 const fs = require('fs');
+const logger = require('./middlewares/logger');
 const port = 3000;
 const hostName = '127.0.0.1';
 
@@ -17,6 +18,7 @@ const web = (req, res, next) => {
     })
 }
 
+app.use(logger());
 app.use(serveStatic());
 app.use(web);
 
