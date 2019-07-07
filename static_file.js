@@ -1,7 +1,6 @@
-const staticFiles   = require('./util/static_file_parser');
-const httpStatus    = require('./http_status');
-const path          = require('path');
-const fs            = require('fs');
+const staticFileParser  = require('./util/static_file_parser');
+const path  = require('path');
+const fs    = require('fs');
 
 const mime = {
     '.html'  : 'text/html', 
@@ -21,11 +20,16 @@ const convert = (url) => {
     return convertURL[url] === undefined ? url : convertURL[url];
 }
 
-module.exports.load = async (requestURL, response) => {
-    console.time(`[ Static files ] Load '${requestURL}' file `);
-    const url = convert(requestURL);
-    const extension = staticFiles.parse(url);
-    response.writeHead(httpStatus.OK, { 'Content-Type' : mime[extension] });
-    fs.createReadStream(path.join(__dirname, url)).pipe(response);
-    console.timeEnd(`[ Static files ] Load '${requestURL}' file `);
+module.exports.load = async (request, response, httpStatus) => {
+    const url = convert(request.url);
+    if (url.substr(0, 7) === '/public') {
+        console.time(`[ Static files ] Load '${request.url}' file `);
+        const extension = staticFileParser.getExtension(url);
+        response.writeHead(httpStatus.OK, { 'Content-Type' : mime[extension] });
+        fs.createReadStream(path.join(__dirname, url)).pipe(response);
+        console.timeEnd(`[ Static files ] Load '${request.url}' file `);
+    } else {
+        response.statusCode = httpStatus.NOT_FOUND;
+        response.end();
+    }
 }
