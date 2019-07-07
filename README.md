@@ -11,7 +11,7 @@ Node.js TODO web front project
 6. 화면 위쪽에는 알림이 짧게 창으로 나왔다 들어갔다 하도록 만들자.
 - 여기까지 하고 1차 pr을 보내자.
 
-![webPage](./webpage.png)
+![webPage](./public/img/webpage.png)
 
 - 서버를 만들고, 여러가지 기능을 추가해보자.
 1. 로그인을 하면 유저의 닉네임으로 인사말을 추가해보자.
