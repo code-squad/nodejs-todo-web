@@ -1,4 +1,5 @@
 const path = require('path');
+const cookie = require('cookie');
 const fs = require('./file.js');
 const member = require('./member.js');
 const todos = require('./public/js/todos.js');
@@ -34,7 +35,9 @@ const get = async (url, req, res) => {
 			return res.end('false');
 		}
 
-		const userId = member.getUserId(req.headers.cookie);
+		const cookies = cookie.parse(req.headers.cookie);
+		const userId = member.getUserId(cookies.sid);
+
 		if (!userId) {
 			return res.end('false');
 		}
@@ -96,7 +99,9 @@ const put = async (url, req, res) => {
 
 const del = async (url, req, res) => {
 	if (url === '/users') {
-		member.logout(req.headers.cookie);
+		const cookies = cookie.parse(req.headers.cookie);
+		member.logout(cookies.sid);
+
 		res.writeHead(303, { 'Set-Cookie': [`sid=; Max-Age=0; HttpOnly;`], Location: '/' });
 		return res.end();
 	}
