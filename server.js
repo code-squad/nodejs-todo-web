@@ -70,67 +70,72 @@ const error = async (response) => {
 
 const redirect = async (response, url) => {
     response.statusCode = httpStatus.FOUND;
-    response.setHeader('Location', `${url}`);
-    response.end();
-}
-/////////////////////////////////////////////////////////////////////////
-
-////////////////////////////////////////////////////////////////////////////
-const addItem = async (request, response) => {
-    const data      = await receiveData(request);
-    const sessionID = sessionManager.getSession(request.headers.cookie);
-    const todoList  = JSON.parse(await todoListManager.readTodoList());
-    const userID    = JSON.parse(sessionManager.getValue(sessionID)).id;
-    todoList[userID][data.type].splice(data.index, 0, data.value);
-    todoListManager.writeTodoList(JSON.stringify(todoList));
+    response.setHeader('location', `${url}`);
     response.end();
 }
 
-const deleteItem = async (request, response) => {
-    const data      = await receiveData(request);
-    const sessionID = sessionManager.getSession(request.headers.cookie);
-    const todoList  = JSON.parse(await todoListManager.readTodoList());
-    const userID    = JSON.parse(sessionManager.getValue(sessionID)).id;
-    todoList[userID][data.type].splice(data.index, 1);
-    todoListManager.writeTodoList(JSON.stringify(todoList));
+const addTodo = async (request, response) => {
+    if(sessionManager.isValid(request.headers.cookie)) {
+        const data      = await receiveData(request);
+        const sessionID = sessionManager.getSession(request.headers.cookie);
+        const todoList  = JSON.parse(await todoListManager.readTodoList());
+        const userID    = JSON.parse(sessionManager.getValue(sessionID)).id;
+        todoList[userID][data.type].splice(data.index, 0, data.value);
+        todoListManager.writeTodoList(JSON.stringify(todoList));
+        response.statusCode = httpStatus.OK;
+    } else response.statusCode = httpStatus.FOUND;
     response.end();
 }
 
-const updateItem = async (request, response) => {
-    const data      = await receiveData(request);
-    const sessionID = sessionManager.getSession(request.headers.cookie);
-    const todoList  = JSON.parse(await todoListManager.readTodoList());
-    const userID    = JSON.parse(sessionManager.getValue(sessionID)).id;
-    const [addValue] = todoList[userID][data.deleteType].splice(data.deleteIndex, 1);
-    if (data.deleteType === data.addType && data.deleteIndex < data.addIndex) data.addIndex--;
-    todoList[userID][data.addType].splice(data.addIndex, 0, addValue);
-    todoListManager.writeTodoList(JSON.stringify(todoList));
+const deleteTodo = async (request, response) => {
+    if(sessionManager.isValid(request.headers.cookie)) {
+        const data      = await receiveData(request);
+        const sessionID = sessionManager.getSession(request.headers.cookie);
+        const todoList  = JSON.parse(await todoListManager.readTodoList());
+        const userID    = JSON.parse(sessionManager.getValue(sessionID)).id;
+        todoList[userID][data.type].splice(data.index, 1);
+        todoListManager.writeTodoList(JSON.stringify(todoList));
+        response.statusCode = httpStatus.OK;
+    } else response.statusCode = httpStatus.FOUND;
     response.end();
 }
 
-const showItem = async (request, response) => {
-    const sessionID = sessionManager.getSession(request.headers.cookie);
-    const todoList  = JSON.parse(await todoListManager.readTodoList());
-    const userID    = JSON.parse(sessionManager.getValue(sessionID)).id;
-    response.write(JSON.stringify(todoList[userID]));
+const updateTodo = async (request, response) => {
+    if(sessionManager.isValid(request.headers.cookie)) {
+        const data      = await receiveData(request);
+        const sessionID = sessionManager.getSession(request.headers.cookie);
+        const todoList  = JSON.parse(await todoListManager.readTodoList());
+        const userID    = JSON.parse(sessionManager.getValue(sessionID)).id;
+        const [addValue] = todoList[userID][data.deleteType].splice(data.deleteIndex, 1);
+        if (data.deleteType === data.addType && data.deleteIndex < data.addIndex) data.addIndex--;
+        todoList[userID][data.addType].splice(data.addIndex, 0, addValue);
+        todoListManager.writeTodoList(JSON.stringify(todoList));
+        response.statusCode = httpStatus.OK;
+    } else response.statusCode = httpStatus.FOUND;
+    response.end();
+}
+
+const showTodo = async (request, response) => {
+    if(sessionManager.isValid(request.headers.cookie)) {
+        const sessionID = sessionManager.getSession(request.headers.cookie);
+        const todoList  = JSON.parse(await todoListManager.readTodoList());
+        const userID    = JSON.parse(sessionManager.getValue(sessionID)).id;
+        response.write(JSON.stringify(todoList[userID]));
+        response.statusCode = httpStatus.OK;
+    } else response.statusCode = httpStatus.FOUND;
     response.end();
 }
 
 const post = async (request, response) => {
-    if (request.url === '/signOut') signOut(request, response);
-    else if (sessionManager.isValid(request.headers.cookie)) {
-        switch (request.url) {
-            case '/add'     : addItem(request, response);       break;
-            case '/delete'  : deleteItem(request, response);    break;
-            case '/update'  : updateItem(request, response);    break;
-            default         : error(response);                  break;
-        }
-    } else {
-        switch (request.url) {
-            case '/signInCheck' : signIn(request, response);        break;
-            case '/signUpCheck' : signUp(request, response);        break;
-            default             : error(response);                  break;
-        }
+    switch (request.url) {
+        case '/addTodo'     : addTodo(request, response);       break;
+        case '/showTodo'    : showTodo(request, response);      break;
+        case '/deleteTodo'  : deleteTodo(request, response);    break;
+        case '/updateTodo'  : updateTodo(request, response);    break;
+        case '/signInCheck' : signIn(request, response);        break;
+        case '/signUpCheck' : signUp(request, response);        break;
+        case '/signOut'     : signOut(request, response);       break;
+        default             : error(response);                  break;
     }
 }
 
@@ -139,23 +144,24 @@ const get = async (request, response) => {
         switch (request.url) {
             case '/'        :
             case '/signIn?' :
-            case '/signUp?' : redirect(response, '/todoList');          break;
-            case '/show'    : showItem(request, response);              break;
-            default         : staticFile.load(request.url, response);   break;
+            case '/signUp?' : redirect(response, '/todoList');                  break;
+            default         : staticFile.load(request, response, httpStatus);   break;
         }
     } else {
         switch (request.url) {
-            case '/todoList': redirect(response, '/signIn?');           break;
-            default         : staticFile.load(request.url, response);   break;
+            case '/todoList' : redirect(response, '/signIn?');                  break;
+            default          : staticFile.load(request, response, httpStatus);  break;
         }
     }
 }
 
 const serverEventEmitter = http.createServer((request, response) => {
     switch (request.method) {
-        case 'POST' : post(request, response);  break;
-        case 'GET'  : get(request, response);   break;
-        default     : error(response);          break;
+        case 'POST'     : post(request, response);  break;
+        case 'GET'      : get(request, response);   break;
+        // case 'DELETE'   : break;
+        // case 'PUT'      : break;
+        // case 'PATCH'    : break;
     }
 });
 
