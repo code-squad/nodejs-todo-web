@@ -18,7 +18,9 @@ class MemberManager {
         console.time(`[ Member Mananger ] Save member information `);
         const writeData = `"${input.id}":"${input.pw}",`;
         const option = { encoding: 'utf-8', flag: 'a' };
-        this.fs.appendFile('./db/member_Information.csv', writeData, option);
+        this.fs.appendFile('./db/member_Information.csv', writeData, option, (error) => {
+            if (error) throw error;
+        });
         console.timeEnd(`[ Member Mananger ] Save member information `);
     }
 }
