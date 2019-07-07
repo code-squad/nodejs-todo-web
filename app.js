@@ -1,7 +1,7 @@
 const http = require('http');
 const myApp = require('./server.js');
 
-const port = 8000;
+const PORT = process.env.PORT;
 
 const server = http.createServer((req, res) => {
 	const method = req.method;
@@ -24,6 +24,6 @@ const server = http.createServer((req, res) => {
 	}
 });
 
-server.listen(port, () => {
-	console.log(`start server ${port} port....!!`);
+server.listen(PORT, () => {
+	console.log(`start server ${PORT} port....!!`);
 });
