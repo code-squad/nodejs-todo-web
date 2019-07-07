@@ -14,13 +14,29 @@ class AddEvent {
         return div;
     }
 
-    createChildInputButton(todoListIndex, itemIndex) {
+    createChildInputButton() {
         const inputButton = document.createElement('input');
         inputButton.addEventListener('click',  () => {
             const type = ['todo', 'doing', 'done'];
-            const body = JSON.stringify({ type : type[todoListIndex], index : itemIndex });
-            fetch('http://localhost:8888/delete', { method : 'post', body : body });
-            inputButton.parentNode.remove(); 
+            const deleteObject = JSON.parse(inputButton.parentNode.id);
+            const body = JSON.stringify({ type : type[deleteObject.type], index : deleteObject.index });
+            fetch('http://localhost:8888/deleteTodo', { method : 'post', redirect : 'follow', body : body })
+            .then((response) => {
+                switch (response.status) {
+                    case 200 : 
+                        const todoListMain = inputButton.parentNode.parentNode;
+                        const todoListMainlength = todoListMain.childElementCount - 1;
+                        inputButton.parentNode.remove();
+                        for (let index = 0; index < todoListMainlength; index++) {
+                            const temp = JSON.parse(todoListMain.childNodes.item(index).id);
+                            temp.index = index;
+                            todoListMain.childNodes.item(index).id = JSON.stringify(temp);
+                        }       
+                        break;
+                    case 302 : window.location.href = '/signIn?';           break;
+                    default  : alert(`HTTP status : ${response.status}`);   break;
+                }
+            });
         });
         inputButton.setAttribute('type', 'button');
         inputButton.className = 'story_delete';
@@ -38,7 +54,7 @@ class AddEvent {
 
     AddStoryDiv(todoListIndex, itemIndex, value) {
         const divStory = this.createParentDiv(todoListIndex, itemIndex);
-        divStory.appendChild(this.createChildInputButton(todoListIndex, itemIndex));
+        divStory.appendChild(this.createChildInputButton());
         divStory.appendChild(this.createChildDiv(todoListIndex, value));
         this.todoMainDiv[todoListIndex].appendChild(divStory);
     }
