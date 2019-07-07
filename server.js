@@ -10,51 +10,62 @@ const publicPath = path.join(__dirname, './public');
 const get = async (url, req, res) => {
 	const ext = path.parse(url).ext;
 
-	if (ext) {
-		const { file, mimeType } = await fs.readFile(`${publicPath}${url}`, ext);
-		if (!file || !mimeType) {
-			throw new Error('FILE DOES NOT EXIST');
+	try {
+		if (ext) {
+			const { file, mimeType } = await fs.readFile(`${publicPath}${url}`, ext);
+			if (!file || !mimeType) {
+				throw new Error('500');
+			}
+
+			res.writeHead(200, { 'Content-Type': mimeType });
+			return res.end(file);
 		}
 
-		res.writeHead(200, { 'Content-Type': mimeType });
-		return res.end(file);
-	}
-	if (readFileUrl(url)) {
-		const fileName = readFileUrl(url);
-		const { file, mimeType } = await fs.readFile(`${publicPath}${fileName}`, '.html');
-		if (!file || !mimeType) {
-			throw new Error('FILE DOES NOT EXIST');
+		if (readFileUrl(url)) {
+			const fileName = readFileUrl(url);
+			const { file, mimeType } = await fs.readFile(`${publicPath}${fileName}`, '.html');
+			if (!file || !mimeType) {
+				throw new Error('500');
+			}
+
+			res.writeHead(200, { 'Content-Type': mimeType });
+			return res.end(file);
 		}
 
-		res.writeHead(200, { 'Content-Type': mimeType });
-		return res.end(file);
-	}
+		if (url === '/permission') {
+			if (!req.headers.cookie) {
+				return res.end();
+			}
 
-	if (url === '/permission') {
-		if (!req.headers.cookie) {
-			return res.end();
+			const cookies = cookie.parse(req.headers.cookie);
+			const userId = member.getUserId(cookies.sid);
+
+			return res.end(userId);
 		}
 
-		const cookies = cookie.parse(req.headers.cookie);
-		const userId = member.getUserId(cookies.sid);
+		if (url === '/todos') {
+			if (!req.headers.cookie) {
+				return res.end();
+			}
 
-		return res.end(userId);
-	}
-	if (url === '/todos') {
-		if (!req.headers.cookie) {
-			return res.end();
+			const cookies = cookie.parse(req.headers.cookie);
+			const userId = member.getUserId(cookies.sid);
+			const todosList = todos.getTodosList(userId);
+
+			return res.end(JSON.stringify(todosList));
 		}
 
-		const cookies = cookie.parse(req.headers.cookie);
-		const userId = member.getUserId(cookies.sid);
-		const todosList = todos.getTodosList(userId);
+		res.writeHead(302, { Location: '/error-404' });
+		return res.end();
+	} catch (error) {
+		console.log('error.....', error);
 
-		return res.end(JSON.stringify(todosList));
+		res.writeHead(302, {
+			'Set-Cookie': [`sid=; Max-Age=0; HttpOnly;`],
+			Location: '/error-500'
+		});
+		return res.end();
 	}
-	if (url === '/error-500') {
-		return use(url, req, res);
-	}
-	return use('/error-404', req, res);
 };
 
 const post = async (url, req, res) => {
@@ -69,6 +80,7 @@ const post = async (url, req, res) => {
 			return res.end();
 		});
 	}
+
 	if (url === '/users') {
 		req.on('data', signUpData => {
 			const { user_sid, user_id } = member.signUp(signUpData);
@@ -81,6 +93,7 @@ const post = async (url, req, res) => {
 			return res.end();
 		});
 	}
+
 	if (url === '/todo') {
 		req.on('data', addTodoData => {
 			const addedTodo = todos.addTodo(addTodoData);
@@ -107,6 +120,7 @@ const del = async (url, req, res) => {
 		res.writeHead(303, { 'Set-Cookie': [`sid=; Max-Age=0; HttpOnly;`], Location: '/' });
 		return res.end();
 	}
+
 	if (url.startsWith('/todos')) {
 		const cookies = cookie.parse(req.headers.cookie);
 		const user_id = member.getUserId(cookies.sid);
@@ -119,17 +133,6 @@ const del = async (url, req, res) => {
 	}
 };
 
-const use = async (url, req, res) => {
-	const statusCode = url.slice(7);
-	const { file, mimeType } = await fs.readFile(`${publicPath}${url}.html`, '.html');
-	if (!file || !mimeType) {
-		throw new Error('FILE_DOES_NOT_EXIST');
-	}
-
-	res.writeHead(statusCode, { 'Content-Type': mimeType });
-	return res.end(file);
-};
-
 const readFileUrl = url => {
 	if (Object.keys(urlList).includes(url)) {
 		return urlList[url];
@@ -137,4 +140,4 @@ const readFileUrl = url => {
 	return false;
 };
 
-module.exports = { get, post, put, del, use };
+module.exports = { get, post, put, del };
