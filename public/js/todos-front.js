@@ -328,10 +328,16 @@ TodosFront.prototype.sortingTodosList = async function(dropAreaId, targetElement
 	const updateTodosData = { updateStatus: dropAreaId, targetElementId, dragElementId: this.dragData.id };
 
 	try {
-		const response = await fetch(`/events/${this.userId}`, {
+		const response = await fetch(`/events`, {
 			method: 'PUT',
 			body: JSON.stringify(updateTodosData)
 		});
+
+		const isValid = await response.text();
+
+		if (isValid === 'false') {
+			return (location.href = '/');
+		}
 
 		if (!response.ok) {
 			throw new Error('500');
