@@ -1,5 +1,5 @@
 
-class AddEvent {
+class ActiveEvent {
     constructor() {
         this.card;
     }
@@ -109,7 +109,7 @@ class AddEvent {
 
 }
 
-const addEvent = new AddEvent();
-addEvent.dragDrop();
-addEvent.holdLoginWindow();
-addEvent.addSchedule();
+const activeEvent = new ActiveEvent();
+activeEvent.dragDrop();
+activeEvent.holdLoginWindow();
+activeEvent.addSchedule();
