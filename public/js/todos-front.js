@@ -79,12 +79,14 @@ TodosFront.prototype.setTodosList = function(todosList) {
 
 TodosFront.prototype.appendLoggedInButton = function() {
 	const authButton = document.querySelector('#authButton');
+
 	authButton.appendChild(this.getLoggedInUserId());
 	authButton.appendChild(this.makeLogoutButton());
 };
 
 TodosFront.prototype.makeLoginButton = function() {
 	const loginButton = document.createElement('button');
+
 	loginButton.setAttribute('type', 'button');
 	loginButton.setAttribute('id', 'loginButton');
 	loginButton.setAttribute('class', 'btn btn-outline-danger');
@@ -98,6 +100,7 @@ TodosFront.prototype.makeLoginButton = function() {
 
 TodosFront.prototype.makeSignUpButton = function() {
 	const signUpButton = document.createElement('button');
+
 	signUpButton.setAttribute('type', 'button');
 	signUpButton.setAttribute('id', 'signUpButton');
 	signUpButton.setAttribute('class', 'btn btn-outline-success');
@@ -111,12 +114,14 @@ TodosFront.prototype.makeSignUpButton = function() {
 
 TodosFront.prototype.appendLoggedOutButton = function() {
 	const authButton = document.querySelector('#authButton');
+
 	authButton.appendChild(this.makeLoginButton());
 	authButton.appendChild(this.makeSignUpButton());
 };
 
 TodosFront.prototype.makeLogoutButton = function() {
 	const logoutButton = document.createElement('button');
+
 	logoutButton.setAttribute('type', 'button');
 	logoutButton.setAttribute('id', 'logoutButton');
 	logoutButton.setAttribute('class', 'btn btn-outline-secondary');
@@ -131,6 +136,7 @@ TodosFront.prototype.makeLogoutButton = function() {
 TodosFront.prototype.logout = async function() {
 	try {
 		const response = await fetch('/users', { method: 'DELETE' });
+
 		if (response.redirected) {
 			return (location.href = response.url);
 		}
@@ -148,6 +154,7 @@ TodosFront.prototype.logout = async function() {
 
 TodosFront.prototype.getLoggedInUserId = function() {
 	const userIdArea = document.createElement('span');
+
 	userIdArea.setAttribute('id', 'userId');
 	userIdArea.innerHTML = `${this.userId} 님`;
 
@@ -156,6 +163,7 @@ TodosFront.prototype.getLoggedInUserId = function() {
 
 TodosFront.prototype.setAuthButton = async function() {
 	const isLoggedIn = await this.isValidLoggedIn();
+
 	if (isLoggedIn) {
 		return this.appendLoggedInButton();
 	}
@@ -164,6 +172,7 @@ TodosFront.prototype.setAuthButton = async function() {
 
 TodosFront.prototype.warning = async function() {
 	const isLoggedIn = await this.isValidLoggedIn();
+
 	if (!isLoggedIn) {
 		alert('로그인이 필요합니다.');
 		document.querySelector('#addTodo').value = '';
@@ -174,6 +183,7 @@ TodosFront.prototype.warning = async function() {
 TodosFront.prototype.isValidLoggedIn = async function(event) {
 	try {
 		const response = await fetch('/permission');
+
 		if (response.ok) {
 			const userId = await response.text();
 			if (!userId) {
@@ -196,6 +206,7 @@ TodosFront.prototype.drag = async function(event) {
 
 TodosFront.prototype.drop = function(event) {
 	const dropAreaClassName = event.target.className.split(' ')[0];
+
 	if (dropAreaClassName === 'list') {
 		return this.dropListArea(event);
 	}
@@ -213,12 +224,16 @@ TodosFront.prototype.addTodo = async function() {
 	if (!addTodo) {
 		return;
 	}
+
 	const todos_status = 'todo';
 	const addTodoData = { user_id: this.userId, todos_status, todos_contents: addTodo };
+
 	try {
 		const response = await fetch('/todo', { method: 'POST', body: JSON.stringify(addTodoData) });
+
 		if (response.ok) {
 			let addedTodo = await response.text();
+
 			if (addedTodo) {
 				addedTodo = JSON.parse(addedTodo)[0];
 				this.makeTodos(addedTodo);
@@ -235,6 +250,7 @@ TodosFront.prototype.addTodo = async function() {
 
 TodosFront.prototype.makeTodos = function(todosData) {
 	const { todos_id, todos_status, todos_contents } = todosData;
+
 	const todos = document.querySelector(`#${todos_status}`);
 	const todosArticle = document.createElement('article');
 	const todoContents = document.createTextNode(todos_contents);
@@ -255,6 +271,7 @@ TodosFront.prototype.deleteElement = async function() {
 
 	try {
 		const response = await fetch(`/todos/${todos_id}`, { method: 'DELETE' });
+
 		if (response.ok) {
 			this.dragData.remove();
 			this.dragData = null;
@@ -269,16 +286,19 @@ TodosFront.prototype.deleteElement = async function() {
 
 TodosFront.prototype.dropListArea = function(event) {
 	event.stopPropagation();
+
 	const dropAreaId = this.getDropAreaId(event);
 	this.dropBetweenElements(event, dropAreaId);
 };
 
 TodosFront.prototype.dropTodosArea = function(event, dropAreaClassName) {
 	event.stopPropagation();
+
 	const dropAreaList = this.getDropAreaList(dropAreaClassName);
 	if (!dropAreaList.length) {
 		return this.dropEndElement(dropAreaClassName);
 	}
+
 	this.dropBetweenElements(event, dropAreaClassName);
 };
 
@@ -295,6 +315,7 @@ TodosFront.prototype.dropBetweenElements = function(event, dropAreaId) {
 	if (appendTargetIndex === -1) {
 		return this.dropEndElement(dropAreaId);
 	}
+
 	this.sortingTodosList(dropAreaId, dropAreaList[appendTargetIndex].id);
 	document.querySelector(`#${dropAreaId}`).insertBefore(this.dragData, dropAreaList[appendTargetIndex]);
 };
