@@ -12,8 +12,7 @@ class DragDropEvent {
         event.preventDefault(); 
         const data = event.dataTransfer.getData("text");
         const storyDiv = document.getElementById(data);
-        const dataObject = this.handleDrop(event, storyDiv);
-        if (dataObject !== undefined) this.send(dataObject);
+        this.handleDrop(event, storyDiv);
     }
 
     getElement(event, className) {
@@ -48,33 +47,6 @@ class DragDropEvent {
         return end;
     }
 
-    handleDrop(event, storyDiv) {
-        const className = event.target.className;
-        const element = this.getElement(event, className);
-
-        if (element === undefined) return undefined;
-
-        const data = { 
-            delete : JSON.parse(storyDiv.id), 
-            add : { type : parseInt(element.id) }
-        };
-
-        const storyDivParent = storyDiv.parentNode;
-
-        if (className === 'todo_list_main') {
-            data.add.index = this.getIndex(element.childNodes, event.pageY);
-            element.childNodes.item(data.add.index).before(storyDiv);
-        } else {
-            data.add.index = element.childElementCount;
-            element.appendChild(storyDiv);
-        }
-
-        if (data.delete.type !== data.add.type) this.setNumber(storyDivParent);
-        this.setNumber(element, data.add.type);
-
-        return data;
-    }
-
     setNumber(object, type = undefined) {
         for (let index = 0; index < object.childElementCount; index++) {
             const tempObject = JSON.parse(object.childNodes.item(index).id);
@@ -84,7 +56,25 @@ class DragDropEvent {
         }
     }
 
-    send(data) {
+    handleDrop(event, storyDiv) {
+        const className = event.target.className;
+        const element = this.getElement(event, className);
+
+        if (element === undefined) return;
+
+        let index = 0;
+        let isTodoListMain = false;
+        if (className === 'todo_list_main') {
+            index = this.getIndex(element.childNodes, event.pageY);
+            isTodoListMain = true;
+        } else index = element.childElementCount;
+
+        const data = { 
+            delete : JSON.parse(storyDiv.id), 
+            add : { type : parseInt(element.id), index : index }
+        };
+
+        const storyDivParent = storyDiv.parentNode;
         const type = ['todo', 'doing', 'done'];
         const body = JSON.stringify({ 
             deleteType  : type[data.delete.type], 
@@ -92,6 +82,18 @@ class DragDropEvent {
             addType     : type[data.add.type],   
             addIndex    : data.add.index
         });
-        fetch('http://localhost:8888/update', { method : 'POST', body : body });
+        fetch('http://localhost:8888/updateTodo', { method : 'POST', redirect : 'follow', body : body })
+        .then((response) => {
+            switch (response.status) {
+                case 200 : 
+                    if (isTodoListMain) element.childNodes.item(data.add.index).before(storyDiv);
+                    else element.appendChild(storyDiv);
+                    if (data.delete.type !== data.add.type) this.setNumber(storyDivParent);
+                    this.setNumber(element, data.add.type);
+                    break;
+                case 302 : window.location.href = '/signIn?';           break;
+                default  : alert(`HTTP status : ${response.status}`);   break;
+            }
+        });
     }
 }
