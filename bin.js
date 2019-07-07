@@ -1,5 +1,6 @@
-const App = require('./src/Application');
-const app = new App();
+const app = require('./src/Application');
+// const App = require('./src/Application');
+// const app = new App();
 const port = 3000;
 const hostName = '127.0.0.1';
 

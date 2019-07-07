@@ -1,9 +1,11 @@
 const http = require('http');
 const path = require('path');
 const fs = require('fs');
+const Middleware = require('./Middleware');
 
 class Application {
-    constructor() {
+    constructor(middleware) {
+        this.middleware = middleware;
         this.server = http.createServer((req, res) => {
             const mimeType = {
                 '.ico': 'image/x-icon',
@@ -46,4 +48,5 @@ class Application {
     }
 }
 
-module.exports = Application;
+const middleware = new Middleware();
+module.exports = new Application(middleware);
