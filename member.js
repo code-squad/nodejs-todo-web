@@ -31,7 +31,7 @@ const signUp = signUpData => {
 };
 
 const getUserId = sid => {
-	const user_id = sessionStorage.getUserId(sid);
+	const user_id = sessionStorage.getUserId(Number(sid));
 	return user_id;
 };
 

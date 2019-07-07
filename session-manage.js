@@ -23,8 +23,8 @@ class SessionManage {
 	}
 
 	getUserId(sid) {
-		if (this.sessionStorage.has(Number(sid))) {
-			return this.sessionStorage.get(Number(sid));
+		if (this.sessionStorage.has(sid)) {
+			return this.sessionStorage.get(sid);
 		}
 		throw new Error('INVALID_ACCESS');
 	}
