@@ -9,32 +9,31 @@ const publicPath = path.join(__dirname, './public');
 const get = async (url, req, res) => {
 	const ext = path.parse(url).ext;
 
-	try {
-		if (ext) {
-			const { file, mimeType } = await fs.readFile(`${publicPath}${url}`, ext);
-			if (!file || !mimeType) {
-				throw new Error('FILE DOES NOT EXIST');
-			}
-			res.writeHead(200, { 'Content-Type': mimeType });
-			return res.end(file);
+	if (ext) {
+		const { file, mimeType } = await fs.readFile(`${publicPath}${url}`, ext);
+		if (!file || !mimeType) {
+			throw new Error('FILE DOES NOT EXIST');
 		}
-		if (readFileUrl(url)) {
-			const fileName = readFileUrl(url);
-			const { file, mimeType } = await fs.readFile(`${publicPath}${fileName}`, '.html');
-			if (!file || !mimeType) {
-				throw new Error('FILE DOES NOT EXIST');
-			}
-			res.writeHead(200, { 'Content-Type': mimeType });
-			return res.end(file);
+
+		res.writeHead(200, { 'Content-Type': mimeType });
+		return res.end(file);
+	}
+	if (readFileUrl(url)) {
+		const fileName = readFileUrl(url);
+		const { file, mimeType } = await fs.readFile(`${publicPath}${fileName}`, '.html');
+		if (!file || !mimeType) {
+			throw new Error('FILE DOES NOT EXIST');
 		}
-	} catch (error) {
-		throw error;
+
+		res.writeHead(200, { 'Content-Type': mimeType });
+		return res.end(file);
 	}
 
 	if (url === '/permission') {
 		if (!req.headers.cookie) {
 			return res.end('false');
 		}
+
 		const userId = member.getUserId(req.headers.cookie);
 		if (!userId) {
 			return res.end('false');
@@ -44,6 +43,7 @@ const get = async (url, req, res) => {
 	if (url.startsWith('/todos')) {
 		const user_id = url.split('/')[2];
 		const todosList = todos.getTodosList(user_id);
+
 		return res.end(JSON.stringify(todosList));
 	}
 	if (url === '/error-500') {
@@ -59,6 +59,7 @@ const post = async (url, req, res) => {
 			if (!user_sid) {
 				return res.end();
 			}
+
 			res.writeHead(302, { 'Set-Cookie': [`sid=${user_sid}; Max-Age=${60 * 60 * 24}; HttpOnly;`], Location: '/' });
 			return res.end();
 		});
@@ -70,6 +71,7 @@ const post = async (url, req, res) => {
 			if (!user_sid) {
 				return res.end('false');
 			}
+
 			res.writeHead(302, { 'Set-Cookie': [`sid=${user_sid}; Max-Age=${60 * 60 * 24}; HttpOnly;`], Location: '/' });
 			return res.end();
 		});
@@ -108,17 +110,14 @@ const del = async (url, req, res) => {
 };
 
 const use = async (url, req, res) => {
-	try {
-		const statusCode = url.slice(7);
-		const { file, mimeType } = await fs.readFile(`${publicPath}${url}.html`, '.html');
-		if (!file || !mimeType) {
-			throw new Error('FILE DOES NOT EXIST');
-		}
-		res.writeHead(statusCode, { 'Content-Type': mimeType });
-		return res.end(file);
-	} catch (error) {
-		throw error;
+	const statusCode = url.slice(7);
+	const { file, mimeType } = await fs.readFile(`${publicPath}${url}.html`, '.html');
+	if (!file || !mimeType) {
+		throw new Error('FILE DOES NOT EXIST');
 	}
+
+	res.writeHead(statusCode, { 'Content-Type': mimeType });
+	return res.end(file);
 };
 
 const readFileUrl = url => {
