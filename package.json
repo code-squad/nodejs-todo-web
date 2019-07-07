@@ -2,14 +2,16 @@
   "name": "nodejs-todo-web",
   "version": "1.0.0",
   "description": "nodejs-todo-web project",
-  "main": "add_event.js",
+  "main": "app.js",
   "dependencies": {},
   "devDependencies": {
+    "cli": "^1.0.1",
     "jest": "^24.8.0",
     "supertest": "^4.0.2"
   },
   "scripts": {
-    "test": "./node_modules/jest/bin/jest.js"
+    "test": "./node_modules/jest/bin/jest.js",
+    "test:coverage": "./node_modules/jest/bin/jest.js --coverage"
   },
   "repository": {
     "type": "git",
