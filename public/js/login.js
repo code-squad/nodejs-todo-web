@@ -27,6 +27,7 @@ const login = async () => {
 		if (response.ok) {
 			document.querySelector('#password').value = '';
 			document.querySelector('#id').focus();
+
 			alert('아이디나 비밀번호가 올바르지 않습니다.');
 		} else {
 			throw new Error('500');
