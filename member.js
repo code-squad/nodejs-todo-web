@@ -1,5 +1,5 @@
-const cookie = require('cookie');
 const memberDB = require('./memberDB.js');
+const sessionStorage = require('./session-manage.js');
 
 const login = loginData => {
 	const memberInfo = memberDB.getUserInfo(loginData);
@@ -8,14 +8,13 @@ const login = loginData => {
 		return false;
 	}
 	const user_id = memberInfo.user_id;
-	const user_sid = memberDB.setUserSid(user_id);
+	const user_sid = sessionStorage.setSession(user_id);
 
 	return user_sid;
 };
 
-const logout = requestCookie => {
-	const cookies = cookie.parse(requestCookie);
-	memberDB.resetUserSid(cookies);
+const logout = sid => {
+	sessionStorage.deleteSession(sid);
 };
 
 const signUp = signUpData => {
@@ -26,15 +25,13 @@ const signUp = signUpData => {
 		return false;
 	}
 	memberDB.createUserInfo({ user_id, user_password });
-	const user_sid = memberDB.setUserSid(user_id);
+	const user_sid = login(signUpData);
 
 	return { user_sid, user_id };
 };
 
-const getUserId = requestCookie => {
-	const cookies = cookie.parse(requestCookie);
-	const user_id = memberDB.getUserId(cookies.sid);
-
+const getUserId = sid => {
+	const user_id = sessionStorage.getUserId(sid);
 	return user_id;
 };
 
