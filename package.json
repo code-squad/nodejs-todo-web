@@ -1,0 +1,29 @@
+{
+	"name": "todo-app",
+	"version": "1.0.0",
+	"description": "Node.js TODOS project without express and database",
+	"main": "app.js",
+	"directories": {
+		"test": "test"
+	},
+	"dependencies": {
+		"cookie": "^0.4.0",
+		"route-parser": "^0.0.5",
+		"lowdb": "^1.0.0"
+	},
+	"devDependencies": {},
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"start": "node app.js"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/mukeunzi/todo-app.git"
+	},
+	"author": "",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/mukeunzi/todo-app/issues"
+	},
+	"homepage": "https://github.com/mukeunzi/todo-app#readme"
+}
