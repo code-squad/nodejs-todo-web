@@ -7,7 +7,7 @@ const dragDropEvent = new DragDropEvent();
 const addEvent = new AddEvent(dragDropEvent, todoListMainDiv, storyInputText);
 
 // show
-fetch('http://localhost:8888/show')
+fetch('http://localhost:8888/showTodo', { method : 'post' })
 .then(response => { return response.json(); })
 .then(json => {
     for (const element of todoListMainDiv) {
@@ -31,8 +31,14 @@ for (let i = 0; i < storyAddBtn.length; i++) {
         const value = storyInputText[i].value;
         const index = todoListMainDiv[i].childElementCount;
         const body = JSON.stringify({ type : type[i], index : index, value : value });
-        fetch('http://localhost:8888/add', { method : 'post', body : body });
-        addEvent.AddStoryDiv(i, index, undefined);
+        fetch('http://localhost:8888/addTodo', { method : 'post', redirect : 'follow', body : body })
+        .then((response) => {
+            switch (response.status) {
+                case 200 : addEvent.AddStoryDiv(i, index, undefined);   break;
+                case 302 : window.location.href = '/signIn?';           break;
+                default  : alert(`HTTP status : ${response.status}`);   break;
+            }
+        });
     });
 }
 
