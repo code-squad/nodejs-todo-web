@@ -6,7 +6,7 @@ yarn-debug.log*
 yarn-error.log*
 
 # user data
-data/*.json
+server/data/*.json
 
 # Runtime data
 pids
