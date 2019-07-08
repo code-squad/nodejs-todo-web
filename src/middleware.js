@@ -9,6 +9,12 @@ const Middleware = () => {
     const nextMiddleware = middlewares[i];
     const next = err => middlewareRun(i + 1, err);
 
+    if (err) {
+      const isNextErrorMiddleware = nextMiddleware.length === 4;
+      return isNextErrorMiddleware
+        ? nextMiddleware(err, request, response, next)
+        : middlewareRun(i + 1, err);
+    }
     nextMiddleware(request, response, next);
   };
 
