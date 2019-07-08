@@ -3,15 +3,15 @@
 
 
 ## :computer:   Node.js TODO Web Front & Back-End Project
-
-
-
+  
+  
+  
 ### :pencil2:   목적
 
 :ballot_box_with_check:  Web Todo 프로젝트를 구현해보면서 Front-End 와 Back-End를 이해하기 위함입니다. 
-
-
-
+  
+  
+  
 ### :pencil2:   요구사항
 
 :arrow_right:   **Front-End**
@@ -28,9 +28,9 @@
 
 :arrow_right:   **Test Framework**
 * Test Framework 사용법을 익혀서 테스트 진행하기
-
-
-
+  
+  
+  
 ### :pencil2:   요약
 
 :arrow_right:   **HTML, CSS, VanillaJS 로 Front-End 구현**  
@@ -62,14 +62,14 @@ HTML, CSS로 웹을 구현할 초기에는 근사한 웹 디자인을 구현하�
 :arrow_right:   **Jest, SuperTest Package를 사용해서 테스트 코드 작성**  
   
 사용자가 접속해서 실제 사용할 때 발생하는 에러 상황이나 예외 상황들을 고려하여 테스트 코드를 작성했고, 작성한 코드의 대부분을 테스트했다. 또한, 테스트를 통해 버그까지 잘 찾아낼 수 있었다.
-
-
-
+  
+  
+  
 ### :pencil2:   프로그램 구조
 ![image-20190708195255210](https://github.com/bestdevhyo1225/image_repository/blob/master/image-20190708195255210.png?raw=true)
-
-
-
+  
+  
+  
 ### :pencil2:   DEMO
 
 :one:   **회원가입**
@@ -83,9 +83,9 @@ HTML, CSS로 웹을 구현할 초기에는 근사한 웹 디자인을 구현하�
 :three:   **로그아웃**
 
 ![signOut](https://im3.ezgif.com/tmp/ezgif-3-5f07e676c03d.gif)
-
-
-
+  
+  
+  
 ### :pencil2:   API
 
 :arrow_right:   **페이지 요청**
@@ -106,9 +106,9 @@ HTML, CSS로 웹을 구현할 초기에는 근사한 웹 디자인을 구현하�
 :arrow_right:   **로그인 & 로그아웃**
 * 로그인 : `POST /signInCheck`
 * 로그아웃 : `POST /signOUt`
-
-
-
+  
+  
+  
 ### :pencil2:   앞으로 남은 과제
 
 :bookmark:  HTTP method 에서 'GET', 'POST' 를 제외한 'DELETE', 'PUT', 'PATCH' 에 대해 공부하고 적용할 것  
