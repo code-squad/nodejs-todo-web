@@ -1,8 +1,8 @@
-<h1 align="center">Node.js TODO APP :heavy_check_mark:</h1>
+<h1 align="center">Node.js TODO APP :heavy_check_mark:</h1><p>
 
 [![Build Status](https://travis-ci.org/mukeunzi/todo-app.svg?branch=master)](https://travis-ci.org/mukeunzi/todo-app)
 
-순수 Node.js 만으로 구현한 TODO APP!
+> 순수 Node.js 만으로 구현한 TODO APP!
 
 ## :globe_with_meridians: DEMO
 
@@ -31,7 +31,7 @@ Node.js HTTP 모듈을 사용한 TODO APP 입니다. 웹 개발에 필요한 기
 - TODO 상태 변경 : `PUT /events`
 - TODO 목록 삭제 : `DELETE /todos/:todos_id`
 
-## :female-technologist: Usage
+## :woman_technologist: Usage
 
 ```
 $ npm install
