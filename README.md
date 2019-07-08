@@ -1,4 +1,4 @@
-<h1 align="center">Node.js TODO APP :heavy_check_mark:</h1><p>
+<h1 align="center">Node.js TODO APP</h1><p>
 
 [![Build Status](https://travis-ci.org/mukeunzi/todo-app.svg?branch=master)](https://travis-ci.org/mukeunzi/todo-app)
 
