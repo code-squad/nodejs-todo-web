@@ -31,6 +31,11 @@ Node.js HTTP 모듈을 사용한 TODO APP 입니다. 웹 개발에 필요한 기
 - TODO 상태 변경 : `PUT /events`
 - TODO 목록 삭제 : `DELETE /todos/:todos_id`
 
+**오류**
+
+- Not Found : `GET /error-404`
+- Internal Server Error : `GET /error-500`
+
 ## :woman_technologist: Usage
 
 ```
