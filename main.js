@@ -83,6 +83,15 @@ const app = http.createServer( function(request,response){
         });
         response.end();
     }
+    else if(_url === "/sendData"){
+        let body = '';
+        request.on('data', function (data) {
+            body += data;
+        });
+        request.on('end', function () {
+            console.log(body)
+        })
+    }
     
 })
 app.listen(3000);
