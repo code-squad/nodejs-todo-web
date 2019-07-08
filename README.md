@@ -1,8 +1,8 @@
-[![Build Status](https://travis-ci.org/bestdevhyo1225/nodejs-todo-web.svg?branch=step10-2)](https://travis-ci.org/bestdevhyo1225/nodejs-todo-web)[![Coverage Status](https://coveralls.io/repos/github/bestdevhyo1225/nodejs-todo-web/badge.svg?branch=step10-2)](https://coveralls.io/github/bestdevhyo1225/nodejs-todo-web?branch=step10-2)
+[![Build Status](https://travis-ci.org/bestdevhyo1225/nodejs-todo-web.svg?branch=step10-2)](https://travis-ci.org/bestdevhyo1225/nodejs-todo-web) [![Coverage Status](https://coveralls.io/repos/github/bestdevhyo1225/nodejs-todo-web/badge.svg?branch=step10-2)](https://coveralls.io/github/bestdevhyo1225/nodejs-todo-web?branch=step10-2)
 
 
 
-## :computer:   Node.js TODO Web Front & Back-End Project
+# :computer:   Node.js TODO Web Front & Back-End Project
   
   
   
