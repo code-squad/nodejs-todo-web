@@ -27,5 +27,4 @@ class Session {
         return selectedData;
     }
 }
-
 module.exports = Session

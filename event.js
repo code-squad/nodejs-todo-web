@@ -1,3 +1,31 @@
+const sendData = (valueId) => {
+    let inputdata = document.getElementById(valueId).value;
+    sendAjax('./sendData', valueId, inputdata)
+}
+
+
+const dataArray = ["todo", [], "doing", [], "done",[]];
+
+const sendAjax = (url, dataId, data) => {
+
+    let xhr = new XMLHttpRequest();
+
+    if(dataId === "dataTodo"){
+        dataArray[1].push(data)
+    }else if(dataId === "dataDoing"){
+        dataArray[3].push(data)
+    }else if(dataId === "dataDone"){
+        dataArray[5].push(data)
+    }
+
+    console.log(dataArray)
+  
+    xhr.open('POST', url);
+    xhr.setRequestHeader('Content-type', "application/json");
+    xhr.send(JSON.stringify(dataArray));
+}
+
+
 const display = (displayID, displayNoneID) => {
     document.getElementById(displayID).style.display="inherit";
     document.getElementById(displayNoneID).style.display="none";
@@ -54,8 +82,3 @@ const drag = (listWrap, list) => {
 }
 
 
-// const form = document.querySelector('form');
-// console.log(form);
-// form.delete("email");
-// form.delete("pwd");
-//form.reset();

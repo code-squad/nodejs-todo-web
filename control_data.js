@@ -3,12 +3,11 @@ const csv = require('csvtojson')
 
 class ControlData {
     constructor() {
-        this.dataURL = './data/client_data.csv'
-        this.dataJSON = [];
+        this.dataURL = './data/client_data.csv';
     }
 
     makeClientData(inputDataObj){
-        const signUpColumn = "nickName,ID,PW" + "\n"
+        const signUpColumn = "nickName,ID,PW,data" + "\n";
         let contents = inputDataObj.nickName + "," + inputDataObj.email + "," + inputDataObj.pwd + "\n";
         if( this.existDataFile() ) {
             fs.appendFileSync(this.dataURL, contents) 

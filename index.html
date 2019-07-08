@@ -28,7 +28,7 @@
                 </div>
                 <div id = "addData_todo" class = "addData">
                     <textarea class="addContents" id ="dataTodo" placeholder="Enter a title for this card..."></textarea>
-                    <input type ="text" value ="Add Card" id="inputAdd" onclick='display("openAdd_todo", "addData_todo"); callAppendChild("dataTarget_todo","dataTodo")'/>
+                    <input type ="text" value ="Add Card" id="inputAdd" onclick='display("openAdd_todo", "addData_todo"); sendData("dataTodo"); callAppendChild("dataTarget_todo","dataTodo");'/>
                     <span class="backButton icon-hamburger-menu-close" onclick='display("openAdd_todo", "addData_todo")'></span>
                 </div>
             </div>
@@ -44,7 +44,7 @@
                 </div>
                 <div id = "addData_doing" class = "addData">
                     <textarea class="addContents" id ="dataDoing" placeholder="Enter a title for this card..."></textarea>
-                    <input type ="text" value ="Add Card" id="inputAdd" onclick='display("openAdd_doing", "addData_doing"); callAppendChild("dataTarget_doing","dataDoing")'/>
+                    <input type ="text" value ="Add Card" id="inputAdd" onclick='display("openAdd_doing", "addData_doing"); sendData("dataDoing"); callAppendChild("dataTarget_doing","dataDoing");'/>
                     <span class="backButton icon-hamburger-menu-close" onclick='display("openAdd_doing", "addData_doing")'></span>
                 </div>
             </div>
@@ -60,7 +60,7 @@
                 </div>
                 <div id = "addData_done" class = "addData">
                     <textarea class="addContents"  id ="dataDone" placeholder="Enter a title for this card..."></textarea>
-                    <input type ="text" value ="Add Card" id="inputAdd" onclick='display("openAdd_done", "addData_done"); callAppendChild("dataTarget_done","dataDone")'/>
+                    <input type ="text" value ="Add Card" id="inputAdd" onclick='display("openAdd_done", "addData_done"); sendData("dataDone"); callAppendChild("dataTarget_done","dataDone");'/>
                     <span class="backButton icon-hamburger-menu-close" onclick='display("openAdd_done", "addData_done")'></span>
                 </div>
             </div>
