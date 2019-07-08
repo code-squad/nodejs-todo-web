@@ -220,7 +220,7 @@ TodosFront.prototype.allowDrop = function(event) {
 };
 
 TodosFront.prototype.addTodo = async function() {
-	this.warning();
+	await this.warning();
 
 	const addTodo = document.querySelector('#addTodo').value;
 	if (!addTodo) {
