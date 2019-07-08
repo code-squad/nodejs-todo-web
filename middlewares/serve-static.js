@@ -22,7 +22,6 @@ const getExt = (url) => {
 }
 
 const getDataFromFile = (filePath) => {
-    console.log(filePath);
     return new Promise((resolve, reject) => {
         fs.readFile(filePath, (err, data) => {
             if (err) reject(err);
