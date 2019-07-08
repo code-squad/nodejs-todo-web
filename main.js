@@ -11,7 +11,7 @@ const app = http.createServer( function(request,response){
     let _url = request.url;
     let filePath = `.${_url}`;
     let cookie = request.headers.cookie 
-    let sessionID = cookie.match('(^|;) ?sessionID=([^;]*)(;|$)')[2];
+    let sessionID = cookie !== undefined ? cookie.match('(^|;) ?sessionID=([^;]*)(;|$)')[2] : false;
     let goToMain = (_url === "/index.html" || _url === "/event.js" || _url === "/css/main.css"); 
     if(!sessionID && _url === "/index.html"){
         response.writeHead(302, {Location: `/login`});
@@ -32,15 +32,12 @@ const app = http.createServer( function(request,response){
         let body = '';
         request.on('data', function(data){
             body = body + data;
-            console.log(body)
         });
         request.on('end', async function(){
             var post = qs.parse(body);
             let loginCheck = await login.checkLogin(post);
             let sessionData = await session.makeSession(post.email);
             if(loginCheck ) {
-            // if(loginCheck && request.headers.cookie ) {
-                // console.log(request.headers.cookie)
                 response.writeHead(302, {
                     'Set-Cookie':[
                     `sessionID=${sessionData.ID}`,
