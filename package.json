@@ -13,7 +13,7 @@
   "scripts": {
     "test": "./node_modules/jest/bin/jest.js",
     "start": "node app",
-    "test:coverage": "./node_modules/jest/bin/jest.js --coverage",
+    "coverage": "./node_modules/jest/bin/jest.js --coverage",
     "coveralls": "./node_modules/jest/bin/jest.js --coverage && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
   },
   "repository": {
