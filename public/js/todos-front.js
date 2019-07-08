@@ -17,7 +17,7 @@ TodosFront.prototype.load = function() {
 			this.warning();
 		});
 
-		addTodo.addEventListener('keyup', event => {
+		addTodo.addEventListener('keypress', event => {
 			if (event.keyCode === 13) {
 				this.addTodo();
 			}
