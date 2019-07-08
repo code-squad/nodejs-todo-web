@@ -7,7 +7,6 @@ const port = 3000;
 const hostName = '127.0.0.1';
 
 const web = (req, res, next) => {
-    serveStatic(req, res);
     const filePath = path.join(__dirname, './public/web.html');
 
     fs.readFile(filePath, (err, data) => {

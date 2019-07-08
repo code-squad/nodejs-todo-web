@@ -2,31 +2,48 @@ const path = require('path');
 const fs = require('fs');
 
 
-const serveStatic = () => (req, res, next) => {
-    const mimeType = {
-        '.ico': 'image/x-icon',
-        '.html': 'text/html',
-        '.js': 'text/javascript',
-        '.css': 'text/css',
-        '.png': 'image/png',
-        '.jpg': 'image/jpeg',
-        '.eot': 'appliaction/vnd.ms-fontobject',
-        '.ttf': 'aplication/font-sfnt'
-    };
-    const publicPath = path.join(__dirname, '../public')
-    const ext = path.parse(req.url).ext;
+const mimeType = {
+    '.ico': 'image/x-icon',
+    '.html': 'text/html',
+    '.js': 'text/javascript',
+    '.css': 'text/css',
+    '.png': 'image/png',
+    '.jpg': 'image/jpeg',
+    '.eot': 'appliaction/vnd.ms-fontobject',
+    '.ttf': 'aplication/font-sfnt'
+};
 
+const getFilePath = (url) => {
+    return path.join(__dirname, `../public${url}`);
+}
+
+const getExt = (url) => {
+    return path.parse(url).ext;
+}
+
+const getDataFromFile = (filePath) => {
+    console.log(filePath);
+    return new Promise((resolve, reject) => {
+        fs.readFile(filePath, (err, data) => {
+            if (err) reject(err);
+            resolve(data);
+        })
+    });
+}
+
+const serveStatic = () => async (req, res, next) => {
+    const filePath = getFilePath(req.url)
+    const ext = getExt(req.url);
     if (Object.keys(mimeType).includes(ext)) {
-        fs.readFile(`${publicPath}${req.url}`, (err, data) => {
-            if (err) {
-                res.statusCode = 404;
-                res.end('Not found');
-            } else {
-                res.statusCode = 200
-                res.setHeader('Content-Type', mimeType[ext]);
-                res.end(data)
-            }
-        });
+        try {
+            const data = await getDataFromFile(filePath);
+            res.statusCode = 200;
+            res.setHeader('Content-Type', mimeType[ext]);
+            res.end(data);
+        } catch (err) {
+            res.statusCode = 404;
+            res.end('Not found');
+        }
     } else {
         next();
     }
