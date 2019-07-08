@@ -14,7 +14,7 @@
     "test": "./node_modules/jest/bin/jest.js",
     "start": "node app",
     "coverage": "./node_modules/jest/bin/jest.js --coverage",
-    "coveralls": "./node_modules/jest/bin/jest.js --coverage && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
+    "coveralls": "jest --coverage --coverageReporters=text-lcov | coveralls"
   },
   "repository": {
     "type": "git",
