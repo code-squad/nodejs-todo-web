@@ -1,30 +1,32 @@
-const middleware = () => {
-  const middleware = [];
+const Middleware = () => {
+  const middlewares = [];
+  let request = null;
+  let response = null;
 
   const middlewareRun = (i, err) => {
     if (i < 0 || i >= middlewares.length) return;
 
-    const nextMiddleWare = middlewares[i];
-    const next = err => run(i + 1, err);
+    const nextMiddleware = middlewares[i];
+    const next = err => middlewareRun(i + 1, err);
 
-    nextMiddleWare(req, res, next);
+    nextMiddleware(request, response, next);
   };
 
   const add = func => {
-    middleware.push(func);
+    middlewares.push(func);
   };
 
   const run = (req, res) => {
-    const req = req;
-    const res = res;
+    request = req;
+    response = res;
     middlewareRun(0, null);
   };
 
   return {
-    middleware,
+    middlewares,
     add,
     run
   };
 };
 
-module.exports = middleware;
+module.exports = Middleware;
