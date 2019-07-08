@@ -21,6 +21,12 @@ class Middleware {
                 this._run(i + 1, err);
         }
 
+        if (selectedFunc._path) {
+            return this.req.url === selectedFunc._path ?
+                selectedFunc(this.req, this.res, next) :
+                this._run(i + 1);
+        }
+
         selectedFunc(this.req, this.res, next);
     }
 
