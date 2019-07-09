@@ -3,17 +3,22 @@ const qs = require('querystring');
 const fs = require('fs');
 const Login = require('./login');
 const Session = require('./session');
+const ControlData = require('./control_data');
 
 const login = new Login;
 const session = new Session;
+const controlData = new ControlData;
 
 const app = http.createServer( function(request,response){
     let _url = request.url;
     let filePath = `.${_url}`;
     let cookie = request.headers.cookie 
     let sessionID = cookie !== undefined ? cookie.match('(^|;) ?sessionID=([^;]*)(;|$)')[2] : false;
+    let isSessionId = () => {
+        return session.sessionData[sessionID] ? true : false
+    }
     let goToMain = (_url === "/index.html" || _url === "/event.js" || _url === "/css/main.css"); 
-    if(!sessionID && _url === "/index.html"){
+    if(!isSessionId() && _url === "/index.html"){
         response.writeHead(302, {Location: `/login`});
         response.end();
     }
@@ -59,7 +64,7 @@ const app = http.createServer( function(request,response){
         request.on('data', function (data) {
             body += data;
         });
-        request.on('end',async function () {
+        request.on('end', async function () {
             let post = qs.parse(body);
             let signUp = await login.signUp(post)
             if(signUp){
@@ -88,8 +93,11 @@ const app = http.createServer( function(request,response){
         request.on('data', function (data) {
             body += data;
         });
-        request.on('end', function () {
-            console.log(body)
+        request.on('end', async function () {
+            let todoData = body
+            let email = session.sessionData[sessionID][0].email
+            todoData = JSON.parse(todoData)
+            await controlData.makeTodoData(email, todoData)
         })
     }
     
