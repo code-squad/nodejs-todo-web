@@ -1,0 +1,29 @@
+{
+  "members": [
+    {
+      "user_id": "tt",
+      "user_password": "tt",
+      "user_sid": ""
+    },
+    {
+      "user_id": "ge",
+      "user_password": "ge",
+      "user_sid": ""
+    },
+    {
+      "user_id": "eg",
+      "user_password": "eg",
+      "user_sid": ""
+    },
+    {
+      "user_id": "egg",
+      "user_password": "egg",
+      "user_sid": ""
+    },
+    {
+      "user_id": "muk",
+      "user_password": "muk",
+      "user_sid": ""
+    }
+  ]
+}

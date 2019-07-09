@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+		<title>TODOS</title>
+		<link rel="shortcut icon" href="img/favicon.ico">
+		<link rel="stylesheet" href="css/todos.css" />
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	</head>
+	<body>
+		<div id="authButton"></div>
+		<header id="mainHeader">
+			<div id="headerTitle">todos</div>
+			<div id="headerContent">
+				<input type="text" id="addTodo" placeholder="What needs to be done?" />
+				<input type="button" id="addButton" value="Add"/>
+			</div>
+		</header>
+
+		<section id="todos-section">
+			<div class="todo todos">
+				<div class="todo todos-title">
+					todo<img src="img/trash-can.png" class="trash-can" title="휴지통" alt="trash-can" width="20">
+					<hr class="todo todos-underline">
+				</div>
+				<div id="todo" class="todo dropArea">
+				</div>
+			</div>
+
+			<div class="doing todos">
+				<div class="doing todos-title">
+					doing<img src="img/trash-can.png" class="trash-can" title="휴지통" alt="trash-can" width="20">
+					<hr class="doing todos-underline">
+				</div>
+				<div id="doing" class="doing dropArea">
+				</div>
+			</div>
+
+			<div class="done todos">
+				<div class="done todos-title">
+					done<img src="img/trash-can.png" class="trash-can" title="휴지통" alt="trash-can" width="20">
+					<hr class="done todos-underline">
+				</div>
+				<div id="done" class="done dropArea">
+				</div>
+			</div>
+		</section>
+  </body>
+  <script type="text/javascript" src=js/todos-front.js></script>
+</html>
