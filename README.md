@@ -33,7 +33,6 @@
 | O       | PATCH  | /items       | X     | 아이템 상태 업데이트  |
 | O       | DELETE | /items       | id    | 쿼리 id의 아이템 삭제 |
 | O       | DELETE | /auth        | X     | 로그아웃              |
-|         |        |              |       |                       |
 
 ### DB
 
