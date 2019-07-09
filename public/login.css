@@ -1,0 +1,55 @@
+body {
+    background: #E0E0D8;
+    padding : 200px 50px 0 50px;
+
+}
+
+header{
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 2px;
+    width : 400px;
+    padding-left: 5px;
+    color: #606F82 ;
+    font-size: 28px;
+    font-weight: 800;
+    font-family: sans-serif;
+}
+
+.inputBox{
+    display: grid;
+}
+
+.inputText{
+    display: inline-block;
+    width : 400px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom : 20px;
+    height: 40px;
+    padding-left: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+.buttonBox{
+    width : 350px;
+    display: flex;
+    margin-top: -5px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+button{
+    width: 80px;
+    background-color: #606F82;
+    color: white;
+    padding: 12px 0 12px 0;
+    margin-left: auto;
+    margin-right: auto;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: bold;
+}

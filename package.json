@@ -1,0 +1,30 @@
+{
+  "scripts": {
+    "start": "nodejs server_main.js",
+    "test": "mocha"
+  },
+  "name": "todo_web",
+  "description": "Node.js TODO web front project",
+  "version": "1.0.0",
+  "main": "server_main.js",
+  "directories": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Min-92/todo_web.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Min-92/todo_web/issues"
+  },
+  "homepage": "https://github.com/Min-92/todo_web#readme",
+  "dependencies": {
+    "cookie": "^0.4.0"
+  },
+  "devDependencies": {
+    "assert": "^2.0.0",
+    "supertest": "^4.0.2"
+  }
+}
