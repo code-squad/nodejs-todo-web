@@ -6,6 +6,14 @@
 
 - http 모둘만으로 Todo Web을 구현해보면서 http의 동작 방식을 이해한다. 
 
+#### 로그인 페이지
+
+![](https://user-images.githubusercontent.com/34808501/60859314-1c26d800-a24d-11e9-9068-a7dd1e2305d7.png)
+
+#### 데모
+
+![](https://media.giphy.com/media/XZg4w0msD2cd89sqGt/giphy.gif)
+
 ### 사용법
 
 1. 아래 명령어를 입력한다.
@@ -24,7 +32,7 @@ http://localhost:3000
 
 ## App 구조
 
-![](https://user-images.githubusercontent.com/34808501/60821376-64f37800-a1de-11e9-8623-0006144720f5.png)
+![](https://user-images.githubusercontent.com/34808501/60857946-69a04680-a247-11e9-8123-bdcd816e5f41.png)
 
 ### Bootstrap
 

@@ -5,19 +5,29 @@
       "pw": "123",
       "todos": [
         {
-          "id": 620,
-          "title": "드래그",
-          "status": "todo"
+          "id": 710,
+          "title": "자바스크립트",
+          "status": "done"
+        },
+        {
+          "id": 8048,
+          "title": "클로저 공부",
+          "status": "done"
         },
         {
           "id": 1761,
           "title": "버그가 아니라 기능 입니다",
-          "status": "done"
+          "status": "doing"
         },
         {
-          "id": 9252,
-          "title": "하하하",
+          "id": 2512,
+          "title": "Nodejs",
           "status": "doing"
+        },
+        {
+          "id": 3721,
+          "title": "비동기 공부",
+          "status": "todo"
         }
       ]
     },
