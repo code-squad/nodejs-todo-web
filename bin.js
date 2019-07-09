@@ -9,6 +9,7 @@ const hostName = '127.0.0.1';
 app.use(logger());
 app.use(serveStatic());
 app.use('/', index.listPosts());
+app.use('/signup', index.signUp());
 
 app.listen(port, hostName, () => {
     console.log(`${port}번 포트에서 서버 대기중입니다.`)

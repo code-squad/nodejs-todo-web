@@ -24,6 +24,16 @@ const listPosts = () => async (req, res, next) => {
     }
 }
 
+const signUp = () => (req, res, next) => {
+    console.log(req.url, 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
+    console.log(req.body, 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb');
+    res.writeHead(200, { 'Location': '/' });
+    res.end();
+    // const { title, ment } = req.body;
+    // console.log(title, ment);
+}
+
 module.exports = {
-    listPosts
+    listPosts,
+    signUp
 }

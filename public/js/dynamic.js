@@ -1,5 +1,5 @@
 
-class ActiveEvent {
+class DynamicEvent {
     constructor() {
         this.card;
     }
@@ -49,7 +49,7 @@ class ActiveEvent {
         target.insertAdjacentHTML(`${index}`, data);
     }
 
-    applyActiveEvent(target) {
+    applyDynamicEvent(target) {
         if (target.className === "schedule") {
             this.toggleClass({ target, className: 'activeSchedule' });
         } else if (target.className === "schedule activeSchedule") {
@@ -67,12 +67,12 @@ class ActiveEvent {
         })
 
         document.addEventListener("dragenter", (e) => {
-            this.applyActiveEvent(e.target);
+            this.applyDynamicEvent(e.target);
 
         }, false);
 
         document.addEventListener("dragleave", (e) => {
-            this.applyActiveEvent(e.target);
+            this.applyDynamicEvent(e.target);
         }, false);
 
         document.addEventListener("dragover", (e) => {
@@ -109,7 +109,37 @@ class ActiveEvent {
 
 }
 
-const activeEvent = new ActiveEvent();
-activeEvent.dragDrop();
-activeEvent.holdLoginWindow();
-activeEvent.addSchedule();
+const signUpBtn = document.getElementById('signUpBtn');
+signUpBtn.addEventListener('click', async (e) => {
+    alert('click');
+    const response = await fetch('/signup', {
+        method: 'POST',
+        redirect: 'follow',
+        body: 'title=haha&ment=hoho'
+    })
+    // .then(function (response) {
+    //     if (response.ok) {
+    //         alert('gogo2');
+    //     } else {
+    //         alert('nono2');
+    //     }
+    // });
+    alert(response);
+    alert('end');
+    if (response.redirected) {
+        alert('gogo');
+    } else {
+        alert('nono');
+    }
+    if (response.ok) {
+        alert('gogo2');
+    } else {
+        alert('nono2');
+    }
+
+})
+
+const dynamicEvent = new DynamicEvent();
+dynamicEvent.dragDrop();
+dynamicEvent.holdLoginWindow();
+dynamicEvent.addSchedule();
