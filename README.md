@@ -1,6 +1,6 @@
-##Todo App
+## Todo App
 
-###About
+### About
 
  node js core module를 사용한 todo web version application
 
