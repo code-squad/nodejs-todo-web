@@ -3,13 +3,19 @@ const sendData = (valueId) => {
     sendAjax('./sendData', valueId, inputdata)
 }
 
-
 const dataArray = ["todo", [], "doing", [], "done",[]];
 
 const sendAjax = (url, dataId, data) => {
-
     let xhr = new XMLHttpRequest();
+    let dataMade = makeDataArray(dataArray, dataId, data)
+    dataMade = JSON.stringify(dataMade)
+  
+    xhr.open('POST', url);
+    xhr.setRequestHeader('Content-type', "application/json");
+    xhr.send(dataMade);
+}
 
+const makeDataArray = (dataArray, dataId, data) => {
     if(dataId === "dataTodo"){
         dataArray[1].push(data)
     }else if(dataId === "dataDoing"){
@@ -17,12 +23,7 @@ const sendAjax = (url, dataId, data) => {
     }else if(dataId === "dataDone"){
         dataArray[5].push(data)
     }
-
-    console.log(dataArray)
-  
-    xhr.open('POST', url);
-    xhr.setRequestHeader('Content-type', "application/json");
-    xhr.send(JSON.stringify(dataArray));
+    return dataArray
 }
 
 
