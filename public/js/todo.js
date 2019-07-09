@@ -1,4 +1,4 @@
-let draggingTarget = null;
+let draggingTarget;
 
 const createNewCard = function(input) {
   const newCard = document.createElement("div");

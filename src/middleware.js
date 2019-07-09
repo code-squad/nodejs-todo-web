@@ -1,7 +1,7 @@
 const Middleware = () => {
   const middlewares = [];
-  let request = null;
-  let response = null;
+  let request;
+  let response;
 
   const middlewareRun = (i, err) => {
     if (i < 0 || i >= middlewares.length) return;
