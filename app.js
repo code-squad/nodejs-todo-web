@@ -2,6 +2,7 @@ const path = require("path");
 const fs = require("fs");
 
 const serveStatic = require("./middlewares/serve-static");
+const logger = require("./middlewares/logger");
 const App = require("./src/Application");
 const app = App();
 
@@ -27,6 +28,7 @@ const error = (err, req, res, next) => {
   res.end();
 };
 
+app.use(logger());
 app.use(serveStatic());
 app.use(index);
 app.use(error404);
