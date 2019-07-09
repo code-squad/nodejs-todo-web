@@ -74,15 +74,15 @@ HTML, CSS로 웹을 구현할 초기에는 근사한 웹 디자인을 구현하�
 
 :one:   **회원가입**
 
-![signUp](https://im3.ezgif.com/tmp/ezgif-3-f76c24b3edb6.gif)
+![signUp](https://github.com/bestdevhyo1225/image_repository/blob/master/ezgif-3-f76c24b3edb6.gif?raw=true)
 
 :two:   **로그인**
 
-![signIn](https://im3.ezgif.com/tmp/ezgif-3-2b35f17e103e.gif)
+![signIn](https://github.com/bestdevhyo1225/image_repository/blob/master/ezgif-3-2b35f17e103e.gif?raw=true)
 
 :three:   **로그아웃**
 
-![signOut](https://im3.ezgif.com/tmp/ezgif-3-5f07e676c03d.gif)
+![signOut](https://github.com/bestdevhyo1225/image_repository/blob/master/ezgif-3-5f07e676c03d.gif?raw=true)
   
   
   
