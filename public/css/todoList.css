@@ -1,8 +1,9 @@
 * {
+    font-family: 'Russo One', sans-serif;
     margin: 0;
     width: 100%;
     height: 100%;
-    font-family:'Times New Roman', Times, serif;
+    overflow: hidden;
 }
 
 h1 {
@@ -12,7 +13,7 @@ h1 {
 }
 
 b {
-    font-size: 20px;
+    font-size: 25px;
 }
 
 input {
@@ -38,8 +39,17 @@ input {
     margin: 0 auto;
 }
 
+#SignOutButton {
+    background-color: aliceblue;
+    font-family: 'Russo One', sans-serif;
+    margin-left: 0px;
+    margin-right: 0px;
+    margin-top: 10px;
+    width: 100px;
+}
+
 .contents_section {
-    background-image: url('./my_background_image.png');
+    background-image: url('/public/img/my_background_image.png');
     background-position: center;
     background-size: cover;
     opacity: 0.8;
@@ -80,7 +90,7 @@ input {
 
 .todo_list_main {
     margin: 0 auto;
-    max-height: 750px;
+    max-height: 700px;
     width: 90%;
     overflow: auto;
 }
@@ -106,24 +116,34 @@ input {
 }
 
 .story_input {
+    font-family: 'Jua', sans-serif;
+    font-size: 17px;
     margin-top: 5px;
     margin-left: 0px;
     margin-right: 0px;
     margin-bottom: 15px;
     padding: .3rem;
-    width: 73%;
+    width: 72%;
     height: 30px;
 }
 
 .story_add {
+    font-family: 'Russo One', sans-serif;
     margin: 0;
     width: 21%;
     height: 40px;
 }
 
+.story_delete {
+    border-color: darkgray;
+    color: crimson;
+    font-weight: bold;
+    border-radius: 10px;
+}
+
 .story_inner_text {
-    font-family: monospace;
-    font-size: 15px;
+    font-family: 'Jua', sans-serif;
+    font-size: 20px;
     margin-top: 5px;
     margin-left: 5%;
     width: 90%;

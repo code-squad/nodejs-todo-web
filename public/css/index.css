@@ -1,0 +1,64 @@
+* {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    font-family: 'Russo One', sans-serif;
+    overflow: hidden;
+}
+
+h1 {
+    color: aliceblue;
+    font-size: 30px;
+    margin: 5px;
+}
+
+b {
+    font-size: 20px;
+}
+
+input {
+    background-color: aliceblue;
+    font-family: monospace;
+    font-size: 15px;
+    border-radius: 5px;
+    margin: 8px;
+    width: 50px;
+    height: 30px;
+}
+
+.title {
+    background-color: rgb(12, 9, 29);
+    width: 100%;
+    height: 5%;
+}
+
+.sub_title {
+    display: flex; 
+    width: 90%;
+    height: 95%;
+    margin: 0 auto;
+}
+
+.formTag {
+    margin-left: 2.5px;
+    margin-right: 2.5px;
+    width: 100px;
+}
+
+.btn {
+    background-color: aliceblue;
+    font-family: 'Russo One', sans-serif;
+    margin-left: 0px;
+    margin-right: 0px;
+    margin-top: 10px;
+    width: 100%;
+}
+
+.contents_section {
+    background-image: url('/public/img/my_background_image.png');
+    background-position: center;
+    background-size: cover;
+    opacity: 0.8;
+    width: 100%;
+    height: 95%;
+}
