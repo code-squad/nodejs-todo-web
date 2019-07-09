@@ -15,6 +15,12 @@ const Middleware = () => {
         ? nextMiddleware(err, request, response, next)
         : middlewareRun(i + 1, err);
     }
+    if (nextMiddleware.path) {
+      const pathMatched = request.url === nextMiddleware.path;
+      return pathMatched
+        ? nextMiddleware(request, response, next)
+        : middlewareRun(i + 1);
+    }
     nextMiddleware(request, response, next);
   };
 

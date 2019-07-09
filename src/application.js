@@ -6,7 +6,15 @@ const Application = () => {
   const server = http.createServer((req, res) => {
     middleware.run(req, res);
   });
-  const use = func => {
+  const use = (path, func) => {
+    if (typeof path === "string" && typeof func === "function") {
+      func.path = path;
+    } else if (typeof path == "function") {
+      func = path;
+    } else {
+      throw Error("잘못된 use 함수 입니다.");
+    }
+
     middleware.add(func);
   };
 
