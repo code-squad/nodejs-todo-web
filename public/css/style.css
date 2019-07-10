@@ -15,62 +15,6 @@ body {
     overflow: hidden;
 }
 
-#loginImg {
-    position: absolute;
-    height: 100%;
-    width: 100%;
-    opacity: 0.5;
-    z-index: -1;
-}
-
-.loginWindow {
-    position: absolute;
-    width: 250px;
-    height: 100%;
-    top: 0;
-    transition: transform 1s ease 0.3s;
-    transform: translateX(-200px);
-}
-
-.loginWindow:hover {
-    transition: transform 1s ease 0.3s;
-    transform: translateX(0px);
-}
-
-.loginWindowActive {
-    transform: translateX(0px);
-}
-
-fieldset {
-    width: 200px;
-}
-
-#note {
-    border: 2px solid black;
-    background-color: #aaffff;
-    opacity: 0.7;
-    position: absolute;
-    width: 100vw;
-    height: 100px;
-    font-size: 3rem;
-    text-align: center;
-    top: 0;
-    transition: transform 1s ease 0.3s;
-    transform: translateY(-80px);
-}
-
-#note:hover {
-    transition: transform 1s ease 0.3s;
-    transform: translateY(0px);
-}
-
-#mountainImg {
-    position: absolute;
-    height: 100%;
-    width: 100%;
-    z-index: -1;
-}
-
 header {
     position: relative;
     display: flex;
@@ -90,86 +34,50 @@ article {
     align-items: center;
 }
 
-#container {
-    width: 80vw;
-    height: 70vh;
-    display: flex;
-    justify-content: space-around;
-}
-
-.status {
-    border: 2px solid rgb(247, 208, 136);
-    border-top-right-radius: 27px;
-    border-bottom-right-radius: 27px;
-    border-top-left-radius: 27px;
-    border-bottom-left-radius: 27px;
-    list-style: none;
-    height: 70vh;
-    width: auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.title {
-    text-align: center;
-    font-family: 'Pacifico', cursive;
-    font-size: 2em;
-    border-top-right-radius: 27px;
-    border-bottom-right-radius: 27px;
-    border-top-left-radius: 27px;
-    border-bottom-left-radius: 27px;
-    background-image: linear-gradient(to right, #cff5a4, #8aee7c);
-    height: 55px;
-    width: 25vw;
-}
-
-.memoNote {
-    resize: none;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    height: 55px;
-    width: 100%;
-    border-top-right-radius: 27px;
-    border-bottom-right-radius: 27px;
-    border-top-left-radius: 27px;
-    border-bottom-left-radius: 27px;
-    text-align: center;
-    overflow: visible;
-}
-
-.memo {
-    height: auto;
-    width: 100%;
-}
-
-#trashCan {
+#note {
+    border: 2px solid black;
+    background-color: #aaffff;
+    opacity: 0.7;
     position: absolute;
-    bottom: 7vh;
-    right: 2vw;
-    width: 10vw;
-    height: 15vh;
+    width: 100%;
+    height: 100px;
+    font-size: 3rem;
+    text-align: center;
+    top: 0;
+    transition: transform 1s ease 0.3s;
+    transform: translateY(-80px);
 }
 
-.add {
-    margin: 10px;
-    background: #8aee7c;
-    height: 30px;
-    position: relative;
-    width: 6px;
-}
-
-.add:after {
-    background: #8aee7c;
-    content: "";
-    height: 6px;
-    left: -12px;
+/* 로그인창 관련 */
+#loginImg,
+#mountainImg {
     position: absolute;
-    top: 12px;
-    width: 30px;
+    height: 100%;
+    width: 100%;
+    z-index: -1;
 }
 
-/* -------------------------------------------------------------------------- */
+#loginImg {
+    opacity: 0.5;
+}
+
+.loginWindow {
+    position: absolute;
+    width: 250px;
+    height: 100%;
+    top: 0;
+    transition: transform 1s ease 0.3s;
+    transform: translateX(-200px);
+}
+
+.loginWindow:hover,
+.loginWindowActive,
+#note:hover {
+    transition: transform 1s ease 0.3s;
+    transform: translateX(0px);
+    transform: translateY(0px);
+}
+
 #username,
 #password,
 #loginBtn,
@@ -252,8 +160,90 @@ article {
 .displayNone{
     display: none;
 }
-/* ---------------------------------------------------------------------------------- */
 
+/* 스케줄컨테이너 관련 */
+#container {
+    width: 80vw;
+    height: 70vh;
+    display: flex;
+    justify-content: space-around;
+}
+
+.status,
+.title,
+.memoNote {
+    border-top-right-radius: 27px;
+    border-bottom-right-radius: 27px;
+    border-top-left-radius: 27px;
+    border-bottom-left-radius: 27px;
+}
+
+.status {
+    border: 2px solid rgb(247, 208, 136);
+    list-style: none;
+    height: 70vh;
+    width: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.title {
+    text-align: center;
+    font-family: 'Pacifico', cursive;
+    font-size: 2em;
+    background-image: linear-gradient(to right, #cff5a4, #8aee7c);
+    height: 55px;
+    width: 25vw;
+}
+
+.memoNote {
+    resize: none;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    height: 55px;
+    width: 100%;
+    text-align: center;
+    overflow: visible;
+}
+
+.memo {
+    height: auto;
+    width: 100%;
+}
+
+/* 스케줄작성 및 쓰레기통 */
+.addSchedule {
+    border: 2px solid #65e954;
+    margin: 10px;
+    width: 20%;
+    border-top-right-radius: 27px;
+    border-bottom-right-radius: 27px;
+    border-top-left-radius: 27px;
+    border-bottom-left-radius: 27px;
+    color: #65e954;
+    background-color: white;
+    font-size: 2rem;
+    cursor: pointer;
+}
+
+.addSchedule:hover {
+    transform: scale(1.2);
+}
+
+#trashCan {
+    position: absolute;
+    bottom: 7vh;
+    right: 2vw;
+    width: 10vw;
+    height: 15vh;
+}
+
+.activeTrashCan{
+    transform: scale(1.2);
+}
+
+/* 스케줄카드 관련 */
 .schedule {
     border: 2px solid #8aee7c;
     margin-top: 10px;
@@ -271,35 +261,4 @@ article {
 .activeSchedule{
     transition: transform 0.2s ease;
     transform: translateY(15%);
-}
-
-.addSchedule {
-    border: 2px solid #65e954;
-    margin: 10px;
-    width: 20%;
-    border-top-right-radius: 27px;
-    border-bottom-right-radius: 27px;
-    border-top-left-radius: 27px;
-    border-bottom-left-radius: 27px;
-    color: #65e954;
-    background-color: white;
-    font-size: 2rem;
-    cursor: pointer;
-}
-
-.dropBox{
-    border: 2px solid yellow;
-    width: 100%;
-    height: 50px;
-    transition: transform 1s ease 0.3s;
-    transform: scaleY(1);
-}
-
-.growDropBox{
-    transition: transform 1s ease 0.3s;
-    transform-origin: 100% 0 0 scaleY(2);
-}
-
-.activeTrashCan{
-    transform: scale(1.2);
 }
