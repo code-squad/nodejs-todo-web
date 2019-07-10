@@ -115,6 +115,12 @@ signUpBtn.addEventListener('click', async (e) => {
     while (userContainer.hasChildNodes()) {
         userContainer.removeChild(userContainer.firstChild);
     }
+    const data = `<input type="text" id="userNameToUse" placeholder="Enter the ID to use"><input type="submit" id="identification" value="ID중복확인"> <br>
+    <input type="password" id="passwordToUse" name="pwd" placeholder="Enter the password to use"><br>
+    <input type="password" id="confirmPassword" name="pwd" placeholder="Confrim the password"><br>
+    <input type="submit" id="createID" value="CREATE"><button id="back">LOGIN</button>
+    `
+    userContainer.insertAdjacentHTML('beforeend', data);
 
 })
 
