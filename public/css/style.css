@@ -169,7 +169,7 @@ article {
     top: 12px;
     width: 30px;
 }
-/* ------------------------------------- */
+
 #username,
 #password,
 #loginBtn,
@@ -219,32 +219,21 @@ article {
     border-top-right-radius: 27px;
     border-bottom-right-radius: 27px;
 }
-/* ------------------------------------------- */
 
-#loginBtn {
+#loginBtn,
+#back {
     background-image: linear-gradient(to right, #cff5a4, #8aee7c);
-    transition: background-image 0.25s linear 0.25s;
     cursor: pointer;
-}
-
-#loginBtn:hover {
-    background-image: linear-gradient(to right, #ccf5f5, #8feeee);
 }
 
 #signUpBtn,
 #identification,
 #createID {
     background-image: linear-gradient(to right, #a4dbf5, #7c91ee);
-    transition: background-image 0.25s linear 0.25s;
     cursor: pointer;
 }
 
-#back {
-    background-image: linear-gradient(to right, #cff5a4, #8aee7c);
-    transition: background-image 0.25s linear 0.25s;
-    cursor: pointer;
-}
-
+#loginBtn:hover,
 #signUpBtn:hover,
 #identification:hover,
 #createID:hover,
