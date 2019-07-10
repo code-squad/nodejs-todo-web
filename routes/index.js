@@ -24,10 +24,23 @@ const listPosts = () => async (req, res, next) => {
     }
 }
 
-const signUp = () => (req, res, next) => {
-    const { title, ment } = req.body;
-    // res.writeHead(200, { 'Location': '/' });
-    res.end();
+const isFileExit = (filePath) => {
+    return new Promise((resolve, reject) => {
+        fs.access(filePath, (err) => {
+            if (err) reject('notExit');
+            resolve('exit');
+        })
+    });
+}
+
+const signUp = () => async (req, res, next) => {
+    const { id } = req.body;
+    try {
+        const IDexit = await isFileExit(`users/${id}.json`);
+        res.end(IDexit);
+    } catch (notExit) {
+        res.end(notExit);
+    }
 }
 
 module.exports = {

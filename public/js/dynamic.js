@@ -126,7 +126,7 @@ backToLogin.addEventListener('click', (e) => {
 })
 
 const identification = document.getElementById('identification');
-identification.addEventListener('click', (e) => {
+identification.addEventListener('click', async (e) => {
     const userNameToUse = document.getElementById('userNameToUse').value;
 
     if (!/^[a-z0-9+]{4,12}$/.test(userNameToUse) || / /.test(userNameToUse)) {
@@ -136,7 +136,22 @@ identification.addEventListener('click', (e) => {
     } else if (!/[0-9]/.test(userNameToUse)) {
         alert('숫자가 없습니다.')
     } else {
-        alert('성공!')
+        try {
+            const response = await fetch('/identification', {
+                method: 'POST',
+                body: `id=${userNameToUse}`
+            })
+            const data = await response.text();
+            if (data === 'notExit') {
+                document.getElementById('userNameToUse').dataset.possible = "yes"
+                alert('사용가능한 아이디입니다.')
+            } else {
+                document.getElementById('userNameToUse').dataset.possible = "no"
+                alert('이미 사용중인 아이디입니다.')
+            }
+        } catch (err) {
+            throw err;
+        }
     }
 })
 
