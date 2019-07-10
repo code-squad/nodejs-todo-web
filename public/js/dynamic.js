@@ -160,7 +160,20 @@ userNameToUse.addEventListener('keydown', (e) => {
     userNameToUse.dataset.possible = "no";
 })
 
-const passwordToUse = document.getElementById('passwordToUse');
+const createID = document.getElementById('createID');
+createID.addEventListener('click', (e) => {
+    const passwordToUse = document.getElementById('passwordToUse').value;
+    const confirmPassword = document.getElementById('confirmPassword').value;
+    if (passwordToUse.length < 8) {
+        alert('비밀번호는 최소 8자리 이상 입력해주세요');
+    } else {
+        if (passwordToUse !== confirmPassword) {
+            alert('비밀번호가 일치하지 않습니다.')
+        } else {
+            alert('성공')
+        }
+    }
+})
 
 const dynamicEvent = new DynamicEvent();
 dynamicEvent.dragDrop();
