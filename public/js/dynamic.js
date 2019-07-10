@@ -129,8 +129,8 @@ const identification = document.getElementById('identification');
 identification.addEventListener('click', (e) => {
     const userNameToUse = document.getElementById('userNameToUse').value;
 
-    if (!/^[a-z0-9+]{4,12}$/.test(userNameToUse)) {
-        alert('아이디는 영어 소문자와 숫자의 조합으로 4글자 이상 12글자 이하로 작성해 주세요');
+    if (!/^[a-z0-9+]{4,12}$/.test(userNameToUse) || / /.test(userNameToUse)) {
+        alert('아이디는 공백없이 영어 소문자와 숫자의 조합으로 4글자 이상 12글자 이하로 작성해 주세요');
     } else if (!/[a-z]/.test(userNameToUse)) {
         alert('영어(소문자)가 없습니다.')
     } else if (!/[0-9]/.test(userNameToUse)) {
