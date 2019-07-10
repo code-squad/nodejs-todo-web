@@ -205,7 +205,7 @@ article {
     background-image: linear-gradient(to right, #ccf5f5, #8feeee);
 }
 
-.loginContainer {
+#userContainer {
     width: 70%;
     height: 35%;
     margin-top: 30%;

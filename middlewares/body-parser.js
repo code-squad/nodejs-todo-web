@@ -2,8 +2,7 @@ const bodyParser = () => (req, res, next) => {
     let body = []
 
     req.on('data', chunk => {
-        body.push(chunk)
-        console.log('data', chunk)
+        body.push(chunk);
     })
 
     req.on('end', () => {

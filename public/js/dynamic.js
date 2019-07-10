@@ -33,7 +33,7 @@ class DynamicEvent {
     }
 
     holdLoginWindow() {
-        const loginElements = document.querySelectorAll(".loginContainer > input");
+        const loginElements = document.querySelectorAll("#userContainer > input");
         loginElements.forEach(element => {
             element.addEventListener("focus", (e) => e.target.closest(".loginWindow").classList.toggle("loginWindowActive"))
             element.addEventListener("blur", (e) => e.target.closest(".loginWindow").classList.toggle("loginWindowActive"))
@@ -111,30 +111,9 @@ class DynamicEvent {
 
 const signUpBtn = document.getElementById('signUpBtn');
 signUpBtn.addEventListener('click', async (e) => {
-    alert('click');
-    const response = await fetch('/signup', {
-        method: 'POST',
-        redirect: 'follow',
-        body: 'title=haha&ment=hoho'
-    })
-    // .then(function (response) {
-    //     if (response.ok) {
-    //         alert('gogo2');
-    //     } else {
-    //         alert('nono2');
-    //     }
-    // });
-    alert(response);
-    alert('end');
-    if (response.redirected) {
-        alert('gogo');
-    } else {
-        alert('nono');
-    }
-    if (response.ok) {
-        alert('gogo2');
-    } else {
-        alert('nono2');
+    const userContainer = document.getElementById('userContainer');
+    while (userContainer.hasChildNodes()) {
+        userContainer.removeChild(userContainer.firstChild);
     }
 
 })
