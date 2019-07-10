@@ -24,12 +24,12 @@
             </ul>
             <div class = "addDiv">
                 <div id = "openAdd_todo">
-                    <span class = "add icon-plus" id = "addTodo" onclick='display("addData_todo", "openAdd_todo")' >Add another card</span>
+                    <span class = "add icon-plus" id = "addTodo" >Add another card</span>
                 </div>
                 <div id = "addData_todo" class = "addData">
                     <textarea class="addContents" id ="dataTodo" placeholder="Enter a title for this card..."></textarea>
-                    <input type ="text" value ="Add Card" id="inputAdd" onclick='display("openAdd_todo", "addData_todo"); sendData("dataTodo"); callAppendChild("dataTarget_todo","dataTodo");'/>
-                    <span class="backButton icon-hamburger-menu-close" onclick='display("openAdd_todo", "addData_todo")'></span>
+                    <input type ="text" value ="Add Card" class="inputAdd" id="inputAddTodo"/>
+                    <span class="backButton icon-hamburger-menu-close" id = "backTodo"></span>
                 </div>
             </div>
         </li>
@@ -40,12 +40,12 @@
             </ul>
             <div class = "addDiv">
                 <div id = "openAdd_doing">
-                    <span class = "add icon-plus" id = "addDoing" onclick='display("addData_doing", "openAdd_doing")' >Add another card</span>
+                    <span class = "add icon-plus" id = "addDoing">Add another card</span>
                 </div>
                 <div id = "addData_doing" class = "addData">
                     <textarea class="addContents" id ="dataDoing" placeholder="Enter a title for this card..."></textarea>
-                    <input type ="text" value ="Add Card" id="inputAdd" onclick='display("openAdd_doing", "addData_doing"); sendData("dataDoing"); callAppendChild("dataTarget_doing","dataDoing");'/>
-                    <span class="backButton icon-hamburger-menu-close" onclick='display("openAdd_doing", "addData_doing")'></span>
+                    <input type ="text" value ="Add Card" class="inputAdd" id="inputAddDoing"/>
+                    <span class="backButton icon-hamburger-menu-close" id = "backDoing"></span>
                 </div>
             </div>
         </li>
@@ -56,12 +56,12 @@
             </ul>
             <div class = "addDiv">
                 <div id = "openAdd_done">
-                    <span class = "add icon-plus" id = "addDone" onclick='display("addData_done", "openAdd_done")' >Add another card</span>
+                    <span class = "add icon-plus" id = "addDone">Add another card</span>
                 </div>
                 <div id = "addData_done" class = "addData">
                     <textarea class="addContents"  id ="dataDone" placeholder="Enter a title for this card..."></textarea>
-                    <input type ="text" value ="Add Card" id="inputAdd" onclick='display("openAdd_done", "addData_done"); sendData("dataDone"); callAppendChild("dataTarget_done","dataDone");'/>
-                    <span class="backButton icon-hamburger-menu-close" onclick='display("openAdd_done", "addData_done")'></span>
+                    <input type ="text" value ="Add Card" class="inputAdd" id="inputAddDone"/>
+                    <span class="backButton icon-hamburger-menu-close" id = "backDone"></span>
                 </div>
             </div>
         </li>
@@ -69,5 +69,6 @@
     </div>
 
 <script type="text/javascript" src="./event.js"></script>
+<script type="text/javascript" src="./todo.js"></script>
 </body>
 </html>

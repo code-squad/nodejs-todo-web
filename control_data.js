@@ -16,12 +16,12 @@ class ControlData {
         let contents = {};
         contents[email] = inputDataArr;
 
-        let fileDataString = fs.readFileSync(this.todoDataURL, 'utf8');
+        let fileDataString = this.readTodoData()
         let fileDataObj = fileDataString !== "" ? JSON.parse(fileDataString) : {};
         fileDataObj[email] = inputDataArr;
         
         let NewFileDataString = JSON.stringify(fileDataObj)
-        fs.writeFileSync(this.todoDataURL, NewFileDataString) 
+        fs.writeFileSync(this.todoDataURL, NewFileDataString, "utf8") 
     }
 
     existDataFile(){
@@ -34,6 +34,10 @@ class ControlData {
                 resolve(jsonObj)
             })
         })
+    }
+
+    readTodoData(){
+        return fs.readFileSync(this.todoDataURL, 'utf8');
     }
 
 }

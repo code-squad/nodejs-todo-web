@@ -17,7 +17,7 @@ const app = http.createServer( function(request,response){
     let isSessionId = () => {
         return session.sessionData[sessionID] ? true : false
     }
-    let goToMain = (_url === "/index.html" || _url === "/event.js" || _url === "/css/main.css"); 
+    let goToMain = (_url === "/index.html" || _url === "/event.js" || _url === "/todo.js"|| _url === "/css/main.css"); 
     if(!isSessionId() && _url === "/index.html"){
         response.writeHead(302, {Location: `/login`});
         response.end();
@@ -102,7 +102,8 @@ const app = http.createServer( function(request,response){
     }
     else if(_url === "/getData"){
         let body = JSON.parse(controlData.readTodoData());
-        let key = session.sessionData.email
+        console.log(body)
+        let key = session.sessionData[sessionID][0].email
         let userDataString = JSON.stringify(body[key])
         response.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
         response.end(userDataString)
