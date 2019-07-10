@@ -125,28 +125,29 @@ backToLogin.addEventListener('click', (e) => {
     signUpContainer.classList.toggle('displayNone');
 })
 
+const userNameToUse = document.getElementById('userNameToUse');
 const identification = document.getElementById('identification');
 identification.addEventListener('click', async (e) => {
-    const userNameToUse = document.getElementById('userNameToUse').value;
+    const userNameToUseValue = userNameToUse.value;
 
-    if (!/^[a-z0-9+]{4,12}$/.test(userNameToUse) || / /.test(userNameToUse)) {
+    if (!/^[a-z0-9+]{4,12}$/.test(userNameToUseValue) || / /.test(userNameToUseValue)) {
         alert('아이디는 공백없이 영어 소문자와 숫자의 조합으로 4글자 이상 12글자 이하로 작성해 주세요');
-    } else if (!/[a-z]/.test(userNameToUse)) {
+    } else if (!/[a-z]/.test(userNameToUseValue)) {
         alert('영어(소문자)가 없습니다.')
-    } else if (!/[0-9]/.test(userNameToUse)) {
+    } else if (!/[0-9]/.test(userNameToUseValue)) {
         alert('숫자가 없습니다.')
     } else {
         try {
             const response = await fetch('/identification', {
                 method: 'POST',
-                body: `id=${userNameToUse}`
+                body: `id=${userNameToUseValue}`
             })
             const data = await response.text();
             if (data === 'notExit') {
-                document.getElementById('userNameToUse').dataset.possible = "yes"
+                userNameToUse.dataset.possible = "yes"
                 alert('사용가능한 아이디입니다.')
             } else {
-                document.getElementById('userNameToUse').dataset.possible = "no"
+                userNameToUse.dataset.possible = "no"
                 alert('이미 사용중인 아이디입니다.')
             }
         } catch (err) {
@@ -154,6 +155,12 @@ identification.addEventListener('click', async (e) => {
         }
     }
 })
+
+userNameToUse.addEventListener('keydown', (e) => {
+    userNameToUse.dataset.possible = "no";
+})
+
+const passwordToUse = document.getElementById('passwordToUse');
 
 const dynamicEvent = new DynamicEvent();
 dynamicEvent.dragDrop();
