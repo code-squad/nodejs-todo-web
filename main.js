@@ -39,7 +39,7 @@ const app = http.createServer( function(request,response){
             body = body + data;
         });
         request.on('end', async function(){
-            var post = qs.parse(body);
+            let post = qs.parse(body);
             let loginCheck = await login.checkLogin(post);
             let sessionData = await session.makeSession(post.email);
             if(loginCheck ) {
@@ -99,6 +99,13 @@ const app = http.createServer( function(request,response){
             todoData = JSON.parse(todoData)
             await controlData.makeTodoData(email, todoData)
         })
+    }
+    else if(_url === "/getData"){
+        let body = JSON.parse(controlData.readTodoData());
+        let key = session.sessionData.email
+        let userDataString = JSON.stringify(body[key])
+        response.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
+        response.end(userDataString)
     }
     
 })

@@ -1,9 +1,28 @@
+const getData = () => {
+    let xhr = new XMLHttpRequest;
+    let url = './getData'
+    xhr.onreadystatechange = function(){
+        if (this.status === 200 && this.readyState == this.DONE){
+            let todoListData = JSON.parse(xhr.responseText);
+            let todoArr = todoListData[1]
+            let doingArr = todoListData[3]
+            let doneArr = todoListData[5]
+
+            todoArr.forEach((data)=>{makeChild("dataTarget_todo", data)})
+            doingArr.forEach((data)=>{makeChild("dataTarget_doing", data)})
+            doneArr.forEach((data)=>{makeChild("dataTarget_done", data)})
+        }
+    }
+    xhr.open('GET', url, true)
+    xhr.send();
+}
+
+
 const sendData = (valueId) => {
     let inputdata = document.getElementById(valueId).value;
     sendAjax('./sendData', valueId, inputdata)
 }
 
-const dataArray = ["todo", [], "doing", [], "done",[]];
 
 const sendAjax = (url, dataId, data) => {
     let xhr = new XMLHttpRequest();
@@ -32,12 +51,33 @@ const display = (displayID, displayNoneID) => {
     document.getElementById(displayNoneID).style.display="none";
 }
 
+const makeChild = (targetId, value) => {
+    let text = document.createTextNode(value); 
+    let targetUl = document.getElementById(targetId); 
+    let li = document.createElement('li'); 
+    let span = document.createElement('span'); 
+
+    if(value !== ""){
+        li.classList.add("contents")
+        li.appendChild(text); 
+        li.appendChild(span); 
+        span.classList.add("deleteData")
+        span.classList.add("icon-hamburger-menu-close")
+        targetUl.appendChild(li); 
+        li.addEventListener("mouseover", ()=>{span.style.display = "block";}, true)
+        li.addEventListener("mouseout", ()=>{span.style.display = "none";}, true)
+        span.addEventListener("click", (ev)=>{ev.target.parentNode.parentNode.removeChild(ev.target.parentNode);}, false)
+
+        drag(targetUl,li)
+    }
+}
+
 const callAppendChild = (targetId, valueId) => { 
-    const data = document.getElementById(valueId).value;
-    const text = document.createTextNode(data); 
-    const targetUl = document.getElementById(targetId); 
-    const li = document.createElement('li'); 
-    const span = document.createElement('span'); 
+    let data = document.getElementById(valueId).value;
+    let text = document.createTextNode(data); 
+    let targetUl = document.getElementById(targetId); 
+    let li = document.createElement('li'); 
+    let span = document.createElement('span'); 
 
     if(data !== ""){
         li.classList.add("contents")
@@ -83,3 +123,7 @@ const drag = (listWrap, list) => {
 }
 
 
+const body = document.getElementById("init")
+const dataArray = ["todo", [], "doing", [], "done",[]];
+
+body.addEventListener("load", getData());
