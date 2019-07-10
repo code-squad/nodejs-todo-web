@@ -33,7 +33,7 @@ class DynamicEvent {
     }
 
     holdLoginWindow() {
-        const loginElements = document.querySelectorAll("#userContainer > input");
+        const loginElements = document.querySelectorAll(".loginWindow > div > input");
         loginElements.forEach(element => {
             element.addEventListener("focus", (e) => e.target.closest(".loginWindow").classList.toggle("loginWindowActive"))
             element.addEventListener("blur", (e) => e.target.closest(".loginWindow").classList.toggle("loginWindowActive"))
