@@ -121,9 +121,3 @@ const drag = (listWrap, list) => {
         event.target.parentNode.insertBefore(dragging, event.target.nextSibling);
     });
 }
-
-
-const body = document.getElementById("init")
-const dataArray = ["todo", [], "doing", [], "done",[]];
-
-body.addEventListener("load", getData());
