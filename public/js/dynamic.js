@@ -160,18 +160,36 @@ userNameToUse.addEventListener('keydown', (e) => {
     userNameToUse.dataset.possible = "no";
 })
 
+function ischeckedID() {
+    if (userNameToUse.dataset.possible === 'yes') {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 const createID = document.getElementById('createID');
-createID.addEventListener('click', (e) => {
+createID.addEventListener('click', async (e) => {
     const passwordToUse = document.getElementById('passwordToUse').value;
     const confirmPassword = document.getElementById('confirmPassword').value;
-    if (passwordToUse.length < 8) {
-        alert('비밀번호는 최소 8자리 이상 입력해주세요');
-    } else {
-        if (passwordToUse !== confirmPassword) {
-            alert('비밀번호가 일치하지 않습니다.')
+
+    if (ischeckedID()) {
+        if (passwordToUse.length < 8) {
+            alert('비밀번호는 최소 8자리 이상 입력해주세요');
         } else {
-            alert('성공')
+            if (passwordToUse !== confirmPassword) {
+                alert('비밀번호가 일치하지 않습니다.')
+            } else {
+                const response = await fetch('/createID', {
+                    method: 'POST',
+                    body: `id=${userNameToUse.value}&pwd=${passwordToUse}`
+                })
+                const data = await response.text();
+                alert(data);
+            }
         }
+    } else {
+        alert('아이디 중복체크를 해주세요.')
     }
 })
 
