@@ -17,7 +17,6 @@ const getData = () => {
     xhr.send();
 }
 
-
 const sendClientData = (valueId) => {
     let xhr = new XMLHttpRequest();
     let dataArray = ["todo", [], "doing", [], "done",[]];
@@ -33,16 +32,17 @@ const sendClientData = (valueId) => {
 const deleteClientData = () => {
     let xhr = new XMLHttpRequest();
     let url = './deleteData'
-
+    
     let deleteLi = document.getElementById("delete").parentNode;
     let deleteLiIndex = Array.prototype.indexOf.call(deleteLi.parentNode.childNodes, deleteLi)-3;
-    let deleteUlID = document.getElementById("delete").parentNode.parentNode.id;    
+    let deleteUlID = deleteLi.parentNode.id;    
     let sendDataString = JSON.stringify([deleteUlID, deleteLiIndex])
-    
-    deleteLi.parentNode.removeChild(deleteLi);
+
     xhr.open('POST', url);
     xhr.setRequestHeader('Content-type', "application/json");
     xhr.send(sendDataString);
+
+    deleteLi.parentNode.removeChild(deleteLi);
 }
 
 const makeDataArray = (dataArray, dataId, data) => {
@@ -56,6 +56,23 @@ const makeDataArray = (dataArray, dataId, data) => {
     return dataArray
 }
 
+const changeData = (target) => {
+    let xhr = new XMLHttpRequest();
+    let url = './changeData'
+
+    let changedLi = target;
+    let changedLiIndex = Array.prototype.indexOf.call(changedLi.parentNode.childNodes, changedLi)-3;
+    let changedUlID = changedLi.parentNode.id;    
+    changedLi.id = "dropLi"
+    
+    let changedLiValue = document.getElementById("dropLi").innerText
+    let changedDataString = JSON.stringify([changedLiValue, changedLiIndex, changedUlID])
+    
+    xhr.open('POST', url);
+    xhr.setRequestHeader('Content-type', "application/json");
+    xhr.send(changedDataString);
+    changedLi.id = ""
+}
 
 const display = (displayID, displayNoneID) => {
     document.getElementById(displayID).style.display="inherit";
@@ -78,34 +95,8 @@ const makeChild = (targetId, value) => {
         li.addEventListener("mouseover", ()=>{span.style.display = "block"; span.id = "delete"}, true)
         li.addEventListener("mouseout", ()=>{span.style.display = "none"; span.id = ""}, true)
         span.addEventListener("click", ()=>{deleteClientData()}, false)
-
-        drag(targetUl,li)
+        li.setAttribute('draggable', true); 
+        // drag(targetUl,li)
     }
 }
 
-const drag = (listWrap, list) => {
-    let dragging = null;
-    list.setAttribute('draggable', true); 
-    document.addEventListener('dragstart', (event) => { 
-        dragging = event.target;
-        event.dataTransfer.setData('text/html', dragging);
-    });
-
-    document.addEventListener('dragover', (event) => {
-        event.preventDefault();
-    });
-
-    listWrap.addEventListener('dragenter', (event) => {
-        event.target.style['border-bottom'] = 'solid 2px blue';
-    });
-
-    listWrap.addEventListener('dragleave', (event) => {
-        event.target.style['border-bottom'] = '';
-    });
-
-    listWrap.addEventListener('drop', (event) => {
-        event.preventDefault();
-        event.target.style['border-bottom'] = '';
-        event.target.parentNode.insertBefore(dragging, event.target.nextSibling);
-    });
-}

@@ -12,17 +12,18 @@ class ControlData {
         fs.appendFileSync(this.clientDataURL, contents) 
     }
 
-    makeTodoData(email, inputDataArr){
+    makeTodoData(email, inputDataArray){
         let fileDataString = this.readTodoData()
         let fileDataObj = fileDataString !== "" ? JSON.parse(fileDataString) : {};
-        if(fileDataObj[email] === undefined){
-            fileDataObj[email] = inputDataArr;
+        let userDataArray = fileDataObj[email]
+        if(!userDataArray){
+            userDataArray = inputDataArray;
         }else{
-            fileDataObj[email].forEach((listData, i)=>{
-                let addListData = inputDataArr[i]
+            userDataArray.forEach((listData, i)=>{
+                let addListData = inputDataArray[i]
                 if(JSON.stringify(listData) !== JSON.stringify(addListData)){
-                    let newArr = listData.concat(addListData)
-                    fileDataObj[email].splice(i, 1, newArr)
+                    let newDataArray = listData.concat(addListData)
+                    userDataArray.splice(i, 1, newDataArray)
                 }
             })
         }
@@ -30,6 +31,26 @@ class ControlData {
         
         let NewFileDataString = JSON.stringify(fileDataObj)
         fs.writeFileSync(this.todoDataURL, NewFileDataString, "utf8") 
+    }
+
+    deleteData(email, deleteInfoString){
+        let fileDataObj = JSON.parse(this.readTodoData())
+        let userDataArray = fileDataObj[email] 
+        let [todoUlId, deleteIndex] = JSON.parse(deleteInfoString)
+
+        if (todoUlId === "dataTarget_todo"){
+            let todoArray = userDataArray[1]
+            todoArray.splice(deleteIndex, 1)
+        }else if (todoUlId === "dataTarget_doing"){
+            let doingArray = userDataArray[3]
+            doingArray.splice(deleteIndex, 1)
+        }else if (todoUlId === "dataTarget_done"){
+            let doneArray = userDataArray[5]
+            doneArray.splice(deleteIndex, 1)
+        }
+        let NewFileDataString = JSON.stringify(fileDataObj)
+        fs.writeFileSync(this.todoDataURL, NewFileDataString, "utf8") 
+
     }
 
     existDataFile(){

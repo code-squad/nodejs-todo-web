@@ -8,9 +8,9 @@ const inputAddDone = document.getElementById("inputAddDone")
 const backTodo = document.getElementById("backTodo")
 const backDoing = document.getElementById("backDoing")
 const backDone = document.getElementById("backDone")
-const textAreaTodoValue = document.getElementById("dataTodo").value
-const textAreaDoingValue = document.getElementById("dataDoing").value
-const textAreaDoneValue = document.getElementById("dataDone").value
+const textAreaTodo = document.getElementById("dataTodo")
+const textAreaDoing= document.getElementById("dataDoing")
+const textAreaDone = document.getElementById("dataDone")
 
 body.addEventListener("load", getData());
 
@@ -24,17 +24,47 @@ backDone.addEventListener("click", () => {display("openAdd_done", "addData_done"
 inputAddTodo.addEventListener("click", () => {
     display("openAdd_todo", "addData_todo"); 
     sendClientData("dataTodo");
-    makeChild("dataTarget_todo","textAreaTodoValue");
+    makeChild("dataTarget_todo",textAreaTodo.value);
+    textAreaTodo.value = "";
 });
 
 inputAddDoing.addEventListener("click", () => {
     display("openAdd_doing", "addData_doing"); 
     sendClientData("dataDoing"); 
-    makeChild("dataTarget_doing","textAreaDoingValue");
+    makeChild("dataTarget_doing",textAreaDoing.value);
+    textAreaTodo.value = "";
 });
 
 inputAddDone.addEventListener("click", () => {
     display("openAdd_done", "addData_done"); 
     sendClientData("dataDone"); 
-    makeChild("dataTarget_done","textAreaDoneValue");
+    makeChild("dataTarget_done",textAreaDone.value);
+    textAreaTodo.value = "";
+});
+
+let dragging = null;
+let listWrap = [document.getElementById("dataTarget_todo"), document.getElementById("dataTarget_doing"), document.getElementById("dataTarget_done")]
+
+document.addEventListener('dragstart', (event) => { 
+    dragging = event.target;
+    event.dataTransfer.setData('text/html', dragging);
+
+    document.addEventListener('dragover', (event) => {
+        event.preventDefault();
+    });
+
+    listWrap.forEach((wrap)=>{
+        wrap.addEventListener('dragenter', (event) => {
+            event.target.style['border-bottom'] = 'solid 2px #0179BF';
+        });
+        wrap.addEventListener('dragleave', (event) => {
+            event.target.style['border-bottom'] = '';
+        });
+        wrap.addEventListener('drop', (event) => {
+            event.preventDefault();
+            event.target.style['border-bottom'] = '';
+            event.target.parentNode.insertBefore(dragging, event.target.nextSibling);
+        });
+
+    })
 });
