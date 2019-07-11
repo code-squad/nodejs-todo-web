@@ -16,7 +16,9 @@ describe('POST /user', () => {
   });
 });
 
-describe('GET /user', async () => {
+describe('GET /user', () => {
+  const query = { username : 'nana', password : '12345', passwordConfirm : '12345' };
+  user.exec["POST"](query);
   it('유저 조회하기', async () => {
     const username = 'nana';
     const response = await user.exec["GET"](username);
@@ -29,12 +31,12 @@ describe('GET /user', async () => {
   });
 });
 
-describe('DELETE /user:id', async () => {
+describe('DELETE /user:id', () => {
   const mockSessions = [{ sid : '125236281432', name : 'nana' }, 
                       { sid: '5123412352134', name : 'nailer'},
                       { sid : '125236281432', name : 'kaka' },];
   const newUser = { username : 'kaka', password : '12345', passwordConfirm: '12345' };
-  await user.exec["POST"](newUser);
+  user.exec["POST"](newUser);
   it('유저 삭제하기', async () => {
     const query = { sid : '125236281432', name : 'kaka' };
     const response = await user.exec["DELETE"](query, mockSessions);
