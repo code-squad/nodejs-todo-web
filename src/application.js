@@ -18,6 +18,18 @@ const Application = () => {
     middleware.add(func);
   };
 
+  const get = (path, func) => {
+    if (!path || !func) throw Error("path and func is required");
+    func.method = "get";
+    use(path, func);
+  };
+
+  const post = (path, func) => {
+    if (!path || !func) throw Error("path and func is required");
+    func.method = "post";
+    use(path, func);
+  };
+
   const listen = (port = 3000, hostname = "127.0.0.1", func) => {
     server.listen(port, hostname, func);
   };
@@ -25,6 +37,8 @@ const Application = () => {
   return {
     server,
     use,
+    get,
+    post,
     listen
   };
 };

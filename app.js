@@ -8,8 +8,8 @@ const app = App();
 
 app.use(logger());
 app.use(serveStatic());
-app.use("/", signIn.getSignInPage());
-app.use("/todo", index.index());
+app.get("/", signIn.getSignInPage());
+app.get("/todo", index.index());
 app.use(errors.error404());
 app.use(errors.error());
 
