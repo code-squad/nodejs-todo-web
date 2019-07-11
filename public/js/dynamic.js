@@ -109,20 +109,25 @@ class DynamicEvent {
 
 }
 
-const signUpBtn = document.getElementById('signUpBtn');
-signUpBtn.addEventListener('click', (e) => {
+function changeLoginWindow() {
+    const informs = document.getElementsByClassName('inform');
+    for (let i = 0; i < informs.length; i++) {
+        informs[i].value = '';
+    }
     const loginContainer = document.getElementById('loginContainer');
     const signUpContainer = document.getElementById('signUpContainer');
     loginContainer.classList.toggle('displayNone');
     signUpContainer.classList.toggle('displayNone');
+}
+
+const signUpBtn = document.getElementById('signUpBtn');
+signUpBtn.addEventListener('click', (e) => {
+    changeLoginWindow();
 })
 
 const backToLogin = document.getElementById('back');
 backToLogin.addEventListener('click', (e) => {
-    const loginContainer = document.getElementById('loginContainer');
-    const signUpContainer = document.getElementById('signUpContainer');
-    loginContainer.classList.toggle('displayNone');
-    signUpContainer.classList.toggle('displayNone');
+    changeLoginWindow();
 })
 
 const userNameToUse = document.getElementById('userNameToUse');
@@ -185,7 +190,12 @@ createID.addEventListener('click', async (e) => {
                     body: `id=${userNameToUse.value}&pwd=${passwordToUse}`
                 })
                 const data = await response.text();
-                alert(data);
+                if (data === 'create') {
+                    changeLoginWindow();
+                    alert('아이디가 생성되었습니다.');
+                } else {
+                    alert('실패')
+                }
             }
         }
     } else {

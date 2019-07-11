@@ -12,7 +12,6 @@ class UsersManager {
         })
     }
 
-
     canIUseIt() {
         return async (req, res, next) => {
             const { id } = req.body;
@@ -34,7 +33,7 @@ class UsersManager {
         return new Promise((resolve, reject) => {
             fs.writeFile('db/users.json', jsonFile, (err) => {
                 if (err) throw err;
-                resolve('Created account. Enjoy Todo List!');
+                resolve('create');
             })
         })
     }
