@@ -13,6 +13,9 @@ class Application {
   }
   use(path, fn) {
     if (typeof path === 'string' && typeof fn === 'function') {
+      if (fn.path) {
+        fn.path = [fn.path].push(path);
+      }
       fn.path = path;
     } else if (typeof path === 'function') {
       fn = path;

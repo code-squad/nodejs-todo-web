@@ -50,4 +50,11 @@ Game 기능 -> Socket.io를 사용
 - 확장자를 추출해낸다.
 - 확장자에 해당하는 content-type을 res header에 담는다.
 
+
+
+### 회원가입 기능 구현
+
+- 홈디렉토리에서 /signIn path로 이동
+- POST /user를 통해 회원가입 완료
+
 [미들웨어 구현 블로그 출처](http://jeonghwan-kim.github.io/series/2018/12/08/node-web-8_middleware.html)

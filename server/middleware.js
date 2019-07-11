@@ -15,7 +15,12 @@ class Middleware {
       }
       
       if (nextMw.path) {
-        const pathMatched = nextMw.path === this.req.url;
+        let pathMatched = false;
+        if (typeof nextMw.path === 'string'){
+          pathMatched = nextMw.path.includes(this.req.url);
+        } else {
+          pathMatched = nextMw.path === this.req.url;
+        }
         return pathMatched ? nextMw(this.req, this.res, next) : this.run(idx + 1);
       }
       nextMw(this.req, this.res, next);
