@@ -12,6 +12,15 @@ class UsersManager {
         })
     }
 
+    openTodos() {
+        return new Promise((resolve, reject) => {
+            fs.readFile('db/todos.json', (err, data) => {
+                if (err) throw err;
+                resolve(data);
+            })
+        })
+    }
+
     canIUseIt() {
         return async (req, res, next) => {
             const { id } = req.body;
@@ -38,15 +47,33 @@ class UsersManager {
         })
     }
 
+    createTodo(jsonFile) {
+        return new Promise((resolve, reject) => {
+            fs.writeFile('db/todos.json', jsonFile, (err) => {
+                if (err) throw err;
+                resolve('create');
+            })
+        })
+    }
+
     createID() {
         return async (req, res, next) => {
             const { id, pwd } = req.body;
             try {
                 const data = await this.openRegister();
                 const users = JSON.parse(data.toString());
+                const data2 = await this.openTodos();
+                const todos = JSON.parse(data2.toString());
                 users[id] = pwd;
+                todos[id] = {
+                    "todo": [],
+                    "doing": [],
+                    "done": []
+                }
                 const jsonFile = JSON.stringify(users);
+                const jsonFile2 = JSON.stringify(todos);
                 const note = await this.createAccount(jsonFile);
+                await this.createTodo(jsonFile2);
                 res.end(note);
             } catch (err) {
                 console.log(err);
