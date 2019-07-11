@@ -93,20 +93,26 @@ const app = http.createServer( function(request,response){
         request.on('data', function (data) {
             body += data;
         });
-        request.on('end', async function () {
+        request.on('end', function () {
             let todoData = body
             let email = session.sessionData[sessionID][0].email
             todoData = JSON.parse(todoData)
-            await controlData.makeTodoData(email, todoData)
+            controlData.makeTodoData(email, todoData)
+            response.writeHead(200, {'Content-Type': 'text/plain; charset=utf-8'});
+            response.end()
         })
     }
     else if(_url === "/getData"){
-        let body = JSON.parse(controlData.readTodoData());
-        console.log(body)
-        let key = session.sessionData[sessionID][0].email
-        let userDataString = JSON.stringify(body[key])
-        response.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
-        response.end(userDataString)
+        let userDataString = ""
+        if(controlData.readTodoData()){
+            let body = JSON.parse(controlData.readTodoData());
+            console.log(body)
+            let email = session.sessionData[sessionID][0].email
+            userDataString = JSON.stringify(body[email])
+        
+            response.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
+            response.end(userDataString)
+        }
     }
     
 })

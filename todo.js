@@ -8,7 +8,6 @@ const inputAddDone = document.getElementById("inputAddDone")
 const backTodo = document.getElementById("backTodo")
 const backDoing = document.getElementById("backDoing")
 const backDone = document.getElementById("backDone")
-const dataArray = ["todo", [], "doing", [], "done",[]];
 
 body.addEventListener("load", getData());
 

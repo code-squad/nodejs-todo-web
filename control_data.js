@@ -13,12 +13,20 @@ class ControlData {
     }
 
     makeTodoData(email, inputDataArr){
-        let contents = {};
-        contents[email] = inputDataArr;
-
         let fileDataString = this.readTodoData()
         let fileDataObj = fileDataString !== "" ? JSON.parse(fileDataString) : {};
-        fileDataObj[email] = inputDataArr;
+        if(fileDataObj[email] === undefined){
+            fileDataObj[email] = inputDataArr;
+        }else{
+            fileDataObj[email].forEach((listData, i)=>{
+                let addListData = inputDataArr[i]
+                if(JSON.stringify(listData) !== JSON.stringify(addListData)){
+                    let newArr = listData.concat(addListData)
+                    fileDataObj[email].splice(i, 1, newArr)
+                }
+            })
+        }
+        //["todo",[],"doing",["asdasdad"],"done",[]]
         
         let NewFileDataString = JSON.stringify(fileDataObj)
         fs.writeFileSync(this.todoDataURL, NewFileDataString, "utf8") 
