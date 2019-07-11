@@ -18,7 +18,7 @@ const getData = () => {
 }
 
 
-const sendData = (valueId) => {
+const sendClientData = (valueId) => {
     let xhr = new XMLHttpRequest();
     let dataArray = ["todo", [], "doing", [], "done",[]];
     let url = './sendData'
@@ -30,6 +30,20 @@ const sendData = (valueId) => {
     xhr.send(dataMade);
 }
 
+const deleteClientData = () => {
+    let xhr = new XMLHttpRequest();
+    let url = './deleteData'
+
+    let deleteLi = document.getElementById("delete").parentNode;
+    let deleteLiIndex = Array.prototype.indexOf.call(deleteLi.parentNode.childNodes, deleteLi)-3;
+    let deleteUlID = document.getElementById("delete").parentNode.parentNode.id;    
+    let sendDataString = JSON.stringify([deleteUlID, deleteLiIndex])
+    
+    deleteLi.parentNode.removeChild(deleteLi);
+    xhr.open('POST', url);
+    xhr.setRequestHeader('Content-type', "application/json");
+    xhr.send(sendDataString);
+}
 
 const makeDataArray = (dataArray, dataId, data) => {
     if(dataId === "dataTodo"){
@@ -61,32 +75,9 @@ const makeChild = (targetId, value) => {
         span.classList.add("deleteData")
         span.classList.add("icon-hamburger-menu-close")
         targetUl.appendChild(li); 
-        li.addEventListener("mouseover", ()=>{span.style.display = "block";}, true)
-        li.addEventListener("mouseout", ()=>{span.style.display = "none";}, true)
-        span.addEventListener("click", (ev)=>{ev.target.parentNode.parentNode.removeChild(ev.target.parentNode);}, false)
-
-        drag(targetUl,li)
-    }
-}
-
-const callAppendChild = (targetId, valueId) => { 
-    let data = document.getElementById(valueId).value;
-    let text = document.createTextNode(data); 
-    let targetUl = document.getElementById(targetId); 
-    let li = document.createElement('li'); 
-    let span = document.createElement('span'); 
-
-    if(data !== ""){
-        li.classList.add("contents")
-        li.appendChild(text); 
-        li.appendChild(span); 
-        span.classList.add("deleteData")
-        span.classList.add("icon-hamburger-menu-close")
-        targetUl.appendChild(li); 
-        document.getElementById(valueId).value = "";   
-        li.addEventListener("mouseover", ()=>{span.style.display = "block";}, false)
-        li.addEventListener("mouseout", ()=>{span.style.display = "none";}, false)
-        span.addEventListener("click", (ev)=>{ev.target.parentNode.parentNode.removeChild(ev.target.parentNode);}, false)
+        li.addEventListener("mouseover", ()=>{span.style.display = "block"; span.id = "delete"}, true)
+        li.addEventListener("mouseout", ()=>{span.style.display = "none"; span.id = ""}, true)
+        span.addEventListener("click", ()=>{deleteClientData()}, false)
 
         drag(targetUl,li)
     }
