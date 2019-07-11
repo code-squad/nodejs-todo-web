@@ -32,5 +32,5 @@ const publicFile = (req, res, next) => {
 }
 
 module.exports = {
-  checkStaticFile : publicFile,
+  serveStaticFile : publicFile,
 }
