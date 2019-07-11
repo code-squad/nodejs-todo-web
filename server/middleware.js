@@ -13,6 +13,11 @@ class Middleware {
         return nextMwIsErrorMw ? nextMw(err, req, res, next) : 
           this.run(idx + 1, err);
       }
+      
+      if (nextNw.path) {
+        const pathMatched = nextNw.path === this.req.url;
+        return pathMatched ? nextMw(this.req, this.res, next) : this.run(idx + 1);
+      }
       nextMw(this.req, this.res, next);
     }
     this.req = null;

@@ -2,9 +2,10 @@
   "name": "serverside",
   "version": "1.0.0",
   "description": "indian poker server side",
-  "main": "app.js",
+  "main": "bin.js",
   "scripts": {
-    "test": "mocha ./test/*.spec.js"
+    "test": "mocha ./test/*.spec.js",
+    "start": "node bin.js"
   },
   "author": "",
   "license": "ISC",
