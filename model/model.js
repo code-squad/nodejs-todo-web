@@ -2,14 +2,6 @@ const fs = require('fs');
 
 
 class UsersManager {
-    isFileExit(filePath) {
-        return new Promise((resolve, reject) => {
-            fs.access(filePath, (err) => {
-                if (err) reject('notExit');
-                resolve('exit');
-            })
-        });
-    }
 
     openRegister() {
         return new Promise((resolve, reject) => {
@@ -38,25 +30,27 @@ class UsersManager {
         }
     }
 
-    createAccount(filePath, data) {
+    createAccount(jsonFile) {
         return new Promise((resolve, reject) => {
-            fs.writeFile(filePath, data, (err) => {
-                if (err) reject('fail');
+            fs.writeFile('db/users.json', jsonFile, (err) => {
+                if (err) throw err;
                 resolve('Created account. Enjoy Todo List!');
             })
-        });
+        })
     }
 
     createID() {
         return async (req, res, next) => {
             const { id, pwd } = req.body;
-            const filePath = `users/${id}.json`
-            const data = `{ "id": "${id}", "pwd": "${pwd}"}`
             try {
-                const note = await this.createAccount(filePath, data);
+                const data = await this.openRegister();
+                const users = JSON.parse(data.toString());
+                users[id] = pwd;
+                const jsonFile = JSON.stringify(users);
+                const note = await this.createAccount(jsonFile);
                 res.end(note);
-            } catch (fail) {
-                res.end(fail);
+            } catch (err) {
+                console.log(err);
             }
         }
     }
