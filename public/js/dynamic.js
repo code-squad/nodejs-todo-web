@@ -143,7 +143,7 @@ identification.addEventListener('click', async (e) => {
                 body: `id=${userNameToUseValue}`
             })
             const data = await response.text();
-            if (data === 'notExit') {
+            if (data === 'Not exit') {
                 userNameToUse.dataset.possible = "yes"
                 alert('사용가능한 아이디입니다.')
             } else {

@@ -12,7 +12,7 @@ app.use(logger());
 app.use(bodyParser());
 app.use(serveStatic());
 app.use('/', index.listPosts());
-app.use('/identification', userManager.signUp());
+app.use('/identification', userManager.canIUseIt());
 app.use('/createID', userManager.createID());
 
 app.listen(port, hostName, () => {

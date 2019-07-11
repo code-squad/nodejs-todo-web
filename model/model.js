@@ -11,14 +11,29 @@ class UsersManager {
         });
     }
 
-    signUp() {
+    openRegister() {
+        return new Promise((resolve, reject) => {
+            fs.readFile('db/users.json', (err, data) => {
+                if (err) throw err;
+                resolve(data);
+            })
+        })
+    }
+
+
+    canIUseIt() {
         return async (req, res, next) => {
             const { id } = req.body;
             try {
-                const IDexit = await this.isFileExit(`users/${id}.json`);
-                res.end(IDexit);
-            } catch (notExit) {
-                res.end(notExit);
+                const data = await this.openRegister();
+                const users = JSON.parse(data.toString());
+                if (users[id]) {
+                    res.end('exit')
+                } else {
+                    res.end('Not exit')
+                }
+            } catch (err) {
+                console.log(err);
             }
         }
     }
