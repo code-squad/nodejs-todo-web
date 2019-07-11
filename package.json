@@ -1,0 +1,20 @@
+{
+  "name": "nodejs-todo-web",
+  "version": "0.0.1",
+  "description": "todo application web version",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "jest"
+  },
+  "author": "ingleby",
+  "license": "ISC",
+  "dependencies": {
+    "morgan": "^1.9.1",
+    "node": "^12.4.0"
+  },
+  "devDependencies": {
+    "jest": "^24.8.0",
+    "supertest": "^4.0.2"
+  }
+}

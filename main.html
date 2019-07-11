@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" type="text/css" href="main.css">
+    <link href="http://mozilla.github.io/foundation-icons/assets/foundation-icons.css" type="text/css" rel="stylesheet">
+    <title>Todo</title>
+</head>
+<body draggable="false"  onselectstart="return false" onclick="closeAllAddForm(event)">
+    <header>
+        <div id="header-value">T o D o</div>
+        <button id="logout-button">Log Out</button>
+    </header>
+    <div id="list-box-wrapper">
+        <div class="list-box" id="todo">
+            <div class="list-box-header">Todo</div>
+            <div class="list-area">
+                <div class="default-item" style="padding: 2px"></div>
+            </div>
+            <a href="#" class="open-add-form-link" draggable="false">+ Add new Item</a>
+        </div>
+        <div class="list-box" id="doing">
+            <div class="list-box-header">Doing</div>
+            <div class="list-area">
+                    <div class="default-item" style="padding: 2px"></div>
+            </div>
+            <a href="#" class="open-add-form-link" draggable="false">+ Add new Item</a>
+        </div>
+        <div class="list-box" id="done">
+            <div class="list-box-header">Done</div>
+            <div class="list-area">
+                    <div class="default-item" style="padding: 2px"></div>
+            </div>
+            <a href="#" class="open-add-form-link" draggable="false">+ Add new Item</a>
+        </div>
+    </div>
+    <script src="./main.js"></script>
+</body>
+</html>
