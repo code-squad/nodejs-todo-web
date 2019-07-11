@@ -8,6 +8,9 @@ const inputAddDone = document.getElementById("inputAddDone")
 const backTodo = document.getElementById("backTodo")
 const backDoing = document.getElementById("backDoing")
 const backDone = document.getElementById("backDone")
+const textAreaTodoValue = document.getElementById("dataTodo").value
+const textAreaDoingValue = document.getElementById("dataDoing").value
+const textAreaDoneValue = document.getElementById("dataDone").value
 
 body.addEventListener("load", getData());
 
@@ -20,18 +23,18 @@ backDone.addEventListener("click", () => {display("openAdd_done", "addData_done"
 
 inputAddTodo.addEventListener("click", () => {
     display("openAdd_todo", "addData_todo"); 
-    sendData("dataTodo");
-    callAppendChild("dataTarget_todo","dataTodo");
+    sendClientData("dataTodo");
+    makeChild("dataTarget_todo","textAreaTodoValue");
 });
 
 inputAddDoing.addEventListener("click", () => {
     display("openAdd_doing", "addData_doing"); 
-    sendData("dataDoing"); 
-    callAppendChild("dataTarget_doing","dataDoing");
+    sendClientData("dataDoing"); 
+    makeChild("dataTarget_doing","textAreaDoingValue");
 });
 
 inputAddDone.addEventListener("click", () => {
     display("openAdd_done", "addData_done"); 
-    sendData("dataDone"); 
-    callAppendChild("dataTarget_done","dataDone");
+    sendClientData("dataDone"); 
+    makeChild("dataTarget_done","textAreaDoneValue");
 });
