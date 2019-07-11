@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Todo Register</title>
+    <link rel="stylesheet" href="css/login.css" type="text/css" media="screen" charset="utf-8">
+</head>
+<body>
+<div class="sidenav">
+    <div class="register-main-text">
+        <h1>Sony</h1>
+        <h2>TODO APP<br> Register Page</h2>
+        <p>Please fill out the forms to register.</p>
+    </div>
+</div>
+<div class="main">
+    <div class="col-md-6 col-sm-12">
+        <div class="login-form">
+            <form id="register-form" action="/api/register" method="post">
+                <div class="form-group">
+                    <ul>
+                        <label id="user-name">User Name</label> <br>
+                        <input id="user-name-input" name="name" type="text" class="form-control"
+                               placeholder="User Name">
+                    </ul>
+                </div>
+                <div class="form-group">
+                    <ul>
+                        <label id="user-password">Password</label> <br>
+                        <input id="user-password-input" name="password" type="password" class="form-control" placeholder="Password">
+                    </ul>
+                </div>
+                <div id="register-box">
+                    <button id="register-form2-button" type="submit" class="btn btn-secondary">Register</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="js/register.js"></script>
+
+</body>
+</html>
+
+
