@@ -14,8 +14,8 @@ class Middleware {
           this.run(idx + 1, err);
       }
       
-      if (nextNw.path) {
-        const pathMatched = nextNw.path === this.req.url;
+      if (nextMw.path) {
+        const pathMatched = nextMw.path === this.req.url;
         return pathMatched ? nextMw(this.req, this.res, next) : this.run(idx + 1);
       }
       nextMw(this.req, this.res, next);

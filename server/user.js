@@ -25,7 +25,8 @@ class User {
     return { statusCode: 202, message: '회원 가입 완료!' };
   }
 
-  async get(username) {
+  async get(query) {
+    const { username } = query;
     if (users.some(tmpuser => tmpuser.name === username)) {
       return { statusCode: 202, message: '유저가 존재합니다.', username: username };
     }
