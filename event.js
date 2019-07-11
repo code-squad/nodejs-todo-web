@@ -2,7 +2,7 @@ const getData = () => {
     let xhr = new XMLHttpRequest;
     let url = './getData'
     xhr.onreadystatechange = function(){
-        if (this.status === 200 && this.readyState == this.DONE){
+        if (this.status === 200 && this.readyState == this.DONE && xhr.responseText){
             let todoListData = JSON.parse(xhr.responseText);
             let todoArr = todoListData[1]
             let doingArr = todoListData[3]
@@ -19,20 +19,17 @@ const getData = () => {
 
 
 const sendData = (valueId) => {
-    let inputdata = document.getElementById(valueId).value;
-    sendAjax('./sendData', valueId, inputdata)
-}
-
-
-const sendAjax = (url, dataId, data) => {
     let xhr = new XMLHttpRequest();
-    let dataMade = makeDataArray(dataArray, dataId, data)
+    let dataArray = ["todo", [], "doing", [], "done",[]];
+    let url = './sendData'
+    let inputdata = document.getElementById(valueId).value;
+    let dataMade = makeDataArray(dataArray, valueId, inputdata)
     dataMade = JSON.stringify(dataMade)
-  
     xhr.open('POST', url);
     xhr.setRequestHeader('Content-type', "application/json");
     xhr.send(dataMade);
 }
+
 
 const makeDataArray = (dataArray, dataId, data) => {
     if(dataId === "dataTodo"){
