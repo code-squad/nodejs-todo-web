@@ -88,6 +88,17 @@ const app = http.createServer( function(request,response){
         });
         response.end();
     }
+    else if(_url === "/getData"){
+        let userDataString = ""
+        if(controlData.readTodoData()){
+            let body = JSON.parse(controlData.readTodoData());
+            let email = session.sessionData[sessionID][0].email
+            userDataString = JSON.stringify(body[email])
+        
+            response.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
+            response.end(userDataString)
+        }
+    }
     else if(_url === "/sendData"){
         let body = '';
         request.on('data', function (data) {
@@ -102,17 +113,18 @@ const app = http.createServer( function(request,response){
             response.end()
         })
     }
-    else if(_url === "/getData"){
-        let userDataString = ""
-        if(controlData.readTodoData()){
-            let body = JSON.parse(controlData.readTodoData());
-            console.log(body)
+    else if(_url === "/deleteData"){
+        let deleteInfoString = '';
+        request.on('data', function (data) {
+           deleteInfoString += data;
+        });
+        request.on('end', function () {
+            let deleteData = deleteInfoString
             let email = session.sessionData[sessionID][0].email
-            userDataString = JSON.stringify(body[email])
-        
+            controlData.deleteData(email, deleteData)
             response.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
-            response.end(userDataString)
-        }
+            response.end()
+        })
     }
     
 })
