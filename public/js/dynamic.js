@@ -109,101 +109,120 @@ class DynamicEvent {
 
 }
 
-function changeLoginWindow() {
-    const informs = document.getElementsByClassName('inform');
-    for (let i = 0; i < informs.length; i++) {
-        informs[i].value = '';
+class LoginSignup {
+
+    constructor() {
+        this.signUpBtn = document.getElementById('signUpBtn');
+        this.backToLogin = document.getElementById('back');
+        this.userNameToUse = document.getElementById('userNameToUse');
+        this.identification = document.getElementById('identification');
+        this.createID = document.getElementById('createID');
     }
-    const loginContainer = document.getElementById('loginContainer');
-    const signUpContainer = document.getElementById('signUpContainer');
-    loginContainer.classList.toggle('displayNone');
-    signUpContainer.classList.toggle('displayNone');
-}
 
-const signUpBtn = document.getElementById('signUpBtn');
-signUpBtn.addEventListener('click', (e) => {
-    changeLoginWindow();
-})
+    changeLoginWindow() {
+        const informs = document.getElementsByClassName('inform');
+        for (let i = 0; i < informs.length; i++) {
+            informs[i].value = '';
+        }
+        const loginContainer = document.getElementById('loginContainer');
+        const signUpContainer = document.getElementById('signUpContainer');
+        loginContainer.classList.toggle('displayNone');
+        signUpContainer.classList.toggle('displayNone');
+    }
 
-const backToLogin = document.getElementById('back');
-backToLogin.addEventListener('click', (e) => {
-    changeLoginWindow();
-})
-
-const userNameToUse = document.getElementById('userNameToUse');
-const identification = document.getElementById('identification');
-identification.addEventListener('click', async (e) => {
-    const userNameToUseValue = userNameToUse.value;
-
-    if (!/^[a-z0-9+]{4,12}$/.test(userNameToUseValue) || / /.test(userNameToUseValue)) {
-        alert('아이디는 공백없이 영어 소문자와 숫자의 조합으로 4글자 이상 12글자 이하로 작성해 주세요');
-    } else if (!/[a-z]/.test(userNameToUseValue)) {
-        alert('영어(소문자)가 없습니다.')
-    } else if (!/[0-9]/.test(userNameToUseValue)) {
-        alert('숫자가 없습니다.')
-    } else {
-        try {
-            const response = await fetch('/identification', {
-                method: 'POST',
-                body: `id=${userNameToUseValue}`
-            })
-            const data = await response.text();
-            if (data === 'Not exit') {
-                userNameToUse.dataset.possible = "yes"
-                alert('사용가능한 아이디입니다.')
-            } else {
-                userNameToUse.dataset.possible = "no"
-                alert('이미 사용중인 아이디입니다.')
-            }
-        } catch (err) {
-            throw err;
+    ischeckedID() {
+        if (this.userNameToUse.dataset.possible === 'yes') {
+            return true;
+        } else {
+            return false;
         }
     }
-})
 
-userNameToUse.addEventListener('keydown', (e) => {
-    userNameToUse.dataset.possible = "no";
-})
-
-function ischeckedID() {
-    if (userNameToUse.dataset.possible === 'yes') {
-        return true;
-    } else {
-        return false;
+    clickSignupBackToLogin() {
+        this.signUpBtn.addEventListener('click', (e) => {
+            this.changeLoginWindow();
+        })
+        this.backToLogin.addEventListener('click', (e) => {
+            this.changeLoginWindow();
+        })
     }
-}
 
-const createID = document.getElementById('createID');
-createID.addEventListener('click', async (e) => {
-    const passwordToUse = document.getElementById('passwordToUse').value;
-    const confirmPassword = document.getElementById('confirmPassword').value;
+    changeDataSetPossibleNo() {
+        this.userNameToUse.addEventListener('keydown', (e) => {
+            this.userNameToUse.dataset.possible = "no";
+        })
+    }
 
-    if (ischeckedID()) {
-        if (passwordToUse.length < 8) {
-            alert('비밀번호는 최소 8자리 이상 입력해주세요');
-        } else {
-            if (passwordToUse !== confirmPassword) {
-                alert('비밀번호가 일치하지 않습니다.')
+    clickIdentification() {
+        this.identification.addEventListener('click', async (e) => {
+            const userNameToUseValue = this.userNameToUse.value;
+
+            if (!/^[a-z0-9+]{4,12}$/.test(userNameToUseValue) || / /.test(userNameToUseValue)) {
+                alert('아이디는 공백없이 영어 소문자와 숫자의 조합으로 4글자 이상 12글자 이하로 작성해 주세요');
+            } else if (!/[a-z]/.test(userNameToUseValue)) {
+                alert('영어(소문자)가 없습니다.')
+            } else if (!/[0-9]/.test(userNameToUseValue)) {
+                alert('숫자가 없습니다.')
             } else {
-                const response = await fetch('/createID', {
-                    method: 'POST',
-                    body: `id=${userNameToUse.value}&pwd=${passwordToUse}`
-                })
-                const data = await response.text();
-                if (data === 'create') {
-                    changeLoginWindow();
-                    alert('아이디가 생성되었습니다.');
-                } else {
-                    alert('실패')
+                try {
+                    const response = await fetch('/identification', {
+                        method: 'POST',
+                        body: `id=${userNameToUseValue}`
+                    })
+                    const data = await response.text();
+                    if (data === 'Not exit') {
+                        this.userNameToUse.dataset.possible = "yes"
+                        alert('사용가능한 아이디입니다.')
+                    } else {
+                        this.userNameToUse.dataset.possible = "no"
+                        alert('이미 사용중인 아이디입니다.')
+                    }
+                } catch (err) {
+                    throw err;
                 }
             }
-        }
-    } else {
-        alert('아이디 중복체크를 해주세요.')
+        })
     }
-})
+
+    clickCreateID() {
+        this.createID.addEventListener('click', async (e) => {
+            const passwordToUse = document.getElementById('passwordToUse').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+
+            if (this.ischeckedID()) {
+                if (passwordToUse.length < 8) {
+                    alert('비밀번호는 최소 8자리 이상 입력해주세요');
+                } else {
+                    if (passwordToUse !== confirmPassword) {
+                        alert('비밀번호가 일치하지 않습니다.')
+                    } else {
+                        const response = await fetch('/createID', {
+                            method: 'POST',
+                            body: `id=${this.userNameToUse.value}&pwd=${passwordToUse}`
+                        })
+                        const data = await response.text();
+                        if (data === 'create') {
+                            this.changeLoginWindow();
+                            alert('아이디가 생성되었습니다.');
+                        } else {
+                            alert('실패')
+                        }
+                    }
+                }
+            } else {
+                alert('아이디 중복체크를 해주세요.')
+            }
+        })
+    }
+}
 
 const dynamicEvent = new DynamicEvent();
 dynamicEvent.dragDrop();
 dynamicEvent.holdLoginWindow();
 dynamicEvent.addSchedule();
+
+const loginSignup = new LoginSignup();
+loginSignup.clickCreateID();
+loginSignup.clickIdentification();
+loginSignup.changeDataSetPossibleNo();
+loginSignup.clickSignupBackToLogin();
