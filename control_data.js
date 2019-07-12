@@ -15,20 +15,17 @@ class ControlData {
     makeTodoData(email, inputDataArray){
         let fileDataString = this.readTodoData()
         let fileDataObj = fileDataString !== "" ? JSON.parse(fileDataString) : {};
-        let userDataArray = fileDataObj[email]
-        if(!userDataArray){
-            userDataArray = inputDataArray;
+        if(!fileDataObj[email]){
+            fileDataObj[email] = inputDataArray;
         }else{
-            userDataArray.forEach((listData, i)=>{
+            fileDataObj[email].forEach((listData, i)=>{
                 let addListData = inputDataArray[i]
                 if(JSON.stringify(listData) !== JSON.stringify(addListData)){
                     let newDataArray = listData.concat(addListData)
-                    userDataArray.splice(i, 1, newDataArray)
+                    fileDataObj[email].splice(i, 1, newDataArray)
                 }
             })
         }
-        //["todo",[],"doing",["asdasdad"],"done",[]]
-        
         let NewFileDataString = JSON.stringify(fileDataObj)
         fs.writeFileSync(this.todoDataURL, NewFileDataString, "utf8") 
     }
@@ -51,6 +48,37 @@ class ControlData {
         let NewFileDataString = JSON.stringify(fileDataObj)
         fs.writeFileSync(this.todoDataURL, NewFileDataString, "utf8") 
 
+    }
+
+    changeData(email, changeData){
+        let fileDataObj = JSON.parse(this.readTodoData())
+        let userDataArray = fileDataObj[email] 
+        let [beforeUlID, beforeLiIndex, changedLiValue, changedLiIndex, changedUlID] = JSON.parse(changeData)
+
+        if (beforeUlID === "dataTarget_todo"){
+            let todoArray = userDataArray[1]
+            todoArray.splice(beforeLiIndex, 1)
+        }else if (beforeUlID === "dataTarget_doing"){
+            let doingArray = userDataArray[3]
+            doingArray.splice(beforeLiIndex, 1)
+        }else if (beforeUlID === "dataTarget_done"){
+            let doneArray = userDataArray[5]
+            doneArray.splice(beforeLiIndex, 1)
+        }
+
+        if (changedUlID === "dataTarget_todo"){
+            let todoArray = userDataArray[1]
+            todoArray.splice(changedLiIndex, 0, changedLiValue)
+        }else if (changedUlID === "dataTarget_doing"){
+            let doingArray = userDataArray[3]
+            doingArray.splice(changedLiIndex, 0, changedLiValue)
+        }else if (changedUlID === "dataTarget_done"){
+            let doneArray = userDataArray[5]
+            doneArray.splice(changedLiIndex, 0, changedLiValue)
+        }
+
+        let NewFileDataString = JSON.stringify(fileDataObj)
+        fs.writeFileSync(this.todoDataURL, NewFileDataString, "utf8") 
     }
 
     existDataFile(){

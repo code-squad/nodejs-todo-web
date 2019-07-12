@@ -119,12 +119,25 @@ const app = http.createServer( function(request,response){
            deleteInfoString += data;
         });
         request.on('end', function () {
-            let deleteData = deleteInfoString
-            let email = session.sessionData[sessionID][0].email
+            let deleteData = deleteInfoString;
+            let email = session.sessionData[sessionID][0].email;
             controlData.deleteData(email, deleteData)
             response.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
             response.end()
         })
+    }
+    else if(_url === "/changeData"){
+        let changedInfoString = '';
+        request.on('data', function (data) {
+            changedInfoString += data;
+         });
+        request.on('end', function () {
+            let changeData = changedInfoString;
+            let email = session.sessionData[sessionID][0].email;
+            controlData.changeData(email, changeData)
+            response.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
+            response.end()
+         })
     }
     
 })

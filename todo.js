@@ -32,39 +32,52 @@ inputAddDoing.addEventListener("click", () => {
     display("openAdd_doing", "addData_doing"); 
     sendClientData("dataDoing"); 
     makeChild("dataTarget_doing",textAreaDoing.value);
-    textAreaTodo.value = "";
+    textAreaDoing.value = "";
 });
 
 inputAddDone.addEventListener("click", () => {
     display("openAdd_done", "addData_done"); 
     sendClientData("dataDone"); 
     makeChild("dataTarget_done",textAreaDone.value);
-    textAreaTodo.value = "";
+    textAreaDone.value = "";
 });
+
+
 
 let dragging = null;
 let listWrap = [document.getElementById("dataTarget_todo"), document.getElementById("dataTarget_doing"), document.getElementById("dataTarget_done")]
+let beforeUlID = null;
+let beforeLiIndex = null;
 
 document.addEventListener('dragstart', (event) => { 
     dragging = event.target;
     event.dataTransfer.setData('text/html', dragging);
 
-    document.addEventListener('dragover', (event) => {
+    beforeUlID = dragging.parentNode.id
+    // beforeLiIndex = Array.prototype.indexOf.call(dragging.parentNode.childNodes, dragging)-2;
+    beforeLiIndex = getLiIndex(dragging)
+    
+
+});
+// let beforeInfoArray = [beforeUlID, beforeLiIndex]
+
+
+document.addEventListener('dragover', (event) => {
+    event.preventDefault();
+});
+
+listWrap.forEach((wrap)=>{
+    wrap.addEventListener('dragenter', (event) => {
+        event.target.style['border-bottom'] = 'solid 2px #0179BF';
+    });
+    wrap.addEventListener('dragleave', (event) => {
+        event.target.style['border-bottom'] = '';
+    });
+    wrap.addEventListener('drop', (event) => {
         event.preventDefault();
+        event.target.style['border-bottom'] = '';
+        event.target.parentNode.insertBefore(dragging, event.target.nextSibling);
+        changeData(beforeUlID, beforeLiIndex, dragging)
     });
 
-    listWrap.forEach((wrap)=>{
-        wrap.addEventListener('dragenter', (event) => {
-            event.target.style['border-bottom'] = 'solid 2px #0179BF';
-        });
-        wrap.addEventListener('dragleave', (event) => {
-            event.target.style['border-bottom'] = '';
-        });
-        wrap.addEventListener('drop', (event) => {
-            event.preventDefault();
-            event.target.style['border-bottom'] = '';
-            event.target.parentNode.insertBefore(dragging, event.target.nextSibling);
-        });
-
-    })
-});
+})
