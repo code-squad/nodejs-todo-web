@@ -33,7 +33,7 @@ const app = http.createServer( function(request,response){
         response.writeHead(200);
         response.end(login.show("signup"));
     }
-    else if(_url === "/login_process" && request.method === "POST"){
+    else if(_url === "/login_process"){
         let body = '';
         request.on('data', function(data){
             body = body + data;
@@ -42,10 +42,11 @@ const app = http.createServer( function(request,response){
             let post = qs.parse(body);
             let loginCheck = await login.checkLogin(post);
             let sessionData = await session.makeSession(post.email);
+            let sessionID = sessionData.ID
             if(loginCheck ) {
                 response.writeHead(302, {
                     'Set-Cookie':[
-                    `sessionID=${sessionData.ID}`,
+                    `sessionID=${sessionID}`,
                     `HttpOnly=${sessionData.HttpOnly}`,
                     `Max-Age= 1000 * 60 * 60`,
                     ],
@@ -93,7 +94,9 @@ const app = http.createServer( function(request,response){
         if(controlData.readTodoData()){
             let body = JSON.parse(controlData.readTodoData());
             let email = session.sessionData[sessionID][0].email
-            userDataString = JSON.stringify(body[email])
+            let nickName = session.sessionData[sessionID][0].nickName
+            let dataAll = [body[email], nickName]
+            userDataString = JSON.stringify(dataAll)
         
             response.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
             response.end(userDataString)
