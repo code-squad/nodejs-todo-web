@@ -3,11 +3,15 @@ const getData = () => {
     let url = './getData'
     xhr.onreadystatechange = function(){
         if (this.status === 200 && this.readyState == this.DONE && xhr.responseText){
-            let todoListData = JSON.parse(xhr.responseText);
+            
+            let nickName = JSON.parse(xhr.responseText)[1];
+            let todoListData = JSON.parse(xhr.responseText)[0];
             let todoArr = todoListData[1]
             let doingArr = todoListData[3]
             let doneArr = todoListData[5]
 
+            console.log(nickName)
+            addNickName(nickName)
             todoArr.forEach((data)=>{makeChild("dataTarget_todo", data)})
             doingArr.forEach((data)=>{makeChild("dataTarget_doing", data)})
             doneArr.forEach((data)=>{makeChild("dataTarget_done", data)})
@@ -34,7 +38,6 @@ const deleteClientData = () => {
     let url = './deleteData'
     
     let deleteLi = document.getElementById("delete").parentNode;
-    // let deleteLiIndex = Array.prototype.indexOf.call(deleteLi.parentNode.childNodes, deleteLi)-3;
     let deleteLiIndex = getLiIndex(deleteLi)
     let deleteUlID = deleteLi.parentNode.id;    
     let sendDataString = JSON.stringify([deleteUlID, deleteLiIndex])
@@ -58,7 +61,6 @@ const makeDataArray = (dataArray, dataId, data) => {
 }
 
 const getLiIndex = (li) => {
-    // debugger
     let items = document.querySelectorAll("#"+ li.parentElement.id + " li."+li.className)
     let itemHTMLArray = []
     for(var i = 0; i < items.length; i++){
@@ -73,7 +75,6 @@ const changeData = (beforeUlID, beforeLiIndex, afterInfo) => {
     let url = './changeData'
 
     let changedLi = afterInfo;
-    // let changedLiIndex = Array.prototype.indexOf.call(changedLi.parentNode.childNodes, changedLi)-2;
     let changedLiIndex = getLiIndex(changedLi)
     console.log(changedLiIndex)
     
@@ -114,3 +115,8 @@ const makeChild = (targetId, value) => {
     }
 }
 
+const addNickName = (nickName) => {
+    let nickNameSpan = document.getElementById("addNickName")
+    let data = document.createTextNode(nickName + " 의 ")
+    nickNameSpan.appendChild(data)
+}

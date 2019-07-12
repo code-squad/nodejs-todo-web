@@ -43,7 +43,6 @@ inputAddDone.addEventListener("click", () => {
 });
 
 
-
 let dragging = null;
 let listWrap = [document.getElementById("dataTarget_todo"), document.getElementById("dataTarget_doing"), document.getElementById("dataTarget_done")]
 let beforeUlID = null;
@@ -52,15 +51,9 @@ let beforeLiIndex = null;
 document.addEventListener('dragstart', (event) => { 
     dragging = event.target;
     event.dataTransfer.setData('text/html', dragging);
-
     beforeUlID = dragging.parentNode.id
-    // beforeLiIndex = Array.prototype.indexOf.call(dragging.parentNode.childNodes, dragging)-2;
     beforeLiIndex = getLiIndex(dragging)
-    
-
 });
-// let beforeInfoArray = [beforeUlID, beforeLiIndex]
-
 
 document.addEventListener('dragover', (event) => {
     event.preventDefault();
@@ -79,5 +72,4 @@ listWrap.forEach((wrap)=>{
         event.target.parentNode.insertBefore(dragging, event.target.nextSibling);
         changeData(beforeUlID, beforeLiIndex, dragging)
     });
-
 })

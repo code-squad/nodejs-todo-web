@@ -122,7 +122,7 @@ header{
     color: #888;
 }
 
-#inputAdd {
+.inputAdd {
     background-color: #5aac44;
     box-shadow: 0 1px 0 0 #3f6f21;
     border: none;
@@ -134,6 +134,7 @@ header{
     border-radius: 3px;
     font-size: 14px;
     float: left;
+    width: 65px;
 }
 
 .deleteData{
@@ -270,3 +271,8 @@ header{
     color: #5ec0ff;
 }
 
+span#addNickName{
+    margin-right: 6px;
+    font-size: 19px;
+    color: #bad1ff96;
+}
