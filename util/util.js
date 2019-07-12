@@ -34,4 +34,4 @@ class Util {
 
 }
 
-module.exports = new Util();
+module.exports = Util;
