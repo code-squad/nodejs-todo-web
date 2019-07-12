@@ -222,10 +222,13 @@ class LoginSignup {
         this.loginBtn.addEventListener('click', async (e) => {
             const response = await fetch('/login', {
                 method: 'POST',
+                redirect: "follow",
                 body: `id=${this.username.value}&pwd=${this.password.value}`
             });
-            const data = await response.text();
-            alert(data);
+            if (response.redirected) {
+                // location.href = response.url;
+                document.location.reload()
+            }
         })
     }
 }

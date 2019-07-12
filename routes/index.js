@@ -12,7 +12,6 @@ const getDataFromFile = (filePath) => {
 
 const listPosts = () => async (req, res, next) => {
     const filePath = path.join(__dirname, '../public/web.html');
-
     try {
         const data = await getDataFromFile(filePath);
         res.statusCode = 200;

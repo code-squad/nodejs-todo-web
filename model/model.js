@@ -90,12 +90,13 @@ class UsersManager {
                 const users = JSON.parse(data.toString());
                 if (users[id] && users[id] === pwd) {
                     const expires = new Date();
-                    res.writeHead(200, {
-                        Location: '/',
+                    res.writeHead(302, {
+                        Location: '/getUserSchedule',
                         'Set-Cookie': `session=1234; Expires=${expires}; HttpOnly; Path=/`,
                     });
-                    console.log('ddd')
                     res.end('success');
+                } else {
+                    res.end()
                 }
             } catch (err) {
                 throw err;
