@@ -80,6 +80,28 @@ class UsersManager {
             }
         }
     }
+
+    login() {
+        return async (req, res, next) => {
+            const { id, pwd } = req.body;
+
+            try {
+                const data = await this.openRegister();
+                const users = JSON.parse(data.toString());
+                if (users[id] && users[id] === pwd) {
+                    const expires = new Date();
+                    res.writeHead(200, {
+                        Location: '/',
+                        'Set-Cookie': `session=1234; Expires=${expires}; HttpOnly; Path=/`,
+                    });
+                    console.log('ddd')
+                    res.end('success');
+                }
+            } catch (err) {
+                throw err;
+            }
+        }
+    }
 }
 
 

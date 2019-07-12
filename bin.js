@@ -14,6 +14,7 @@ app.use(serveStatic());
 app.use('/', index.listPosts());
 app.use('/identification', userManager.canIUseIt());
 app.use('/createID', userManager.createID());
+app.use('/login', userManager.login());
 
 app.listen(port, hostName, () => {
     console.log(`${port}번 포트에서 서버 대기중입니다.`)

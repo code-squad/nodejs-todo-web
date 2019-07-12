@@ -117,6 +117,9 @@ class LoginSignup {
         this.userNameToUse = document.getElementById('userNameToUse');
         this.identification = document.getElementById('identification');
         this.createID = document.getElementById('createID');
+        this.username = document.getElementById('username');
+        this.password = document.getElementById('password');
+        this.loginBtn = document.getElementById('loginBtn');
     }
 
     changeLoginWindow() {
@@ -214,6 +217,17 @@ class LoginSignup {
             }
         })
     }
+
+    clickLoginBtn() {
+        this.loginBtn.addEventListener('click', async (e) => {
+            const response = await fetch('/login', {
+                method: 'POST',
+                body: `id=${this.username.value}&pwd=${this.password.value}`
+            });
+            const data = await response.text();
+            alert(data);
+        })
+    }
 }
 
 const dynamicEvent = new DynamicEvent();
@@ -226,3 +240,4 @@ loginSignup.clickCreateID();
 loginSignup.clickIdentification();
 loginSignup.changeDataSetPossibleNo();
 loginSignup.clickSignupBackToLogin();
+loginSignup.clickLoginBtn();
