@@ -34,7 +34,8 @@ const deleteClientData = () => {
     let url = './deleteData'
     
     let deleteLi = document.getElementById("delete").parentNode;
-    let deleteLiIndex = Array.prototype.indexOf.call(deleteLi.parentNode.childNodes, deleteLi)-3;
+    // let deleteLiIndex = Array.prototype.indexOf.call(deleteLi.parentNode.childNodes, deleteLi)-3;
+    let deleteLiIndex = getLiIndex(deleteLi)
     let deleteUlID = deleteLi.parentNode.id;    
     let sendDataString = JSON.stringify([deleteUlID, deleteLiIndex])
 
@@ -56,18 +57,31 @@ const makeDataArray = (dataArray, dataId, data) => {
     return dataArray
 }
 
-const changeData = (target) => {
+const getLiIndex = (li) => {
+    // debugger
+    let items = document.querySelectorAll("#"+ li.parentElement.id + " li."+li.className)
+    let itemHTMLArray = []
+    for(var i = 0; i < items.length; i++){
+        itemHTMLArray.push(items[i].innerHTML);
+    }
+    console.log(itemHTMLArray.indexOf(li.innerHTML))
+    return itemHTMLArray.indexOf(li.innerHTML)
+}
+
+const changeData = (beforeUlID, beforeLiIndex, afterInfo) => {
     let xhr = new XMLHttpRequest();
     let url = './changeData'
 
-    let changedLi = target;
-    let changedLiIndex = Array.prototype.indexOf.call(changedLi.parentNode.childNodes, changedLi)-3;
+    let changedLi = afterInfo;
+    // let changedLiIndex = Array.prototype.indexOf.call(changedLi.parentNode.childNodes, changedLi)-2;
+    let changedLiIndex = getLiIndex(changedLi)
+    console.log(changedLiIndex)
+    
     let changedUlID = changedLi.parentNode.id;    
     changedLi.id = "dropLi"
     
     let changedLiValue = document.getElementById("dropLi").innerText
-    let changedDataString = JSON.stringify([changedLiValue, changedLiIndex, changedUlID])
-    
+    let changedDataString = JSON.stringify([beforeUlID, beforeLiIndex, changedLiValue, changedLiIndex, changedUlID])
     xhr.open('POST', url);
     xhr.setRequestHeader('Content-type', "application/json");
     xhr.send(changedDataString);
@@ -87,6 +101,7 @@ const makeChild = (targetId, value) => {
 
     if(value !== ""){
         li.classList.add("contents")
+        li.id = String(Number(new Date()))
         li.appendChild(text); 
         li.appendChild(span); 
         span.classList.add("deleteData")
@@ -96,7 +111,6 @@ const makeChild = (targetId, value) => {
         li.addEventListener("mouseout", ()=>{span.style.display = "none"; span.id = ""}, true)
         span.addEventListener("click", ()=>{deleteClientData()}, false)
         li.setAttribute('draggable', true); 
-        // drag(targetUl,li)
     }
 }
 
