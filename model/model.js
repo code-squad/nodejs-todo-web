@@ -1,7 +1,11 @@
 const fs = require('fs');
-
+// const util = require('../util/util');
 
 class UsersManager {
+
+    constructor(util) {
+        this.util = util
+    }
 
     openRegister() {
         return new Promise((resolve, reject) => {
@@ -89,12 +93,12 @@ class UsersManager {
                 const data = await this.openRegister();
                 const users = JSON.parse(data.toString());
                 if (users[id] && users[id] === pwd) {
-                    const expires = new Date();
+                    const { randomInt, expires } = this.util.makeSession(id);
                     res.writeHead(302, {
-                        Location: '/getUserSchedule',
-                        'Set-Cookie': `session=1234; Expires=${expires}; HttpOnly; Path=/`,
+                        Location: '/',
+                        'Set-Cookie': `session=${randomInt}; Expires=${expires.toUTCString()}; HttpOnly; Path=/`,
                     });
-                    res.end('success');
+                    res.end();
                 } else {
                     res.end()
                 }
@@ -106,4 +110,4 @@ class UsersManager {
 }
 
 
-module.exports = new UsersManager();
+module.exports = UsersManager;

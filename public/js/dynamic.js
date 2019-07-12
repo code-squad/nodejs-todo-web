@@ -227,7 +227,7 @@ class LoginSignup {
             });
             if (response.redirected) {
                 // location.href = response.url;
-                document.location.reload()
+                // document.location.reload()
             }
         })
     }
