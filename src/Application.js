@@ -21,6 +21,18 @@ class Application {
         this.middleware.add(fn);
     }
 
+    get(path, fn) {
+        if (!path || !fn) throw Error('path and fn is required');
+        fn._method = 'get';
+        this.use(path, fn);
+    }
+
+    post(path, fn) {
+        if (!path || !fn) throw Error('path and fn is required');
+        fn._method = 'post';
+        this.use(path, fn);
+    }
+
     listen(port = 3000, hostname = '127.0.0.1', fn) {
         this.server.listen(port, hostname, fn);
     }

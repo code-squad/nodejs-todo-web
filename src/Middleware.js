@@ -22,7 +22,8 @@ class Middleware {
         }
 
         if (selectedFunc._path) {
-            return this.req.url === selectedFunc._path ?
+            return this.req.url === selectedFunc._path &&
+                this.req.method.toLowerCase() === (selectedFunc._method || 'get') ?
                 selectedFunc(this.req, this.res, next) :
                 this._run(i + 1);
         }
