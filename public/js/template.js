@@ -1,5 +1,5 @@
 class Template {
-    jsFile(userTodo) {
+    jsFile(userID, userTodo) {
         let userTodoString;
         if (userTodo) {
             userTodoString = JSON.stringify(userTodo);
@@ -133,7 +133,9 @@ class DynamicEvent {
 
 class LoginSignup {
 
-    constructor() {
+    constructor(dynamicEvent) {
+        this.dynamicEvent = dynamicEvent;
+        this.note = document.getElementById('note');
         this.signUpBtn = document.getElementById('signUpBtn');
         this.backToLogin = document.getElementById('back');
         this.userNameToUse = document.getElementById('userNameToUse');
@@ -258,6 +260,10 @@ class LoginSignup {
         })
     }
 
+    setUserEnvironment(userTodoString, userID) {
+        this.dynamicEvent.insertUserSchedule(userTodoString);
+        this.note.innerHTML = userID + '님 안녕하세요!';
+    }
 }
 
 let userData = {}
@@ -266,14 +272,15 @@ const dynamicEvent = new DynamicEvent();
 dynamicEvent.dragDrop();
 dynamicEvent.holdLoginWindow();
 dynamicEvent.addSchedule();
-dynamicEvent.insertUserSchedule('${userTodoString}')
 
-const loginSignup = new LoginSignup();
+
+const loginSignup = new LoginSignup(dynamicEvent);
 loginSignup.clickCreateID();
 loginSignup.clickIdentification();
 loginSignup.changeDataSetPossibleNo();
 loginSignup.clickSignupBackToLogin();
 loginSignup.clickLoginBtn();
+loginSignup.setUserEnvironment('${userTodoString}', '${userID}');
 
         `
     }

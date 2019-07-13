@@ -40,7 +40,7 @@ class ServeStatic {
         const userID = this.util.session[session].id;
         const todosPath = this.getFilePath('/../db/todos.json');
         const todos = await this.getDataFromFile(todosPath);
-        return JSON.parse(todos.toString())[userID];
+        return [userID, JSON.parse(todos.toString())[userID]];
     }
 
     serveStatic() {
@@ -52,12 +52,12 @@ class ServeStatic {
                     let data;
                     if (ext === '.js') {
                         const cookies = this.util.parseCookies(req.headers.cookie);
-                        let userTodo;
+                        let userInfo = [];
                         if (cookies.session && this.util.session[cookies.session]) {
-                            userTodo = await this.getUserTodo(cookies.session);
+                            userInfo = await this.getUserTodo(cookies.session);
                         }
 
-                        data = template.jsFile(userTodo);
+                        data = template.jsFile(...userInfo);
                     } else {
                         data = await this.getDataFromFile(filePath);
                     }

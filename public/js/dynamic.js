@@ -33,19 +33,6 @@ class DynamicEvent {
         });
     }
 
-    insertUserSchedule(userTodoString) {
-        if (userTodoString !== 'undefined') {
-            const obj = JSON.parse(userTodoString)
-            for (status in obj) {
-                obj[status].forEach(schedule => {
-                    const target = document.querySelector('#' + status);
-                    const element = '<p class="schedule" draggable="true">' + schedule + '</p>';
-                    this.insertElement({ target, index: 'beforeend', data: element });
-                })
-            }
-        }
-    }
-
     holdLoginWindow() {
         const loginElements = document.querySelectorAll(".loginWindow > div > input");
         loginElements.forEach(element => {
@@ -123,11 +110,25 @@ class DynamicEvent {
         });
     }
 
+    insertUserSchedule(userTodoString) {
+        if (userTodoString !== 'undefined') {
+            const obj = JSON.parse(userTodoString)
+            for (status in obj) {
+                obj[status].forEach(schedule => {
+                    const target = document.querySelector('#' + status);
+                    const element = '<p class="schedule" draggable="true">' + schedule + '</p>';
+                    this.insertElement({ target, index: 'beforeend', data: element });
+                })
+            }
+        }
+    }
 }
 
 class LoginSignup {
 
-    constructor() {
+    constructor(dynamicEvent) {
+        this.dynamicEvent = dynamicEvent;
+        this.note = document.getElementById('note');
         this.signUpBtn = document.getElementById('signUpBtn');
         this.backToLogin = document.getElementById('back');
         this.userNameToUse = document.getElementById('userNameToUse');
@@ -259,16 +260,13 @@ class LoginSignup {
         })
     }
 
-    printOutSchedule() {
-        const data = `<p class="schedule" draggable="true">${text}</p>`;
-        this.insertElement({ target: e.target, index: 'afterend', data });
-        e.target.parentNode.removeChild(e.target);
+    setUserEnvironment(userTodoString) {
+        this.dynamicEvent.insertUserSchedule(userTodoString);
+        this.note.value = userID + ' 님 안녕하세요!'
 
-        target.insertAdjacentHTML(`${index}`, data);
     }
 }
 
-let userData = {}
 
 const dynamicEvent = new DynamicEvent();
 dynamicEvent.dragDrop();
@@ -276,9 +274,10 @@ dynamicEvent.holdLoginWindow();
 dynamicEvent.addSchedule();
 dynamicEvent.insertUserSchedule();
 
-const loginSignup = new LoginSignup();
+const loginSignup = new LoginSignup(dynamicEvent);
 loginSignup.clickCreateID();
 loginSignup.clickIdentification();
 loginSignup.changeDataSetPossibleNo();
 loginSignup.clickSignupBackToLogin();
 loginSignup.clickLoginBtn();
+loginSignup.setUserEnvironment(userTodoString);
