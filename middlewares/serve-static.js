@@ -1,5 +1,7 @@
 const path = require('path');
 const fs = require('fs');
+const Template = require('../public/js/template');
+const template = new Template();
 
 
 const mimeType = {
@@ -33,9 +35,15 @@ const getDataFromFile = (filePath) => {
 const serveStatic = () => async (req, res, next) => {
     const filePath = getFilePath(req.url)
     const ext = getExt(req.url);
+    console.log(ext, filePath)
     if (Object.keys(mimeType).includes(ext)) {
         try {
-            const data = await getDataFromFile(filePath);
+            let data;
+            if (ext === '.js') {
+                data = template.jsFile();
+            } else {
+                data = await getDataFromFile(filePath);
+            }
             res.statusCode = 200;
             res.setHeader('Content-Type', mimeType[ext]);
             res.end(data);

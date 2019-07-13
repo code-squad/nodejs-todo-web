@@ -1,6 +1,5 @@
 const app = require('./src/Application');
 const serveStatic = require('./middlewares/serve-static');
-// const index = require('./routes/index');
 const Index = require('./routes/index');
 const logger = require('./middlewares/logger');
 const bodyParser = require('./middlewares/body-parser');

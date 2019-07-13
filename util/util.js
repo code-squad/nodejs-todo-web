@@ -1,4 +1,3 @@
-
 class Util {
 
     constructor() {
@@ -33,5 +32,6 @@ class Util {
     }
 
 }
+
 
 module.exports = Util;

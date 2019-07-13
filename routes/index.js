@@ -17,11 +17,8 @@ class Index {
 
     listPosts() {
         return async (req, res, next) => {
-            const filePath = path.join(__dirname, '../public/web.html');
-            const cookies = this.util.parseCookies(req.headers.cookie);
-            console.log(cookies);
-            console.log(this.util.session);
             try {
+                const filePath = path.join(__dirname, '../public/web.html');
                 const data = await this.getDataFromFile(filePath);
                 res.statusCode = 200;
                 res.setHeader('Content-Type', 'text/html');

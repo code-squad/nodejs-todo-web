@@ -1,4 +1,7 @@
-
+class Template {
+    jsFile() {
+        return `
+        
 class DynamicEvent {
     constructor() {
         this.card;
@@ -24,7 +27,7 @@ class DynamicEvent {
                 if (text.length === 0) {
                     alert('스케줄을 입력해 주세요.');
                 } else {
-                    const data = `<p class="schedule" draggable="true">${text}</p>`;
+                    const data = '< p class="schedule" draggable = "true" > ' + text + '</p >';
                     this.insertElement({ target: e.target, index: 'afterend', data });
                     e.target.parentNode.removeChild(e.target);
                 }
@@ -43,12 +46,10 @@ class DynamicEvent {
 
     toggleClass({ target, className }) {
         target.classList.toggle(className)
-        // target.classList.toggle(`${className}`)
     }
 
     insertElement({ target, index, data }) {
         target.insertAdjacentHTML(index, data);
-        // target.insertAdjacentHTML(`${index}`, data);
     }
 
     applyDynamicEvent(target) {
@@ -84,7 +85,7 @@ class DynamicEvent {
         document.addEventListener("drop", (e) => {
             e.preventDefault();
             var data = e.dataTransfer.getData('Text');
-            const schedule = `<p class="schedule" draggable="true">${data}</p>`;
+            const schedule = '< p class="schedule" draggable = "true" >' + data + '</p >';
             if (e.target.className === "schedule activeSchedule") {
                 this.toggleClass({ target: e.target, className: 'activeSchedule' });
                 this.insertElement({ target: e.target, index: 'beforebegin', data: schedule });
@@ -174,7 +175,6 @@ class LoginSignup {
                     const response = await fetch('/identification', {
                         method: 'POST',
                         body: id
-                        // body: `id=${userNameToUseValue}`
                     })
                     const data = await response.text();
                     if (data === 'Not exit') {
@@ -207,7 +207,6 @@ class LoginSignup {
                         const response = await fetch('/createID', {
                             method: 'POST',
                             body: idAndPwd
-                            // body: `id=${this.userNameToUse.value}&pwd=${passwordToUse}`
                         })
                         const data = await response.text();
                         if (data === 'create') {
@@ -230,20 +229,13 @@ class LoginSignup {
             const response = await fetch('/login', {
                 method: 'POST',
                 body: idAndPwd
-                // body: `id=${this.username.value}&pwd=${this.password.value}`
             });
             const data = await response.text();
             userData = JSON.parse(data);
         })
     }
 
-    printOutSchedule() {
-        const data = `<p class="schedule" draggable="true">${text}</p>`;
-        this.insertElement({ target: e.target, index: 'afterend', data });
-        e.target.parentNode.removeChild(e.target);
 
-        target.insertAdjacentHTML(`${index}`, data);
-    }
 }
 
 let userData = {}
@@ -259,3 +251,9 @@ loginSignup.clickIdentification();
 loginSignup.changeDataSetPossibleNo();
 loginSignup.clickSignupBackToLogin();
 loginSignup.clickLoginBtn();
+
+        `
+    }
+}
+
+module.exports = Template;

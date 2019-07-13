@@ -1,5 +1,4 @@
 const fs = require('fs');
-// const util = require('../util/util');
 
 class UsersManager {
 
@@ -94,11 +93,14 @@ class UsersManager {
                 const users = JSON.parse(data.toString());
                 if (users[id] && users[id] === pwd) {
                     const { randomInt, expires } = this.util.makeSession(id);
-                    res.writeHead(302, {
-                        Location: '/',
+                    res.writeHead(200, {
                         'Set-Cookie': `session=${randomInt}; Expires=${expires.toUTCString()}; HttpOnly; Path=/`,
                     });
-                    res.end();
+                    const data = await this.openTodos();
+                    const todos = JSON.parse(data.toString());
+                    const userTodos = todos[id];
+                    const str = JSON.stringify(userTodos);
+                    res.end(str);
                 } else {
                     res.end()
                 }
