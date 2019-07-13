@@ -19,7 +19,8 @@ class UsersManager {
         return new Promise((resolve, reject) => {
             fs.readFile('db/todos.json', (err, data) => {
                 if (err) throw err;
-                resolve(data);
+                const dataObj = JSON.parse(data.toString());
+                resolve(dataObj);
             })
         })
     }
@@ -65,16 +66,15 @@ class UsersManager {
             try {
                 const data = await this.openRegister();
                 const users = JSON.parse(data.toString());
-                const data2 = await this.openTodos();
-                const todos = JSON.parse(data2.toString());
+                const dataObj = await this.openTodos();
                 users[id] = pwd;
-                todos[id] = {
+                dataObj[id] = {
                     "todo": [],
                     "doing": [],
                     "done": []
                 }
                 const jsonFile = JSON.stringify(users);
-                const jsonFile2 = JSON.stringify(todos);
+                const jsonFile2 = JSON.stringify(dataObj);
                 const note = await this.createAccount(jsonFile);
                 await this.createTodo(jsonFile2);
                 res.end(note);
@@ -116,10 +116,9 @@ class UsersManager {
             try {
                 const { status, text } = req.body;
                 const userID = this.getUserID(req);
-                const data = await this.openTodos();
-                const todos = JSON.parse(data.toString());
-                todos[userID][status].push(text);
-                const jsonFile = JSON.stringify(todos);
+                const dataObj = await this.openTodos();
+                dataObj[userID][status].push(text);
+                const jsonFile = JSON.stringify(dataObj);
                 await this.createTodo(jsonFile);
 
                 res.end();
