@@ -5,6 +5,7 @@ const bodyParser = require("./middlewares/body-parser");
 const signIn = require("./routers/sign-in");
 const session = require("./middlewares/session");
 const index = require("./routers/index");
+const signInHandler = require("./api/sign-in-handler");
 const App = require("./src/Application");
 const app = App();
 
@@ -13,6 +14,7 @@ app.use(session());
 app.use(serveStatic());
 app.use(bodyParser());
 app.get("/", signIn.getSignInPage());
+app.post("/sign-in", signInHandler.signIn());
 app.get("/todo", index.index());
 app.use(errors.error404());
 app.use(errors.error());
