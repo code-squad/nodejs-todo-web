@@ -233,11 +233,16 @@ class LoginSignup {
                 body: idAndPwd
                 // body: `id=${this.username.value}&pwd=${this.password.value}`
             });
-            if (response.ok) {
-                console.log('ok')
+            const data = await response.text();
+            alert(data)
+            if (data === 'success') {
                 document.location.reload();
-                console.log('okok')
+            } else {
+                alert('없는 아이디거나 비밀번호가 틀렸습니다.')
             }
+            // if (response.ok) {
+            //     document.location.reload();
+            // }
         })
     }
 

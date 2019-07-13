@@ -231,8 +231,11 @@ class LoginSignup {
                 method: 'POST',
                 body: idAndPwd
             });
-            if (response.ok) {
+            const data = await response.text();
+            if (data === 'success') {
                 document.location.reload();
+            } else {
+                alert('없는 아이디거나 비밀번호가 틀렸습니다.')
             }
         })
     }

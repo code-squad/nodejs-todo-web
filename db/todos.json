@@ -1,18 +1,22 @@
 {
     "circus7": {
         "todo": [
-            "ddd"
+            "circus"
         ],
         "doing": [],
         "done": []
     },
     "jake7": {
-        "todo": [],
+        "todo": [
+            "jake"
+        ],
         "doing": [],
         "done": []
     },
     "acrobat7": {
-        "todo": [],
+        "todo": [
+            "acrobat"
+        ],
         "doing": [],
         "done": []
     }

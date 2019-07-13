@@ -96,13 +96,9 @@ class UsersManager {
                     res.writeHead(200, {
                         'Set-Cookie': `session=${randomInt}; Expires=${expires.toUTCString()}; HttpOnly; Path=/`,
                     });
-                    const data = await this.openTodos();
-                    const todos = JSON.parse(data.toString());
-                    const userTodos = todos[id];
-                    const str = JSON.stringify(userTodos);
-                    res.end(str);
+                    res.end('success');
                 } else {
-                    res.end()
+                    res.end();
                 }
             } catch (err) {
                 throw err;
