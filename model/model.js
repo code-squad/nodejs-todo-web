@@ -51,7 +51,8 @@ class UsersManager {
         })
     }
 
-    createTodo(jsonFile) {
+    createTodo(dataObj) {
+        const jsonFile = JSON.stringify(dataObj);
         return new Promise((resolve, reject) => {
             fs.writeFile('db/todos.json', jsonFile, (err) => {
                 if (err) throw err;
@@ -74,9 +75,8 @@ class UsersManager {
                     "done": []
                 }
                 const jsonFile = JSON.stringify(users);
-                const jsonFile2 = JSON.stringify(dataObj);
                 const note = await this.createAccount(jsonFile);
-                await this.createTodo(jsonFile2);
+                await this.createTodo(dataObj);
                 res.end(note);
             } catch (err) {
                 console.log(err);
@@ -118,8 +118,7 @@ class UsersManager {
                 const userID = this.getUserID(req);
                 const dataObj = await this.openTodos();
                 dataObj[userID][status].push(text);
-                const jsonFile = JSON.stringify(dataObj);
-                await this.createTodo(jsonFile);
+                await this.createTodo(dataObj);
 
                 res.end();
             } catch (err) {
