@@ -1,5 +1,6 @@
 class Template {
-    jsFile() {
+    jsFile(userTodo) {
+        console.log(userTodo, 'in template')
         return `
         
 class DynamicEvent {

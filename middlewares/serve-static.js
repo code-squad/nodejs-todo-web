@@ -36,6 +36,13 @@ class ServeStatic {
         });
     }
 
+    async getUserTodo(session) {
+        const userID = this.util.session[session].id;
+        const todosPath = this.getFilePath('/../db/todos.json');
+        const todos = await this.getDataFromFile(todosPath);
+        return JSON.parse(todos.toString())[userID];
+    }
+
     serveStatic() {
         return async (req, res, next) => {
             const filePath = this.getFilePath(req.url)
@@ -45,10 +52,12 @@ class ServeStatic {
                     let data;
                     if (ext === '.js') {
                         const cookies = this.util.parseCookies(req.headers.cookie);
-                        if (cookies.session) {
-                            console.log('세션온')
+                        let userTodo;
+                        if (cookies.session && this.util.session[cookies.session]) {
+                            userTodo = await this.getUserTodo(cookies.session);
                         }
-                        data = template.jsFile();
+
+                        data = template.jsFile(userTodo);
                     } else {
                         data = await this.getDataFromFile(filePath);
                     }
