@@ -75,6 +75,11 @@ article {
     transform: translateX(-200px);
 }
 
+#userName{
+    font-size: 1.5rem;
+    text-align: center;
+}
+
 .loginWindow:hover,
 .loginWindowActive,
 .note:hover {
@@ -90,7 +95,8 @@ article {
 #userNameToUse,
 #identification,
 #passwordToUse,
-#confirmPassword {
+#confirmPassword,
+#logOut {
     width: 100%;
     margin-top: 2%;
     margin-bottom: 2%;
@@ -104,7 +110,8 @@ article {
 #username,
 #password,
 #loginBtn,
-#signUpBtn{
+#signUpBtn,
+#logOut{
     height: 20%;
 }
 
@@ -141,7 +148,8 @@ article {
 
 #signUpBtn,
 #identification,
-#createID {
+#createID,
+#logOut {
     background-image: linear-gradient(to right, #a4dbf5, #7c91ee);
     cursor: pointer;
 }
@@ -150,12 +158,14 @@ article {
 #signUpBtn:hover,
 #identification:hover,
 #createID:hover,
-#back:hover {
+#back:hover,
+#logOut:hover {
     background-image: linear-gradient(to right, #ccf5f5, #8feeee);
 }
 
 #loginContainer,
-#signUpContainer {
+#signUpContainer,
+#userPage {
     width: 70%;
     height: 35%;
     margin-top: 30%;

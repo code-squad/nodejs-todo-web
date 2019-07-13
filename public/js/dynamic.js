@@ -135,6 +135,10 @@ class LoginSignup {
         this.username = document.getElementById('username');
         this.password = document.getElementById('password');
         this.loginBtn = document.getElementById('loginBtn');
+        this.userPage = document.getElementById('userPage');
+        this.userName = document.getElementById('userName');
+        this.logOut = document.getElementById('logOut');
+        this.loginContainer = document.getElementById('loginContainer');
     }
 
     changeLoginWindow() {
@@ -262,6 +266,9 @@ class LoginSignup {
         if (userTodoString !== 'undefined' && userID !== 'undefined') {
             this.dynamicEvent.insertUserSchedule(userTodoString);
             this.note.innerHTML = userID + '님 안녕하세요!';
+            this.userName.innerHTML = 'ID: ' + userID;
+            this.dynamicEvent.toggleClass({ target: this.userPage, className: 'displayNone' })
+            this.dynamicEvent.toggleClass({ target: this.loginContainer, className: 'displayNone' })
             this.dynamicEvent.toggleClass({ target: this.note, className: 'activeNote' });
             setTimeout(() => {
                 this.dynamicEvent.toggleClass({ target: this.note, className: 'activeNote' });
