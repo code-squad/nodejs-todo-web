@@ -8,12 +8,16 @@ const bodyParser = () => (req, res, next) => {
     req.on('end', () => {
         body = Buffer.concat(body).toString();
 
-        body = body.split('&').reduce((body, pair) => {
-            if (!pair) return body;
-            const frg = pair.split('=');
-            body[frg[0]] = frg[1];
-            return body;
-        }, {});
+        if (body.startsWith('{')) {
+            body = JSON.parse(body);
+        } else {
+            body = body.split('&').reduce((body, pair) => {
+                if (!pair) return body;
+                const frg = pair.split('=');
+                body[frg[0]] = frg[1];
+                return body;
+            }, {});
+        }
 
         req.body = body;
         next();
