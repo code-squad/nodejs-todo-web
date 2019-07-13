@@ -111,15 +111,13 @@ class DynamicEvent {
     }
 
     insertUserSchedule(userTodoString) {
-        if (userTodoString !== 'undefined') {
-            const obj = JSON.parse(userTodoString)
-            for (status in obj) {
-                obj[status].forEach(schedule => {
-                    const target = document.querySelector('#' + status);
-                    const element = '<p class="schedule" draggable="true">' + schedule + '</p>';
-                    this.insertElement({ target, index: 'beforeend', data: element });
-                })
-            }
+        const obj = JSON.parse(userTodoString)
+        for (status in obj) {
+            obj[status].forEach(schedule => {
+                const target = document.querySelector('#' + status);
+                const element = '<p class="schedule" draggable="true">' + schedule + '</p>';
+                this.insertElement({ target, index: 'beforeend', data: element });
+            })
         }
     }
 }
@@ -260,10 +258,15 @@ class LoginSignup {
         })
     }
 
-    setUserEnvironment(userTodoString) {
-        this.dynamicEvent.insertUserSchedule(userTodoString);
-        this.note.value = userID + ' 님 안녕하세요!'
-
+    setUserEnvironment(userTodoString, userID) {
+        if (userTodoString !== 'undefined' && userID !== 'undefined') {
+            this.dynamicEvent.insertUserSchedule(userTodoString);
+            this.note.innerHTML = userID + '님 안녕하세요!';
+            this.dynamicEvent.toggleClass({ target: this.note, className: 'activeNote' });
+            setTimeout(() => {
+                this.dynamicEvent.toggleClass({ target: this.note, className: 'activeNote' });
+            }, 2000)
+        }
     }
 }
 
