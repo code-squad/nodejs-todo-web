@@ -105,6 +105,25 @@ class UsersManager {
             }
         }
     }
+
+    createSchedule() {
+        return async (req, res, next) => {
+            try {
+                const { status, text } = req.body;
+                const cookies = this.util.parseCookies(req.headers.cookie);
+                const userID = this.util.session[cookies.session].id;
+                const data = await this.openTodos();
+                const todos = JSON.parse(data.toString());
+                todos[userID][status].push(text);
+                const jsonFile = JSON.stringify(todos);
+                await this.createTodo(jsonFile);
+
+                res.end();
+            } catch (err) {
+                console.log(err);
+            }
+        }
+    }
 }
 
 

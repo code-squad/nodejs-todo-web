@@ -18,12 +18,18 @@ class DynamicEvent {
     }
 
     setMemoEvent() {
-        document.querySelector(".memoNote").addEventListener("keydown", (e) => {
+        document.querySelector(".memoNote").addEventListener("keydown", async (e) => {
             if (e.keyCode === 13) {
                 var text = e.target.value;
                 if (text.length === 0) {
                     alert('스케줄을 입력해 주세요.');
                 } else {
+                    const statusAndText = 'status=' + e.target.parentNode.id + '&text=' + text;
+                    const response = await fetch('/createSchedule', {
+                        method: 'POST',
+                        body: statusAndText
+                    });
+
                     const data = '<p class="schedule" draggable="true">' + text + '</p>';
                     // const data = `<p class="schedule" draggable="true">${text}</p>`;
                     this.insertElement({ target: e.target, index: 'afterend', data });
@@ -267,8 +273,8 @@ class LoginSignup {
             this.dynamicEvent.insertUserSchedule(userTodoString);
             this.note.innerHTML = userID + '님 안녕하세요!';
             this.userName.innerHTML = 'ID: ' + userID;
-            this.dynamicEvent.toggleClass({ target: this.userPage, className: 'displayNone' })
-            this.dynamicEvent.toggleClass({ target: this.loginContainer, className: 'displayNone' })
+            this.dynamicEvent.toggleClass({ target: this.userPage, className: 'displayNone' });
+            this.dynamicEvent.toggleClass({ target: this.loginContainer, className: 'displayNone' });
             this.dynamicEvent.toggleClass({ target: this.note, className: 'activeNote' });
             setTimeout(() => {
                 this.dynamicEvent.toggleClass({ target: this.note, className: 'activeNote' });
