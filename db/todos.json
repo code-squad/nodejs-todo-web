@@ -1,10 +1,20 @@
 {
     "circus7": {
         "todo": [
-            "circus"
+            "circus/todo/1",
+            "circus/todo/2",
+            "circus/todo/3"
         ],
-        "doing": [],
-        "done": []
+        "doing": [
+            "circus/doing/1",
+            "circus/doing/2",
+            "circus/doing/3"
+        ],
+        "done": [
+            "circus/done/1",
+            "circus/done/2",
+            "circus/done/3"
+        ]
     },
     "jake7": {
         "todo": [

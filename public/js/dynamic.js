@@ -33,6 +33,19 @@ class DynamicEvent {
         });
     }
 
+    insertUserSchedule(userTodoString) {
+        if (userTodoString !== 'undefined') {
+            const obj = JSON.parse(userTodoString)
+            for (status in obj) {
+                obj[status].forEach(schedule => {
+                    const target = document.querySelector('#' + status);
+                    const element = '<p class="schedule" draggable="true">' + schedule + '</p>';
+                    this.insertElement({ target, index: 'beforeend', data: element });
+                })
+            }
+        }
+    }
+
     holdLoginWindow() {
         const loginElements = document.querySelectorAll(".loginWindow > div > input");
         loginElements.forEach(element => {
@@ -261,6 +274,7 @@ const dynamicEvent = new DynamicEvent();
 dynamicEvent.dragDrop();
 dynamicEvent.holdLoginWindow();
 dynamicEvent.addSchedule();
+dynamicEvent.insertUserSchedule();
 
 const loginSignup = new LoginSignup();
 loginSignup.clickCreateID();

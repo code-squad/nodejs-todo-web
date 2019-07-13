@@ -1,6 +1,12 @@
 class Template {
     jsFile(userTodo) {
-        console.log(userTodo, 'in template')
+        let userTodoString;
+        if (userTodo) {
+            userTodoString = JSON.stringify(userTodo);
+            console.log('로그인되있음')
+        } else {
+            console.log('로그인 안됌')
+        }
         return `
         
 class DynamicEvent {
@@ -111,6 +117,18 @@ class DynamicEvent {
         });
     }
 
+    insertUserSchedule(userTodo) {
+        if (userTodo !== 'undefined') {
+            const obj = JSON.parse(userTodo)
+            for (status in obj) {
+                obj[status].forEach(schedule => {
+                    const target = document.querySelector('#' + status);
+                    const element = '<p class="schedule" draggable="true">' + schedule + '</p>';
+                    this.insertElement({ target, index: 'beforeend', data: element });
+                })
+            }
+        }
+    }
 }
 
 class LoginSignup {
@@ -248,6 +266,7 @@ const dynamicEvent = new DynamicEvent();
 dynamicEvent.dragDrop();
 dynamicEvent.holdLoginWindow();
 dynamicEvent.addSchedule();
+dynamicEvent.insertUserSchedule('${userTodoString}')
 
 const loginSignup = new LoginSignup();
 loginSignup.clickCreateID();
