@@ -108,7 +108,7 @@ class UsersManager {
 
     getUserID(req) {
         const cookies = this.util.parseCookies(req.headers.cookie);
-        return this.util.session[cookies.session].id;
+        return this.util.session[cookies.session] ? this.util.session[cookies.session].id : undefined;
     }
 
     createSchedule() {
@@ -116,9 +116,11 @@ class UsersManager {
             try {
                 const { status, text } = req.body;
                 const userID = this.getUserID(req);
-                const dataObj = await this.openTodos();
-                dataObj[userID][status].push(text);
-                await this.createTodo(dataObj);
+                if (userID !== undefined) {
+                    const dataObj = await this.openTodos();
+                    dataObj[userID][status].push(text);
+                    await this.createTodo(dataObj);
+                }
 
                 res.end();
             } catch (err) {
