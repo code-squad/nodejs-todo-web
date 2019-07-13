@@ -106,12 +106,16 @@ class UsersManager {
         }
     }
 
+    getUserID(req) {
+        const cookies = this.util.parseCookies(req.headers.cookie);
+        return this.util.session[cookies.session].id;
+    }
+
     createSchedule() {
         return async (req, res, next) => {
             try {
                 const { status, text } = req.body;
-                const cookies = this.util.parseCookies(req.headers.cookie);
-                const userID = this.util.session[cookies.session].id;
+                const userID = this.getUserID(req);
                 const data = await this.openTodos();
                 const todos = JSON.parse(data.toString());
                 todos[userID][status].push(text);
