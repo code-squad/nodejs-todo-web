@@ -1,4 +1,4 @@
-const dbHandler = require("./db-handler");
+const fileHandler = require("./file-handler");
 const crypto = require("./crypto");
 const sessionDb = require("../db/session-db");
 const path = require("path");
@@ -31,7 +31,7 @@ const setCookieStr = req => {
 const signIn = () => async (req, res, next) => {
   const { id, password } = req.body;
   const publicPath = path.join(__dirname, "../db");
-  const userDb = await dbHandler.readFile(`${publicPath}/user-db.json`);
+  const userDb = await fileHandler.readFile(`${publicPath}/user-db.json`);
   const userData = JSON.parse(userDb)["userData"];
   const isValidId = await findMatchedId(userData, id);
   const isValidPw = await checkPassword(userData, password);
