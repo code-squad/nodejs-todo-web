@@ -2,9 +2,6 @@ const path = require('path');
 const fs = require('fs');
 
 class Index {
-    constructor(util) {
-        this.util = util;
-    }
 
     getDataFromFile(filePath) {
         return new Promise((resolve, reject) => {

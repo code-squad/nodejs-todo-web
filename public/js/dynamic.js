@@ -24,7 +24,8 @@ class DynamicEvent {
                 if (text.length === 0) {
                     alert('스케줄을 입력해 주세요.');
                 } else {
-                    const data = `<p class="schedule" draggable="true">${text}</p>`;
+                    const data = '<p class="schedule" draggable="true">' + text + '</p>';
+                    // const data = `<p class="schedule" draggable="true">${text}</p>`;
                     this.insertElement({ target: e.target, index: 'afterend', data });
                     e.target.parentNode.removeChild(e.target);
                 }
@@ -232,8 +233,11 @@ class LoginSignup {
                 body: idAndPwd
                 // body: `id=${this.username.value}&pwd=${this.password.value}`
             });
-            const data = await response.text();
-            userData = JSON.parse(data);
+            if (response.ok) {
+                console.log('ok')
+                document.location.reload();
+                console.log('okok')
+            }
         })
     }
 

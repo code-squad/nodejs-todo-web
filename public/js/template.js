@@ -27,7 +27,7 @@ class DynamicEvent {
                 if (text.length === 0) {
                     alert('스케줄을 입력해 주세요.');
                 } else {
-                    const data = '< p class="schedule" draggable = "true" > ' + text + '</p >';
+                    const data = '<p class="schedule" draggable="true">' + text + '</p>';
                     this.insertElement({ target: e.target, index: 'afterend', data });
                     e.target.parentNode.removeChild(e.target);
                 }
@@ -85,7 +85,7 @@ class DynamicEvent {
         document.addEventListener("drop", (e) => {
             e.preventDefault();
             var data = e.dataTransfer.getData('Text');
-            const schedule = '< p class="schedule" draggable = "true" >' + data + '</p >';
+            const schedule = '<p class="schedule" draggable="true">' + data + '</p>';
             if (e.target.className === "schedule activeSchedule") {
                 this.toggleClass({ target: e.target, className: 'activeSchedule' });
                 this.insertElement({ target: e.target, index: 'beforebegin', data: schedule });
@@ -230,11 +230,11 @@ class LoginSignup {
                 method: 'POST',
                 body: idAndPwd
             });
-            const data = await response.text();
-            userData = JSON.parse(data);
+            if (response.ok) {
+                document.location.reload();
+            }
         })
     }
-
 
 }
 

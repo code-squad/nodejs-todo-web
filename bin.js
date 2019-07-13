@@ -1,5 +1,5 @@
 const app = require('./src/Application');
-const serveStatic = require('./middlewares/serve-static');
+const ServeStatic = require('./middlewares/serve-static');
 const Index = require('./routes/index');
 const logger = require('./middlewares/logger');
 const bodyParser = require('./middlewares/body-parser');
@@ -7,13 +7,14 @@ const UserManager = require('./model/model');
 const Util = require('./util/util');
 const util = new Util();
 const userManager = new UserManager(util);
-const index = new Index(util);
+const index = new Index();
+const serveStatic = new ServeStatic(util);
 const port = 3000;
 const hostName = '127.0.0.1';
 
 app.use(logger());
 app.use(bodyParser());
-app.use(serveStatic());
+app.use(serveStatic.serveStatic());
 app.use('/', index.listPosts());
 app.post('/identification', userManager.canIUseIt());
 app.post('/createID', userManager.createID());
