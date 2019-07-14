@@ -22,15 +22,24 @@ class DynamicEvent {
                                 const text = '스케줄을 입력해 주세요.';
                                 this.showNote(text, 1500);
                             } else {
-                                // const statusAndText = 'status=' + e.target.parentNode.id + '&text=' + text;
-                                // const response = await fetch('/createSchedule', {
-                                //     method: 'POST',
-                                //     body: statusAndText
-                                // });
+
                                 e.target.textContent = text;
                                 ev.target.parentNode.removeChild(ev.target);
                                 this.toggleClass({ target: e.target, className: 'displayNone' });
 
+                                const updatedSchedule = {};
+                                Array.prototype.forEach.call(e.target.parentNode.childNodes, (el, i) => {
+                                    if (el === e.target) {
+                                        updatedSchedule.status = e.target.parentNode.id;
+                                        updatedSchedule.text = text;
+                                        updatedSchedule.index = i;
+                                    }
+                                });
+                                const str = JSON.stringify(updatedSchedule);
+                                const response = await fetch('/updateSchedule', {
+                                    method: 'POST',
+                                    body: str
+                                });
                             }
                         }
                     })

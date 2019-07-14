@@ -21,6 +21,7 @@ app.post('/createID', userManager.createID());
 app.post('/login', userManager.login());
 app.post('/createSchedule', userManager.createSchedule());
 app.post('/changeSchedule', userManager.changeSchedule());
+app.post('/updateSchedule', userManager.updateSchedule());
 app.get('/logOut', userManager.logOut());
 app.use(errors.error404());
 app.use(errors.error());

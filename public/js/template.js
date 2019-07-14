@@ -34,6 +34,20 @@ class DynamicEvent {
                                 e.target.textContent = text;
                                 ev.target.parentNode.removeChild(ev.target);
                                 this.toggleClass({ target: e.target, className: 'displayNone' });
+                                
+                                const updatedSchedule = {};
+                                Array.prototype.forEach.call(e.target.parentNode.childNodes, (el, i) => {
+                                    if (el === e.target) {
+                                        updatedSchedule.status = e.target.parentNode.id;
+                                        updatedSchedule.text = text;
+                                        updatedSchedule.index = i;
+                                    }
+                                });
+                                const str = JSON.stringify(updatedSchedule);
+                                const response = await fetch('/updateSchedule', {
+                                    method: 'POST',
+                                    body: str
+                                });
 
                             }
                         }
@@ -389,6 +403,7 @@ loginSignup.clickSignupBackToLogin();
 loginSignup.clickLoginBtn();
 loginSignup.setUserEnvironment('${userTodoString}', '${userID}');
 loginSignup.clickLogOutBtn();
+dynamicEvent.updateSchedule();
 
         `
     }

@@ -160,6 +160,24 @@ class UsersManager {
             res.end();
         }
     }
+
+    updateSchedule() {
+        return async (req, res, next) => {
+            try {
+                const userID = this.getUserID(req);
+                if (userID !== undefined) {
+                    const dataObj = await this.openTodos();
+                    const { status, text, index } = req.body;
+                    dataObj[userID][status][index] = text;
+                    await this.createTodo(dataObj);
+                }
+
+                res.end()
+            } catch (err) {
+                console.log(err);
+            }
+        }
+    }
 }
 
 
