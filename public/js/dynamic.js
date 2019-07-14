@@ -300,7 +300,9 @@ class LoginSignup {
             if (data === 'success') {
                 document.location.reload();
             } else {
-                alert('없는 아이디거나 비밀번호가 틀렸습니다.')
+                const text = '없는 아이디거나 비밀번호가 틀렸습니다.';
+                this.showNote(text, 1500);
+                // alert('없는 아이디거나 비밀번호가 틀렸습니다.')
             }
             // if (response.ok) {
             //     document.location.reload();
@@ -308,7 +310,8 @@ class LoginSignup {
         })
     }
 
-    showNote(sec) {
+    showNote(text, sec) {
+        this.note.innerHTML = text;
         this.dynamicEvent.toggleClass({ target: this.note, className: 'activeNote' });
         setTimeout(() => {
             this.dynamicEvent.toggleClass({ target: this.note, className: 'activeNote' });
@@ -318,11 +321,11 @@ class LoginSignup {
     setUserEnvironment(userTodoString, userID) {
         if (userTodoString !== 'undefined' && userID !== 'undefined') {
             this.dynamicEvent.insertUserSchedule(userTodoString);
-            this.note.innerHTML = userID + '님 안녕하세요!';
             this.userName.innerHTML = 'ID: ' + userID;
             this.dynamicEvent.toggleClass({ target: this.userPage, className: 'displayNone' });
             this.dynamicEvent.toggleClass({ target: this.loginContainer, className: 'displayNone' });
-            this.showNote(2000);
+            const text = userID + '님 안녕하세요!';
+            this.showNote(text, 2000);
         }
     }
 

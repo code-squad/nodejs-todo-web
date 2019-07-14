@@ -33,7 +33,8 @@ class DynamicEvent {
             if (e.keyCode === 13) {
                 var text = e.target.value;
                 if (text.length === 0) {
-                    alert('스케줄을 입력해 주세요.');
+                    const text = '스케줄을 입력해 주세요.';
+                    this.showNote(text, 1500);
                 } else {
                     const statusAndText = 'status=' + e.target.parentNode.id + '&text=' + text;
                     const response = await fetch('/createSchedule', {
@@ -222,11 +223,14 @@ class LoginSignup {
             const userNameToUseValue = this.userNameToUse.value;
 
             if (!/^[a-z0-9+]{4,12}$/.test(userNameToUseValue) || / /.test(userNameToUseValue)) {
-                alert('아이디는 공백없이 영어 소문자와 숫자의 조합으로 4글자 이상 12글자 이하로 작성해 주세요');
+                const text = '공백없는 영소문자, 숫자 조합의 4~12글자만 가능합니다.';
+                this.showNote(text, 1500);
             } else if (!/[a-z]/.test(userNameToUseValue)) {
-                alert('영어(소문자)가 없습니다.')
+                const text = '영어(소문자)가 없습니다.';
+                this.showNote(text, 1500);
             } else if (!/[0-9]/.test(userNameToUseValue)) {
-                alert('숫자가 없습니다.')
+                const text = '숫자가 없습니다.';
+                this.showNote(text, 1500);
             } else {
                 try {
                     const id = 'id=' + userNameToUseValue;
@@ -237,10 +241,12 @@ class LoginSignup {
                     const data = await response.text();
                     if (data === 'Not exit') {
                         this.userNameToUse.dataset.possible = "yes"
-                        alert('사용가능한 아이디입니다.')
+                        const text = '사용가능한 아이디입니다.';
+                        this.showNote(text, 1500);
                     } else {
                         this.userNameToUse.dataset.possible = "no"
-                        alert('이미 사용중인 아이디입니다.')
+                        const text = '이미 사용중인 아이디입니다.';
+                        this.showNote(text, 1500);
                     }
                 } catch (err) {
                     throw err;
@@ -256,10 +262,12 @@ class LoginSignup {
 
             if (this.ischeckedID()) {
                 if (passwordToUse.length < 8) {
-                    alert('비밀번호는 최소 8자리 이상 입력해주세요');
+                    const text = '비밀번호는 최소 8자리 이상 입력해주세요';
+                    this.showNote(text, 1500);
                 } else {
                     if (passwordToUse !== confirmPassword) {
-                        alert('비밀번호가 일치하지 않습니다.')
+                        const text = '비밀번호가 일치하지 않습니다.';
+                        this.showNote(text, 1500);
                     } else {
                         const idAndPwd = 'id=' + this.userNameToUse.value + '&pwd=' + passwordToUse;
                         const response = await fetch('/createID', {
@@ -269,14 +277,17 @@ class LoginSignup {
                         const data = await response.text();
                         if (data === 'create') {
                             this.changeLoginWindow();
-                            alert('아이디가 생성되었습니다.');
+                            const text = '아이디가 생성되었습니다.';
+                            this.showNote(text, 1500);
                         } else {
-                            alert('실패')
+                            const text = '실패';
+                            this.showNote(text, 1500);
                         }
                     }
                 }
             } else {
-                alert('아이디 중복체크를 해주세요.')
+                const text = '아이디 중복체크를 해주세요.';
+                this.showNote(text, 1500);
             }
         })
     }
@@ -292,7 +303,8 @@ class LoginSignup {
             if (data === 'success') {
                 document.location.reload();
             } else {
-                alert('없는 아이디거나 비밀번호가 틀렸습니다.')
+                const text = '없는 아이디거나 비밀번호가 틀렸습니다.';
+                this.showNote(text, 1500);
             }
         })
     }
@@ -300,11 +312,11 @@ class LoginSignup {
     setUserEnvironment(userTodoString, userID) {
         if (userTodoString !== 'undefined' && userID !== 'undefined') {
             this.dynamicEvent.insertUserSchedule(userTodoString);
-            this.note.innerHTML = userID + '님 안녕하세요!';
             this.userName.innerHTML = 'ID: ' + userID;
             this.dynamicEvent.toggleClass({ target: this.userPage, className: 'displayNone' });
             this.dynamicEvent.toggleClass({ target: this.loginContainer, className: 'displayNone' });
-            this.showNote(2000);
+            const text = userID + '님 안녕하세요!';
+            this.showNote(text, 2000);
         }
     }
 
@@ -316,12 +328,14 @@ class LoginSignup {
             if (response.ok) {
                 document.location.reload();
             } else {
-                alert('로그아웃 실패')
+                const text = '로그아웃 실패';
+                this.showNote(text, 1500);
             }
         })
     }
 
-    showNote(sec) {
+    showNote(text, sec) {
+        this.note.innerHTML = text;
         this.dynamicEvent.toggleClass({ target: this.note, className: 'activeNote' });
         setTimeout(() => {
             this.dynamicEvent.toggleClass({ target: this.note, className: 'activeNote' });
