@@ -308,6 +308,13 @@ class LoginSignup {
         })
     }
 
+    showNote(sec) {
+        this.dynamicEvent.toggleClass({ target: this.note, className: 'activeNote' });
+        setTimeout(() => {
+            this.dynamicEvent.toggleClass({ target: this.note, className: 'activeNote' });
+        }, sec)
+    }
+
     setUserEnvironment(userTodoString, userID) {
         if (userTodoString !== 'undefined' && userID !== 'undefined') {
             this.dynamicEvent.insertUserSchedule(userTodoString);
@@ -315,10 +322,7 @@ class LoginSignup {
             this.userName.innerHTML = 'ID: ' + userID;
             this.dynamicEvent.toggleClass({ target: this.userPage, className: 'displayNone' });
             this.dynamicEvent.toggleClass({ target: this.loginContainer, className: 'displayNone' });
-            this.dynamicEvent.toggleClass({ target: this.note, className: 'activeNote' });
-            setTimeout(() => {
-                this.dynamicEvent.toggleClass({ target: this.note, className: 'activeNote' });
-            }, 2000)
+            this.showNote(2000);
         }
     }
 

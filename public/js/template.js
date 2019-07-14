@@ -304,10 +304,7 @@ class LoginSignup {
             this.userName.innerHTML = 'ID: ' + userID;
             this.dynamicEvent.toggleClass({ target: this.userPage, className: 'displayNone' });
             this.dynamicEvent.toggleClass({ target: this.loginContainer, className: 'displayNone' });
-            this.dynamicEvent.toggleClass({ target: this.note, className: 'activeNote' });
-            setTimeout(() => {
-                this.dynamicEvent.toggleClass({ target: this.note, className: 'activeNote' });
-            }, 2000)
+            this.showNote(2000);
         }
     }
 
@@ -322,6 +319,13 @@ class LoginSignup {
                 alert('로그아웃 실패')
             }
         })
+    }
+
+    showNote(sec) {
+        this.dynamicEvent.toggleClass({ target: this.note, className: 'activeNote' });
+        setTimeout(() => {
+            this.dynamicEvent.toggleClass({ target: this.note, className: 'activeNote' });
+        }, sec)
     }
 }
 
