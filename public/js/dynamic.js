@@ -3,6 +3,41 @@ class DynamicEvent {
     constructor() {
         this.card;
         this.classMemo = document.getElementsByClassName('memo');
+        this.schedules = document.querySelectorAll('.schedule');
+    }
+
+    updateSchedule() {
+        const schedules = document.querySelectorAll('.schedule');
+        schedules.forEach(schedule => {
+            schedule.addEventListener('click', (e) => {
+                e.stopPropagation();
+                this.toggleClass({ target: e.target, className: 'displayNone' });
+                e.target.insertAdjacentHTML('beforebegin', '<input type="text" class="modifyNote" value="' + e.target.textContent + '">');
+
+                document.querySelectorAll('.modifyNote').forEach(memo => {
+                    memo.addEventListener('keydown', async (ev) => {
+                        if (ev.keyCode === 13) {
+                            var text = ev.target.value;
+                            if (text.length === 0) {
+                                const text = '스케줄을 입력해 주세요.';
+                                this.showNote(text, 1500);
+                            } else {
+                                // const statusAndText = 'status=' + e.target.parentNode.id + '&text=' + text;
+                                // const response = await fetch('/createSchedule', {
+                                //     method: 'POST',
+                                //     body: statusAndText
+                                // });
+                                e.target.textContent = text;
+                                ev.target.parentNode.removeChild(ev.target);
+                                this.toggleClass({ target: e.target, className: 'displayNone' });
+
+                            }
+                        }
+                    })
+                })
+                e.stopImmediatePropagation();
+            })
+        })
     }
 
     addSchedule() {
@@ -35,6 +70,7 @@ class DynamicEvent {
                     // const data = `<p class="schedule" draggable="true">${text}</p>`;
                     this.insertElement({ target: e.target, index: 'afterend', data });
                     e.target.parentNode.removeChild(e.target);
+                    this.updateSchedule();
                 }
             }
         });
@@ -166,6 +202,8 @@ class DynamicEvent {
             })
         }
     }
+
+
 }
 
 class LoginSignup {
@@ -351,6 +389,7 @@ dynamicEvent.dragDrop();
 dynamicEvent.holdLoginWindow();
 dynamicEvent.addSchedule();
 dynamicEvent.insertUserSchedule();
+dynamicEvent.updateSchedule();
 
 const loginSignup = new LoginSignup(dynamicEvent);
 loginSignup.clickCreateID();

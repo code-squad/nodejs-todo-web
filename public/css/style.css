@@ -187,7 +187,8 @@ article {
 
 .status,
 .title,
-.memoNote {
+.memoNote,
+.modifyNote {
     border-top-right-radius: 27px;
     border-bottom-right-radius: 27px;
     border-top-left-radius: 27px;
@@ -213,7 +214,8 @@ article {
     width: 25vw;
 }
 
-.memoNote {
+.memoNote,
+.modifyNote {
     resize: none;
     margin-top: 10px;
     margin-bottom: 10px;

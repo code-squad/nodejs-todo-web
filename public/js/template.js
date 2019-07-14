@@ -15,6 +15,35 @@ class DynamicEvent {
         this.classMemo = document.getElementsByClassName('memo');
     }
 
+    updateSchedule() {
+        const schedules = document.querySelectorAll('.schedule');
+        schedules.forEach(schedule => {
+            schedule.addEventListener('click', (e) => {
+                e.stopPropagation();
+                this.toggleClass({ target: e.target, className: 'displayNone' });
+                e.target.insertAdjacentHTML('beforebegin', '<input type="text" class="modifyNote" value="' + e.target.textContent + '">');
+
+                document.querySelectorAll('.modifyNote').forEach(memo => {
+                    memo.addEventListener('keydown', async (ev) => {
+                        if (ev.keyCode === 13) {
+                            var text = ev.target.value;
+                            if (text.length === 0) {
+                                const text = '스케줄을 입력해 주세요.';
+                                this.showNote(text, 1500);
+                            } else {
+                                e.target.textContent = text;
+                                ev.target.parentNode.removeChild(ev.target);
+                                this.toggleClass({ target: e.target, className: 'displayNone' });
+
+                            }
+                        }
+                    })
+                })
+                e.stopImmediatePropagation();
+            })
+        })
+    }
+
     addSchedule() {
         const addScheduleButtons = document.querySelectorAll(".addSchedule");
         addScheduleButtons.forEach(button => {
@@ -44,6 +73,7 @@ class DynamicEvent {
                     const data = '<p class="schedule" draggable="true">' + text + '</p>';
                     this.insertElement({ target: e.target, index: 'afterend', data });
                     e.target.parentNode.removeChild(e.target);
+                    this.updateSchedule();
                 }
             }
         });
