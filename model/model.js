@@ -131,8 +131,18 @@ class UsersManager {
 
     changeSchedule() {
         return async (req, res, next) => {
-            console.log(req.body);
-            res.end()
+            try {
+                const userID = this.getUserID(req);
+                if (userID !== undefined) {
+                    const dataObj = await this.openTodos();
+                    dataObj[userID] = req.body;
+                    await this.createTodo(dataObj);
+                }
+
+                res.end()
+            } catch (err) {
+                console.log(err);
+            }
         }
     }
 }
