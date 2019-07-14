@@ -9,6 +9,7 @@ const util = new Util();
 const userManager = new UserManager(util);
 const index = new Index();
 const serveStatic = new ServeStatic(util);
+const errors = require('./middlewares/errors');
 const port = 3000;
 const hostName = '127.0.0.1';
 
@@ -22,6 +23,8 @@ app.post('/login', userManager.login());
 app.post('/createSchedule', userManager.createSchedule());
 app.post('/changeSchedule', userManager.changeSchedule());
 app.get('/logOut', userManager.logOut());
+app.use(errors.error404());
+app.use(errors.error());
 
 app.listen(port, hostName, () => {
     console.log(`${port}번 포트에서 서버 대기중입니다.`)
