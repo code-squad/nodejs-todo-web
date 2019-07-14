@@ -15,6 +15,46 @@ class DynamicEvent {
         this.classMemo = document.getElementsByClassName('memo');
     }
 
+    updateFrontEnd(e, ev, text) {
+        e.target.textContent = text;
+        ev.target.parentNode.removeChild(ev.target);
+        this.toggleClass({ target: e.target, className: 'displayNone' });
+    }
+
+    async updateBackEnd(e, text) {
+        const updatedSchedule = {};
+        Array.prototype.forEach.call(e.target.parentNode.childNodes, (el, i) => {
+            if (el === e.target) {
+                updatedSchedule.status = e.target.parentNode.id;
+                updatedSchedule.text = text;
+                updatedSchedule.index = i;
+            }
+        });
+        const str = JSON.stringify(updatedSchedule);
+        const response = await fetch('/updateSchedule', {
+            method: 'POST',
+            body: str
+        });
+    }
+
+    setModifyNote(e) {
+        document.querySelectorAll('.modifyNote').forEach(memo => {
+            memo.addEventListener('keydown', (ev) => {
+                if (ev.keyCode === 13) {
+                    var text = ev.target.value;
+                    if (text.length === 0) {
+                        const text = '스케줄을 입력해 주세요.';
+                        this.showNote(text, 1500);
+                    } else {
+                        this.updateFrontEnd(e, ev, text);
+
+                        this.updateBackEnd(e, text)
+                    }
+                }
+            })
+        })
+    }
+
     updateSchedule() {
         const schedules = document.querySelectorAll('.schedule');
         schedules.forEach(schedule => {
@@ -23,36 +63,8 @@ class DynamicEvent {
                 this.toggleClass({ target: e.target, className: 'displayNone' });
                 e.target.insertAdjacentHTML('beforebegin', '<input type="text" class="modifyNote" value="' + e.target.textContent + '">');
 
-                document.querySelectorAll('.modifyNote').forEach(memo => {
-                    memo.addEventListener('keydown', async (ev) => {
-                        if (ev.keyCode === 13) {
-                            var text = ev.target.value;
-                            if (text.length === 0) {
-                                const text = '스케줄을 입력해 주세요.';
-                                this.showNote(text, 1500);
-                            } else {
-                                e.target.textContent = text;
-                                ev.target.parentNode.removeChild(ev.target);
-                                this.toggleClass({ target: e.target, className: 'displayNone' });
-                                
-                                const updatedSchedule = {};
-                                Array.prototype.forEach.call(e.target.parentNode.childNodes, (el, i) => {
-                                    if (el === e.target) {
-                                        updatedSchedule.status = e.target.parentNode.id;
-                                        updatedSchedule.text = text;
-                                        updatedSchedule.index = i;
-                                    }
-                                });
-                                const str = JSON.stringify(updatedSchedule);
-                                const response = await fetch('/updateSchedule', {
-                                    method: 'POST',
-                                    body: str
-                                });
+                this.setModifyNote(e);
 
-                            }
-                        }
-                    })
-                })
                 e.stopImmediatePropagation();
             })
         })
@@ -176,12 +188,9 @@ class DynamicEvent {
             const changedTodoString = this.getChangedTodoString();
             const response = await fetch('/changeSchedule', {
                 method: 'POST',
-                // headers: {
-                //     'Accept': 'application/json',
-                //     'Content-Type': 'application/json'
-                // },
                 body: changedTodoString
             });
+            this.updateSchedule();
         });
     }
 
