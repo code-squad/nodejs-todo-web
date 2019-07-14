@@ -1,26 +1,22 @@
-const fileHandler = require("./file-handler");
 const crypto = require("./crypto");
-const sessionDb = require("../db/session-db");
-const path = require("path");
+const db = require("./db-handler");
 
-const getListFilter = (userData, id, password) => {
-  return userData.filter(object => {
-    return object[id] === password;
-  });
+const checkId = (id, password) => {
+  const matchedId = db
+    .get("userData")
+    .find({ id: id })
+    .value();
+  if (matchedId === undefined) return false;
+  const isValidPw = checkPassword(id, password);
+  return isValidPw;
 };
 
-const findMatchedId = (userData, id) => {
-  return new Promise(resolve => {
-    const matchedId = getListFilter(userData, "id", id)[0];
-    resolve(matchedId !== undefined);
-  });
-};
-
-const checkPassword = (userData, pw) => {
-  return new Promise(resolve => {
-    const matchedPw = getListFilter(userData, "pw", pw)[0];
-    resolve(matchedPw !== undefined);
-  });
+const checkPassword = (id, pw) => {
+  const matchedPw = db
+    .get("userData")
+    .find({ id: id })
+    .value().pw;
+  return matchedPw === pw;
 };
 
 const setCookieStr = req => {
@@ -30,20 +26,16 @@ const setCookieStr = req => {
 
 const signIn = () => async (req, res, next) => {
   const { id, password } = req.body;
-  const publicPath = path.join(__dirname, "../db");
-  const userDb = await fileHandler.readFile(`${publicPath}/user-db.json`);
-  const userData = JSON.parse(userDb)["userData"];
-  const isValidId = await findMatchedId(userData, id);
-  const isValidPw = await checkPassword(userData, password);
+  const isValidId = checkId(id, password);
 
-  if (isValidId && isValidPw) {
+  if (isValidId) {
     const sid = await crypto.cryptoHash(id);
     req["session"] = {
       sid: sid
     };
-    sessionDb[sid] = {
-      userId: id
-    };
+    db.get("session")
+      .push({ sid: sid, id: id })
+      .write();
     const cookieStr = setCookieStr(req);
     res.writeHead(302, { "Set-Cookie": [cookieStr], Location: "/todo" });
     res.end();
