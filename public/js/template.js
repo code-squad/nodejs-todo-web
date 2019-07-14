@@ -310,6 +310,19 @@ class LoginSignup {
             }, 2000)
         }
     }
+
+    clickLogOutBtn() {
+        this.logOut.addEventListener('click', async (e) => {
+            const response = await fetch('/logOut', {
+                method: 'GET'
+            });
+            if (response.ok) {
+                document.location.reload();
+            } else {
+                alert('로그아웃 실패')
+            }
+        })
+    }
 }
 
 let userData = {}
@@ -327,6 +340,7 @@ loginSignup.changeDataSetPossibleNo();
 loginSignup.clickSignupBackToLogin();
 loginSignup.clickLoginBtn();
 loginSignup.setUserEnvironment('${userTodoString}', '${userID}');
+loginSignup.clickLogOutBtn();
 
         `
     }

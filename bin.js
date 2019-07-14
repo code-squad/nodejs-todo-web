@@ -21,6 +21,7 @@ app.post('/createID', userManager.createID());
 app.post('/login', userManager.login());
 app.post('/createSchedule', userManager.createSchedule());
 app.post('/changeSchedule', userManager.changeSchedule());
+app.get('/logOut', userManager.logOut());
 
 app.listen(port, hostName, () => {
     console.log(`${port}번 포트에서 서버 대기중입니다.`)

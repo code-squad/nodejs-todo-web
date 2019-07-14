@@ -145,6 +145,21 @@ class UsersManager {
             }
         }
     }
+
+    deleteUserSession(req) {
+        const cookies = this.util.parseCookies(req.headers.cookie);
+        delete this.util.session[cookies.session];
+    }
+
+    logOut() {
+        return async (req, res, next) => {
+            this.deleteUserSession(req);
+            res.writeHead(200, {
+                'Set-Cookie': `session=; Expires=; HttpOnly; Path=/`,
+            });
+            res.end();
+        }
+    }
 }
 
 

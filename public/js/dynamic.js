@@ -321,6 +321,21 @@ class LoginSignup {
             }, 2000)
         }
     }
+
+    clickLogOutBtn() {
+        this.logOut.addEventListener('click', async (e) => {
+            console.log('click')
+            const response = await fetch('/logOut', {
+                method: 'GET'
+            });
+            if (response.ok) {
+                console.log('ok')
+                document.location.reload();
+            } else {
+                alert('로그아웃 실패')
+            }
+        })
+    }
 }
 
 
@@ -337,3 +352,4 @@ loginSignup.changeDataSetPossibleNo();
 loginSignup.clickSignupBackToLogin();
 loginSignup.clickLoginBtn();
 loginSignup.setUserEnvironment(userTodoString);
+loginSignup.clickLogOutBtn();
