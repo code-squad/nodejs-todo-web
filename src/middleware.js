@@ -16,7 +16,7 @@ const Middleware = () => {
         : middlewareRun(i + 1, err);
     }
     if (nextMiddleware.path) {
-      const pathMatched = request.url === nextMiddleware.path;
+      const pathMatched = request.url === nextMiddleware.path && request.method.toLowerCase() === (nextMiddleware.method ||'get');
       return pathMatched
         ? nextMiddleware(request, response, next)
         : middlewareRun(i + 1);
