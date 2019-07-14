@@ -1,5 +1,6 @@
 # nodejs-todo-web
 Node.js TODO web front project
+- 배포한 사이트: https://circustodolist.herokuapp.com/
 
 # TODO List web 버전만들기
 - 저번에 만든 이상형월드컵과는 달리 한페이지에서 자바스크립트로 동적으로 변하는 웹페이지를 만들어보자.
