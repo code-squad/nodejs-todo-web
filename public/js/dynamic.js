@@ -2,6 +2,7 @@
 class DynamicEvent {
     constructor() {
         this.card;
+        this.classMemo = document.getElementsByClassName('memo');
     }
 
     addSchedule() {
@@ -88,7 +89,7 @@ class DynamicEvent {
             e.preventDefault();
         });
 
-        document.addEventListener("drop", (e) => {
+        document.addEventListener("drop", async (e) => {
             e.preventDefault();
             var data = e.dataTransfer.getData('Text');
             const schedule = `<p class="schedule" draggable="true">${data}</p>`;
@@ -113,7 +114,46 @@ class DynamicEvent {
                 this.toggleClass({ target: e.target, className: 'activeTrashCan' });
                 this.card.parentNode.removeChild(this.card);
             }
+
+
+            // const aaa = {};
+            // for (let i = 0; i < this.classMemo.length; i++) {
+            //     aaa[this.classMemo[i].id] = []
+            //     for (let j = 0; j < this.classMemo[i].childNodes.length; j++) {
+            //         let childNode = this.classMemo[i].childNodes[j].textContent;
+            //         aaa[this.classMemo[i].id].push(childNode)
+            //     }
+            // }
+            // const ccc = Array.prototype.reduce.call(this.classMemo, (obj, list) => {
+            //     obj[list.id] = [];
+            //     Array.prototype.forEach.call(list.childNodes, (shedule) => {
+            //         obj[list.id].push(shedule.textContent);
+            //     })
+            //     return obj;
+            // }, {});
+            // console.log(ccc);
+            const changedTodoString = this.getChangedTodoString();
+            const response = await fetch('/changeSchedule', {
+                method: 'POST',
+                // headers: {
+                //     'Accept': 'application/json',
+                //     'Content-Type': 'application/json'
+                // },
+                body: changedTodoString
+            });
         });
+    }
+
+    getChangedTodoString() {
+        const changedTodo = Array.prototype.reduce.call(this.classMemo, (obj, list) => {
+            obj[list.id] = [];
+            Array.prototype.forEach.call(list.childNodes, (shedule) => {
+                obj[list.id].push(shedule.textContent);
+            })
+            return obj;
+        }, {});
+
+        return JSON.stringify(changedTodo);
     }
 
     insertUserSchedule(userTodoString) {

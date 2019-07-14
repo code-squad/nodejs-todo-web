@@ -12,6 +12,7 @@ class Template {
 class DynamicEvent {
     constructor() {
         this.card;
+        this.classMemo = document.getElementsByClassName('memo');
     }
 
     addSchedule() {
@@ -94,32 +95,61 @@ class DynamicEvent {
             e.preventDefault();
         });
 
-        document.addEventListener("drop", (e) => {
+        document.addEventListener("drop", async (e) => {
             e.preventDefault();
             var data = e.dataTransfer.getData('Text');
             const schedule = '<p class="schedule" draggable="true">' + data + '</p>';
+            
             if (e.target.className === "schedule activeSchedule") {
+                
+                
                 this.toggleClass({ target: e.target, className: 'activeSchedule' });
                 this.insertElement({ target: e.target, index: 'beforebegin', data: schedule });
                 this.card.parentNode.removeChild(this.card);
             }
             if (e.target.className === "addSchedule") {
+
                 this.insertElement({ target: e.target.closest(".status").querySelector('.memo'), index: 'beforeend', data: schedule });
                 this.card.parentNode.removeChild(this.card);
             }
             if (e.target.nodeName === "LI") {
+
                 this.insertElement({ target: e.target.closest(".status").querySelector('.memo'), index: 'beforeend', data: schedule });
                 this.card.parentNode.removeChild(this.card);
             }
             if (e.target.className === "title") {
+
                 this.insertElement({ target: e.target.closest(".status").querySelector('.memo'), index: 'afterbegin', data: schedule });
                 this.card.parentNode.removeChild(this.card);
             }
             if (e.target.id === "trashCan") {
+
                 this.toggleClass({ target: e.target, className: 'activeTrashCan' });
                 this.card.parentNode.removeChild(this.card);
             }
+            
+            const changedTodoString = this.getChangedTodoString();
+            const response = await fetch('/changeSchedule', {
+                method: 'POST',
+                // headers: {
+                //     'Accept': 'application/json',
+                //     'Content-Type': 'application/json'
+                // },
+                body: changedTodoString
+            });
         });
+    }
+
+    getChangedTodoString() {
+        const changedTodo = Array.prototype.reduce.call(this.classMemo, (obj, list) => {
+            obj[list.id] = [];
+            Array.prototype.forEach.call(list.childNodes, (shedule) => {
+                obj[list.id].push(shedule.textContent);
+            })
+            return obj;
+        }, {});
+
+        return JSON.stringify(changedTodo);
     }
 
     insertUserSchedule(userTodoString) {
