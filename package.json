@@ -20,8 +20,8 @@
     "url": "https://github.com/ruby413/nodejs-todo-web/issues"
   },
   "engines":{
-    "node": v10.15.2,
-    "npm": 6.4.1,
+    "node": "v10.15.2",
+    "npm": "6.4.1"
   },
   "homepage": "https://github.com/ruby413/nodejs-todo-web#readme"
 }
