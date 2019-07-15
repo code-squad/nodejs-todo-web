@@ -20,10 +20,6 @@ const getData = () => {
     xhr.send();
 }
 
-// const pw = document.getElementById("pw")
-// const pw_check = document.getElementById("pw_check")
-// const signUp = document.getElementById("signUp")
-// signUp.addEventListener("click", () => {pw.value !== pw_check.value ? alert("비밀번호 정보와 비밀번호 확인이 다릅니다.") : signUp.type = 'submit'});
 
 
 const sendClientData = (valueId) => {

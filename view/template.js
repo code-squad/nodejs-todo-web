@@ -19,7 +19,11 @@ class Show{
             ${list}
         </div>
         <script>
-        
+        const pw = document.getElementById("pw")
+        const pw_check = document.getElementById("pw_check")
+        const signUp = document.getElementById("signUp")
+        signUp.addEventListener("click", () => {pw.value !== pw_check.value ? alert("비밀번호 정보와 비밀번호 확인이 다릅니다.") : signUp.type = 'submit'});
+
         </script>
         </body>
         </html>
@@ -53,7 +57,7 @@ class Show{
         <p><input type="password" name="passwordCheck" placeholder="password Check" class="idpw" id="pw_check"></p>
         <p>
           <a href="/login"  class="loginSignup signup signup_login">login</a>
-          <input type="submit" value="signUp" class="loginSignup signup_signup" id= "signUp">
+          <input type="button" value="signUp" class="loginSignup signup_signup" id= "signUp">
         </p>
         </form>
         </div>` 
