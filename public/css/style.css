@@ -1,0 +1,282 @@
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    margin: 0;
+    position: relative;
+    height: 100%;
+    overflow: hidden;
+}
+
+header {
+    position: relative;
+    display: flex;
+    justify-content: center;
+}
+
+h1 {
+    font-family: 'Pacifico', cursive;
+    color: white;
+    font-size: 2.5em;
+}
+
+article {
+    display: flex;
+    height: 80vh;
+    justify-content: center;
+    align-items: center;
+}
+
+.note {
+    border: 2px solid black;
+    background-color: #aaffff;
+    opacity: 0.7;
+    position: absolute;
+    width: 100%;
+    height: 100px;
+    font-size: 2.5rem;
+    text-align: center;
+    top: 0;
+    transition: transform 1s ease 0.3s;
+    transform: translateY(-100px);
+    padding-top: 15px;
+}
+
+.activeNote{
+    transition: transform 1s ease 0.3s;
+    transform: translateY(0px);
+}
+
+/* 로그인창 관련 */
+#loginImg,
+#mountainImg {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    z-index: -1;
+}
+
+#loginImg {
+    opacity: 0.5;
+}
+
+.loginWindow {
+    position: absolute;
+    width: 250px;
+    height: 100%;
+    top: 0;
+    transition: transform 1s ease 0.3s;
+    transform: translateX(-200px);
+}
+
+#userName{
+    font-size: 1.5rem;
+    text-align: center;
+}
+
+.loginWindow:hover,
+.loginWindowActive,
+.note:hover {
+    transition: transform 1s ease 0.3s;
+    transform: translateX(0px);
+    transform: translateY(0px);
+}
+
+#username,
+#password,
+#loginBtn,
+#signUpBtn,
+#userNameToUse,
+#identification,
+#passwordToUse,
+#confirmPassword,
+#logOut {
+    width: 100%;
+    margin-top: 2%;
+    margin-bottom: 2%;
+    border-top-right-radius: 27px;
+    border-bottom-right-radius: 27px;
+    border-top-left-radius: 27px;
+    border-bottom-left-radius: 27px;
+    text-align: center;
+}
+
+#username,
+#password,
+#loginBtn,
+#signUpBtn,
+#logOut{
+    height: 20%;
+}
+
+#userNameToUse,
+#identification,
+#passwordToUse,
+#confirmPassword{
+    height: 15%;
+}
+
+#createID,
+#back {
+    width: 50%;
+    height: 15%;
+    margin-top: 2%;
+    margin-bottom: 2%;
+    text-align: center;
+}
+
+#createID{
+    border-top-left-radius: 27px;
+    border-bottom-left-radius: 27px;
+}
+#back{
+    border-top-right-radius: 27px;
+    border-bottom-right-radius: 27px;
+}
+
+#loginBtn,
+#back {
+    background-image: linear-gradient(to right, #cff5a4, #8aee7c);
+    cursor: pointer;
+}
+
+#signUpBtn,
+#identification,
+#createID,
+#logOut {
+    background-image: linear-gradient(to right, #a4dbf5, #7c91ee);
+    cursor: pointer;
+}
+
+#loginBtn:hover,
+#signUpBtn:hover,
+#identification:hover,
+#createID:hover,
+#back:hover,
+#logOut:hover {
+    background-image: linear-gradient(to right, #ccf5f5, #8feeee);
+}
+
+#loginContainer,
+#signUpContainer,
+#userPage {
+    width: 70%;
+    height: 35%;
+    margin-top: 30%;
+    margin-left: 10%;
+}
+
+.displayNone{
+    display: none;
+}
+
+/* 스케줄컨테이너 관련 */
+#container {
+    width: 80vw;
+    height: 70vh;
+    display: flex;
+    justify-content: space-around;
+}
+
+.status,
+.title,
+.memoNote,
+.modifyNote {
+    border-top-right-radius: 27px;
+    border-bottom-right-radius: 27px;
+    border-top-left-radius: 27px;
+    border-bottom-left-radius: 27px;
+}
+
+.status {
+    border: 2px solid rgb(247, 208, 136);
+    list-style: none;
+    height: 70vh;
+    width: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.title {
+    text-align: center;
+    font-family: 'Pacifico', cursive;
+    font-size: 2em;
+    background-image: linear-gradient(to right, #cff5a4, #8aee7c);
+    height: 55px;
+    width: 25vw;
+}
+
+.memoNote,
+.modifyNote {
+    resize: none;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    height: 55px;
+    width: 100%;
+    text-align: center;
+    overflow: visible;
+}
+
+.memo {
+    height: auto;
+    width: 100%;
+}
+
+/* 스케줄작성 및 쓰레기통 */
+.addSchedule {
+    border: 2px solid #65e954;
+    margin: 10px;
+    width: 20%;
+    border-top-right-radius: 27px;
+    border-bottom-right-radius: 27px;
+    border-top-left-radius: 27px;
+    border-bottom-left-radius: 27px;
+    color: #65e954;
+    background-color: white;
+    font-size: 2rem;
+    cursor: pointer;
+}
+
+.addSchedule:hover {
+    transform: scale(1.2);
+}
+
+#trashCan {
+    position: absolute;
+    bottom: 7vh;
+    right: 2vw;
+    width: 10vw;
+    height: 15vh;
+}
+
+.activeTrashCan{
+    transform: scale(1.2);
+}
+
+/* 스케줄카드 관련 */
+.schedule {
+    border: 2px solid #8aee7c;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 10px;
+    width: 100%;
+    border-top-right-radius: 27px;
+    border-bottom-right-radius: 27px;
+    border-top-left-radius: 27px;
+    border-bottom-left-radius: 27px;
+    text-align: center;
+    cursor: grab;
+}
+
+.activeSchedule{
+    transition: transform 0.2s ease;
+    transform: translateY(15%);
+}

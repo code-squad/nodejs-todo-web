@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <link href="https://fonts.googleapis.com/css?family=Indie+Flower|Lobster|Pacifico&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+
+<body>
+    <header>
+        <img src="http://i.imgur.com/WpXFZFZ.png" id="mountainImg">
+        <h1>TODO List</h1>
+    </header>
+    <aside>
+        <div id="note" class="note"></div>
+        <div class="loginWindow">
+            <img src="./img/login.png" id="loginImg">
+            <div id="loginContainer">
+                <input type="text" id="username" class="inform" placeholder="username"> <br>
+                <input type="password" id="password" class="inform" placeholder="password"><br>
+                <input type="submit" id="loginBtn" value="LOGIN">
+                <input type="button" id="signUpBtn" value="SIGN UP">
+            </div>
+            <div id="signUpContainer" class="displayNone">
+                <input type="text" id="userNameToUse" class="inform" placeholder="Enter the ID to use"><br>
+                <input type="submit" id="identification" value="ID중복확인"> <br>
+                <input type="password" id="passwordToUse" class="inform" placeholder="Enter the password to use"><br>
+                <input type="password" id="confirmPassword" class="inform" placeholder="Confrim the password"><br>
+                <input type="submit" id="createID" value="CREATE"><button id="back">LOGIN</button>
+            </div>
+            <div id="userPage" class="displayNone">
+                <div id="userName"></div>
+                <input type="submit" id="logOut" value="LOGOUT">
+            </div>
+        </div>
+    </aside>
+    <article>
+        <div id="container">
+            <li class="status">
+                <div class="title">todo</div>
+                <div class="memo" id="todo"></div>
+                <button class="addSchedule">+</button>
+            </li>
+            <li class="status">
+                <div class="title">doing</div>
+                <div class="memo" id="doing"></div>
+                <button class="addSchedule">+</button>
+            </li>
+            <li class="status">
+                <div class="title">done</div>
+                <div class="memo" id="done"></div>
+                <button class="addSchedule">+</button>
+            </li>
+        </div>
+        <img src="./img/trashcan.png" id="trashCan">
+    </article>
+</body>
+<script src="./js/dynamic.js"></script>
+
+</html>
