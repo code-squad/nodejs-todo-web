@@ -88,8 +88,8 @@ header{
     color: #555;
 }
 
-.icon-plus::before{
-    content: "\e937";
+.icon-plus{
+    /* content: "\e937"; */
     margin-right: 7px;
 }
 
@@ -109,10 +109,10 @@ header{
     color: #bbb;
     padding-left: 5px
 }
-
+/* 
 .icon-hamburger-menu-close::before{
-    content: "\e920";
-}
+    content: "\e920";add icon-plus
+} */
 .backButton{    
     font-size: 25px;
     font-weight: bold;

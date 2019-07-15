@@ -67,7 +67,6 @@ const getLiIndex = (li) => {
     for(var i = 0; i < items.length; i++){
         itemHTMLArray.push(items[i].innerHTML);
     }
-    console.log(itemHTMLArray.indexOf(li.innerHTML))
     return itemHTMLArray.indexOf(li.innerHTML)
 }
 
@@ -100,6 +99,7 @@ const makeChild = (targetId, value) => {
     let targetUl = document.getElementById(targetId); 
     let li = document.createElement('li'); 
     let span = document.createElement('span'); 
+    let out = document.createTextNode("X"); 
 
     if(value !== ""){
         li.classList.add("contents")
@@ -107,7 +107,7 @@ const makeChild = (targetId, value) => {
         li.appendChild(text); 
         li.appendChild(span); 
         span.classList.add("deleteData")
-        span.classList.add("icon-hamburger-menu-close")
+        span.appendChild(out)
         targetUl.appendChild(li); 
         li.addEventListener("mouseover", ()=>{span.style.display = "block"; span.id = "delete"}, true)
         li.addEventListener("mouseout", ()=>{span.style.display = "none"; span.id = ""}, true)
