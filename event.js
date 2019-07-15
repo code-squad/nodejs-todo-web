@@ -99,7 +99,7 @@ const makeChild = (targetId, value) => {
     let targetUl = document.getElementById(targetId); 
     let li = document.createElement('li'); 
     let span = document.createElement('span'); 
-    let out = document.createTextNode("X"); 
+    let out = document.createTextNode("x"); 
 
     if(value !== ""){
         li.classList.add("contents")
