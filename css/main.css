@@ -189,6 +189,7 @@ header{
     justify-content: center;
     margin-top: 12%;
     cursor: default;
+    position:relative
 }
 
 .wrap {
@@ -275,4 +276,11 @@ span#addNickName{
     margin-right: 6px;
     font-size: 19px;
     color: #bad1ff96;
+}
+
+.error{
+    position: absolute;
+    left: 42%;
+    top: -33px;
+    color: #fff;
 }
