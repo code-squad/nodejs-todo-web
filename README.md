@@ -4,16 +4,16 @@ Node.js TODO web front project
 =======
 =======
 # :desktop_computer: Welcome to Todo App
-> HTML 과 CSS, JS와 Node.js의 HTTP 모듈을 사용하여 TodoApp을 구현을 할 수 있었습니다.
+> HTML 과 CSS, JS와 Node.js의 HTTP 모듈을 사용하여 TodoApp을 구현
 
 <br/>
 
-## :star: DEMO
+## :notebook: DEMO
 [TodoApp](https://rubywebtodolist.herokuapp.com/index.html)
 
 <br/>
 
-## :woman_technologist: 기능
+## :notebook: 기능
 1. 회원가입
 2. 로그인, 로그아웃
 3. TODOLIST 작성
@@ -49,7 +49,7 @@ Node.js TODO web front project
 
 <br/>
 
-## :writing_hand: API
+## :notebook: API
 TODO Page
 - 메인페이지 : /index.html
 - 계정 data 호출 : /getData
