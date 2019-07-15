@@ -28,7 +28,7 @@ describe('middleware : 요구사항 2번', () => {
   it('미들웨어 함수를 실행한다', () => {
     const stub = {
       mw1() {},
-      mw2() {}
+      mw2() {},
     };
     sinon.stub(stub, 'mw1').callsFake((req, res, next) => next());
     sinon.stub(stub, 'mw2').callsFake((req, res, next) => next());
