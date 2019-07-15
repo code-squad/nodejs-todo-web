@@ -1,4 +1,5 @@
 const fs = require('fs');
+const ejs = require('ejs');
 
 const indexController = (req, res, next) => {
   const { method, url } = req;
@@ -7,8 +8,9 @@ const indexController = (req, res, next) => {
   
   if (method === "GET" && url === "/") {
     res.statusCode = 200;
-    data = fs.readFileSync(__dirname + '/../public/index.html');
-    res.write(data);
+    data = fs.readFileSync(__dirname + '/../public/index.ejs', 'utf-8');
+    const renderedData = ejs.render(data, { success : req.query.success });
+    res.write(renderedData);
     res.end();
     return;
   }

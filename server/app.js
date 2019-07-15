@@ -1,12 +1,19 @@
-const App = require('./application');
 const bodyParser = require('./middlewares/body-parser');
+const logger = require('./middlewares/logger');
+
 const indexController = require('./routes/indexController');
-const error = require('./error');
 const userController = require('./routes/userController');
+const error = require('./error');
 const { serveStaticFile } = require('./middlewares/public-files');
+
+const App = require('./application');
 const app = new App();
 
+const queryParser = require('./middlewares/query-parser');
+
+app.use(logger);
 app.use(serveStaticFile);
+app.use(queryParser);
 app.use(bodyParser);
 
 app.use('/', indexController);

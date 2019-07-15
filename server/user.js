@@ -22,7 +22,7 @@ class User {
     const encryptedPassword = await bcrypt.hash(password, saltRounds);
     users.push({ name : username, password : encryptedPassword });
     fs.writeFileSync(`./data/user.json`, JSON.stringify(users));
-    return { statusCode: 202, message: '회원 가입 완료!' };
+    return { statusCode: 302, message: '회원 가입 완료!', location : '/?success=' + encodeURIComponent('성공적으로 회원가입되었습니다!') };
   }
 
   async get(query) {
