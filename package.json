@@ -1,0 +1,27 @@
+{
+  "name": "nodejs-todo-web",
+  "version": "1.0.0",
+  "description": "todolist",
+  "main": "main.js",
+  "dependencies": {
+    "csvtojson": "^2.0.8"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "node main.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ruby413/nodejs-todo-web.git"
+  },
+  "author": "ruby",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ruby413/nodejs-todo-web/issues"
+  },
+  "engines":{
+    "node": v10.15.2,
+    "npm": 6.4.1,
+  },
+  "homepage": "https://github.com/ruby413/nodejs-todo-web#readme"
+}
