@@ -4,7 +4,8 @@
 <br/>
 
 ## :notebook: DEMO
-[TodoApp](https://rubywebtodolist.herokuapp.com/index.html)
+[TodoApp DEMO Page](https://rubywebtodolist.herokuapp.com/index.html)
+:point_up_2: click!
 
 <br/>
 
