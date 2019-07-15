@@ -117,7 +117,7 @@ header{
     font-size: 25px;
     font-weight: bold;
     float: left;
-    margin: 3px 0px 0px 3px;
+    margin: 3px 0px 0px 7px;
     cursor: pointer;
     color: #888;
 }
@@ -140,7 +140,7 @@ header{
 .deleteData{
     position: absolute;
     top: 5px;
-    right: 3px;
+    right: 7px;
     color: #aaa;
     font-weight: bold;
     font-size: 19px;
