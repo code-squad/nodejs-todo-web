@@ -88,8 +88,8 @@ header{
     color: #555;
 }
 
-.icon-plus{
-    /* content: "\e937"; */
+.icon-plus::before{
+    content: "\e937";
     margin-right: 7px;
 }
 
@@ -109,15 +109,15 @@ header{
     color: #bbb;
     padding-left: 5px
 }
-/* 
+
 .icon-hamburger-menu-close::before{
-    content: "\e920";add icon-plus
-} */
+    content: "\e920";
+}
 .backButton{    
     font-size: 25px;
     font-weight: bold;
     float: left;
-    margin: 3px 0px 0px 7px;
+    margin: 3px 0px 0px 3px;
     cursor: pointer;
     color: #888;
 }
@@ -140,7 +140,7 @@ header{
 .deleteData{
     position: absolute;
     top: 5px;
-    right: 7px;
+    right: 3px;
     color: #aaa;
     font-weight: bold;
     font-size: 19px;
