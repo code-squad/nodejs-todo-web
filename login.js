@@ -6,11 +6,21 @@ const show = new Show();
 class Login {
   show(view){
     if(view === "signup"){
-      let signup = show.signupTemplate()
+      let signup = show.signupTemplate("")
+      return show.HTML(signup)
+    }
+    if(view === "signupError"){
+      let signUpError = show.signUpError()
+      let signup = show.signupTemplate(signUpError)
       return show.HTML(signup)
     }
     if(view === "login"){
-      let login = show.loginTemplate()
+      let login = show.loginTemplate("")
+      return show.HTML(login)
+    }
+    if(view === "loginError"){
+      let loginError = show.loginError()
+      let login = show.loginTemplate(loginError)
       return show.HTML(login)
     }
   }
@@ -20,10 +30,8 @@ class Login {
     let alreadyExist = clientArray.some((infoObj)=>{return infoObj.email === inputDataObj.email})
     if(!data.existDataFile() || !alreadyExist){
       data.makeClientData(inputDataObj)
-      console.log("회원가입이 완료되었습니다.")
       return true
     }else{
-      console.log("이미 이메일주소가 있는 가입정보입니다")
       return false
     }
   }
@@ -33,10 +41,8 @@ class Login {
     let alreadyExist = clientArray.some((infoObj)=>{return infoObj.email === inputDataObj.email && infoObj.pwd === inputDataObj.pwd})
 
     if(alreadyExist){
-      console.log("로그인 되었습니다.") 
       return true;
     }else{
-      console.log("잘못입력하셨습니다.")
       return false
     } 
   }

@@ -10,7 +10,6 @@ const getData = () => {
             let doingArr = todoListData[3]
             let doneArr = todoListData[5]
 
-            console.log(nickName)
             addNickName(nickName)
             todoArr.forEach((data)=>{makeChild("dataTarget_todo", data)})
             doingArr.forEach((data)=>{makeChild("dataTarget_doing", data)})
@@ -20,6 +19,12 @@ const getData = () => {
     xhr.open('GET', url, true)
     xhr.send();
 }
+
+// const pw = document.getElementById("pw")
+// const pw_check = document.getElementById("pw_check")
+// const signUp = document.getElementById("signUp")
+// signUp.addEventListener("click", () => {pw.value !== pw_check.value ? alert("비밀번호 정보와 비밀번호 확인이 다릅니다.") : signUp.type = 'submit'});
+
 
 const sendClientData = (valueId) => {
     let xhr = new XMLHttpRequest();

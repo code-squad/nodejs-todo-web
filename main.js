@@ -14,15 +14,19 @@ const app = http.createServer( function(request,response){
     let filePath = `.${_url}`;
     let cookie = request.headers.cookie 
     let sessionID = cookie !== undefined ? cookie.match('(^|;) ?sessionID=([^;]*)(;|$)')[2] : false;
+    let goToMain = ( _url === "/index.html" || _url === "/event.js" || _url === "/todo.js"|| _url === "/css/main.css"); 
     let isSessionId = () => {
         return session.sessionData[sessionID] ? true : false
     }
-    let goToMain = (_url === "/index.html" || _url === "/event.js" || _url === "/todo.js"|| _url === "/css/main.css"); 
-    if(!isSessionId() && _url === "/index.html"){
+    if( _url === "/"){
+        response.writeHead(302, {Location: `/index.html`});
+        response.end();
+    }
+    else if(!isSessionId() && _url === "/index.html" ){
         response.writeHead(302, {Location: `/login`});
         response.end();
     }
-    else if(goToMain){
+    else if(goToMain || (_url === "/" && goToMain)){
         fs.createReadStream(filePath).pipe(response);         
     } 
     else if(_url === "/login"){
@@ -54,7 +58,7 @@ const app = http.createServer( function(request,response){
                 });
                 response.end();
             }else{
-                response.writeHead(302, {Location: `/login`});
+                response.writeHead(302, {Location: `/error_login`});
                 response.end();
             }
         });
@@ -69,13 +73,13 @@ const app = http.createServer( function(request,response){
             let post = qs.parse(body);
             let signUp = await login.signUp(post)
             if(signUp){
+                let todoData = ["todo",[],"doing",[],"done",[]]
+                controlData.makeTodoData(post.email, todoData)
                 response.writeHead(302, {Location: `/login`}); 
                 response.end();
             }else{
-                setTimeout(function() {
-                    response.writeHead(302, {Location: `/signUp`}); 
-                    response.end();
-                }, 2000);
+                response.writeHead(302, {Location: `/error_signUp`}); 
+                response.end();
             }
         });
     }
@@ -97,7 +101,6 @@ const app = http.createServer( function(request,response){
             let nickName = session.sessionData[sessionID][0].nickName
             let dataAll = [body[email], nickName]
             userDataString = JSON.stringify(dataAll)
-        
             response.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
             response.end(userDataString)
         }
@@ -141,6 +144,14 @@ const app = http.createServer( function(request,response){
             response.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
             response.end()
          })
+    }
+    else if(_url === "/error_login"){
+        response.writeHead(200);
+        response.end(login.show("loginError"));
+    }
+    else if(_url === "/error_signUp"){
+        response.writeHead(200);
+        response.end(login.show("signupError"));
     }
     
 })
