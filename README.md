@@ -13,6 +13,10 @@ Node.js TODO web front project
 
 <br/>
 
+![Alt text](/img/demo.gif)
+
+<br/>
+
 ## :notebook: 기능
 1. 회원가입
 2. 로그인, 로그아웃
