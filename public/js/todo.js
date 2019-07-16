@@ -22,13 +22,14 @@ signOutButton.addEventListener("click", function(event) {
 
 const listExistingCards = async function() {
   const todoList = document.querySelector(".todo-list");
+  const todoBoard = todoList.querySelector(".board");
   const doingList = document.querySelector(".doing-list");
   const doneList = document.querySelector(".done-list");
   const response = await fetchData("/api/get-classified-cards");
   const cards = await response.json();
   const { todoCards, doingCards, doneCards } = cards;
 
-  listCards(todoCards, todoList);
+  listCards(todoCards, todoBoard);
   listCards(doingCards, doingList);
   listCards(doneCards, doneList);
 };
@@ -89,12 +90,18 @@ const createNewCard = function(input) {
   return newCard;
 };
 
-const addNewCard = function() {
-  const inputText = document.querySelector("#todo-input-text");
-  if (!inputText.value) return hideInputTextBox();
+const addNewCard = async function() {
   const todoList = document.querySelector(".todo-list");
   const todoBoard = todoList.querySelector(".board");
-  const newCard = createNewCard(inputText.value);
+  const inputText = document.querySelector("#todo-input-text");
+  if (!inputText.value) return hideInputTextBox();
+  const response = await fetchData(
+    "/api/add-new-card",
+    `title=${inputText.value}&status=todo`
+  );
+  const todoCards = await response.json();
+  const { id, title, status } = todoCards;
+  const newCard = createNewCard(title, id, status);
   todoBoard.appendChild(newCard);
   inputText.value = "";
   hideInputTextBox();
