@@ -1,12 +1,12 @@
 class Session {
   constructor() {
-    this.exec = { "GET" : get, "POST": post, "UPDATE": update, "DELETE": del }
+    this.exec = { "GET" : this.get, "POST": this.post, "UPDATE": this.update, "DELETE": this.del }
   }
   get() {
-
+    
   }
   post() {
-    
+
   }
   update() {
 
@@ -15,3 +15,5 @@ class Session {
 
   }
 }
+
+module.exports = Session;
