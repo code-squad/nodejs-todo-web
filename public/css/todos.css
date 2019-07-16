@@ -31,6 +31,7 @@ nav #btn-logout {
     line-height: 30px;
     border-radius: 10px;
     border: none;
+    background-color: rgb(243, 238, 235);
 }
 
 #board-box {
@@ -45,7 +46,7 @@ nav #btn-logout {
     margin: 10px;
     padding: 10px;
     border-radius: 5px;
-    background-color: rgb(226, 224, 223);
+    background-color: rgb(243, 238, 235);
 }
 
 .card-ul {
@@ -64,15 +65,14 @@ nav #btn-logout {
     float: left;
     border: none;
 }
-.card-input:read-only {
-    
-}
+
 .card-input:focus {
     outline: none;
 }
 
 .delete-btn {
     float: right;
+    background-color: #ffffff;
     visibility: hidden;
 }
 
@@ -87,8 +87,6 @@ nav #btn-logout {
     text-decoration: underline;
 }
 
-.add-form-box {
-}
 .add-form-textarea {
     width: 270px;
 }

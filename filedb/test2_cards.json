@@ -1,19 +1,14 @@
 {
     "todo": [
         {
-            "id": 604,
-            "text": "ff"
-        },
-        {
             "id": 434,
             "text": "asddfasdf"
-        }
-    ],
-    "doing": [
+        },
         {
-            "id": 574,
-            "text": "gdgdgd"
+            "id": 604,
+            "text": "ff"
         }
     ],
+    "doing": [],
     "done": []
 }
