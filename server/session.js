@@ -1,6 +1,4 @@
-import { get } from "http";
-
-class session {
+class Session {
   constructor() {
     this.exec = { "GET" : get, "POST": post, "UPDATE": update, "DELETE": del }
   }
@@ -14,6 +12,6 @@ class session {
 
   }
   del(){
-    
+
   }
 }
