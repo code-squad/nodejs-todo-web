@@ -17,12 +17,11 @@ describe('POST /user', () => {
 });
 
 describe('GET /user', () => {
-  const query = { username : 'nana', password : '12345', passwordConfirm : '12345' };
+  const query = { username : 'nailer', password : '12345', passwordConfirm : '12345' };
   user.exec["POST"](query);
   it('유저 조회하기', async () => {
-    const username = 'nana';
-    const response = await user.exec["GET"](username);
-    response.should.deep.equals({ statusCode: 202, message: '유저가 존재합니다.', username: 'nana' });
+    const response = await user.exec["GET"](query);
+    response.should.deep.equals({ statusCode: 202, message: '유저가 존재합니다.', username: 'nailer' });
   });
   it('없는 유저입니다.', async () => {
     const username = 'stephens';
