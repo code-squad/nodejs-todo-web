@@ -26,6 +26,8 @@ const parseCookies = (cookie = '') =>
 			return acc;
 		}, {});
 
+const validUrls = ['/', '/todos', '/register', '/card', 'login', 'logout', 'signUp'];
+
 const server = http.createServer((req, res) => {
 	const cookies = parseCookies(req.headers.cookie);
 	const userId = session[cookies.userNumber];
@@ -156,6 +158,10 @@ const server = http.createServer((req, res) => {
 			})
 		}
 	} 
+
+	if (!(validUrls.includes(req.url) || Object.keys(fileType).includes(ext))) {
+		res.statusCode = 404;
+	}
 });
 
 server.listen(8081, () => {
