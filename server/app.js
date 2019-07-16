@@ -20,6 +20,7 @@ app.use('/', indexController);
 app.use('/signIn', indexController);
 
 app.use('/user', userController);
+app.use('/logIn', userController);
 
 app.use(error.error404);
 app.use(error.error);

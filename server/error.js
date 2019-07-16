@@ -9,6 +9,7 @@ class Error {
   }
   error(err, req, res, next) {
     res.statusCode = 500;
+    console.log(err);
     const data = fs.readFileSync(__dirname + '/public/error.html');
     res.write(data);
     res.end();

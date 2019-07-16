@@ -7,7 +7,13 @@ const users = JSON.parse(rawData);
 
 class User {
   constructor() {
-    this.exec = { "POST" : this.post, "GET" : this.get, "DELETE" : this.delete, "UPDATE" : this.update};
+    this.exec = {
+      "POST" : this.post, 
+      "GET" : this.get, 
+      "DELETE" : this.delete, 
+      "UPDATE" : this.update,
+      "/logIn" : this.logIn,
+    };
   }
 
   async post(query) {
@@ -44,8 +50,19 @@ class User {
     return { statusCode: 202, message: '유저를 삭제했습니다.'};
   }
 
-  async update() {
-  
+  async logIn(req, res, next) {
+    const { username, password } = req.body;
+    console.log(req.body);
+    let user = users.filter(tmpuser => tmpuser.name === username)[0];
+    const passwordMatched = await bcrypt.compare(password, user.password)
+    if (!user || !passwordMatched) {
+      console.log('login Failed');
+      console.log(user.password);
+    } else {
+      console.log('login success');
+      console.log(user.password);
+    }
+    next();
   }
 }
 

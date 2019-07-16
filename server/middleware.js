@@ -10,13 +10,13 @@ class Middleware {
       
       if (err) {
         const nextMwIsErrorMw = nextMw.length === 4;
-        return nextMwIsErrorMw ? nextMw(err, req, res, next) : 
+        return nextMwIsErrorMw ? nextMw(err, this.req, this.res, next) : 
           this.run(idx + 1, err);
       }
       
       if (nextMw.path) {
         let pathMatched = false;
-        if (typeof nextMw.path === 'string'){
+        if (typeof nextMw.path === 'object'){
           pathMatched = nextMw.path.includes(this.req.url);
         } else {
           pathMatched = nextMw.path === this.req.url;

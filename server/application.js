@@ -13,10 +13,16 @@ class Application {
   }
   use(path, fn) {
     if (typeof path === 'string' && typeof fn === 'function') {
-      if (fn.path) {
-        fn.path = [fn.path].push(path);
+      if (typeof fn.path === 'string') {
+        console.log('fn.path', fn.path);
+        fn.path = [fn.path, path];
+        console.log(fn.path);
+      } else if (typeof fn.path === 'object') {
+        fn.path.push(path);
+      } else {
+        fn.path = path;
       }
-      fn.path = path;
+      
     } else if (typeof path === 'function') {
       fn = path;
     } else {

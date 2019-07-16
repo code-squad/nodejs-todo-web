@@ -1,7 +1,7 @@
 const should = require('chai').should();
 const Session = require('../session');
 
-describe('POST /session', () => {
+describe('POST /login', () => {
   it('username의 정보를 session list에 추가한다.', async () => {
     const session = new Session();
     await session.post('nailer');
