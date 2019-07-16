@@ -3,6 +3,7 @@ const logger = require('./middlewares/logger');
 
 const indexController = require('./routes/indexController');
 const userController = require('./routes/userController');
+const gameController = require('./routes/gameController');
 const error = require('./error');
 const { serveStaticFile } = require('./middlewares/public-files');
 
@@ -21,6 +22,8 @@ app.use('/signIn', indexController);
 
 app.use('/user', userController);
 app.use('/logIn', userController);
+
+app.use('/game', gameController);
 
 app.use(error.error404);
 app.use(error.error);

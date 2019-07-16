@@ -9,7 +9,7 @@ const indexController = (req, res, next) => {
   if (method === "GET" && url === "/") {
     res.statusCode = 200;
     data = fs.readFileSync(__dirname + '/../public/index.ejs', 'utf-8');
-    const renderedData = ejs.render(data, { success : req.query.success });
+    const renderedData = ejs.render(data, { success : req.query.success, fail : req.query.fail });
     res.write(renderedData);
     res.end();
     return;
