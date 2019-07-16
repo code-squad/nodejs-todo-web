@@ -130,3 +130,21 @@ body {
   margin-top: 5px;
   display: none;
 }
+
+#sign-out-btn {
+  padding: 10px;
+  margin-left: 1350px;
+  margin-bottom: 20px;
+  background-color: rgb(16, 4, 71);
+  font-weight: 600;
+  border-radius: 10px;
+  color: white;
+  font-size: 15px;
+}
+#userId {
+  margin-left: 1270px;
+  margin-bottom: 10px;
+  font-weight: 600;
+  color: rgb(16, 4, 71);
+  font-size: 15px;
+}

@@ -11,6 +11,7 @@
       <h1 id="main-title">
         TODO
       </h1>
+      <button id="sign-out-btn">로그아웃</button>
     </header>
 
     <div id="main-board">
@@ -18,7 +19,9 @@
         <header class="list-title">
           TODO
         </header>
-        <div class="board"></div>
+        <div class="board">
+          ${todo}
+        </div>
         <div class="add-card-btn">
           <div id="add-input-btn">Add Another Card</div>
         </div>
@@ -31,14 +34,18 @@
         <header class="list-title">
           DOING
         </header>
-        <div class="board"></div>
+        <div class="board">
+          ${doing}
+        </div>
       </div>
 
       <div class="done-list">
         <header class="list-title">
           DONE
         </header>
-        <div class="board"></div>
+        <div class="board">
+          &{done}
+        </div>
       </div>
     </div>
   </body>

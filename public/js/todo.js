@@ -1,5 +1,25 @@
 let draggingTarget;
 
+const signOutButton = document.getElementById("sign-out-btn");
+
+signOutButton.addEventListener("click", function(event) {
+  const signOut = () => {
+    const option = {
+      method: "POST",
+      redirect: "follow",
+      headers: new Headers({
+        "Content-Type": "text/plain"
+      })
+    };
+    return fetch("/sign-out", option).then(response => {
+      if (response.redirected) {
+        window.location.href = "/";
+      }
+    });
+  };
+  signOut();
+});
+
 const createNewCard = function(input) {
   const newCard = document.createElement("div");
   const cardText = document.createElement("div");
