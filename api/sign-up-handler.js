@@ -9,7 +9,7 @@ const signUp = () => (req, res, next) => {
     res.end();
   } else {
     db.get("userData")
-      .push({ id: id, pw: password, todos: [] })
+      .push({ id: id, pw: password, cards: [] })
       .write();
     res.writeHead(302, { Location: "/" });
     res.end();

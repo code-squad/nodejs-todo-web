@@ -20,6 +20,39 @@ signOutButton.addEventListener("click", function(event) {
   signOut();
 });
 
+const listExistingCards = async function() {
+  const todoList = document.querySelector(".todo-list");
+  const doingList = document.querySelector(".doing-list");
+  const doneList = document.querySelector(".done-list");
+  const response = await fetchData("/api/get-classified-cards");
+  const cards = await response.json();
+  const { todoCards, doingCards, doneCards } = cards;
+
+  listCards(todoCards, todoList);
+  listCards(doingCards, doingList);
+  listCards(doneCards, doneList);
+};
+
+const listCards = function(cards, targetList) {
+  cards.forEach(card => {
+    const { id, title, status } = card;
+    const existingCard = createNewCard(title, id, status);
+    targetList.appendChild(existingCard);
+  });
+};
+
+const fetchData = function(url, data) {
+  const option = {
+    method: "POST",
+    body: data,
+    redirect: "follow",
+    headers: new Headers({
+      "Content-Type": "application/json"
+    })
+  };
+  return fetch(url, option);
+};
+
 const createNewCard = function(input) {
   const newCard = document.createElement("div");
   const cardText = document.createElement("div");
@@ -168,3 +201,4 @@ const addDragEvent = function(card) {
 };
 
 createEvent();
+listExistingCards();

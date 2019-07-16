@@ -3,7 +3,7 @@
     {
       "id": "h",
       "pw": "111",
-      "todos": [
+      "cards": [
         {
           "id": 1232,
           "title": "자료구조",
@@ -27,19 +27,30 @@
       ]
     },
     {
-      "id": "muk",
-      "pw": "1111",
-      "todos": []
-    },
-    {
-      "id": "tuna",
-      "pw": "1111",
-      "todos": []
+      "id": "1",
+      "pw": "1",
+      "cards": []
     }
   ],
   "session": [
     {
-      "sid": "wH+fxCjmANiOO9NqlAuJJE0dj5VTs61B2ppx8OkYIPwKF/GFyAr2FXMz/26ee0+cyCsIK8OrWPNsGFURDKdDxQ==",
+      "sid": "RFauacukXcf3kL3sd/YpWKsXAp3LS8PvL9RnouH1jjxY8Ek/m0XzaOCEQDJVV1tSRpcpVAmooDoDQbDKslaSHA==",
+      "id": "h"
+    },
+    {
+      "sid": "eXGw4nQ8IFRVXuI4KxOHxjLMLN0m7IfLszGQzIAKFjhJs18HTPsUEbIAAffNlq02ln9qtt1ZaWFk0X/TUtTiVg==",
+      "id": "h"
+    },
+    {
+      "sid": "5E3PY8sHL5Tz59r861ia+8i2BM1m2dfRGWAniUfVbilz9Xsx85x2jTkL6UCN/YoyCEzc1P071IWqTPnEtp7gfw==",
+      "id": "h"
+    },
+    {
+      "sid": "CRghVvurnecSGQbctEvF3DXb0PvQSMqbrvVvJAdzZrabKCb/LsTJQBU99wKh+Yix1YHeSHPhwThDb4LJzlBkpA==",
+      "id": "h"
+    },
+    {
+      "sid": "g92aORQxvJyRG+Yife2K1EbYy1IgXcbdwsTqR93YR+j6C3Bj+W0ikz5b8ri1EFQMmZlL2qa5d4Kc0gn/Yc4sYA==",
       "id": "h"
     }
   ]
