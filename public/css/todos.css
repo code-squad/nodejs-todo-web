@@ -1,11 +1,36 @@
+html, body {
+    margin: 0%; padding: 0px;
+    height: 100%;
+    background: #00d2ff;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to bottom, #3a7bd5, #00d2ff);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to bottom, #3a7bd5, #00d2ff); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
 header {
-    width: 960px;
+    width: 940px;
     margin: 0 auto;
-    height: auto;
     position: relative;
+    overflow: hidden;
 }
 header > h1 {
     text-align: center;
+    color: #ffffff;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif
+}
+
+nav {
+    width: 940px;
+    margin: 0 auto;
+    padding: 0;
+    height: 30px;
+    overflow: hidden;
+}
+
+nav #btn-logout {
+    float: right;
+    line-height: 30px;
+    border-radius: 10px;
+    border: none;
 }
 
 #board-box {
@@ -13,16 +38,16 @@ header > h1 {
     margin: 0 auto;
     overflow: hidden;
 }
+
 .column-box {
     float: left;
     width: 280px;
     margin: 10px;
     padding: 10px;
     border-radius: 5px;
-    background-color: rgb(218, 230, 208);
+    background-color: rgb(226, 224, 223);
 }
-.task-header {
-}
+
 .card-ul {
     list-style: none;
     padding-left: 0px;
@@ -45,12 +70,9 @@ header > h1 {
 .card-input:focus {
     outline: none;
 }
-.update-btn {
-    float: left;
-    visibility: hidden;
-}
+
 .delete-btn {
-    float: left;
+    float: right;
     visibility: hidden;
 }
 

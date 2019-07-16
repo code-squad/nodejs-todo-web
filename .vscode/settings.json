@@ -1,3 +1,9 @@
 {
-    "liveServer.settings.port": 5501
+	"liveServer.settings.port": 5501
+	// "editor.formatOnSave": true,
+	// "prettier.singleQuote": true,
+	// "editor.tabSize": 2,
+	// "editor.wordWrap": "off",
+	// "prettier.printWidth": 120,
+	// "prettier.useTabs": true,
 }

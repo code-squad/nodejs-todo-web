@@ -1,35 +1,33 @@
-import { createHash } from 'crypto';
-
 class Login {
-    constructor() {
-
-    }
-
     addBtnEvent() { // 로그인, 회원가입 버튼에 이벤트 달기
-        const signInBtn = document.getElementById('signInBtn');
+        const signInBtn = document.getElementById('signIn-btn');
         signInBtn.addEventListener('click', event => this.signIn(event));
-        const signUpBtn = document.getElementById('signUpBtn');
+        const signUpBtn = document.getElementById('signUp-btn');
         signUpBtn.addEventListener('click', event => this.signUp(event));
     }
     
     signIn(event) { // id와 pw 서버로 전송
+        event.preventDefault();
         const inputId = document.getElementById('uid');
         const inputPw = document.getElementById('upw');
-        const idValue = inputId.value;
-        const pwValue = this.encodePassword(inputPw.value);
-        console.log(pwValue);
-        // 서버로 전송
-        const xhr = new XMLHttpRequest();
-        xhr.open("GET", "/signIn", true);
-        xhr.send();
-        console.log('사인인');
-    }
-    encodePassword(value) {
-        return createHash('sha512').update(value).digest('base64');
+        const [idValue, pwValue] = [inputId.value, inputPw.value];
+        const user = { id: idValue, pw: pwValue };
+        
+        fetch('/login', {
+            headers: {'Content-Type': 'application/json'}, 
+            method: 'POST',
+            body: JSON.stringify(user)
+        }).then(res => {
+            if (res.redirected) location.href = res.url;
+            else if (res.status === 204) {
+                alert('아이디와 비밀번호를 확인해주세요');
+            } 
+        }).catch(err => console.error(err));
     }
 
-    signUp(event) { // 회원가입 창으로 리다이렉션해야되나...
-        console.log('사인업');
+    signUp(event) { 
+        event.preventDefault();
+        location.href = '/register'; 
     }
 }
 
