@@ -4,7 +4,7 @@ const fs = require('fs');
 const Login = require('./login');
 const Session = require('./session');
 const ControlData = require('./control_data');
-const PORT = process.env.PORT
+// const PORT = process.env.PORT
 
 const login = new Login;
 const session = new Session;
@@ -156,4 +156,4 @@ const app = http.createServer( function(request,response){
     }
     
 })
-app.listen(PORT);
+app.listen(3000);

@@ -1,8 +1,3 @@
-# nodejs-todo-web
-Node.js TODO web front project
-<<<<<<< HEAD
-=======
-=======
 # :desktop_computer: Welcome to Todo App
 > HTML 과 CSS, JS와 Node.js의 HTTP 모듈을 사용하여 TodoApp을 구현
 
@@ -74,5 +69,3 @@ Error
 - 로그인 에러 : /error_login
 - 회원가입 에러 : /error_signUp
 
->>>>>>> feat : make README.md
->>>>>>> e96a036... feat : make README.md
