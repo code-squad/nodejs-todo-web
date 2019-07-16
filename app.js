@@ -12,6 +12,7 @@ const signOutHandler = require("./api/sign-out-handler");
 const getClassifiedCards = require("./api/get-classified-cards");
 const addNewCard = require("./api/add-new-card");
 const deleteCard = require("./api/delete-card");
+const editCard = require("./api/edit-card");
 const App = require("./src/Application");
 const app = App();
 
@@ -28,6 +29,7 @@ app.post("/sign-out", signOutHandler.signOut());
 app.post("/api/get-classified-cards", getClassifiedCards.getClassifiedCards());
 app.post("/api/add-new-card", addNewCard.addNewCard());
 app.post("/api/delete-card", deleteCard.deleteCard());
+app.post("/api/edit-card", editCard.editCard());
 app.use(errors.error404());
 app.use(errors.error());
 

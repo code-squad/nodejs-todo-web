@@ -121,16 +121,21 @@ const deleteCard = async function(event) {
   }
 };
 
-const editCard = function(event) {
+const editCard = async function(event) {
   const targetCard = event.target.parentNode;
-  const cardText = targetCard.querySelector(".card-text");
+  const cardText = targetCard.querySelector("div");
   const editTextBox = event.target;
+  const cardId = targetCard.querySelector("div").id;
   if (!editTextBox.value) {
     editTextBox.value = cardText.innerText;
     return hideEditInputBox(event);
   }
-  cardText.innerText = editTextBox.value;
-  hideEditInputBox(event);
+  const response = await fetchData("/api/edit-card", `cardId=${cardId}&newTitle=${editTextBox.value}`);
+  const editResult = await response.text();
+  if (editResult === "success") {
+    cardText.innerText = editTextBox.value;
+    hideEditInputBox(event);
+  }
 };
 
 const showEditInputBox = function(event) {
