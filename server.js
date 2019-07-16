@@ -33,49 +33,36 @@ const server = http.createServer((req, res) => {
 	const userId = session[cookies.userNumber];
 	controller.setUser(userId);
 
-	if (req.method === 'GET') { // 정적파일 처리
-		const ext = path.parse(req.url).ext; // 확장자 정보
-		const publicPath = path.join(__dirname, '/public'); // public 경로
-		if (req.url === '/') { 
-			res.statusCode = 200;
-			res.setHeader('Content-Type', 'text/html');
-			const filePath = path.join(__dirname, 'public/login.html');
-			fs.readFile(filePath, (err, data) => {
-				if (err) throw err;
-				res.end(data);
-			}); 
-		} else if (req.url === '/todos') { 
-			if (Object.keys(session).indexOf(cookies.userNumber) !== -1) { 
-				res.statusCode = 200;
-				res.setHeader('Content-Type', 'text/html');
-				const filePath = path.join(__dirname, 'public/todos.html');
-				fs.readFile(filePath, (err, data) => {
-					if (err) throw err;
-					res.end(data);
-				});
-			}
-		} else if (req.url === '/register') { 
-			res.statusCode = 200;
-			res.setHeader('Content-Type', 'text/html');
-			const filePath = path.join(__dirname, 'public/register.html');
-			fs.readFile(filePath, (err, data) => {
-				if (err) throw err;
-				res.end(data);
-			});
-		} else { // 기타 정적 파일 처리
-			if (Object.keys(fileType).includes(ext)) {
-				fs.readFile(`${publicPath}${req.url}`, (err, data) => {
-					if (err) {
-						res.statusCode = 404;
-						res.end('Not found');
-					} else {
-						res.statusCode = 200;
-						res.setHeader('Content-Type', fileType[ext]);
-						res.end(data);
-					}
-				});
-			}
-		}
+	const ext = path.parse(req.url).ext; // 확장자 정보
+	const publicPath = path.join(__dirname, '/public'); // public 경로
+    let filePath;
+    if (req.method === 'GET') { // 정적파일 처리
+        if (req.url === '/') 
+            filePath = path.join(__dirname, 'public/login.html');
+		else if (req.url === '/todos') 
+            filePath = path.join(__dirname, 'public/todos.html');
+		else if (req.url === '/register') 
+            filePath = path.join(__dirname, 'public/register.html');
+        
+        if (req.url === '/' || req.url === '/todos' || req.url === '/register') {
+            res.statusCode = 200;
+            res.setHeader('Content-Type', 'text/html');
+            fs.readFile(filePath, (err, data) => {
+                if (err) throw err;
+                res.end(data);
+            });
+        } else if ((Object.keys(fileType).includes(ext))) { // 기타 정적 파일 처리
+            fs.readFile(`${publicPath}${req.url}`, (err, data) => {
+                if (err) {
+                    res.statusCode = 404;
+                    res.end('Not found');
+                } else {
+                    res.statusCode = 200;
+                    res.setHeader('Content-Type', fileType[ext]);
+                    res.end(data);
+                }
+            });
+        }		
 	} 
 
 	if (req.url === '/card' && Object.keys(session).indexOf(cookies.userNumber) !== -1) {
@@ -159,8 +146,7 @@ const server = http.createServer((req, res) => {
 		}
 	} 
 
-	const ext = path.parse(req.url).ext; // 확장자 정보
-	if (!(validUrls.includes(req.url) || Object.keys(fileType).includes(ext))) {
+	if (!(validUrls.includes(req.url) || Object.keys(fileType).includes(ext))) { // 잘못된 요청
 		delete session[cookies.userNumber];
 		controller.logout(userId);
 		res.statusCode = 404;

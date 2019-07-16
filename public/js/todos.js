@@ -228,10 +228,6 @@ class TodoApp {
 			console.log(error);
 		}
 	}
-
-	handelError() {
-		response.
-	}
 }
 
 window.onload = function() {
