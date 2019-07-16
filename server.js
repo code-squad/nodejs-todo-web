@@ -159,8 +159,16 @@ const server = http.createServer((req, res) => {
 		}
 	} 
 
+	const ext = path.parse(req.url).ext; // 확장자 정보
 	if (!(validUrls.includes(req.url) || Object.keys(fileType).includes(ext))) {
+		delete session[cookies.userNumber];
+		controller.logout(userId);
 		res.statusCode = 404;
+		const filePath = path.join(__dirname, 'public/err.html');
+		fs.readFile(filePath, (err, data) => {
+			if (err) throw err;
+			res.end(data);
+		});
 	}
 });
 
