@@ -2,7 +2,7 @@
 
 ---
 
-[DEMO]: https://ymink16-todo-web.herokuapp.com/	"TODO APP"
+데모페이지 : [DEMO](https://ymink16-todo-web.herokuapp.com/)
 
  웹 버전 TODO APP을 구현하였습니다. html, css, javascript로 화면을 구성하였고, node.js의 http 모듈로 backend를 구성했습니다. 기타 프레임워크는 사용하지 않았고, 파일로 데이터베이스의 역할을 대체하였습니다. 
 
