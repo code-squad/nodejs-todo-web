@@ -1,5 +1,12 @@
-/* @charset "utf-8"; */
-@import url(reset.css);
+ @charset "utf-8"; 
+/*@import url(reset.css);*/
+* {padding : 0px; margin :0px;}
+img{border:none;}
+a:link, a:hover{text-decoration:none;
+			    color:#333;}
+a:active, a:visiter{text-decoration:underline;
+					color:#333;}
+ul{list-style:none;}
 body{
     background-color: rgb(0, 121, 191)
 }
@@ -115,7 +122,7 @@ header{
     color: #888;
 }
 
-#inputAdd {
+.inputAdd {
     background-color: #5aac44;
     box-shadow: 0 1px 0 0 #3f6f21;
     border: none;
@@ -127,6 +134,7 @@ header{
     border-radius: 3px;
     font-size: 14px;
     float: left;
+    width: 65px;
 }
 
 .deleteData{
@@ -174,4 +182,105 @@ header{
 
 .empty{
     height: 3px
+}
+
+.body {
+    display: flex;
+    justify-content: center;
+    margin-top: 12%;
+    cursor: default;
+    position:relative
+}
+
+.wrap {
+    width: 400px;
+    position: relative;
+}
+
+.form {
+    float: left;
+    width: 405px;
+}
+
+.form > p{
+    float: left
+}
+
+.idpw{
+    padding: 5px;
+    font-size: 17px;
+    border-radius: 5px;
+    border: 1px solid #018bc0a1;
+    margin-bottom: 6px;
+    width: 300px;
+}
+
+.loginSignup{
+    padding: 6px 12px;
+    font-size: 19px;
+    background: #0667A3;
+    border: none;
+    border-radius: 5px;
+    margin-left: 9px;
+    color: #ccc;
+    float:left;
+    cursor: pointer;
+}
+
+.signup {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+}
+
+.loginSignup:hover {
+    background : #064f7bf2;
+    color:#fff;
+    border:none;
+}
+
+.login {
+    padding: 6px 19px;
+}
+
+.signup_signup{
+    position: absolute;
+    top: -1px;
+    padding: 25px 12px;
+}
+
+.signup_login{
+    position: absolute;
+    top: 77px;
+    padding: 23px 22px;
+    right: -5px;
+}
+
+.logout{
+    cursor: pointer;
+    position: absolute;
+    top: 16px;
+    right: 35px;
+    color: #3fa2e2;
+    font-weight: bold;    
+    border: none;
+    background: inherit;
+    font-size: 16px;
+}
+
+.logout:hover{
+    color: #5ec0ff;
+}
+
+span#addNickName{
+    margin-right: 6px;
+    font-size: 19px;
+    color: #bad1ff96;
+}
+
+.error{
+    position: absolute;
+    left: 42%;
+    top: -33px;
+    color: #fff;
 }

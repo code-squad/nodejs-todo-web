@@ -2,13 +2,19 @@
 <html>
 <head>
 <title>todoList</title>
-<script type="text/javascript" src="./event.js"></script>
+<meta charset= "utf-8">
 <link rel="stylesheet" type="text/css" href="./css/main.css"/>
-<link href="http://mozilla.github.io/foundation-icons/assets/foundation-icons.css" type="text/css" rel="stylesheet">
+<link href="https://mozilla.github.io/foundation-icons/assets/foundation-icons.css" type="text/css" rel="stylesheet">
 </head>
-<body>
+<body id = "init">
     <header>
-        <div class="headerDiv"><span class ="headerSubject">Ruby's TODO LIST</span></div>
+        <div class="headerDiv">
+            <span class ="headerSubject" id ="addNickName"></span>
+            <span class ="headerSubject">TODO LIST</span>
+            <form action="/logout" method="POST">
+                <input type="submit" value="Logout"  class="logout">
+            </form>
+        </div>
     </header>
     <div class = "containerWrap">
     <ul>
@@ -19,12 +25,12 @@
             </ul>
             <div class = "addDiv">
                 <div id = "openAdd_todo">
-                    <span class = "add icon-plus" onclick='display("addData_todo", "openAdd_todo")' >Add another card</span>
+                    <span class = "add icon-plus" id = "addTodo" >Add another card</span>
                 </div>
                 <div id = "addData_todo" class = "addData">
                     <textarea class="addContents" id ="dataTodo" placeholder="Enter a title for this card..."></textarea>
-                    <input type ="text" value ="Add Card" id="inputAdd" onclick='display("openAdd_todo", "addData_todo"); callAppendChild("dataTarget_todo","dataTodo")'/>
-                    <span class="backButton icon-hamburger-menu-close" onclick='display("openAdd_todo", "addData_todo")'></span>
+                    <input type ="text" value ="Add Card" class="inputAdd" id="inputAddTodo"/>
+                    <span class="backButton icon-hamburger-menu-close" id = "backTodo"></span>
                 </div>
             </div>
         </li>
@@ -35,12 +41,12 @@
             </ul>
             <div class = "addDiv">
                 <div id = "openAdd_doing">
-                    <span class = "add icon-plus" onclick='display("addData_doing", "openAdd_doing")' >Add another card</span>
+                    <span class = "add icon-plus" id = "addDoing">Add another card</span>
                 </div>
                 <div id = "addData_doing" class = "addData">
                     <textarea class="addContents" id ="dataDoing" placeholder="Enter a title for this card..."></textarea>
-                    <input type ="text" value ="Add Card" id="inputAdd" onclick='display("openAdd_doing", "addData_doing"); callAppendChild("dataTarget_doing","dataDoing")'/>
-                    <span class="backButton icon-hamburger-menu-close" onclick='display("openAdd_doing", "addData_doing")'></span>
+                    <input type ="text" value ="Add Card" class="inputAdd" id="inputAddDoing"/>
+                    <span class="backButton icon-hamburger-menu-close" id = "backDoing"></span>
                 </div>
             </div>
         </li>
@@ -51,16 +57,19 @@
             </ul>
             <div class = "addDiv">
                 <div id = "openAdd_done">
-                    <span class = "add icon-plus" onclick='display("addData_done", "openAdd_done")' >Add another card</span>
+                    <span class = "add icon-plus" id = "addDone">Add another card</span>
                 </div>
                 <div id = "addData_done" class = "addData">
                     <textarea class="addContents"  id ="dataDone" placeholder="Enter a title for this card..."></textarea>
-                    <input type ="text" value ="Add Card" id="inputAdd" onclick='display("openAdd_done", "addData_done"); callAppendChild("dataTarget_done","dataDone")'/>
-                    <span class="backButton icon-hamburger-menu-close" onclick='display("openAdd_done", "addData_done")'></span>
+                    <input type ="text" value ="Add Card" class="inputAdd" id="inputAddDone"/>
+                    <span class="backButton icon-hamburger-menu-close" id = "backDone"></span>
                 </div>
             </div>
         </li>
     </ul>
     </div>
+
+<script type="text/javascript" src="./event.js"></script>
+<script type="text/javascript" src="./todo.js"></script>
 </body>
 </html>

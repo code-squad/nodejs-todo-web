@@ -1,3 +1,8 @@
+# tets 
+sudo.js
+test/
+node_modules/
+
 # Logs
 logs
 *.log
