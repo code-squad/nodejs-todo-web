@@ -10,7 +10,8 @@ const signInHandler = require("./api/sign-in-handler");
 const signUpHandler = require("./api/sign-up-handler");
 const signOutHandler = require("./api/sign-out-handler");
 const getClassifiedCards = require("./api/get-classified-cards");
-const addNewCards = require("./api/add-new-card");
+const addNewCard = require("./api/add-new-card");
+const deleteCard = require("./api/delete-card");
 const App = require("./src/Application");
 const app = App();
 
@@ -25,7 +26,8 @@ app.post("/sign-in", signInHandler.signIn());
 app.get("/todo", index.index());
 app.post("/sign-out", signOutHandler.signOut());
 app.post("/api/get-classified-cards", getClassifiedCards.getClassifiedCards());
-app.post("/api/add-new-card", addNewCards.addNewCard());
+app.post("/api/add-new-card", addNewCard.addNewCard());
+app.post("/api/delete-card", deleteCard.deleteCard());
 app.use(errors.error404());
 app.use(errors.error());
 

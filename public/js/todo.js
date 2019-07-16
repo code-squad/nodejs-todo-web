@@ -37,7 +37,7 @@ const listExistingCards = async function() {
 const listCards = function(cards, targetList) {
   cards.forEach(card => {
     const { id, title, status } = card;
-    const existingCard = createNewCard(title, id, status);
+    const existingCard = createNewCard(id, title, status);
     targetList.appendChild(existingCard);
   });
 };
@@ -54,7 +54,7 @@ const fetchData = function(url, data) {
   return fetch(url, option);
 };
 
-const createNewCard = function(input) {
+const createNewCard = function(id, title, status) {
   const newCard = document.createElement("div");
   const cardText = document.createElement("div");
   const deleteButton = document.createElement("button");
@@ -64,10 +64,12 @@ const createNewCard = function(input) {
   newCard.setAttribute("class", "todo-card");
   newCard.setAttribute("draggable", true);
   cardText.setAttribute("class", "card-text");
-  cardText.innerText = input;
+  cardText.id = id;
+  cardText.innerText = title;
+  cardText.className = status;
   deleteButton.innerText = "Delete";
   deleteButton.setAttribute("class", "delete-card-btn");
-  editText.setAttribute("value", input);
+  editText.setAttribute("value", title);
   editText.setAttribute("id", "edit-text");
   editText.setAttribute("type", "text");
   editButton.innerText = "Edit";
@@ -101,16 +103,22 @@ const addNewCard = async function() {
   );
   const todoCards = await response.json();
   const { id, title, status } = todoCards;
-  const newCard = createNewCard(title, id, status);
+  const newCard = createNewCard(id, title, status);
   todoBoard.appendChild(newCard);
   inputText.value = "";
   hideInputTextBox();
 };
 
-const deleteCard = function(event) {
+const deleteCard = async function(event) {
   const targetCard = event.target.parentNode;
   const targetList = targetCard.parentNode;
-  targetList.removeChild(targetCard);
+  const cardId = targetCard.querySelector("div").id;
+  const response = await fetchData("/api/delete-card", `cardId=${cardId}`);
+  const deleteResult = await response.text();
+
+  if (deleteResult === "success") {
+    targetList.removeChild(targetCard);
+  }
 };
 
 const editCard = function(event) {

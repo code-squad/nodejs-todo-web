@@ -1,14 +1,13 @@
 const db = require("./db-handler");
 
-const getClassifiedCards = () => async (req, res, next) => {
-  const { status } = req.body;
+const getClassifiedCards = () => async (req, res, next) => {  
   const sid = req.session.sid;
   const id = db
     .get("session")
     .find({ sid: sid })
     .value().id;
   const userIdx = getIdxOfUser(id);
-  const classifiedCards = await classifyCards(userIdx, status);
+  const classifiedCards = await classifyCards(userIdx);
 
   res.writeHead(200, "Content-Type", "application/json");
   res.end(JSON.stringify(classifiedCards));
