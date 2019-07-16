@@ -3,15 +3,27 @@ class Register {
         this.newUser = {};
     }
 
-    addBtnEvent() { // 버튼에 이벤트 달기
+    addEvent() { // 버튼에 이벤트 달기
         const okButton = document.getElementById('ok');
-        okButton.addEventListener('click', event => this.signUp(event));
+        okButton.addEventListener('click', event => {
+            event.preventDefault();
+            this.signUp();
+        });
         const cencelButton = document.getElementById('cancel');
-        cencelButton.addEventListener('click', event => this.cancel(event));
+        cencelButton.addEventListener('click', event => {
+            event.preventDefault();
+            this.cancel(event);
+        });
+
+        const inputID = document.getElementById('uid');
+        inputID.addEventListener('keydown', event => this.enterkeyEvent(event));
+        const inputPW1 = document.getElementById('upw1');
+        inputPW1.addEventListener('keydown', event => this.enterkeyEvent(event));
+        const inputPW2 = document.getElementById('upw2');
+        inputPW2.addEventListener('keydown', event => this.enterkeyEvent(event));
     }
 
-    signUp(event) {
-        event.preventDefault();
+    signUp() {
         const idElement = document.getElementById('uid');
         const pw1Element = document.getElementById('upw1');
         const pw2Element = document.getElementById('upw2');
@@ -32,13 +44,12 @@ class Register {
         }
     }
 
-    cancel(event) {
-        event.preventDefault();
-        location.href = '/'; 
-    }
+    cancel() { location.href = '/'; }
+
+    enterkeyEvent(event) { if (event.keyCode === 13) this.signUp(); }
 }
 
 window.onload = function() {
     const register = new Register();
-    register.addBtnEvent();
+    register.addEvent();
 }
