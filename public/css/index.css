@@ -17,10 +17,6 @@ body {
   height: 200px;
 }
 
-.board {
-  padding: 10px;
-}
-
 .list-title {
   text-align: center;
   color: rgb(9, 0, 41);
@@ -28,9 +24,7 @@ body {
   font-weight: 600;
 }
 
-.todo-list,
-.doing-list,
-.done-list {
+.list {
   user-select: none;
   width: 25%;
   background-color: rgb(161, 193, 253);
