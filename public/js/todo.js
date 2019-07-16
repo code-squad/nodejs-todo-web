@@ -21,15 +21,14 @@ signOutButton.addEventListener("click", function(event) {
 });
 
 const listExistingCards = async function() {
-  const todoList = document.querySelector(".todo-list");
-  const todoBoard = todoList.querySelector(".board");
-  const doingList = document.querySelector(".doing-list");
-  const doneList = document.querySelector(".done-list");
+  const todoList = document.querySelector("#todo");
+  const doingList = document.querySelector("#doing");
+  const doneList = document.querySelector("#done");
   const response = await fetchData("/api/get-classified-cards");
   const cards = await response.json();
   const { todoCards, doingCards, doneCards } = cards;
 
-  listCards(todoCards, todoBoard);
+  listCards(todoCards, todoList);
   listCards(doingCards, doingList);
   listCards(doneCards, doneList);
 };
@@ -80,8 +79,6 @@ const createNewCard = function(id, title, status) {
   newCard.appendChild(editText);
   newCard.appendChild(editButton);
 
-  addDragEvent(newCard);
-
   deleteButton.addEventListener("click", function(event) {
     deleteCard(event);
   });
@@ -93,8 +90,7 @@ const createNewCard = function(id, title, status) {
 };
 
 const addNewCard = async function() {
-  const todoList = document.querySelector(".todo-list");
-  const todoBoard = todoList.querySelector(".board");
+  const todoList = document.querySelector("#todo");
   const inputText = document.querySelector("#todo-input-text");
   if (!inputText.value) return hideInputTextBox();
   const response = await fetchData(
@@ -104,7 +100,7 @@ const addNewCard = async function() {
   const todoCards = await response.json();
   const { id, title, status } = todoCards;
   const newCard = createNewCard(id, title, status);
-  todoBoard.appendChild(newCard);
+  todoList.appendChild(newCard);
   inputText.value = "";
   hideInputTextBox();
 };
@@ -130,7 +126,10 @@ const editCard = async function(event) {
     editTextBox.value = cardText.innerText;
     return hideEditInputBox(event);
   }
-  const response = await fetchData("/api/edit-card", `cardId=${cardId}&newTitle=${editTextBox.value}`);
+  const response = await fetchData(
+    "/api/edit-card",
+    `cardId=${cardId}&newTitle=${editTextBox.value}`
+  );
   const editResult = await response.text();
   if (editResult === "success") {
     cardText.innerText = editTextBox.value;
@@ -149,12 +148,10 @@ const hideEditInputBox = function(event) {
 };
 
 const createEvent = function() {
-  const todoList = document.querySelector(".todo-list");
-  const doingList = document.querySelector(".doing-list");
-  const doneList = document.querySelector(".done-list");
-  addDragEvent(todoList);
-  addDragEvent(doingList);
-  addDragEvent(doneList);
+  const lists = document.querySelectorAll(".list");
+  lists.forEach(list => {
+    addDragEvent(list);
+  });
 
   const addButton = document.querySelector(".add-card-btn");
   addButton.addEventListener("click", function(event) {
@@ -195,9 +192,6 @@ const addDragEvent = function(card) {
   });
 
   card.addEventListener("dragenter", function(event) {
-    if (event.target.className === "board") {
-      event.target.style["border-bottom"] = "solid 70px rgb(161, 193, 253)";
-    }
     if (event.target.className === "todo-card") {
       event.target.style["border-top"] = "solid 70px rgb(161, 193, 253)";
     }
@@ -208,14 +202,52 @@ const addDragEvent = function(card) {
     event.target.style["border-top"] = "";
   });
 
-  card.addEventListener("drop", function(event) {
+  card.addEventListener("drop", async function(event) {
     event.target.style["border-top"] = "";
     event.target.style["border-bottom"] = "";
-    if (event.target.className === "board") {
-      event.target.appendChild(draggingTarget);
+    if (event.target.className === "list") {
+      const targetBoard = event.target.querySelector(".board");
+      const dragTargetCardId = draggingTarget.querySelector("div").id;
+      const newStatus = targetBoard.id;
+      const response = await fetchData(
+        "/api/update-status",
+        `dragTargetCardId=${dragTargetCardId}&newStatus=${newStatus}`
+      );
+      const updatestatusResult = await response.text();
+      if (updatestatusResult === "success") {
+        draggingTarget.querySelector("div").className = newStatus;
+        targetBoard.appendChild(draggingTarget);
+      }
     }
+
+    if (event.target.className === "add-card-btn") {
+      const targetBoard = event.target.parentNode.querySelector(".board");
+      const dragTargetCardId = draggingTarget.querySelector("div").id;
+      const newStatus = targetBoard.id;
+      const response = await fetchData(
+        "/api/update-status",
+        `dragTargetCardId=${dragTargetCardId}&newStatus=${newStatus}`
+      );
+      const updatestatusResult = await response.text();
+      if (updatestatusResult === "success") {
+        draggingTarget.querySelector("div").className = newStatus;
+        targetBoard.appendChild(draggingTarget);
+      }
+    }
+
     if (event.target.className === "todo-card") {
-      event.target.parentNode.insertBefore(draggingTarget, event.target);
+      const dragTargetCardId = draggingTarget.querySelector("div").id;
+      const newStatus = event.target.querySelector("div").className;
+      const dropTargetCardId = event.target.querySelector("div").id;
+      const response = await fetchData(
+        "/api/update-status",
+        `dragTargetCardId=${dragTargetCardId}&newStatus=${newStatus}&dropTargetCardId=${dropTargetCardId}`
+      );
+      const updatestatusResult = await response.text();
+      if (updatestatusResult === "success") {
+        draggingTarget.querySelector("div").className = newStatus;
+        event.target.parentNode.insertBefore(draggingTarget, event.target);
+      }
     }
   });
 };

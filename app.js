@@ -13,6 +13,7 @@ const getClassifiedCards = require("./api/get-classified-cards");
 const addNewCard = require("./api/add-new-card");
 const deleteCard = require("./api/delete-card");
 const editCard = require("./api/edit-card");
+const updateStatus = require("./api/update-status");
 const App = require("./src/Application");
 const app = App();
 
@@ -30,6 +31,7 @@ app.post("/api/get-classified-cards", getClassifiedCards.getClassifiedCards());
 app.post("/api/add-new-card", addNewCard.addNewCard());
 app.post("/api/delete-card", deleteCard.deleteCard());
 app.post("/api/edit-card", editCard.editCard());
+app.post("/api/update-status", updateStatus.updateStatus());
 app.use(errors.error404());
 app.use(errors.error());
 
