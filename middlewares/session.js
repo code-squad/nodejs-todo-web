@@ -4,7 +4,6 @@ const session = () => (req, res, next) => {
   const cookie = req.headers.cookie;
 
   if (cookie === undefined) {
-    req.session = "false";
     next();
     return;
   }

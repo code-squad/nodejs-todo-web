@@ -14,7 +14,7 @@ const addNewCard = require("./api/add-new-card");
 const deleteCard = require("./api/delete-card");
 const editCard = require("./api/edit-card");
 const updateStatus = require("./api/update-status");
-const App = require("./src/Application");
+const App = require("./src/application");
 const app = App();
 
 app.use(logger());
