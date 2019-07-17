@@ -2,9 +2,12 @@ const db = require("./db-handler");
 
 const signUp = () => (req, res, next) => {
   const { id, password, password2 } = req.body;
+  const isBlankId = isBlankInput(id);
+  const isBlankPassword = isBlankInput(password);
   const isDuplicatedId = checkDuplicatedID(id);
   const isValidPassword = checkValidPassword(password, password2);
-  if (isDuplicatedId || !isValidPassword) {
+
+  if (isDuplicatedId || !isValidPassword || isBlankId || isBlankPassword) {
     res.writeHead(302, { Location: "/sign-up" });
     res.end();
   } else {
@@ -26,6 +29,10 @@ const checkDuplicatedID = id => {
 
 const checkValidPassword = (password, password2) => {
   return password === password2;
+};
+
+const isBlankInput = input => {
+  return input === "";
 };
 
 module.exports = {
