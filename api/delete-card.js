@@ -11,7 +11,7 @@ const deleteCard = () => async (req, res, next) => {
   const deleteResult = await deleteCardInDb(userIdx, cardId);
   if (deleteResult === "success") {
     res.writeHead(200, "Content-Type", "text/plain");
-    res.end('success');
+    res.end("success");
   }
 };
 

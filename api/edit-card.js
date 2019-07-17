@@ -8,14 +8,14 @@ const editCard = () => async (req, res, next) => {
     .find({ sid: sid })
     .value().id;
   const userIdx = getIdxOfUser(id);
-  const editResult = await editCardInDb(userIdx, cardId,newTitle);
+  const editResult = await editCardInDb(userIdx, cardId, newTitle);
   if (editResult === "success") {
     res.writeHead(200, "Content-Type", "text/plain");
     res.end("success");
   }
 };
 
-const editCardInDb = (userIdx, cardId,newTitle) => {
+const editCardInDb = (userIdx, cardId, newTitle) => {
   return new Promise(resolve => {
     db.get(`userData[${userIdx}].cards`)
       .find({ id: parseInt(cardId) })

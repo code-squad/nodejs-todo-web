@@ -1,6 +1,6 @@
 const db = require("./db-handler");
 
-const getClassifiedCards = () => async (req, res, next) => {  
+const getClassifiedCards = () => async (req, res, next) => {
   const sid = req.session.sid;
   const id = db
     .get("session")

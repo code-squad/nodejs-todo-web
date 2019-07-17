@@ -12,7 +12,7 @@ const serveStatic = () => (req, res, next) => {
     ".eot": "appliaction/vnd.ms-fontobject",
     ".ttf": "aplication/font-sfnt"
   };
-  
+
   const ext = path.parse(req.url).ext;
   const publicPath = path.join(__dirname, "../public");
 

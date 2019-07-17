@@ -7,26 +7,27 @@
   <link rel="stylesheet" href="css/sign-in.css" />
   <body>
     <div id="sign-in-wrapper">
-        <h3 id="main-title">로그인</h3>
-        <form action="/sign-in" method="POST">
-          <table id="sign-in-table">
-            <tr>
-              <td><input type="text" name="id" placeholder="아이디"/></td>
-            </tr>
-            <tr>
-              <td><input type="password" name="password" placeholder="비밀번호"/></td>
-            </tr>
-            <tr>
-              <td><input type="submit" value="로그인" id="sign-in-btn" /></td>
-            </tr>
-          </table>
-        </form>
-        <div>
-          <button onclick="location.href='/sign-up'" id="sign-up-btn">
-            회원가입
-          </button>
-        </div>
+      <h3 id="main-title">로그인</h3>
+      <form action="/sign-in" method="POST">
+        <table id="sign-in-table">
+          <tr>
+            <td><input type="text" name="id" placeholder="아이디" /></td>
+          </tr>
+          <tr>
+            <td>
+              <input type="password" name="password" placeholder="비밀번호" />
+            </td>
+          </tr>
+          <tr>
+            <td><input type="submit" value="로그인" id="sign-in-btn" /></td>
+          </tr>
+        </table>
+      </form>
+      <div>
+        <button onclick="location.href='/sign-up'" id="sign-up-btn">
+          회원가입
+        </button>
+      </div>
     </div>
-    
   </body>
 </html>
