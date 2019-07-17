@@ -3,6 +3,8 @@ const fs = require('fs');
 const saltRounds = 4;
 const rawData = fs.readFileSync(`./data/user.json`);
 const users = JSON.parse(rawData);
+const Session = require('./session');
+const sessions = new Session();
 
 class User {
   constructor() {
@@ -49,9 +51,14 @@ class User {
       return;
     } else {
       console.log('login success');
-      // 세션 갖다 붙여주세요 제에발!
+      const createdSession = await sessions.create(username);
       res.statusCode = 302;
-      res.setHeader('Location', '/game?success=' + encodeURIComponent('상대를 찾는 중입니다!'));
+      res.setHeader('Location', 
+        '/game?success=' + encodeURIComponent('상대를 찾는 중입니다!'));
+      res.setHeader('Set-Cookie', [
+        `name=${createdSession.username}`, 
+        `sid=${createdSession.id}`
+      ]);
       res.end();
       return;
     }

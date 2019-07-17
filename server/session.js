@@ -8,9 +8,10 @@ class Session {
   get() {
     
   }
-  post(username) {
-    this.list.push({ username : username, id: uuidv4() });
-    return;
+  create(username) {
+    const newSession = { username : username, id: uuidv4() }
+    this.list.push(newSession);
+    return newSession;
   }
   update() {
 
