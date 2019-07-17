@@ -1,5 +1,4 @@
 const path = require("path");
-const fs = require("fs");
 const fileHandler = require("../api/file-handler");
 
 const getSignInPage = () => async (req, res, next) => {

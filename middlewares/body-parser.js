@@ -3,7 +3,6 @@ const bodyParser = () => (req, res, next) => {
 
   req.on("data", chunk => {
     body.push(chunk);
-    console.log("data", chunk);
   });
 
   req.on("end", () => {
