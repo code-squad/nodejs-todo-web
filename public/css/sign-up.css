@@ -1,0 +1,23 @@
+#main-title {
+  text-align: center;
+  color: rgb(13, 4, 63);
+  font-size: 50px;
+  user-select: none;
+}
+
+#sign-up-table {
+  margin: 0 auto;
+}
+
+
+#sign-up-btn {
+  position: absolute;
+  right: 690px;
+  top: 235px;
+}
+
+#cancel-btn {
+  position: absolute;
+  right: 650px;
+  top: 235px;
+}
