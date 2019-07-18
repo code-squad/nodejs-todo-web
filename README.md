@@ -19,7 +19,7 @@ Node.js http 모듈을 사용해 TODO web application 구현하기
 
 ```zsh
 npm install
-node bin.js
+npm start
 ```
 
 아래 주소로 접속
