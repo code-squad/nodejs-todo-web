@@ -5,18 +5,22 @@
   user-select: none;
 }
 
+#sign-in-wrapper {
+  position: absolute;
+  right: 45%;
+}
+
 #sign-in-table {
   margin: 0 auto;
 }
 
 #sign-up-btn {
-  position: absolute;
-  right: 650px;
-  top: 210px;
+  position: relative;
+  left: 60%;
+  bottom: 22px;
 }
 
 #sign-in-btn {
-  position: absolute;
-  right: 710px;
-  top: 210px;
+  position: relative;
+  left: 25%;
 }
