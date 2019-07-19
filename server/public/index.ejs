@@ -12,17 +12,22 @@
       <p><%= fail %></p>
     <% } %>
     <h1>Indian Poker</h1>
-    <h3>로그인</h3>
-    <form action="/logIn" method="post">
-      <label for="input">username</label>
-      <input type="text" name="username">
-      <label for="password">password</label>
-      <input type="password" name="password">
-      <button type="submit" value="sumbit">login</button>
-    </form>
+    <% if (!isLoggedIn) { %>
+      <h3>로그인</h3>
+      <form action="/logIn" method="post">
+        <label for="input">username</label>
+        <input type="text" name="username">
+        <label for="password">password</label>
+        <input type="password" name="password">
+        <button type="submit" value="sumbit">login</button>
+      </form>
 
-    <a href="/signIn">회원가입</a>
-    
+      <a href="/signIn">회원가입</a>
+    <% } else { %>
+      <h3>환영합니다, <%= name %>님!</h3>
+      <a href="/logOut">로그아웃</a>
+      <a href="/game">게임 시작</a>
+    <% } %>
     <footer>
 
     </footer>

@@ -4,13 +4,14 @@ const saltRounds = 4;
 const rawData = fs.readFileSync(`./data/user.json`);
 const users = JSON.parse(rawData);
 const Session = require('./session');
-const sessions = new Session();
+const session = new Session();
 
 class User {
   constructor() {
     this.exec = {
       "POST /user" : this.post, 
       "POST /logIn" : this.logIn,
+      "GET /logOut" : this.logOut,
     };
   }
 
@@ -51,10 +52,10 @@ class User {
       return;
     } else {
       console.log('login success');
-      const createdSession = await sessions.create(username);
+      const createdSession = await session.create(username);
       res.statusCode = 302;
       res.setHeader('Location', 
-        '/game?success=' + encodeURIComponent('상대를 찾는 중입니다!'));
+        '/');
       res.setHeader('Set-Cookie', [
         `name=${createdSession.username}`, 
         `sid=${createdSession.id}`
@@ -62,6 +63,15 @@ class User {
       res.end();
       return;
     }
+  }
+
+  async logOut(req, res, next) {
+    const { sid, name } = req.cookies;
+    await session.delete(sid, name);  
+    res.statusCode = 302;
+    req.isLoggedIn = false;
+    res.setHeader('Location', `/?success=${encodeURIComponent('로그아웃했습니다!')}`);
+    res.end();
   }
 }
 
