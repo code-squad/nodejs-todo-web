@@ -1,0 +1,26 @@
+#main-title {
+  text-align: center;
+  color: rgb(13, 4, 63);
+  font-size: 50px;
+  user-select: none;
+}
+
+#sign-in-wrapper {
+  position: absolute;
+  right: 45%;
+}
+
+#sign-in-table {
+  margin: 0 auto;
+}
+
+#sign-up-btn {
+  position: relative;
+  left: 60%;
+  bottom: 22px;
+}
+
+#sign-in-btn {
+  position: relative;
+  left: 25%;
+}

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <title>TODO</title>
+  </head>
+  <link rel="stylesheet" href="css/index.css" />
+
+  <body>
+    <header>
+      <h1 id="main-title">
+        TODO
+      </h1>
+      <button id="sign-out-btn">로그아웃</button>
+    </header>
+
+    <div id="main-board">
+      <div class="list">
+        <header class="list-title">
+          TODO
+        </header>
+        <div class="board" id="todo"></div>
+        <div class="add-card-btn">
+          <div id="add-input-btn">Add Another Card</div>
+        </div>
+        <div class="input-text-box">
+          <input type="text" id="todo-input-text" />
+        </div>
+      </div>
+
+      <div class="list">
+        <header class="list-title">
+          DOING
+        </header>
+        <div class="board" id="doing"></div>
+      </div>
+
+      <div class="list">
+        <header class="list-title">
+          DONE
+        </header>
+        <div class="board" id="done"></div>
+      </div>
+    </div>
+  </body>
+
+  <script type="text/javascript" src="js/todo.js"></script>
+</html>

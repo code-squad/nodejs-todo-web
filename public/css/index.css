@@ -1,0 +1,144 @@
+body {
+  margin: 0px;
+}
+
+#main-title {
+  text-align: center;
+  color: rgb(13, 4, 63);
+  font-size: 90px;
+  user-select: none;
+}
+
+#main-board {
+  background-color: rgb(1, 1, 19);
+  margin: 0 auto;
+  text-align: center;
+  padding: 50px;
+  height: 200px;
+}
+
+.list-title {
+  text-align: center;
+  color: rgb(9, 0, 41);
+  font-size: 30px;
+  font-weight: 600;
+}
+
+.list {
+  user-select: none;
+  width: 25%;
+  background-color: rgb(161, 193, 253);
+  border: 5px solid #000000;
+  float: left;
+  margin-left: 30px;
+  padding: 30px;
+  border-radius: 10px;
+}
+.delete-card-btn {
+  display: none;
+}
+.edit-card-btn {
+  display: none;
+}
+.todo-card:hover {
+  border: 2px solid rgb(48, 91, 230);
+}
+
+.todo-card:hover > .delete-card-btn {
+  display: block;
+  margin-top: 2px;
+  padding: 3px;
+  background-color: rgb(53, 65, 236);
+  border-radius: 5px;
+  color: white;
+  cursor: pointer;
+  position: absolute;
+  right: 10px;
+  top: 10px;
+}
+
+.todo-card:hover > .edit-card-btn {
+  display: block;
+  margin-top: 2px;
+  margin-right: 2px;
+  padding: 3px;
+  background-color: rgb(68, 135, 236);
+  border-radius: 5px;
+  color: white;
+  cursor: pointer;
+  position: absolute;
+  right: 52px;
+  top: 10px;
+}
+
+.todo-card {
+  background-color: rgb(255, 255, 255);
+  padding: 10px;
+  margin-bottom: 15px;
+  word-wrap: break-word;
+  border-radius: 10px;
+  font-weight: 500;
+  font-size: 20px;
+  color: rgb(12, 12, 12);
+  cursor: pointer;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  position: relative;
+}
+
+.add-card-btn {
+  margin-top: 35px;
+  padding: 10px;
+  background-color: rgb(16, 4, 71);
+  font-weight: 600;
+  border-radius: 10px;
+  color: white;
+  cursor: pointer;
+  user-select: none;
+}
+
+#todo-input-text {
+  width: 90%;
+  margin: 0;
+  font-size: 20px;
+  height: 20px;
+  padding: 10px;
+  border: 1px solid #dddddd;
+  background: #ffffff;
+  border-radius: 10px;
+  color: #888888;
+  margin-top: 5px;
+  margin-left: 5px;
+  display: none;
+}
+#edit-text {
+  width: 90%;
+  margin: 0;
+  font-size: 20px;
+  height: 10px;
+  padding: 10px;
+  border: 1px solid #dddddd;
+  background: #ffffff;
+  border-radius: 10px;
+  color: #888888;
+  margin-top: 5px;
+  display: none;
+}
+
+#sign-out-btn {
+  padding: 10px;
+  margin-left: 1350px;
+  margin-bottom: 20px;
+  background-color: rgb(16, 4, 71);
+  font-weight: 600;
+  border-radius: 10px;
+  color: white;
+  font-size: 15px;
+}
+#userId {
+  margin-left: 1270px;
+  margin-bottom: 10px;
+  font-weight: 600;
+  color: rgb(16, 4, 71);
+  font-size: 15px;
+}
