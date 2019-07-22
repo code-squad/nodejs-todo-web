@@ -1,4 +1,4 @@
-const User = require('../user');
+const User = require('../src/user');
 
 const user = new User();
 

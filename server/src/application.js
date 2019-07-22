@@ -1,5 +1,5 @@
 const http = require('http');
-const Middleware = require('./middleware');
+const Middleware = require('../middlewares/middleware');
 
 class Application {
   constructor() {

@@ -1,4 +1,4 @@
-const app = require('./app');
+const app = require('./src/app');
 const PORT = 3000;
 const HOSTNAME = '127.0.0.1';
 

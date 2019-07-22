@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Indian Poker</title>
+    <meta charset="utf-8">
+  </head>
+  <body>
+      <h3>게임화면이다아아아앙</h3>
+    <footer>
+
+    </footer>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      const socket = io();
+      socket.on('inQueue', function (data) {
+        console.log(data);
+        alert(data.action);
+        const tokens = document.cookie.split(';');
+        const cookies = tokens.reduce((acc, cur) => {
+          cur =  cur.trim();
+          const key = cur.split('=')[0];
+          const value = cur.split('=')[1];
+          acc[key] = value;
+          return acc;
+        }, {});
+        socket.emit('init user', { data: cookies['name'] });
+      });
+      socket.on('inGame', function (data) {
+        console.log(data);
+        alert(data.action);
+      });
+    </script>
+  </body>
+</html>

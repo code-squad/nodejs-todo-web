@@ -1,4 +1,13 @@
 const cookieParser = (req, res, next) => {
+  if (!req.headers.cookie) {
+    req.cookies = {
+      'name' : 'default',
+      'sid' : 'default',
+    } 
+    
+    next();
+    return;
+  }
   const tokens = req.headers.cookie.split(';');
   const cookies = tokens.reduce((acc, cur) => {
     cur =  cur.trim();
@@ -9,6 +18,7 @@ const cookieParser = (req, res, next) => {
   }, {});
   req.cookies = cookies;
   next();
+  return;
 }
 
 
