@@ -15,8 +15,7 @@ module.exports = io => {
       const matched = gameManager.addInQueue(socket);
       if (matched) {
         const game = await gameManager.startGame();
-        games.push(game);
-        
+        games.push(game);  
         io.to(game.id).emit('matched', { 
           message : '매칭 되었습니다!', 
           players : [

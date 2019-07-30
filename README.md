@@ -58,3 +58,14 @@ Game 기능 -> Socket.io를 사용
 - POST /user를 통해 회원가입 완료
 
 [미들웨어 구현 블로그 출처](http://jeonghwan-kim.github.io/series/2018/12/08/node-web-8_middleware.html)
+
+
+
+### Session 기능 구현
+
+- 로그인
+- 로그아웃
+
+### Socket disconnection 대응
+
+- 
