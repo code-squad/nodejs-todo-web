@@ -39,8 +39,8 @@ module.exports = io => {
       game.init();
       const { p1res, p2res, isOver } = await game.startRound();
       if (isOver) {
-        // 게임 종료
-        console.log('게임종료기능');
+        game.players[PLAYER_1].emit('game over', p1res);
+        game.players[PLAYER_2].emit('game over', p2res);
         return;
       }
       game.players[PLAYER_1].emit('round start', p1res);
@@ -72,7 +72,7 @@ module.exports = io => {
       const message = await game.call();
       await roundOver(game, message);
       return;
-    })
+    });
     const roundOver = async (game, message) => {
       const res = {
         id: [ 
@@ -94,8 +94,8 @@ module.exports = io => {
       await sleep(3000);
       const { p1res, p2res, isOver } = await game.startRound();
       if (isOver) {
-        // 게임 종료
-        console.log('게임종료기능');
+        game.players[PLAYER_1].emit('game over', p1res);
+        game.players[PLAYER_2].emit('game over', p2res);
         return;
       }
       game.players[PLAYER_1].emit('round start', p1res);

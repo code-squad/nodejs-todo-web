@@ -158,9 +158,7 @@ class Game {
     } else {
       winner = DRAW;
     }
-    const res = {
-      method: 'gameOver',
-    }
+
     if (winner ===  PLAYER_1) {
       p1message = '게임의 승자는 당신입니다!'
       p2message = '게임의 패자는 당신입니다!';
@@ -171,12 +169,8 @@ class Game {
       p1message = '게임을 비겼습니다!';
       p2message = p1message;
     }
-    const p1Res = Object.assign({
-      message: p1message
-    }, res);
-    const p2Res = Object.assign({
-      message: p2message
-    }, res);
+    const p1Res = { message: p1message };
+    const p2Res = { message: p2message };
 
     return { p1Res, p2Res };
   }

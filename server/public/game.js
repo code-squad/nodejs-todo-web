@@ -55,12 +55,6 @@ $(function() {
     socket.emit('game start', { gameId: data.gameId });
   });
    
-  //   roundNo: this.roundNumb,
-  //   gameId : this.id,
-  //   school : this.school,
-  //   showCards: this.pickCards[PLAYER_2],
-  //   myCoin : this.coins[PLAYER_1],
-  //   oppositeCoin : TOTAL_COIN_AMOUNT - this.coins[PLAYER_2] - this.school,
   socket.on('round start', async data => {
     const { roundNo, gameId, school, showCards, myCoin, oppositeCoin } = data;
     state.innerHTML = `${roundNo} 라운드 시작!`;
@@ -73,10 +67,6 @@ $(function() {
     opposite.children["opposite-coin"].innerHTML = `상대 코인 : ${oppositeCoin}`;
   });
 
-  //     coinToCall: this.coinToCall,
-  //     school: this.school,
-  //     myCoin : this.coins[this.turn],
-  //     gameId : this.id,
   socket.on('your turn', async data => {
     const raiseCoin = () => {
       const throwCoin = Number(event.target.innerHTML) + coinToCall;
@@ -142,5 +132,11 @@ $(function() {
     }
     schoolView.innerHTML = `판돈 ${school}`;
   }); 
+  
+  socket.on('game over', async data => {
+    const { message } = data;
+    state.innerHTML = message;
+    gamePlate.hidden = true;
+  });
 });
 
