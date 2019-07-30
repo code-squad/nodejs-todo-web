@@ -3,32 +3,49 @@
   <head>
     <title>Indian Poker</title>
     <meta charset="utf-8">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   </head>
-  <body>
-      <h3>게임화면이다아아아앙</h3>
+  <body class="container">
+      <p id="user"></p>
+      <h3 id="state"></h3>
+      <div id="game-plate" class="row">
+        <h4 id="round" class="col"></h4>
+        <div class="w-100"></div>
+        <section id="me" class="col">
+          <div id="my-card">
+    
+          </div>
+          <p id="my-coin"></p>
+        </section>
+        <section id ="controller" class="col" hidden>
+          <h4 id="school"></h4>
+          <div class="btn-group-vertical">
+            <button id="call" type="button" class="btn btn-primary" disabled>call</button>
+            <div class="btn-group" role="group">
+              <button id="raise" type="button" disabled class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                raise
+              </button>
+              <div id="raise-options" class="dropdown-menu" aria-labelledby="raise">
+                
+              </div>
+            </div>
+            <button id="fold" type="button" class="btn btn-secondary" disabled>fold</button>
+          </div>
+        </section>
+        <section id="opposite" class="col">
+          <div id="opposite-card">
+          </div>
+          <p id="opposite-coin"></p>
+        </section>
+      </div>
     <footer>
 
     </footer>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <script src="/socket.io/socket.io.js"></script>
-    <script>
-      const socket = io();
-      socket.on('inQueue', function (data) {
-        console.log(data);
-        alert(data.action);
-        const tokens = document.cookie.split(';');
-        const cookies = tokens.reduce((acc, cur) => {
-          cur =  cur.trim();
-          const key = cur.split('=')[0];
-          const value = cur.split('=')[1];
-          acc[key] = value;
-          return acc;
-        }, {});
-        socket.emit('init user', { data: cookies['name'] });
-      });
-      socket.on('inGame', function (data) {
-        console.log(data);
-        alert(data.action);
-      });
-    </script>
+    <script src="game.js"></script>
   </body>
 </html>

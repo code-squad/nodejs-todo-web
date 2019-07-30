@@ -14,6 +14,7 @@ const app = new App();
 
 const io = require('socket.io')(app.server);
 require('./socket')(io);
+
 app.use(logger);
 app.use(serveStaticFile);
 app.use(queryParser);
